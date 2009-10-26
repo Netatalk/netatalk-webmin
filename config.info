@@ -1,0 +1,13 @@
+atalk_start=Atalk init script
+atalkd_d=Path to atalkd
+papd_d=Path to papd
+afpd_d=Path to afpd
+applevolumedefault_c=Path to AppleVolumes.default
+applevolumesystem_c=Path to AppleVolumes.system
+afpd_c=Path to afpd.conf
+atalk_c=Path to atalkd.conf
+papd_c=Path to papd.conf
+netatalk_c=Path to netatalk.pamd
+atalk_nls=Path to NLS folder
+select_minUsers=Select min. Users
+select_maxUsers=Select max. Users

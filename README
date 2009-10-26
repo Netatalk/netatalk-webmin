@@ -1,0 +1,8 @@
+
+This module requires: 
+	~ Webmin version 0.81 or better.
+	   (older versions may work, but are not supported)
+	~ Netatalk 1.4b2+asun2.1.4  or better
+	   (older versions may work, but are not supported)
+
+Read the credits.txt and status.txt.

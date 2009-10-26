@@ -1,0 +1,13 @@
+applevolumedefault_c=/usr/local/atalk/etc/AppleVolumes.default
+applevolumesystem_c=/usr/local/atalk/etc/AppleVolumes.system
+atalkd_d=/usr/local/atalk/sbin/atalkd
+select_minUsers=
+netatalk_c=/etc/pam.d/netatalk
+papd_c=/usr/local/atalk/etc/papd.conf
+select_maxUsers=
+papd_d=/usr/local/atalk/sbin/papd
+atalk_nls=
+atalk_start=/etc/rc.d/init.d/atalk
+afpd_c=/usr/local/atalk/etc/afpd.conf
+afpd_d=/usr/local/atalk/sbin/afpd
+atalk_c=/usr/local/atalk/etc/atalkd.conf

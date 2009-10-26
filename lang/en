@@ -1,0 +1,129 @@
+
+lang=en
+index_title=Netatalk Apple File/Print Services
+interfaces_title=Netatalk Interfaces
+volumes_title=Netatalk Volumes
+servers_title=Netatalk Servers
+users_title=Netatalk Users
+
+edit_file_title=Edit File Share
+author=Matthew Keller
+module_author=Matthew Keller
+homepage=netatalk.sourceforge.net
+copyright=see module source
+license=GPL
+
+
+global_ON=ON
+global_OFF=OFF
+global_Delete=Delete
+global_Save=Save
+
+index_interfaces=Edit Interfaces
+index_users=Show Current Users
+index_sharename=Share Name
+index_path=Path
+index_secutity=Security
+index_create_file_share=Create New File Share
+index_delete_file_share=Delete File Share
+index_max_users=Specifies  the  maximum  number
+index_max_users_2=of  connections to allow
+for this afpd index_stop_service=Stop Service 
+index_not_running=Service is not running 
+index_start_service=Start Service
+index_running_service=Service is running 
+index_restart=Restart Netatalk
+index_stop=Stop Netatalk
+index_start_but=Start Apple File Sharing
+index_ever=The Atalk program $1 was not found on your system. Maybe Atalk is not installed, or your <a href='$2'> module configuration</a> incorrect.
+index_global=Global Configurations and Options
+
+index_servername=Server-Name
+index_tcp=TCP/IP
+index_ddp=Apple-Talk
+index_port=Port
+index_address=address
+index_newServer=Create New Server
+
+server_header=Servers
+
+index_misc=Miscellaneous Options
+index_server=Servers
+restart_failed=Restart failed
+start_1=$1 failed
+
+
+edit_header=Create New Apple File Share
+edit_tableheader=Share Infos
+edit_sharename=Share name
+
+edit_homedirectory=Home Directories share
+edit_directory=Directory
+
+edit_Casefold=Casefold Options
+edit_Casefolddefault=default
+edit_Casefoldtolower=tolower -> lowercases names in both directions
+edit_Casefoldtoupper=toupper -> uppercases names in both directions
+edit_Casefoldxlatelower=xlatelower -> client sees lowercase, server sees uppercase
+edit_Casefoldxlateupper=xlateupper -> client sees uppercase, server sees lowercase
+
+edit_CodePage=Code Page
+edit_CodePagedefault=default
+
+edit_MisceOptions=Miscellaneous Options
+edit_MisceOptionsprodos=  prodos -> make compatible with appleII clients
+edit_MisceOptionscrlf=  crlf -> enable crlf translation for TEXT files
+edit_MisceOptionsnoadouble=  noadouble -> don't create .AppleDouble unless a resource fork needs to be created
+edit_MisceOptionsro=  ro -> mount the volume as read-only
+edit_MisceOptionsmswindows=  mswindows -> enforce filename restrictions imposed by MS Windows
+edit_MisceOptionsnohex=  nohex -> don't do :hex translations for anything except dot files
+edit_MisceOptionsusedots=  usedots -> don't do :hex translation for dot files
+edit_MisceOptionslimitsize=  limitsize -> limit disk size reporting to 2GB.
+
+edit_DataBase=Database Path
+edit_Password=Password
+
+edit_Allow=Allow
+edit_users=Users
+edit_groups=Groups
+edit_Deny=Deny
+edit_Rolist=RO
+edit_Rwlist=RW
+edit_Save=Save
+edit_create=Create
+edit_delete=Delete
+edit_return=Share List
+
+modi_tableheader=Modify File Shre
+modi_save=Save
+
+create_server_header=Create New Server
+create_server_tabelheader=Create New Servers
+create_server_ServerName=Server Name
+create_server_localhost=Name of localhost
+create_server_TCP=TCP/IP
+create_server_AppleTalk=Apple Talk
+create_server_Port=Port
+create_server_Address=Address
+create_server_return=Servers
+create_server_pass=Set Password
+create_server_setpass=Save Password
+create_server_lgmesg=Login Message
+
+editexist_server_header=Edit Server
+editexist_server_table_header=Edit Server
+
+misc_options_header=Miscellaneous Options
+
+file=file
+not_readable=not readable
+give_correct_path=Please give correct path
+indicate_sharename=Please indicate sharename
+copy_failed=Failed to copy file
+delete_failed=Can't delete file
+not_valid_path=Not Valid Path
+no_path=No Path
+
+volume_help=Volume Config Help
+module_status=This module is officially listed as <font color="#FF0000">BETA</font>.
+disclaim_power=This is a powerful module and it doesn't ask "Are you Sure?" questions. If you say "Do it", it does. If you wanted confirmation boxes, you should've stuck with MacOS Servers.

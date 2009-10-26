@@ -1,0 +1,7 @@
+file=datei
+not_readable=nicht einlesbar
+give_correct_path=Bitte geben Sie einen Pfad oder korrekten Pfad ein
+indicate_sharename=Sie haben vergessen einen Share-Name anzugeben
+copy_failed=Kopieren fehlgeschlagen
+delete_failed=Konnte nicht Datei löschen
+not_valid_path=Kein gültiger Pfad
