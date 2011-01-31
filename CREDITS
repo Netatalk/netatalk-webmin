@@ -18,4 +18,11 @@ Significant Code Contribution: EcoLogic [http://www.ecologic.ch/]
   ~ Good portion of the volume config interface (old config style)
   ~ Nearly all of the committed server config interface
 
+Code Cleanup and Compatibility Fixes: Steffan Cline <steffan@hldns.com>
+  ~ Simplification of various methods
+  ~ UI changes to mimic other modules
+  ~ Addition of manually edit pages
+  ~ Removal of network interfaces since no configs exist
+
+
 M@

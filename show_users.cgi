@@ -1,5 +1,4 @@
 #!/usr/bin/perl
-
 #
 #    Netatalk Webmin Module
 #    Copyright (C) 2000 by Matthew Keller <kellermg@potsdam.edu>
@@ -23,7 +22,7 @@ $|=1;
 
 &init_config();
 
-&header($text{users_title}, "", undef, 1, 1,undef());
+&header($text{users_title}, "", undef(), 1, 1,undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
 
 &ReadParse();
 
@@ -50,7 +49,7 @@ if($in{kill}) {
 	}
 	close USERS;
 	print "<h4>There are currently " . scalar(@users) . " users connected.</h4>\n";
-	print "<table border>\n"; # width=100%>\n";
+	print "<table border=\"0\" width=\"80%\">\n";
 	print "<tr $tb><td><b>User</b></td><td><b>Connected Since</b></td><td><b>Kill</b></td></tr>\n";
 	print startform();
 	foreach (sort @users)

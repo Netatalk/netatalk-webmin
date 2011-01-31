@@ -22,17 +22,14 @@ require '../web-lib.pl';
 &init_config();
 require '../ui-lib.pl';
 
-do '../web-lib.pl'; # Webmin's lib
+#do '../web-lib.pl'; # Webmin's lib
 require 'netatalk-funcs.pl'; # Matt's lib + merges
 
 ## put in ACL checks here if needed
 
 
-&header($text{'index_title'}, "", undef, 1, 1, undef());
+&header($text{'index_title'}, "", undef, 1, 1, undef(), "<a href=\"help/configs.cgi\">$text{help_configs}</a>");
 do './netapple-lib.pl'; # Sven's lib
-
-
-print "<a href=help/volumehelp.cgi>$text{volume_help}</a><br><BR>\n";
 
 print "<hr>\n";
 #print "<h3>$text{module_status}</h3>\n";
@@ -73,7 +70,7 @@ $Path="path=";
 
 print"<p>";
 
-   print "<table width=100% border>\n";
+   print "<table width=\"100%\" border>\n";
        print "<tr $tb>"; 
            print"<td><b>$text{'index_sharename'}</b></td>";
            print"<td><b>$text{'index_path'}</b></td>\n";
@@ -97,41 +94,53 @@ print"<p>\n";
 
 print"<h3>$text{index_global}</h3>\n";
 
-my @links = ("servers.cgi","edit_interfaces.cgi","show_users.cgi", "misc_opt.cgi");
-my @titles = ($text{'index_server'},$text{'index_interfaces'},$text{'index_users'},$text{'index_misc'});
-#my @icons = ("images/what.gif","images/interface.gif","images/procs.gif","images/icon_4.gif");
-my @icons = ("images/server.png","images/interface.png","images/users.png","images/misc.png");
+#my @links = ("servers.cgi","edit_interfaces.cgi","show_users.cgi", "misc_opt.cgi");
+#my @titles = ($text{'index_server'},$text{'index_interfaces'},$text{'index_users'},$text{'index_misc'});
+#my @icons = ("images/server.png","images/interface.png","images/users.png","images/misc.png");
+
+my @links = ("servers.cgi","show_users.cgi","misc_opt.cgi","edit_configfiles_form.cgi");
+my @titles = ($text{'index_server'},$text{'index_users'},$text{'index_misc'},$text{'index_edit'});
+my @icons = ("images/server.png","images/users.png","images/misc.png","images/edit.gif");
 icons_table(\@links, \@titles, \@icons);
 print"<br>\n";
 
 print"<hr>\n";
 #pid finden
-@atlkd = &find_byname("atalkd");
-if(@atlkd){
-	print "<form action=restart.cgi>\n";
-	print "<table width=100% align=center><tr>\n";
-	print "<td width=10% align=right><input type=submit value=Restart></td>\n";
-	print "<td>$text{'index_running_service'}<br>$text{'index_restart'}</td>\n";
-	print "</tr></table></form>\n";
-	
-	print "<form action=stop.cgi>\n";
-	print "<table width=100% align=center><tr>\n";
-	print "<td width=10% align=right><input type=submit value=Stop></td>\n";
-	print "<td>$text{'index_stop_service'}<br>$text{'index_stop'}</td>\n";
-	print "</tr></table></form>\n";
-	
+@afpd = &find_byname("afpd");
+
+if(@afpd){
+	print qq|	<table width="100%" cellspacing="8" cellpadding="8" border="0">
+					<tr height="30">
+						<td colspan="2"><h3>$text{'index_running_services'}<h3></td>
+					</tr>
+					<tr height="30">
+						<td width="165" align="center"><form action="restart.cgi"><input type="submit" value="$text{'index_restart'}"></form></td>
+						<td>Click this button to restart netatalk services using <code>$config{restart_nettalk}</code></td>
+					</tr>
+					<tr height="30">
+						<td width="165" align="center"><form action="stop.cgi"><input type="submit" value="$text{'index_stop'}"></form></td>
+						<td>Click this button to stop netatalk services using <code>$config{stop_nettalk}</code></td>
+					</tr>
+				</table>
+			|;
 }
 else{
-	print "<form action=start.cgi>\n";
-	print "<table width=100% align=center><tr>\n";
-	print "<td width=20% align=right><input type=submit value=\"$text{'index_start_but'}\"></td>\n";
-	print "<td align=left>$text{'index_not_running'}<br>$text{'index_start_service'}</td>\n";
-	print "</tr></table></form>\n";
-	
+	print qq|	<table width="100%" cellspacing="8" cellpadding="8" border="0">
+					<tr height="30">
+						<td colspan="2"><h3>$text{'index_not_running_services'}<h3></td>
+					</tr>
+					<tr height="30">
+						<td width="165" align="center"><form action="start.cgi"><input type="submit" value="$text{'index_start_service'}"></form></td>
+						<td>Click this button to start netatalk services using <code>$config{start_nettalk}</code></td>
+					</tr>
+				</table>
+			|;
 }
 
+print "</table>\n";
 print"<p>";
 print "<hr>\n";
-&footer("/", $text{'index'});
+
+&footer("/right.cgi?open=system&auto=status&open=updates", $text{'index_root'});
 
 ### END of index.cgi ###.

@@ -34,7 +34,7 @@ $path="NoPath";
 $s="homes";
 @usres =(); @groups =();
 
-&header($text{'edit_file_title'}, "", "intro", 1, 1, undef());
+&header($text{'edit_file_title'}, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
 
 if($in{shareName}){
 	$Old_shareName= $in{shareName};

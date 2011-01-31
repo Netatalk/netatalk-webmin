@@ -1,6 +1,8 @@
 
 lang=en
+index_root=Webmin Home
 index_title=Netatalk Apple File/Print Services
+index_module=Module Index
 interfaces_title=Netatalk Interfaces
 volumes_title=Netatalk Volumes
 servers_title=Netatalk Servers
@@ -22,18 +24,21 @@ global_Save=Save
 index_interfaces=Edit Interfaces
 index_users=Show Current Users
 index_sharename=Share Name
+index_edit=Edit Config Files
 index_path=Path
 index_secutity=Security
 index_create_file_share=Create New File Share
 index_delete_file_share=Delete File Share
 index_max_users=Specifies  the  maximum  number
-index_max_users_2=of  connections to allow
-for this afpd index_stop_service=Stop Service 
+index_max_users_2=of  connections to allow for this afpd 
+index_stop_service=Stop Service 
+index_not_running_services=Netatalk services are not running. 
+index_running_services=Netatalk services are running. 
 index_not_running=Service is not running 
-index_start_service=Start Service
+index_start_service=Start Netatalk Service
 index_running_service=Service is running 
-index_restart=Restart Netatalk
-index_stop=Stop Netatalk
+index_restart=Restart Netatalk Services
+index_stop=Stop Netatalk Services
 index_start_but=Start Apple File Sharing
 index_ever=The Atalk program $1 was not found on your system. Maybe Atalk is not installed, or your <a href='$2'> module configuration</a> incorrect.
 index_global=Global Configurations and Options
@@ -51,7 +56,7 @@ index_misc=Miscellaneous Options
 index_server=Servers
 restart_failed=Restart failed
 start_1=$1 failed
-
+stop_1=$1 failed
 
 edit_header=Create New Apple File Share
 edit_tableheader=Share Infos
@@ -124,6 +129,19 @@ delete_failed=Can't delete file
 not_valid_path=Not Valid Path
 no_path=No Path
 
-volume_help=Volume Config Help
+help_volume=Volume Config Help
+help_configs=Configurations Help
 module_status=This module is officially listed as <font color="#FF0000">BETA</font>.
 disclaim_power=This is a powerful module and it doesn't ask "Are you Sure?" questions. If you say "Do it", it does. If you wanted confirmation boxes, you should've stuck with MacOS Servers.
+
+manual_title=Edit Directives
+manual_header=Use the text box below to manually edit the directives in $1.
+manual_configs=Edit Config Files
+manual_ecannot=You are not allowed to manually edit directives
+manual_file=Edit File:
+manual_efile=Invalid netatalk config file
+manual_etest=Configuration file error detected : $1
+test_config=1
+test_always=0
+test_manual=0
+

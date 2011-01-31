@@ -1,11 +1,7 @@
 #!/usr/bin/perl
-# restart.cgi
-# Kill all smbd and nmdb processes and re-start them
-
+#
 #    Netatalk Webmin Module
-#    Copyright (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
-#    Some code (C) 2000 by Matthew Keller <kellermg@potsdam.edu>
-#	 Some code (C) 2011 by Steffan Cline <steffan@hldns.com>
+#    Copyright (C) 2000 by Matthew Keller <kellermg@potsdam.edu>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -16,11 +12,15 @@
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
+#
 
-require './netapple-lib.pl';
+do '../../web-lib.pl';
+require '../netatalk-funcs.pl';
 
-$rv = system("$config{stop_netatalk} </dev/null");
-if ($rv) { &error(&text('stop_1', $rv)); }
 
-&redirect("");
+&header("Configurations Help", "", undef(), 1, 1);
+
+print qq|<iframe id="helppane" width="100%" height="75%" src="http://netatalk.sourceforge.net/2.1/htmldocs/"></iframe>|;
+
+&footer("../index.cgi",$text{'index'});
 

@@ -28,7 +28,7 @@ require 'netatalk-funcs.pl';
 $path="NoPath";
 $s="homes";
 
-&header($text{'edit_header'},"", "intro", 1, 1, undef());
+&header($text{'edit_header'},"", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
 print"<p><p>\n";
 
 

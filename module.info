@@ -1,6 +1,6 @@
 name=Netatalk Manager
 depends=0.81
 category=servers
-os_support=solaris redhat-linux debian-linux slackware-linux aix suse-linux hpux freebsd osf1 irix open-linux openserver unixware turbo-linux openbsd corel-linux cobalt-linux lfs-linux
+os_support=solaris redhat-linux centos-linux debian-linux slackware-linux aix suse-linux hpux freebsd osf1 irix open-linux openserver unixware turbo-linux openbsd corel-linux cobalt-linux lfs-linux
 desc=Netatalk Apple File/Print Sharing
-version=0.9b4
+version=0.9b5

@@ -1,7 +1,6 @@
 #!/usr/bin/perl
 # edit_fshare.cgi
 # Display a form for creating a new file share
-
 #
 #    Netatalk Webmin Module
 #    Copyright (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
@@ -20,7 +19,7 @@
 require './netapple-lib.pl';
 require 'netatalk-funcs.pl';
 
-&header($text{'misc_options_header'},"", "intro", 1, 1, undef());
+&header($text{'misc_options_header'},"", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
 
 print"<p><p>\n";
 

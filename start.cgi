@@ -5,6 +5,7 @@
 #    Netatalk Webmin Module
 #    Copyright (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
 #    Some code (C) 2000 by Matthew Keller <kellermg@potsdam.edu>
+#	 Some code (C) 2011 by Steffan Cline <steffan@hldns.com>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,9 +18,9 @@
 #    GNU General Public License for more details.
 
 require './netapple-lib.pl';
-$whatfailed = $text{'start_0'};
 
-$rv = system("$config{atalkd_d} </dev/null");
-if ($rv) { &error(&text('start_1', $config{atalkd_d})); }
+$rv = system("$config{start_nettalk} </dev/null");
+if ($rv) { &error(&text('start_1', $rv)); }
+
 &redirect("");
 

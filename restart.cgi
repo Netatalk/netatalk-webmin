@@ -4,6 +4,7 @@
 
 #    Netatalk Webmin Module
 #    Copyright (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
+#	 Some code (C) 2011 by Steffan Cline <steffan@hldns.com>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,10 +18,7 @@
 
 require './netapple-lib.pl';
 
-@atalkpids = &find_byname("atalkd");
-kill('TERM', @atalkpids );
-
-$rv = system("$config{atalkd_d} </dev/null");
-if ($rv) { &error(&text('restart_failed', $config{atalkd_d})); }
+$rv = system("$config{restart_nettalk} </dev/null");
+if ($rv) { &error(&text('restart_failed', $rv)); }
 &redirect("");
 

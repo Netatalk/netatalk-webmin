@@ -24,7 +24,7 @@ require 'netatalk-funcs.pl';
 $path="NoPath";
 $s="homes";
 
-&header($text{'create_server_header'},"", "intro", 1, 1, undef());
+&header($text{'create_server_header'},"", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
 print"<p><p>\n";
 
 

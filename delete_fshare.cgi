@@ -21,7 +21,7 @@ require './netapple-lib.pl';
 $path="NoPath";
 $s="homes";
 
-&header("Delete Apple File Share", "");
+&header("Delete Apple File Share", "",undef(),undef(),undef(),undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
 
 print"<p><p>\n";
 
@@ -49,4 +49,4 @@ print "<input type=submit value=delete> </form>\n";
 
 print "<hr>\n";
 print"<p><p>\n";
-&footer("","Share List");
+&footer('', $text{'index_module'});

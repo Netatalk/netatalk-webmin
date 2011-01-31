@@ -22,7 +22,7 @@ require 'netatalk-funcs.pl';
 
 &ReadParse();
 
-&header($text{'editexist_server_header'},"", "intro", 1, 1, undef());
+&header($text{'editexist_server_header'},"", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
 
 print"<p>\n";
 
