@@ -28,12 +28,8 @@ $currentString ="\t";
 $zeichen="/";
 $zeichen2='$';
 
-#$atalk_datei=$atalk_old="/home/sven/dev/perl/atalk";
-#$atalk_datei=$atalk_old="/sbin/init.d/atalk";
-$atalk_datei=$atalk_old= $config{'atalk_start'};
+$atalk_datei=$atalk_old= $config{'netatalk_c'};
 $atalk_temp = "$atalk_datei.temp";
-
-
 
 &ReadParse();
 

@@ -336,21 +336,22 @@ sub getDatabase
 #------------------------------------------------------------------------------
 sub getMacCodeFiles
 {
-     	local(@rv,@rs,$direntry,$realDir);
-     	#$near="/nls";
-     	#$dir=$config{'atalk_nls'};
-     	$realDir=$config{'atalk_nls'};
-     	opendir(DIR,$realDir);
-     	foreach $direntry (readdir(DIR)){
-		next if $direntry eq ".";  #Sonderverzeichnisse
-					   #mgk: Special directories
-		next if $direntry eq ".."; #ignorieren
-					   #mgk: ignore
-		if(-f "$realDir/$direntry"){
-			push(@rv,"$realDir/$direntry");
-		}
-      	}
-     	closedir(DIR);
+    #local(@rv,@rs,$direntry,$realDir);
+    #$near="/nls";
+    #$dir=$config{'atalk_nls'};
+    #$realDir=$config{'atalk_nls'};
+    #opendir(DIR,$realDir);
+    #foreach $direntry (readdir(DIR)){
+    #next if $direntry eq ".";  #Sonderverzeichnisse
+    #mgk: Special directories
+	#next if $direntry eq ".."; #ignorieren
+    #mgk: ignore
+    #if(-f "$realDir/$direntry"){
+    #push(@rv,"$realDir/$direntry");
+    #}
+    #}
+    #closedir(DIR);
+    local(@rv);
 	return @rv;
 }
 
@@ -677,9 +678,9 @@ sub showMessage
 sub getMaxUser
 {
 	local(@rv,$atalkstart.$start.$path,$currentString,$zeichen,$zeichen2,@rv,$connections);
-	$atalkstart = $config{'atalk_start'};
+	$atalkstart = $config{'netatalk_start'};
 	$connections="-c";
-	$path= $config{'afpd_d'};     #"/usr/sbin/afpd";
+	$path= $config{'netatalk_c'};
 	$start="startproc";
 	$currentString ="\t";
 	$zeichen="/";

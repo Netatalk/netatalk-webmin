@@ -35,20 +35,6 @@ print "<hr>\n";
 #print "<h3>$text{module_status}</h3>\n";
 #print "<h3>$text{disclaim_power}</h3>\n";
 
-if (!-x $config{'atalkd_d'}) {
-	print &text('index_ever',"<tt> $config{'netapple'}</tt>",
-	 "/config.cgi?$module_name");
-	print "<p>\n<hr>\n";
-	&footer("/", $text{'index'});
-	exit;
-	}
-if (!-x $config{'papd_d'}) {
-	print &text('index_ever',"<tt> $config{'netapple'}</tt>",
-	 "/config.cgi?$module_name");
-	print "<p>\n<hr>\n";
-	&footer("/", $text{'index'});
-	exit;
-	}
 if (!-x $config{'afpd_d'}) {
 	print &text('index_ever',"<tt> $config{'netapple'}</tt>",
 	 "/config.cgi?$module_name");
@@ -94,10 +80,6 @@ print"<p>\n";
 
 print"<h3>$text{index_global}</h3>\n";
 
-#my @links = ("servers.cgi","edit_interfaces.cgi","show_users.cgi", "misc_opt.cgi");
-#my @titles = ($text{'index_server'},$text{'index_interfaces'},$text{'index_users'},$text{'index_misc'});
-#my @icons = ("images/server.png","images/interface.png","images/users.png","images/misc.png");
-
 my @links = ("servers.cgi","show_users.cgi","misc_opt.cgi","edit_configfiles_form.cgi");
 my @titles = ($text{'index_server'},$text{'index_users'},$text{'index_misc'},$text{'index_edit'});
 my @icons = ("images/server.png","images/users.png","images/misc.png","images/edit.gif");
@@ -106,7 +88,7 @@ print"<br>\n";
 
 print"<hr>\n";
 #pid finden
-@afpd = &find_byname("afpd");
+@afpd = &find_byname($config{'afpd_d'});
 
 if(@afpd){
 	print qq|	<table width="100%" cellspacing="8" cellpadding="8" border="0">

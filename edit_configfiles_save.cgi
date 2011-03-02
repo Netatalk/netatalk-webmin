@@ -20,7 +20,7 @@ require './netapple-lib.pl';
 
 &ReadParseMime();
 
-@files = ($config{'netatalk2_c'},$config{'netatalk_c'},$config{'afpd_c'},$config{'afpdldap_c'},$config{'atalk_c'},$config{'papd_c'},$config{'applevolumedefault_c'},$config{'applevolumesystem_c'});
+@files = ($config{'netatalk_c'},$config{'pam_c'},$config{'afpd_c'},$config{'afpdldap_c'},$config{'applevolumedefault_c'});
 &indexof($in{'file'}, @files) >= 0 || &error( $in{'file'} );
 
 $temp = &transname();
