@@ -677,28 +677,20 @@ sub showMessage
 
 sub getMaxUser
 {
-	local(@rv,$atalkstart.$start.$path,$currentString,$zeichen,$zeichen2,@rv,$connections);
-	$atalkstart = $config{'netatalk_start'};
-	$connections="-c";
-	$path= $config{'netatalk_c'};
-	$start="startproc";
-	$currentString ="\t";
-	$zeichen="/";
-	$zeichen2='$';
+	local(@rv,$config, @rv);
+
+	$config = $config{'netatalk_c'};
 	push(@rv,"0");
-	open(OLD,"<$atalkstart") || die "$text{file} $old $text{not_readable}";
-	while(<OLD>)
-	{
-		if($_ =~ /$path/ && /$start/)
-		{
-			if($_ =~/$connections\s*([0-9]*)/){
-				shift(@rv);
-				push(@rv,$1);
-			}
-		}
-	}
-	return @rv;
+
+	open(OLD,"<$config") || die "$text{file} $config $text{not_readable}";
+	while (<OLD>) {
+        if ($_ =~ /AFPD_MAX_CLIENTS=\([0-9]*)/) {
+            shift(@rv);
+            push(@rv,$1);
+        }
+    }
 	close(OLD);
+	return @rv;
 }
 
 

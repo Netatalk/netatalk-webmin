@@ -34,10 +34,9 @@ print "<tr $cb> <td><table >\n";
 	print "<tr><td width=30% align=left><b>$text{'index_max_users'}<br>$text{'index_max_users_2'}</b></td>\n";
 	print "<td>";
 		@users = getMaxUser();
-		$minUser=$config{'select_minUsers'};
 		$maxUsers=$config{'select_maxUsers'};
 		print"<select align=left  name=maxClients>n";
-		for($s=$minUser;$s<=$maxUsers;$s++){
+		for($s=1;$s<=$maxUsers;$s++){
 		        printf "<option   value=$s %s> $s\n",
 					@users[0] eq $s ? "selected" : "";
 		}
