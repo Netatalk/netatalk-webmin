@@ -32,10 +32,10 @@ print "<hr>\n";
 
 if($in{kill}) {
 	$in{kill} =~ s/\D//gi;
-	if(kill(9,$in{kill})) {
-		print "<h4>User killed</h4>\n";		
+	if(kill(15,$in{kill})) {
+		print "<h4>User disconnected</h4>\n";		
 	} else {
-		print "<h4>User <blink>NOT</blink> killed!!!</h4>\n";
+		print "<h4>User <blink>NOT</blink> disconnected !</h4>\n";
 	}
 }
 	open(USERS, "/bin/ps aucx|");
@@ -45,6 +45,7 @@ if($in{kill}) {
 		chop ;
 		next if !/afpd/;
 		split ;
+        next if $_[0] eq "root";
 		push(@users,join(":::",$_[0],$_[1],$_[8]));
 	}
 	close USERS;
