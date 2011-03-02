@@ -684,7 +684,7 @@ sub getMaxUser
 
 	open(OLD,"<$config") || die "$text{file} $config $text{not_readable}";
 	while (<OLD>) {
-        if ($_ =~ /AFPD_MAX_CLIENTS=\([0-9]*)/) {
+        if ($_ =~ /AFPD_MAX_CLIENTS=\([0-9]*\)/ ) {
             shift(@rv);
             push(@rv,$1);
         }

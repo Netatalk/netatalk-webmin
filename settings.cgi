@@ -18,13 +18,13 @@
 
 use CGI qw/:standard/;
 do '../web-lib.pl';
-#do './netapple-lib.pl';
 use File::Copy;
+
 &init_config("netapple");
 
 $afpd_path = $config{'afpd_d'};
-$config = $config_old= $config{'netatalk_c'};
-$config_temp = "$atalk_datei.temp";
+$config_file = $config_old = $config{'netatalk_c'};
+$config_temp = "$config_file.temp";
 
 &ReadParse();
 
@@ -49,9 +49,9 @@ sub writeMaxUsersLine()
 		return 0;
 	}
 
-	copy($config , $config_temp) or die "$text{copy_failed}: $!";
+	copy($config_file , $config_temp) or die "$text{copy_failed}: $!";
 	lock_file("$config_temp");
-	open(OLD,"<$config") || die "$text{file} $config $text{not_readable}";
+	open(OLD,"<$config_file") || die "$text{file} $config_file $text{not_readable}";
 	open(NEW,">$config_temp") || die "$text{file} $config_temp $text{not_readable}";
 
 	while (<OLD>){
@@ -63,7 +63,7 @@ sub writeMaxUsersLine()
 	close(OLD);
 	close(NEW);
 	unlock_file("$config_temp");
-	rename($config,"$config.orig");
-	rename($config_temp, $config);
+	rename($config_file,"$config.orig");
+	rename($config_temp, $config_file);
 	unlink("$config.orig") or die "$text{delete_failed}\n";
 }

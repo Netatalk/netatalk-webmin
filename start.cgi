@@ -19,8 +19,7 @@
 
 require './netapple-lib.pl';
 
-$rv = system("$config{start_nettalk} </dev/null");
+$rv = system("$config{'start_netatalk'} </dev/null");
 if ($rv) { &error(&text('start_1', $rv)); }
 
 &redirect("");
-

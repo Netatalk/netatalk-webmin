@@ -93,7 +93,7 @@ print"<hr>\n";
 if(@afpd){
 	print qq|	<table width="100%" cellspacing="8" cellpadding="8" border="0">
 					<tr height="30">
-						<td colspan="2"><h3>$text{'index_running_services'}<h3></td>
+						<td colspan="2"><h3>$text{'index_running_services'}</h3></td>
 					</tr>
 					<tr height="30">
 						<td width="165" align="center"><form action="restart.cgi"><input type="submit" value="$text{'index_restart'}"></form></td>
@@ -101,7 +101,7 @@ if(@afpd){
 					</tr>
 					<tr height="30">
 						<td width="165" align="center"><form action="stop.cgi"><input type="submit" value="$text{'index_stop'}"></form></td>
-						<td>Click this button to stop netatalk services using <code>$config{stop_nettalk}</code></td>
+						<td>Click this button to stop netatalk services using <code>$config{'stop_netatalk'}</code></td>
 					</tr>
 				</table>
 			|;
@@ -109,11 +109,11 @@ if(@afpd){
 else{
 	print qq|	<table width="100%" cellspacing="8" cellpadding="8" border="0">
 					<tr height="30">
-						<td colspan="2"><h3>$text{'index_not_running_services'}<h3></td>
+						<td colspan="2"><h3>$text{'index_not_running_services'}</h3></td>
 					</tr>
 					<tr height="30">
 						<td width="165" align="center"><form action="start.cgi"><input type="submit" value="$text{'index_start_service'}"></form></td>
-						<td>Click this button to start netatalk services using <code>$config{start_nettalk}</code></td>
+						<td>Click this button to start netatalk services using <code>$config{'start_netatalk'}</code></td>
 					</tr>
 				</table>
 			|;
