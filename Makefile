@@ -1,6 +1,5 @@
 # Makefile for Netatalk webmin module
 
-
 FILES = \
 	CHANGES \
 	config \
@@ -49,5 +48,15 @@ all:
 
 dist: netatalk-wbm.tgz
 
+clean:
+	-rm netatalk-wbm.tgz
+	-rm -rf netatalk-wbm
+
 netatalk-wbm.tgz: $(FILES)
-	tar cf - $(FILES) | gzip > netatalk-wbm.tgz
+	@echo 'Creating Netatalk Webmin Module archive in "netatalk-wbm.tgz" ...'
+	@-rm -rf netatalk-wbm
+	@mkdir netatalk-wbm
+	@tar cf - $(FILES) | tar xf - -C netatalk-wbm
+	@tar cf - netatalk-wbm | gzip > netatalk-wbm.tgz
+	@rm -rf netatalk-wbm
+	@echo Done.

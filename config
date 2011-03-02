@@ -5,7 +5,6 @@ applevolumedefault_c=/etc/netatalk/AppleVolumes.default
 netatalk_c=/etc/netatalk/netatalk.conf
 netatalk_init=/etc/init.d/netatalk
 pam_c=/etc/pam.d/netatalk
-select_minUsers=
 select_maxUsers=
 stop_netatalk=$netatalk_init stop
 start_netatalk=$netatalk_init start

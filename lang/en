@@ -40,7 +40,7 @@ index_running_service=Service is running
 index_restart=Restart Netatalk Services
 index_stop=Stop Netatalk Services
 index_start_but=Start Apple File Sharing
-index_ever=The Atalk program $1 was not found on your system. Maybe Atalk is not installed, or your <a href='$2'> module configuration</a> incorrect.
+index_ever=The afpd program was not found on your system. Maybe Netatalk is not installed, or your <a href='$2'> module configuration</a> incorrect.
 index_global=Global Configurations and Options
 
 index_servername=Server-Name
