@@ -32,8 +32,6 @@ require 'netatalk-funcs.pl'; # Matt's lib + merges
 do './netapple-lib.pl'; # Sven's lib
 
 print "<hr>\n";
-#print "<h3>$text{module_status}</h3>\n";
-#print "<h3>$text{disclaim_power}</h3>\n";
 
 if (!-x $config{'afpd_d'}) {
 	print &text('index_ever',"<tt> $config{'netapple'}</tt>",
@@ -46,14 +44,9 @@ if (!-x $config{'afpd_d'}) {
 $share= "shareName=";
 $Path="path=";
 
+# Test whether all files available are
 
-#Test ob alle Files vorhanden sind
-#mgk: Test whether all files available are
-
-	
-##Tabelle zeichnen und infos auslesen--------------------	
-##mgk: Table draw and information select
-
+# Table draw and information select
 print"<p>";
 
    print "<table width=\"100%\" border>\n";

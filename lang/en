@@ -1,7 +1,7 @@
 
 lang=en
 index_root=Webmin Home
-index_title=Netatalk Apple File/Print Services
+index_title=Netatalk AFP Server
 index_module=Module Index
 interfaces_title=Netatalk Interfaces
 volumes_title=Netatalk Volumes
@@ -14,7 +14,6 @@ module_author=Matthew Keller
 homepage=netatalk.sourceforge.net
 copyright=see module source
 license=GPL
-
 
 global_ON=ON
 global_OFF=OFF
@@ -131,8 +130,6 @@ no_path=No Path
 
 help_volume=Volume Config Help
 help_configs=Configurations Help
-module_status=This module is officially listed as <font color="#FF0000">BETA</font>.
-disclaim_power=This is a powerful module and it doesn't ask "Are you Sure?" questions. If you say "Do it", it does. If you wanted confirmation boxes, you should've stuck with MacOS Servers.
 
 manual_title=Edit Directives
 manual_header=Use the text box below to manually edit the directives in $1.
