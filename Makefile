@@ -45,7 +45,7 @@ FILES = \
 	stop.cgi \
 	VERSION
 
-all: dist
+all:
 
 dist: netatalk-wbm.tgz
 
