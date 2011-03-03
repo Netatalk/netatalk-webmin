@@ -19,19 +19,10 @@ do './netapple-lib.pl';
 
 &header($text{'server_header'}, "",undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
 	
-
-#Test ob alle Files vorhanden sind
-# mgk: Test whether all files are available
-
-	
-##Tabelle zeichnen und infos auslesen--------------------	
-# mgk: Table draw and information select
-
 print"<hr>";
 print"<br>\n";
 
-#link damit die verschieden Server spezifiziert werden können
-# mgk: link to the different server options
+# link to the different server options
 
 @Servers = readAfpd();
 if(@Servers[1] ne ""){

@@ -18,7 +18,7 @@ do '../../web-lib.pl';
 
 &header("Configurations Help", "", undef(), 1, 1);
 
-print qq|<iframe id="helppane" width="100%" height="75%" src="http://netatalk.sourceforge.net/2.1/htmldocs/"></iframe>|;
+print qq|<iframe id="helppane" width="100%" height="88%" src="http://netatalk.sourceforge.net/2.1/htmldocs/"></iframe>|;
 
 &footer("../index.cgi",$text{'index'});
 
