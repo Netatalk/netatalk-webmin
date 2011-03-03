@@ -16,7 +16,6 @@
 
 
 do './netapple-lib.pl';
-require 'netatalk-funcs.pl';
 
 &header($text{'server_header'}, "",undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
 	

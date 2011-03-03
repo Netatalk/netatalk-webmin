@@ -18,7 +18,6 @@
 #    GNU General Public License for more details.
 
 require './netapple-lib.pl';
-require 'netatalk-funcs.pl';
 
 &ReadParse();
 

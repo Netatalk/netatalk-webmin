@@ -24,7 +24,6 @@
 #   some tweaking).
 
 require './netapple-lib.pl';
-require 'netatalk-funcs.pl';
 
 &ReadParse();
 open_afile();

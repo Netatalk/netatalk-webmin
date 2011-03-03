@@ -17,7 +17,7 @@
 #
 
 do '../web-lib.pl';
-require 'netatalk-funcs.pl';
+
 $|=1;
 
 &init_config();

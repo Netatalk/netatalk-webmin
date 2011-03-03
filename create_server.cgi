@@ -19,7 +19,6 @@
 #
 
 require './netapple-lib.pl';
-require 'netatalk-funcs.pl';
 
 $path="NoPath";
 $s="homes";

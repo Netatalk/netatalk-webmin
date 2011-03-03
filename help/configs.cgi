@@ -15,8 +15,6 @@
 #
 
 do '../../web-lib.pl';
-require '../netatalk-funcs.pl';
-
 
 &header("Configurations Help", "", undef(), 1, 1);
 

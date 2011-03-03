@@ -16,8 +16,6 @@
 #
 
 do '../../web-lib.pl';
-require '../netatalk-funcs.pl';
-
 
 &header("Volume Config Help", "", undef, 1, 1);
 

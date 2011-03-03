@@ -41,6 +41,7 @@ index_stop=Stop Netatalk Services
 index_start_but=Start Apple File Sharing
 index_ever=The afpd program was not found on your system. Maybe Netatalk is not installed, or your <a href='$2'> module configuration</a> incorrect.
 index_global=Global Configurations and Options
+index_volumes=AFP Volumes
 
 index_servername=Server-Name
 index_tcp=TCP/IP

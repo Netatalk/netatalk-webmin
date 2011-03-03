@@ -33,7 +33,6 @@ FILES = \
 	modi_fshare.cgi \
 	module.info \
 	netapple-lib.pl \
-	netatalk-funcs.pl \
 	README \
 	restart.cgi \
 	save_fshare.cgi \

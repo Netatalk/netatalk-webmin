@@ -22,47 +22,68 @@ require '../web-lib.pl';
 &init_config();
 require '../ui-lib.pl';
 
-#do '../web-lib.pl'; # Webmin's lib
-require 'netatalk-funcs.pl'; # Matt's lib + merges
-
 ## put in ACL checks here if needed
 
 
 &header($text{'index_title'}, "", undef, 1, 1, undef(), "<a href=\"help/configs.cgi\">$text{help_configs}</a>");
 do './netapple-lib.pl'; # Sven's lib
 
-print "<hr>\n";
-
 if (!-x $config{'afpd_d'}) {
-	print &text('index_ever',"<tt> $config{'netapple'}</tt>",
-	 "/config.cgi?$module_name");
+	print &text('index_ever',"<tt> $config{'netapple'}</tt>", "/config.cgi?$module_name");
 	print "<p>\n<hr>\n";
 	&footer("/", $text{'index'});
 	exit;
-	}
-	
+}
+
+print "<hr>\n";
+
+# Print start/stop part
+@afpd = &find_byname($config{'afpd_d'});
+if(@afpd){
+    print qq|<h3>$text{'index_running_services'}</h3>|;
+	print qq|	<table width="100%" cellspacing="8" cellpadding="8" border="0">
+					<tr height="20">
+						<td width="165" align="center"><form action="restart.cgi"><input type="submit" value="$text{'index_restart'}"></form></td>
+						<td>Click this button to restart netatalk services using <code>$config{restart_netatalk}</code></td>
+					</tr>
+					<tr height="20">
+						<td width="165" align="center"><form action="stop.cgi"><input type="submit" value="$text{'index_stop'}"></form></td>
+						<td>Click this button to stop netatalk services using <code>$config{'stop_netatalk'}</code></td>
+					</tr>
+				</table>
+			|;
+} else{
+    print qq|<h3>$text{'index_not_running_services'}</h3>|;
+	print qq|	<table width="100%" cellspacing="8" cellpadding="8" border="0">
+					<tr height="20">
+						<td width="165" align="center"><form action="start.cgi"><input type="submit" value="$text{'index_start_service'}"></form></td>
+						<td>Click this button to start netatalk services using <code>$config{'start_netatalk'}</code></td>
+					</tr>
+				</table>
+			|;
+}
+
+print "<hr>\n";
+
+# Print AFP volumes	
 $share= "shareName=";
 $Path="path=";
-
-# Test whether all files available are
-
-# Table draw and information select
-print"<p>";
-
-   print "<table width=\"100%\" border>\n";
-       print "<tr $tb>"; 
-           print"<td><b>$text{'index_sharename'}</b></td>";
-           print"<td><b>$text{'index_path'}</b></td>\n";
-       print" </tr>\n";
-       foreach $s (open_afile()){
-       $sharename = getShareName($s);
-       $path = getPath($s);
-       print"<tr $cb>\n";
-           print"<td><a href=\"modi_fshare.cgi?$share$sharename&$Path$path\"><b>$sharename</b></a></td>";
-           print"<td><b>$path</b></td>";
-       print"</tr>";
-       }
-   print "</table>\n";
+print "<p>";
+print "    <h3>$text{index_volumes}</h3>\n";
+print "    <table width=\"100%\" border>\n";
+print "    <tr $tb>"; 
+print "        <td><b>$text{'index_sharename'}</b></td>";
+print "        <td><b>$text{'index_path'}</b></td>\n";
+print "    </tr>\n";
+foreach $s (open_afile()){
+    $sharename = getShareName($s);
+    $path = getPath($s);
+    print "<tr $cb>\n";
+    print "    <td><a href=\"modi_fshare.cgi?$share$sharename&$Path$path\"><b>$sharename</b></a></td>";
+    print "    <td><b>$path</b></td>";
+    print "</tr>";
+}
+print "</table>\n";
 
 print"<p>";
 print "<a href=\"edit_fshare.cgi\">$text{'index_create_file_share'}</a>\n&nbsp&nbsp&nbsp";
@@ -80,37 +101,6 @@ icons_table(\@links, \@titles, \@icons);
 print"<br>\n";
 
 print"<hr>\n";
-#pid finden
-@afpd = &find_byname($config{'afpd_d'});
-
-if(@afpd){
-	print qq|	<table width="100%" cellspacing="8" cellpadding="8" border="0">
-					<tr height="30">
-						<td colspan="2"><h3>$text{'index_running_services'}</h3></td>
-					</tr>
-					<tr height="30">
-						<td width="165" align="center"><form action="restart.cgi"><input type="submit" value="$text{'index_restart'}"></form></td>
-						<td>Click this button to restart netatalk services using <code>$config{restart_nettalk}</code></td>
-					</tr>
-					<tr height="30">
-						<td width="165" align="center"><form action="stop.cgi"><input type="submit" value="$text{'index_stop'}"></form></td>
-						<td>Click this button to stop netatalk services using <code>$config{'stop_netatalk'}</code></td>
-					</tr>
-				</table>
-			|;
-}
-else{
-	print qq|	<table width="100%" cellspacing="8" cellpadding="8" border="0">
-					<tr height="30">
-						<td colspan="2"><h3>$text{'index_not_running_services'}</h3></td>
-					</tr>
-					<tr height="30">
-						<td width="165" align="center"><form action="start.cgi"><input type="submit" value="$text{'index_start_service'}"></form></td>
-						<td>Click this button to start netatalk services using <code>$config{'start_netatalk'}</code></td>
-					</tr>
-				</table>
-			|;
-}
 
 print "</table>\n";
 print"<p>";
