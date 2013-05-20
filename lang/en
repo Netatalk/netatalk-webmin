@@ -1,145 +1,123 @@
-
 lang=en
-index_root=Webmin Home
-index_title=Netatalk AFP Server
-index_module=Module Index
-interfaces_title=Netatalk Interfaces
-volumes_title=Netatalk Volumes
-servers_title=Netatalk Servers
+
+afpconf_filedoesntexist=File '$1' could not be found. Please check module configuration.
+afpconf_err_file=File '$1' cannot be read. Reason: $2.
+afpconf_unexpectedeof=Unexpected end of file.
+afpconf_err_duplicatesection=Section [$1] defined repeatedly in line $2.
+afpconf_syntax_err_sectionheader=Syntax error in section head '$1' in line $2.
+afpconf_err_duplicatekey=Parameter '$1' duplicated in section [$2] line number $3.
+afpconf_syntax_err=Syntax error in '$1' line number $2.
+afpconf_err_no_section=Non empty line '$1' without a section header in line $2.
+
+errmsg_parameter_error=Parameter error: Illegal value for parameter '$1'.
+errmsg_title=Error
+
+index_process_control_restart_txt=Click this button to restart netatalk services using <code>$1</code>
+index_process_control_start_txt=Click this button to start netatalk services using <code>$1</code>
+index_process_control_stop_txt=Click this button to stop netatalk services using <code>$1</code>
+index_process_control_restart=Restart Netatalk Services
+index_process_control_start=Start Netatalk Services
+index_process_control_stop=Stop Netatalk Services
+
+index_global=Global Configurations and Options
+index_volumes=Volumes
+index_create_volume_link_name=Create new volume.
+index_delete_volumes_button_title=Delete selected volumes
+index_no_volumes=No volumes defined.
+index_col_title_vol_name=Volume name
+index_col_title_path=Path
+index_col_title_uses_preset=Uses preset
+
+index_volume_presets=Volume Presets
+index_create_volume_preset_link_name=Create new volume preset.
+index_delete_volume_presets_button_title=Delete selected volume presets
+index_no_volume_presets=No volume presets defined.
+index_col_title_preset_name=Preset name
+index_col_title_used_by=Used by
+
+index_homes=User Home Volumes
+index_create_homes_link_name=Create settings for home volumes.
+index_delete_homes_button_title=Delete home volume settings
+index_no_homes=No user home volumes defined.
+index_col_title_basedir_regex=Base directory regex
+index_col_title_home_path=Relative path in home
+index_col_title_home_name=Home volume name
+index_value_not_set=<i>not set</i>
+
+index_icon_text_server=Server Options
+index_icon_text_server_license=License
+index_icon_text_users=Show current users
+index_icon_text_file_edit=Edit config files
+
+edit_return=index page
+
+edit_vol_section_title_edit_volume=Edit Volume
+edit_vol_section_title_edit_volume_preset=Edit Volume Preset
+edit_vol_section_title_edit_homes=Edit Homes
+edit_vol_section_title_new_volume=Create new Volume
+edit_vol_section_title_new_volume_preset=Create new Volume Preset
+edit_vol_section_title_new_homes=Create Homes
+edit_vol_section_title_of_table=Settings
+edit_vol_section_save_button_title=Save
+save_button_title=Save
+
+edit_vol_section_vol_preset=Volume preset
+edit_vol_section_name=Name
+edit_vol_section_path=Path
+edit_vol_section_home_name=Home name
+edit_vol_section_basedir_regex=Basedir regex
+edit_vol_section_ea=Extended attributes
+edit_vol_section_read_only=Read Only
+edit_vol_section_search_db=Search DB
+edit_vol_section_unix_priv=Unix Privileges
+edit_vol_section_unix_permissions_note=The following is only relevant if Unix Privileges are set to 'yes'. Enter values in octal format (e.g. 0777).
+edit_vol_section_file_perm=File permissions
+edit_vol_section_directory_perm=Directory permissions
+edit_vol_section_umask=umask
+edit_vol_section_time_machine=Time machine support
+edit_vol_section_password=Password
+edit_vol_section_valid_users=Valid users/groups
+edit_vol_section_invalid_users=Invalid users/groups
+edit_vol_section_rolist=Read only users/groups
+edit_vol_section_rwlist=Read write users/groups
+edit_vol_section_hosts_allow=Hosts allow
+edit_vol_section_hosts_deny=Hosts deny
+
+edit_global_section_title=Edit Global Settings
+edit_global_section_vol_dbpath=Database path
+edit_global_section_hostname=Server name
+edit_global_section_vol_preset=Volume preset for all volumes
+edit_global_section_afp_listen=AFP listen
+edit_global_section_afp_port=AFP port
+edit_global_section_set_password=User settable password
+edit_global_section_login_message=Login message
+edit_global_section_uam_list=Authentication
+edit_global_section_uam_list_other=Additional non-standard UAM modules
+edit_global_section_log_file=Log file
+edit_global_section_log_level=Log level
+
+edit_users=Users
+edit_groups=Groups
+
 users_title=Netatalk Users
 
-edit_file_title=Edit File Share
-author=Matthew Keller
-module_author=Matthew Keller
-homepage=netatalk.sourceforge.net
-copyright=see module source
-license=GPL
-
-global_ON=ON
-global_OFF=OFF
-global_Delete=Delete
-global_Save=Save
-
-index_interfaces=Edit Interfaces
-index_users=Show Current Users
-index_sharename=Share Name
-index_edit=Edit Config Files
-index_path=Path
-index_secutity=Security
-index_create_file_share=Create New File Share
-index_delete_file_share=Delete File Share
-index_max_users=Specifies  the  maximum  number
-index_max_users_2=of  connections to allow for this afpd 
-index_stop_service=Stop Service 
+index_root=Webmin Home
+index_title=Netatalk AFP Server
 index_not_running_services=Netatalk services are not running. 
 index_running_services=Netatalk services are running. 
-index_not_running=Service is not running 
-index_start_service=Start Netatalk Service
-index_running_service=Service is running 
-index_restart=Restart Netatalk Services
-index_stop=Stop Netatalk Services
-index_start_but=Start Apple File Sharing
 index_ever=The afpd program was not found on your system. Maybe Netatalk is not installed, or your <a href='$2'> module configuration</a> incorrect.
-index_global=Global Configurations and Options
-index_volumes=AFP Volumes
 
-index_servername=Server-Name
-index_tcp=TCP/IP
-index_ddp=Apple-Talk
-index_port=Port
-index_address=address
-index_newServer=Create New Server
-
-server_header=Servers
-
-index_misc=Miscellaneous Options
-index_server=Servers
 restart_failed=Restart failed
 start_1=$1 failed
 stop_1=$1 failed
 
-edit_header=Create New Apple File Share
-edit_tableheader=Share Infos
-edit_sharename=Share name
-
-edit_homedirectory=Home Directories share
-edit_directory=Directory
-
-edit_Casefold=Casefold Options
-edit_Casefolddefault=default
-edit_Casefoldtolower=tolower -> lowercases names in both directions
-edit_Casefoldtoupper=toupper -> uppercases names in both directions
-edit_Casefoldxlatelower=xlatelower -> client sees lowercase, server sees uppercase
-edit_Casefoldxlateupper=xlateupper -> client sees uppercase, server sees lowercase
-
-edit_CodePage=Code Page
-edit_CodePagedefault=default
-
-edit_MisceOptions=Miscellaneous Options
-edit_MisceOptionsprodos=  prodos -> make compatible with appleII clients
-edit_MisceOptionscrlf=  crlf -> enable crlf translation for TEXT files
-edit_MisceOptionsnoadouble=  noadouble -> don't create .AppleDouble unless a resource fork needs to be created
-edit_MisceOptionsro=  ro -> mount the volume as read-only
-edit_MisceOptionsmswindows=  mswindows -> enforce filename restrictions imposed by MS Windows
-edit_MisceOptionsnohex=  nohex -> don't do :hex translations for anything except dot files
-edit_MisceOptionsusedots=  usedots -> don't do :hex translation for dot files
-edit_MisceOptionslimitsize=  limitsize -> limit disk size reporting to 2GB.
-
-edit_DataBase=Database Path
-edit_Password=Password
-
-edit_Allow=Allow
-edit_users=Users
-edit_groups=Groups
-edit_Deny=Deny
-edit_Rolist=RO
-edit_Rwlist=RW
-edit_Save=Save
-edit_create=Create
-edit_delete=Delete
-edit_return=Share List
-
-modi_tableheader=Modify File Shre
-modi_save=Save
-
-create_server_header=Create New Server
-create_server_tabelheader=Create New Servers
-create_server_ServerName=Server Name
-create_server_localhost=Name of localhost
-create_server_TCP=TCP/IP
-create_server_AppleTalk=Apple Talk
-create_server_Port=Port
-create_server_Address=Address
-create_server_return=Servers
-create_server_pass=Set Password
-create_server_setpass=Save Password
-create_server_lgmesg=Login Message
-
-editexist_server_header=Edit Server
-editexist_server_table_header=Edit Server
-
-misc_options_header=Miscellaneous Options
-
-file=file
-not_readable=not readable
-give_correct_path=Please give correct path
-indicate_sharename=Please indicate sharename
-copy_failed=Failed to copy file
 delete_failed=Can't delete file
 not_valid_path=Not Valid Path
 no_path=No Path
 
-help_volume=Volume Config Help
 help_configs=Configurations Help
 
 manual_title=Edit Directives
-manual_header=Use the text box below to manually edit the directives in $1.
-manual_configs=Edit Config Files
-manual_ecannot=You are not allowed to manually edit directives
 manual_file=Edit File:
 manual_efile=Invalid netatalk config file
-manual_etest=Configuration file error detected : $1
-test_config=1
-test_always=0
-test_manual=0
 

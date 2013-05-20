@@ -27,8 +27,39 @@
 
 require './netatalk3-lib.pl';
 
-$rv = system("$config{'start_netatalk'} </dev/null");
-if ($rv)
-    &error(&text('start_1', $rv));
+&header("License", "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
+&ReadParse();
 
-&redirect("");
+%license = read_license();
+
+if ($in{"action"} eq "save") {
+    save_license($in);
+}
+
+print"<p><p>\n";
+
+print &ui_hr();
+
+if ($in{"action"} eq "save") {
+    print "<p>Successfully saved license file<p><hr>";
+} else {
+	print"<p><p>\n";
+
+	print &ui_form_start('edit_and_save_license.cgi', 'POST', undef, 'name="configform"');
+
+	print &ui_hidden("action", "save");
+
+	print &ui_table_start("License", 'width="100%"', 2);
+	print &ui_table_row("Serial", "<input size=30 name=serial value=$license{'serial'}>");
+	print &ui_table_row("Expires", "<input size=30 name=expires value=$license{'expires'}>");
+	print &ui_table_row("Users", "<input size=30 name=users value=".($license{'users'} || "unlimited").">");
+	print &ui_table_row("Key", "<input size=30 name=key value=$license{'key'}>");
+	print &ui_table_end();
+
+	print &ui_form_end([[undef, $text{'save_button_title'}, 0, undef]]);
+
+	print &ui_hr();
+}
+print "<p><p>\n";
+
+&footer("", $text{'edit_return'});

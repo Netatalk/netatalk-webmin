@@ -1,11 +1,6 @@
-afpd_c=Path to afpd.conf
-afpd_d=Path to afpd
-afpdldap_c=Path to afp_ldap.conf
-applevolumedefault_c=Path to AppleVolumes.default
-netatalk_c=Path to netatalk.conf
-netatalk_init=Netatalk init script
-pam_c=Path to netatalk PAM config file
-select_maxUsers=Select max. Users
-stop_netatalk=Command to stop Netatalk services
+netatalk_d=Path to netatalk binary
+afp_conf=Path to afp.conf
+license_conf=Path to license.conf
 start_netatalk=Command to start Netatalk services
+stop_netatalk=Command to stop Netatalk services
 restart_netatalk=Command to restart Netatalk services

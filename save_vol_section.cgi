@@ -27,8 +27,28 @@
 
 require './netatalk3-lib.pl';
 
-$rv = system("$config{'start_netatalk'} </dev/null");
-if ($rv)
-    &error(&text('start_1', $rv));
+eval {
+	&ReadParse();
 
-&redirect("");
+	# rejoin parameters that have been split for the user interface
+	$in{'p_valid users'} = join_users_and_groups(defined $in{'pu_valid_users'} ? $in{'pu_valid_users'} : '', defined $in{'pg_valid_users'} ? $in{'pg_valid_users'} : '');
+	$in{'p_invalid users'} = join_users_and_groups(defined $in{'pu_invalid_users'} ? $in{'pu_invalid_users'} : '', defined $in{'pg_invalid_users'} ? $in{'pg_invalid_users'} : '');
+	$in{'p_rolist'} = join_users_and_groups(defined $in{'pu_rolist'} ? $in{'pu_rolist'} : '', defined $in{'pg_rolist'} ? $in{'pg_rolist'} : '');
+	$in{'p_rwlist'} = join_users_and_groups(defined $in{'pu_rwlist'} ? $in{'pu_rwlist'} : '', defined $in{'pg_rwlist'} ? $in{'pg_rwlist'} : '');
+
+	my $afpconfRef = &read_afpconf();
+	modify_afpconf_ref_and_write($afpconfRef, \%in);
+	
+	&redirect("");
+};
+if($@) {
+	my $msg = $@;
+	
+	&header($text{'errmsg_title'}, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
+
+	print "<p>$msg<p>";
+	
+	&footer("", $text{'edit_vol_section_return'});
+	exit;
+}
+

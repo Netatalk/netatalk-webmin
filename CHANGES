@@ -1,14 +1,2 @@
-0.9.1:
-* rebrand 0.9-beta5
-
-0.9beta5:
-* added the manually edit config files options
-* too many things to list. look at each page for notes. major improvements all around
-
-0.9beta4:
-* replace prior file-release
-
-0.9b2:
-* fixed the "Bad Header" message
-* replaced icons
-
+0.1:
+* first version of complete rewrite for Netatalk 3

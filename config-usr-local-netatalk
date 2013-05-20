@@ -1,11 +1,6 @@
-afpd_c=/usr/local/netatalk/etc/afpd.conf
-afpd_d=/usr/local/netatalk/sbin/afpd
-afpdldap_c=/usr/local/netatalk/etc/afp_ldap.conf
-applevolumedefault_c=/usr/local/netatalk/etc/AppleVolumes.default
-netatalk_c=/usr/local/netatalk/etc/netatalk.conf
-netatalk_init=/etc/init.d/netatalk
-pam_c=/etc/pam.d/netatalk
-select_maxUsers=
-stop_netatalk=/etc/init.d/netatalk stop
+netatalk_d=/usr/local/sbin/netatalk
+afp_conf=/usr/local/etc/afp.conf
+license_conf=/usr/local/etc/license.conf
 start_netatalk=/etc/init.d/netatalk start
+stop_netatalk=/etc/init.d/netatalk stop
 restart_netatalk=/etc/init.d/netatalk restart

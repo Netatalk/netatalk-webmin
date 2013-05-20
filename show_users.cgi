@@ -1,66 +1,68 @@
 #!/usr/bin/perl
 #
-#    Netatalk Webmin Module
-#    Copyright (C) 2000 by Matthew Keller <kellermg@potsdam.edu>
-#    Portion of code contributed from somebody-- I can't find the e-mail
-#      referencing who it was though. *sigh*
+# Netatalk Webmin Module
+# Copyright (C) 2013 Ralph Boehme <sloowfranklin@gmail.com>
+# All rights reserved.
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# Redistribution and use in source and binary forms, with or without modification,
+# are permitted provided that the following conditions are met:
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+# Redistributions of source code must retain the above copyright notice, this list
+# of conditions and the following disclaimer.
+# Redistributions in binary form must reproduce the above copyright notice, this list
+# of conditions and the following disclaimer in the documentation and/or other
+# materials provided with the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOTOC LIMITED TO, THE IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+# INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+# NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
+# PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
 #
 
+require './netatalk3-lib.pl';
 do '../web-lib.pl';
-
-$|=1;
-
-&init_config();
 
 &header($text{users_title}, "", undef(), 1, 1,undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
 
 &ReadParse();
 
-print "<br><BR>\n";
-print "<h3>You click \"Kill\", and they are gone.</h3>";
-print "<hr>\n";
+print "<br><h4>Click \"Disconnect\" to disconnect a user.</h4><hr>\n";
 
-if($in{kill}) {
-	$in{kill} =~ s/\D//gi;
-	if(kill(15,$in{kill})) {
-		print "<h4>User disconnected</h4>\n";		
+if ($in{kill}) {
+	if (kill('TERM', $in{kill})) {
+		print "<h4>User successfully disconnected</h4>\n";
 	} else {
-		print "<h4>User <blink>NOT</blink> disconnected !</h4>\n";
+		print "<h4>User <blink>NOT</blink> disconnected!</h4>\n";
 	}
 }
-	open(USERS, "/bin/ps aucx|");
 
-	while(<USERS>) 
-	{
-		chop ;
-		next if !/afpd/;
-		split ;
-        next if $_[0] eq "root";
-		push(@users,join(":::",$_[0],$_[1],$_[8]));
-	}
-	close USERS;
-	print "<h4>There are currently " . scalar(@users) . " users connected.</h4>\n";
-	print "<table border=\"0\" width=\"80%\">\n";
-	print "<tr $tb><td><b>User</b></td><td><b>Connected Since</b></td><td><b>Kill</b></td></tr>\n";
-	print startform();
-	foreach (sort @users)
-	{
-		#username,PID,date
-		split ":::";
-		print "<tr $tc><td>$_[0] </td><td>$_[2]</td><td><input type=submit name=kill value=\"Kill $_[1]\"></td></tr>\n";
-	}
-	print "</form>\n";
-	print "</table>\n";
-	print "<br><Br>\n";
+open(USERS, "/bin/ps aucx|");
+
+while (<USERS>) {
+    chop;
+    next if !/afpd/;
+    split;
+    next if $_[0] eq "root";
+    push(@users, join(":::", $_[0], $_[1], $_[8]));
+}
+close USERS;
+
+print "<h4>There are currently " . scalar(@users) . " users connected.</h4>\n";
+print "<table border=\"0\" width=\"80%\">\n";
+print "<tr $tb><td><b>User</b></td><td><b>Connected Since</b></td><td><b>Kill</b></td></tr>\n";
+print "<form METHOD=\"POST\"  ENCTYPE=\"application/x-www-form-urlencoded\">";
+foreach (sort @users) {
+    split ":::";
+    print "<tr $tc><td>$_[0] </td><td>$_[2]</td><td><input type=submit name=kill value=\"$_[1]\"></td></tr>\n";
+}
+print "</form>\n";
+print "</table>\n";
+print "<br><br>\n";
 
 &footer("index.cgi",$text{'edit_return'});
