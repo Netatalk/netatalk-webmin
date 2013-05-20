@@ -4,22 +4,13 @@ FILES = \
 	CHANGES \
 	config \
 	config.info \
-	config-suse-linux \
 	config-opt-netatalk \
+	config-suse-linux \
 	config-usr-local-netatalk \
-	create_server.cgi \
-	CREDITS \
-	delete_fshare.cgi \
-	delete_FShare.cgi \
-	delete_server.cgi \
-	edit_configfiles_form.cgi \
-	edit_configfiles_save.cgi \
-	editexist_server.cgi \
-	edit_fshare.cgi \
-	edit_server.cgi \
+	delete_sections.cgi \
+	edit_global_section.cgi \
+	edit_vol_section.cgi \
 	help/configs.cgi \
-	help/volumehelp.cgi \
-	images/edit.gif \
 	images/icon.gif \
 	images/interface.png \
 	images/misc.png \
@@ -29,17 +20,11 @@ FILES = \
 	index.cgi \
 	lang/de \
 	lang/en \
-	misc_opt.cgi \
-	modi_fshare.cgi \
 	module.info \
-	netapple-lib.pl \
-	README \
+	netatalk3-lib.pl \
 	restart.cgi \
-	save_fshare.cgi \
-	save_Modi_FShare.cgi \
-	save_newServer.cgi \
-	servers.cgi \
-	settings.cgi \
+	save_global_section.cgi \
+	save_vol_section.cgi \
 	show_users.cgi \
 	start.cgi \
 	stop.cgi \
