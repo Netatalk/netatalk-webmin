@@ -180,9 +180,9 @@ print"<p>\n";
 print"<h3>$text{index_global}</h3>\n";
 print"<p>\n";
 
-my @links = ("edit_global_section.cgi", "edit_and_save_license.cgi", "show_users.cgi");
-my @titles = ($text{'index_icon_text_server'}, $text{'index_icon_text_server_license'}, $text{'index_icon_text_users'});
-my @icons = ("images/server.png", "images/key.png", "images/users.png");
+my @links = ("edit_global_section.cgi", "show_users.cgi");
+my @titles = ($text{'index_icon_text_server'}, $text{'index_icon_text_users'});
+my @icons = ("images/server.png", "images/users.png");
 icons_table(\@links, \@titles, \@icons, 5);
 print"<br>\n";
 

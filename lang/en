@@ -45,7 +45,6 @@ index_col_title_home_name=Home volume name
 index_value_not_set=<i>not set</i>
 
 index_icon_text_server=Server Options
-index_icon_text_server_license=License
 index_icon_text_users=Show current users
 index_icon_text_file_edit=Edit config files
 
