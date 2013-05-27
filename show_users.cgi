@@ -47,7 +47,7 @@ open(USERS, "/bin/ps aucx|");
 while (<USERS>) {
     chop;
     next if !/afpd/;
-    split;
+    @_=split;
     next if $_[0] eq "root";
     push(@users, join(":::", $_[0], $_[1], $_[8]));
 }
@@ -58,7 +58,7 @@ print "<table border=\"0\" width=\"80%\">\n";
 print "<tr $tb><td><b>User</b></td><td><b>Connected Since</b></td><td><b>Kill</b></td></tr>\n";
 print "<form METHOD=\"POST\"  ENCTYPE=\"application/x-www-form-urlencoded\">";
 foreach (sort @users) {
-    split ":::";
+    @_=split ":::";
     print "<tr $tc><td>$_[0] </td><td>$_[2]</td><td><input type=submit name=kill value=\"$_[1]\"></td></tr>\n";
 }
 print "</form>\n";
