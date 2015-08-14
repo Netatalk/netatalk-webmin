@@ -28,8 +28,7 @@
 require './netatalk3-lib.pl';
 
 $rv = system("$config{stop_netatalk} </dev/null");
-if ($rv)
-    &error(&text('stop_1', $rv));
+if ($rv){ &error(&text('stop_1', $rv)); }
 
 &redirect("");
 
