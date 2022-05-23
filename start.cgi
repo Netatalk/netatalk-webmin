@@ -28,7 +28,5 @@
 require './netatalk3-lib.pl';
 
 $rv = system("$config{'start_netatalk'} </dev/null");
-if ($rv)
-    &error(&text('start_1', $rv));
-
+if ($rv) { &error(&text('start_1', $rv)); }
 &redirect("");
