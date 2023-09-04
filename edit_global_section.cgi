@@ -99,7 +99,7 @@ print &ui_table_row($text{'edit_global_section_uam_list'},
 	.&ui_checkbox('p_uam list', 'uams_guest.so', 'Guest UAM', $values[0] =~ /uams_guest.so/ ? 1 : 0)
 	.&ui_checkbox('p_uam list', 'uams_gss.so', 'Kerberos UAM', $values[0] =~ /uams_gss.so/ ? 1 : 0)
 	."<br>".$text{'edit_global_section_uam_list_other'} .&ui_textbox('p_uam list', $nonstandardUAMS, 40)
-	."Standard UAM=uams_dhx.so uamsdhx2.so (netatalk default)"
+	."Standard UAM=uams_dhx.so uams_dhx2.so (netatalk default)"
 );
 
 print &ui_table_row("Kerberos",
