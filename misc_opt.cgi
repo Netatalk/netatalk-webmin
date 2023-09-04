@@ -20,11 +20,6 @@ require './netapple-lib.pl';
 
 &header($text{'misc_options_header'},"", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
 
-print"<p><p>\n";
-
-
-print "<hr>\n";
-print"<p><p>\n";
 print "<form action=settings.cgi>\n";
 
 print "<table  width=100% >\n";
@@ -44,7 +39,5 @@ print "<tr $cb> <td><table >\n";
 print "</table> </td></tr></table><p>\n";
 print "<input type=submit value=$text{'edit_Save'}></form>\n";
 
-
-print "<hr>\n";
 print"<p><p>\n";
 &footer("","$text{'edit_return'}");

@@ -35,8 +35,6 @@ if (!-x $config{'afpd_d'}) {
 	exit;
 }
 
-print "<hr>\n";
-
 # Print start/stop part
 @afpd = &find_byname($config{'afpd_d'});
 if(@afpd){
@@ -98,14 +96,6 @@ my @links = ("servers.cgi","show_users.cgi","misc_opt.cgi","edit_configfiles_for
 my @titles = ($text{'index_server'},$text{'index_users'},$text{'index_misc'},$text{'index_edit'});
 my @icons = ("images/server.png","images/users.png","images/misc.png","images/edit.gif");
 icons_table(\@links, \@titles, \@icons);
-print"<br>\n";
-
-print"<hr>\n";
-
 print "</table>\n";
-print"<p>";
-print "<hr>\n";
-
-&footer("/right.cgi?open=system&auto=status&open=updates", $text{'index_root'});
 
 ### END of index.cgi ###.
