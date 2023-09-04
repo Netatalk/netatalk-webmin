@@ -45,7 +45,7 @@ if($@) {
 
 	my $msg = $@;
 	
-	&header($text{'errmsg_title'}, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
+	&header($text{'errmsg_title'}, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
 
 	print "<p>$msg<p>";
 	
@@ -54,7 +54,7 @@ if($@) {
 	exit;
 }
 
-&header($text{'edit_global_section_title'}, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
+&header($text{'edit_global_section_title'}, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
 
 print &ui_form_start('save_global_section.cgi', 'POST');
 

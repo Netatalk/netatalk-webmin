@@ -28,7 +28,7 @@
 require './netatalk3-lib.pl';
 do '../web-lib.pl';
 
-&header($text{users_title}, "", undef(), 1, 1,undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
+&header($text{users_title}, "", undef(), 1, 1,undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
 
 &ReadParse();
 

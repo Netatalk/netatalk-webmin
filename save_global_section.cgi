@@ -47,7 +47,7 @@ eval {
 if($@) {
 	my $msg = $@;
 	
-	&header($text{'errmsg_title'}, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
+	&header($text{'errmsg_title'}, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
 
 	print "<p>$msg<p>";
 	

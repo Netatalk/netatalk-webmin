@@ -78,7 +78,7 @@ if($@) {
 
 	my $msg = $@;
 	
-	&header($pageTitle, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
+	&header($pageTitle, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
 
 	print "<p>$msg<p>";
 	
@@ -88,7 +88,7 @@ if($@) {
 }
 
 # preparations done, start outputting page
-&header($pageTitle, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
+&header($pageTitle, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
 
 print &ui_form_start('save_vol_section.cgi', 'POST', undef, 'name="configform"');
 
