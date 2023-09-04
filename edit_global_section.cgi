@@ -45,7 +45,7 @@ if($@) {
 
 	my $msg = $@;
 	
-	&header($text{'errmsg_title'}, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
+	&header($text{'errmsg_title'}, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
 
 	print "<p>$msg<p>";
 	
@@ -54,7 +54,7 @@ if($@) {
 	exit;
 }
 
-&header($text{'edit_global_section_title'}, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
+&header($text{'edit_global_section_title'}, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
 
 print &ui_form_start('save_global_section.cgi', 'POST');
 
@@ -99,7 +99,7 @@ print &ui_table_row($text{'edit_global_section_uam_list'},
 	.&ui_checkbox('p_uam list', 'uams_guest.so', 'Guest UAM', $values[0] =~ /uams_guest.so/ ? 1 : 0)
 	.&ui_checkbox('p_uam list', 'uams_gss.so', 'Kerberos UAM', $values[0] =~ /uams_gss.so/ ? 1 : 0)
 	."<br>".$text{'edit_global_section_uam_list_other'} .&ui_textbox('p_uam list', $nonstandardUAMS, 40)
-	."Standard UAM=uams_dhx.so uamsdhx2.so (netatalk default)"
+	."Standard UAM=uams_dhx.so uams_dhx2.so (netatalk default)"
 );
 
 print &ui_table_row("Kerberos",
