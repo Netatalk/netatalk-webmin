@@ -32,41 +32,41 @@ FILES = \
 
 all:
 
-dist: netatalk-wbm.tgz
+dist: netatalk3-wbm.tgz
 
-localdist: local-wbm.tgz
+localdist: netatalk3-local-wbm.tgz
 
-optdist: opt-wbm.tgz
+optdist: netatalk3-opt-wbm.tgz
 
 clean:
-	-rm -f netatalk-wbm.tgz local-wbm.tgz opt-wbm.tgz
-	-rm -rf netatalk-wbm
+	-rm -f netatalk3-wbm.tgz netatalk3-local-wbm.tgz netatalk3-opt-wbm.tgz
+	-rm -rf netatalk3
 
-netatalk-wbm.tgz: $(FILES)
-	@echo 'Creating Netatalk Webmin Module archive in "netatalk-wbm.tgz" ...'
-	@-rm -rf netatalk-wbm netatalk-wbm.tgz
-	@mkdir netatalk-wbm
-	@tar cf - $(FILES) | tar xf - -C netatalk-wbm
-	@tar cf - netatalk-wbm | gzip > netatalk-wbm.tgz
-	@rm -rf netatalk-wbm
+netatalk3-wbm.tgz: $(FILES)
+	@echo 'Creating Netatalk Webmin Module archive in "netatalk3-wbm.tgz" ...'
+	@-rm -rf netatalk3 netatalk3-wbm.tgz
+	@mkdir netatalk3
+	@tar cf - $(FILES) | tar xf - -C netatalk3
+	@tar cf - netatalk3 | gzip > netatalk3-wbm.tgz
+	@rm -rf netatalk3
 	@echo Done.
 
-local-wbm.tgz: $(FILES)
-	@echo 'Creating Netatalk Webmin Module archive in "local-wbm.tgz" ...'
-	@-rm -rf netatalk-wbm local-wbm.tgz
-	@mkdir netatalk-wbm
-	@tar cf - $(FILES) | tar xf - -C netatalk-wbm
-	@cp config-usr-local-netatalk netatalk-wbm/config
-	@tar cf - netatalk-wbm | gzip > local-wbm.tgz
-	@rm -rf netatalk-wbm
+netatalk3-local-wbm.tgz: $(FILES)
+	@echo 'Creating Netatalk Webmin Module archive in "netatalk3-local-wbm.tgz" ...'
+	@-rm -rf netatalk3 netatalk3-local-wbm.tgz
+	@mkdir netatalk3
+	@tar cf - $(FILES) | tar xf - -C netatalk3
+	@cp config-usr-local-netatalk netatalk3/config
+	@tar cf - netatalk3 | gzip > netatalk3-local-wbm.tgz
+	@rm -rf netatalk3
 	@echo Done.
 
-opt-wbm.tgz: $(FILES)
-	@echo 'Creating Netatalk Webmin Module archive in "opt-wbm.tgz" ...'
-	@-rm -rf netatalk-wbm opt-wbm.tgz
-	@mkdir netatalk-wbm
-	@tar cf - $(FILES) | tar xf - -C netatalk-wbm
-	@cp config-opt-netatalk netatalk-wbm/config
-	@tar cf - netatalk-wbm | gzip > opt-wbm.tgz
-	@rm -rf netatalk-wbm
+netatalk3-opt-wbm.tgz: $(FILES)
+	@echo 'Creating Netatalk Webmin Module archive in "netatalk3-opt-wbm.tgz" ...'
+	@-rm -rf netatalk3 netatalk3-opt-wbm.tgz
+	@mkdir netatalk3
+	@tar cf - $(FILES) | tar xf - -C netatalk3
+	@cp config-opt-netatalk netatalk3/config
+	@tar cf - netatalk3 | gzip > netatalk3-opt-wbm.tgz
+	@rm -rf netatalk3
 	@echo Done.
