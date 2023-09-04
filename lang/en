@@ -104,7 +104,7 @@ index_root=Webmin Home
 index_title=Netatalk AFP Server
 index_not_running_services=Netatalk services are not running. 
 index_running_services=Netatalk services are running. 
-index_ever=The afpd program was not found on your system. Maybe Netatalk is not installed, or your <a href='$2'> module configuration</a> incorrect.
+index_ever=The netatalk program was not found on your system. Maybe Netatalk is not installed, or your <a href='$2'> module configuration</a> incorrect.
 
 restart_failed=Restart failed
 start_1=$1 failed
