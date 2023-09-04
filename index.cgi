@@ -184,8 +184,3 @@ my @links = ("edit_global_section.cgi", "show_users.cgi");
 my @titles = ($text{'index_icon_text_server'}, $text{'index_icon_text_users'});
 my @icons = ("images/server.png", "images/users.png");
 icons_table(\@links, \@titles, \@icons, 5);
-print"<br>\n";
-
-print"<hr>\n";
-
-&footer("/right.cgi?open=system&auto=status&open=updates", $text{'index_root'});
