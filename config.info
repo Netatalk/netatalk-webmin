@@ -1,6 +1,5 @@
 netatalk_d=Path to netatalk binary
 afp_conf=Path to afp.conf
-license_conf=Path to license.conf
 start_netatalk=Command to start Netatalk services
 stop_netatalk=Command to stop Netatalk services
 restart_netatalk=Command to restart Netatalk services

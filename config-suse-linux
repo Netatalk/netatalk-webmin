@@ -1,6 +1,5 @@
 netatalk_d=/usr/sbin/netatalk
 afp_conf=/etc/netatalk/afp.conf
-license_conf=/etc/netatalk/license.conf
-start_netatalk=/etc/init.d/netatalk start
-stop_netatalk=/etc/init.d/netatalk stop
-restart_netatalk=/etc/init.d/netatalk restart
+start_netatalk=systemctl start netatalk
+stop_netatalk=systemctl stop netatalk
+restart_netatalk=systemctl restart netatalk

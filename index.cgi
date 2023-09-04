@@ -27,7 +27,7 @@
 
 require './netatalk3-lib.pl';
 
-&header($text{'index_title'}, "", undef, 1, 1, undef, "<a href=\"help/configs.cgi\">$text{help_configs}</a>");
+&header($text{'index_title'}, "", undef, 1, 1, undef, "<a href=\"https://netatalk.sourceforge.io/3.1/htmldocs/\" target=\"_blank\">$text{help_configs}</a>");
 
 # check if netatalk daemon's path is configured correctly, if not: print error and footer then exit
 if(!-x $config{'netatalk_d'}) {
@@ -184,8 +184,3 @@ my @links = ("edit_global_section.cgi", "show_users.cgi");
 my @titles = ($text{'index_icon_text_server'}, $text{'index_icon_text_users'});
 my @icons = ("images/server.png", "images/users.png");
 icons_table(\@links, \@titles, \@icons, 5);
-print"<br>\n";
-
-print"<hr>\n";
-
-&footer("/right.cgi?open=system&auto=status&open=updates", $text{'index_root'});
