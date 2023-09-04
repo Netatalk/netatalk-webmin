@@ -12,9 +12,9 @@ afpconf_err_no_section=Non empty line '$1' without a section header in line $2.
 errmsg_parameter_error=Parameter error: Illegal value for parameter '$1'.
 errmsg_title=Error
 
-index_process_control_restart_txt=Click this button to restart netatalk services using <code>$1</code>
-index_process_control_start_txt=Click this button to start netatalk services using <code>$1</code>
-index_process_control_stop_txt=Click this button to stop netatalk services using <code>$1</code>
+index_process_control_restart_txt=Restart netatalk services using <code>$1</code>
+index_process_control_start_txt=Start netatalk services using <code>$1</code>
+index_process_control_stop_txt=Stop netatalk services using <code>$1</code>
 index_process_control_restart=Restart Netatalk Services
 index_process_control_start=Start Netatalk Services
 index_process_control_stop=Stop Netatalk Services
