@@ -23,7 +23,7 @@ require './netapple-lib.pl';
 $path="NoPath";
 $s="homes";
 
-&header($text{'create_server_header'},"", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
+&header($text{'create_server_header'},"", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
 print"<p><p>\n";
 
 

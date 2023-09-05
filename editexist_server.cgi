@@ -21,7 +21,7 @@ require './netapple-lib.pl';
 
 &ReadParse();
 
-&header($text{'editexist_server_header'},"", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
+&header($text{'editexist_server_header'},"", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
 
 print"<p>\n";
 

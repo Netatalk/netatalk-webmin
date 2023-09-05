@@ -21,7 +21,7 @@ require './netapple-lib.pl';
 $path="NoPath";
 $s="homes";
 
-&header("Delete Apple File Share", "",undef(),undef(),undef(),undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
+&header("Delete Apple File Share", "",undef(),undef(),undef(),undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
 
 print"<p><p>\n";
 

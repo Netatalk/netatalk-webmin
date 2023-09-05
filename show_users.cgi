@@ -22,7 +22,7 @@ $|=1;
 
 &init_config();
 
-&header($text{users_title}, "", undef(), 1, 1,undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
+&header($text{users_title}, "", undef(), 1, 1,undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
 
 &ReadParse();
 

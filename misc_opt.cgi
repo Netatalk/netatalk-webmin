@@ -18,7 +18,7 @@
 
 require './netapple-lib.pl';
 
-&header($text{'misc_options_header'},"", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
+&header($text{'misc_options_header'},"", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
 
 print "<form action=settings.cgi>\n";
 

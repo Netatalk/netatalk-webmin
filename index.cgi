@@ -25,7 +25,7 @@ require '../ui-lib.pl';
 ## put in ACL checks here if needed
 
 
-&header($text{'index_title'}, "", undef, 1, 1, undef(), "<a href=\"help/configs.cgi\">$text{help_configs}</a>");
+&header($text{'index_title'}, "", undef, 1, 1, undef(), "<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
 do './netapple-lib.pl'; # Sven's lib
 
 if (!-x $config{'afpd_d'}) {

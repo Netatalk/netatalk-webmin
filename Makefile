@@ -18,7 +18,6 @@ FILES = \
 	edit_fshare.cgi \
 	edit_server.cgi \
 	help/configs.cgi \
-	help/volumehelp.cgi \
 	images/edit.gif \
 	images/icon.gif \
 	images/interface.png \
