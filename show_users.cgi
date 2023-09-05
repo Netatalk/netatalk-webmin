@@ -38,29 +38,32 @@ if($in{kill}) {
 		print "<h4>User <blink>NOT</blink> disconnected !</h4>\n";
 	}
 }
-	open(USERS, "/bin/ps aucx|");
 
-	while(<USERS>) 
-	{
-		chop ;
-		next if !/afpd/;
-		split ;
-        next if $_[0] eq "root";
-		push(@users,join(":::",$_[0],$_[1],$_[8]));
+my @processes = qx(ps aucx);
+my @users;
+
+foreach my $line (@processes) {
+	# Split the line into columns using whitespace as the delimiter
+	my @columns = split /\s+/, $line;
+
+	# Pick only lines that are afpd processes not owned by root
+	if ($columns[10] eq "afpd" && $columns[0] ne "root") {
+		# Columns with index 0 username, 1 PID, and 8 date
+		push @users, join(":::",$columns[0], $columns[1], $columns[8]);
 	}
-	close USERS;
-	print "<h4>There are currently " . scalar(@users) . " users connected.</h4>\n";
-	print "<table border=\"0\" width=\"80%\">\n";
-	print "<tr $tb><td><b>User</b></td><td><b>Connected Since</b></td><td><b>Kill</b></td></tr>\n";
-	print startform();
-	foreach (sort @users)
-	{
-		#username,PID,date
-		split ":::";
-		print "<tr $tc><td>$_[0] </td><td>$_[2]</td><td><input type=submit name=kill value=\"Kill $_[1]\"></td></tr>\n";
-	}
-	print "</form>\n";
-	print "</table>\n";
-	print "<br><Br>\n";
+}
+
+print "<h4>There are currently " . scalar(@users) . " users connected.</h4>\n";
+print "<table border=\"0\" width=\"80%\">\n";
+print "<tr $tb><td><b>User</b></td><td><b>Connected Since</b></td><td><b>Kill</b></td></tr>\n";
+foreach my $user (sort @users) {
+	#username,PID,date
+	my @line = split(":::", $user);
+	print "<tr $tc><td>$line[0] </td><td>$line[2]</td><td>";
+	print "<form action=\"show_users.cgi\"><input type=submit name=kill value=\"Kill $line[1]\"></form>";
+	print "</td></tr>\n";
+}
+print "</table>\n";
+print "<br><br>\n";
 
 &footer("index.cgi",$text{'edit_return'});
