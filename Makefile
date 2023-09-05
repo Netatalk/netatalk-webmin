@@ -18,7 +18,6 @@ FILES = \
 	edit_fshare.cgi \
 	edit_server.cgi \
 	help/configs.cgi \
-	help/volumehelp.cgi \
 	images/edit.gif \
 	images/icon.gif \
 	images/interface.png \
@@ -47,41 +46,41 @@ FILES = \
 
 all:
 
-dist: netatalk-wbm.tgz
+dist: netatalk2-wbm.tgz
 
-localdist: local-wbm.tgz
+localdist: netatalk2-local-wbm.tgz
 
-optdist: opt-wbm.tgz
+optdist: netatalk2-opt-wbm.tgz
 
 clean:
-	-rm -f netatalk-wbm.tgz local-wbm.tgz opt-wbm.tgz
-	-rm -rf netatalk-wbm
+	-rm -f netatalk2-wbm.tgz netatalk2-local-wbm.tgz netatalk2-opt-wbm.tgz
+	-rm -rf netapple
 
-netatalk-wbm.tgz: $(FILES)
-	@echo 'Creating Netatalk Webmin Module archive in "netatalk-wbm.tgz" ...'
-	@-rm -rf netatalk-wbm netatalk-wbm.tgz
-	@mkdir netatalk-wbm
-	@tar cf - $(FILES) | tar xf - -C netatalk-wbm
-	@tar cf - netatalk-wbm | gzip > netatalk-wbm.tgz
-	@rm -rf netatalk-wbm
+netatalk2-wbm.tgz: $(FILES)
+	@echo 'Creating Netatalk Webmin Module archive in "netatalk2-wbm.tgz" ...'
+	@-rm -rf netatalk2 netatalk2-wbm.tgz
+	@mkdir netapple
+	@tar cf - $(FILES) | tar xf - -C netapple
+	@tar cf - netapple | gzip > netatalk2-wbm.tgz
+	@rm -rf netapple
 	@echo Done.
 
-local-wbm.tgz: $(FILES)
-	@echo 'Creating Netatalk Webmin Module archive in "local-wbm.tgz" ...'
-	@-rm -rf netatalk-wbm local-wbm.tgz
-	@mkdir netatalk-wbm
-	@tar cf - $(FILES) | tar xf - -C netatalk-wbm
-	@cp config-usr-local-netatalk netatalk-wbm/config
-	@tar cf - netatalk-wbm | gzip > local-wbm.tgz
-	@rm -rf netatalk-wbm
+netatalk2-local-wbm.tgz: $(FILES)
+	@echo 'Creating Netatalk Webmin Module archive in "netatalk2-local-wbm.tgz" ...'
+	@-rm -rf netapple netatalk2-local-wbm.tgz
+	@mkdir netapple
+	@tar cf - $(FILES) | tar xf - -C netapple
+	@cp config-usr-local-netatalk netapple/config
+	@tar cf - netapple | gzip > netatalk2-local-wbm.tgz
+	@rm -rf netapple
 	@echo Done.
 
-opt-wbm.tgz: $(FILES)
-	@echo 'Creating Netatalk Webmin Module archive in "opt-wbm.tgz" ...'
-	@-rm -rf netatalk-wbm opt-wbm.tgz
-	@mkdir netatalk-wbm
-	@tar cf - $(FILES) | tar xf - -C netatalk-wbm
-	@cp config-opt-netatalk netatalk-wbm/config
-	@tar cf - netatalk-wbm | gzip > opt-wbm.tgz
-	@rm -rf netatalk-wbm
+netatalk2-opt-wbm.tgz: $(FILES)
+	@echo 'Creating Netatalk Webmin Module archive in "netatalk2-opt-wbm.tgz" ...'
+	@-rm -rf netapple netatalk2-opt-wbm.tgz
+	@mkdir netapple
+	@tar cf - $(FILES) | tar xf - -C netapple
+	@cp config-opt-netatalk netapple/config
+	@tar cf - netapple | gzip > netatalk2-opt-wbm.tgz
+	@rm -rf netapple
 	@echo Done.

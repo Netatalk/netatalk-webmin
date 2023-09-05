@@ -25,7 +25,7 @@ require '../ui-lib.pl';
 ## put in ACL checks here if needed
 
 
-&header($text{'index_title'}, "", undef, 1, 1, undef(), "<a href=\"help/configs.cgi\">$text{help_configs}</a>");
+&header($text{'index_title'}, "", undef, 1, 1, undef(), "<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
 do './netapple-lib.pl'; # Sven's lib
 
 if (!-x $config{'afpd_d'}) {
@@ -35,8 +35,6 @@ if (!-x $config{'afpd_d'}) {
 	exit;
 }
 
-print "<hr>\n";
-
 # Print start/stop part
 @afpd = &find_byname($config{'afpd_d'});
 if(@afpd){
@@ -44,11 +42,11 @@ if(@afpd){
 	print qq|	<table width="100%" cellspacing="8" cellpadding="8" border="0">
 					<tr height="20">
 						<td width="165" align="center"><form action="restart.cgi"><input type="submit" value="$text{'index_restart'}"></form></td>
-						<td>Click this button to restart netatalk services using <code>$config{restart_netatalk}</code></td>
+						<td>Restart netatalk services using <code>$config{restart_netatalk}</code></td>
 					</tr>
 					<tr height="20">
 						<td width="165" align="center"><form action="stop.cgi"><input type="submit" value="$text{'index_stop'}"></form></td>
-						<td>Click this button to stop netatalk services using <code>$config{'stop_netatalk'}</code></td>
+						<td>Stop netatalk services using <code>$config{'stop_netatalk'}</code></td>
 					</tr>
 				</table>
 			|;
@@ -57,7 +55,7 @@ if(@afpd){
 	print qq|	<table width="100%" cellspacing="8" cellpadding="8" border="0">
 					<tr height="20">
 						<td width="165" align="center"><form action="start.cgi"><input type="submit" value="$text{'index_start_service'}"></form></td>
-						<td>Click this button to start netatalk services using <code>$config{'start_netatalk'}</code></td>
+						<td>Start netatalk services using <code>$config{'start_netatalk'}</code></td>
 					</tr>
 				</table>
 			|;
@@ -98,14 +96,6 @@ my @links = ("servers.cgi","show_users.cgi","misc_opt.cgi","edit_configfiles_for
 my @titles = ($text{'index_server'},$text{'index_users'},$text{'index_misc'},$text{'index_edit'});
 my @icons = ("images/server.png","images/users.png","images/misc.png","images/edit.gif");
 icons_table(\@links, \@titles, \@icons);
-print"<br>\n";
-
-print"<hr>\n";
-
 print "</table>\n";
-print"<p>";
-print "<hr>\n";
-
-&footer("/right.cgi?open=system&auto=status&open=updates", $text{'index_root'});
 
 ### END of index.cgi ###.

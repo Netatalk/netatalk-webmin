@@ -99,7 +99,6 @@ while(defined($line = <FH>) )
       		{
          		$volume->path($1);
          		$volume->name("Home directory");
-         		push(@rv,$volume->name);
       		}
      		$count=0;
       		#alle anderes Dir abfangen

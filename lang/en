@@ -11,7 +11,7 @@ users_title=Netatalk Users
 edit_file_title=Edit File Share
 author=Matthew Keller
 module_author=Matthew Keller
-homepage=netatalk.sourceforge.net
+homepage=netatalk.sourceforge.io
 copyright=see module source
 license=GPL
 
@@ -28,8 +28,8 @@ index_path=Path
 index_secutity=Security
 index_create_file_share=Create New File Share
 index_delete_file_share=Delete File Share
-index_max_users=Specifies  the  maximum  number
-index_max_users_2=of  connections to allow for this afpd 
+index_max_users=Specifies the maximum number
+index_max_users_2=of connections to allow for this file server
 index_stop_service=Stop Service 
 index_not_running_services=Netatalk services are not running. 
 index_running_services=Netatalk services are running. 
@@ -39,13 +39,13 @@ index_running_service=Service is running
 index_restart=Restart Netatalk Services
 index_stop=Stop Netatalk Services
 index_start_but=Start Apple File Sharing
-index_ever=The afpd program was not found on your system. Maybe Netatalk is not installed, or your <a href='$2'> module configuration</a> incorrect.
+index_ever=The afpd program was not found on your system. Maybe Netatalk is not installed, or your <a href='$2'> module configuration</a> is incorrect.
 index_global=Global Configurations and Options
 index_volumes=AFP Volumes
 
-index_servername=Server-Name
+index_servername=Server Name
 index_tcp=TCP/IP
-index_ddp=Apple-Talk
+index_ddp=AppleTalk
 index_port=Port
 index_address=address
 index_newServer=Create New Server
@@ -76,7 +76,7 @@ edit_CodePage=Code Page
 edit_CodePagedefault=default
 
 edit_MisceOptions=Miscellaneous Options
-edit_MisceOptionsprodos=  prodos -> make compatible with appleII clients
+edit_MisceOptionsprodos=  prodos -> make compatible with Apple II clients
 edit_MisceOptionscrlf=  crlf -> enable crlf translation for TEXT files
 edit_MisceOptionsnoadouble=  noadouble -> don't create .AppleDouble unless a resource fork needs to be created
 edit_MisceOptionsro=  ro -> mount the volume as read-only
@@ -99,7 +99,7 @@ edit_create=Create
 edit_delete=Delete
 edit_return=Share List
 
-modi_tableheader=Modify File Shre
+modi_tableheader=Modify File Share
 modi_save=Save
 
 create_server_header=Create New Server
@@ -107,7 +107,7 @@ create_server_tabelheader=Create New Servers
 create_server_ServerName=Server Name
 create_server_localhost=Name of localhost
 create_server_TCP=TCP/IP
-create_server_AppleTalk=Apple Talk
+create_server_AppleTalk=AppleTalk
 create_server_Port=Port
 create_server_Address=Address
 create_server_return=Servers

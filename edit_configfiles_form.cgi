@@ -20,7 +20,7 @@ require './netapple-lib.pl';
 
 &ReadParse();
 
-&header($text{'manual_configs'}, "", undef(), undef(), undef(),1,"<a href=\"help/configs.cgi\">$text{help_configs}</a><br><a href=\"restart.cgi\">Apply Changes</a>");
+&header($text{'manual_configs'}, "", undef(), undef(), undef(),1,"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a><br><a href=\"restart.cgi\">Apply Changes</a>");
 print "<br><br>";
 
 @files = ($config{'netatalk_c'},$config{'pam_c'},$config{'afpd_c'},$config{'afpdldap_c'},$config{'applevolumedefault_c'});

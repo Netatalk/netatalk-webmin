@@ -17,10 +17,7 @@
 
 do './netapple-lib.pl';
 
-&header($text{'server_header'}, "",undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\">$text{help_configs}</a>");
-	
-print"<hr>";
-print"<br>\n";
+&header($text{'server_header'}, "",undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
 
 # link to the different server options
 
@@ -58,8 +55,6 @@ if(@Servers[1] ne ""){
 print"<p>";		
 print "<a href=\"create_server.cgi\">$text{'index_newServer'}</a>\n&nbsp&nbsp&nbsp";
 print"<p>";
-print"<hr>\n";
-
 
 &footer("index.cgi", "Share List");
 
