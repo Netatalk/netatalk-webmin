@@ -23,7 +23,7 @@ require './netapple-lib.pl';
 print "<form action=settings.cgi>\n";
 
 print "<table  width=100% >\n";
-print "<tr $tb> <td><b>$text{'misc_options_header'}</b></td></tr>\n";
+print "<tr $tb> <td><b>$text{'misc_options_legacy'}</b></td></tr>\n";
 print "<tr $cb> <td><table >\n";
 	print "<tr><td width=30% align=left><b>$text{'index_max_users'}<br>$text{'index_max_users_2'}</b></td>\n";
 	print "<td>";

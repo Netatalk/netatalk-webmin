@@ -4,8 +4,8 @@ FILES = \
 	CHANGES \
 	config \
 	config.info \
-	config-suse-linux \
 	config-opt-netatalk \
+	config-usr-local \
 	config-usr-local-netatalk \
 	create_server.cgi \
 	CREDITS \
@@ -70,7 +70,7 @@ netatalk2-local-wbm.tgz: $(FILES)
 	@-rm -rf netapple netatalk2-local-wbm.tgz
 	@mkdir netapple
 	@tar cf - $(FILES) | tar xf - -C netapple
-	@cp config-usr-local-netatalk netapple/config
+	@cp config-usr-local netapple/config
 	@tar cf - netapple | gzip > netatalk2-local-wbm.tgz
 	@rm -rf netapple
 	@echo Done.

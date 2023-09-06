@@ -94,11 +94,12 @@ while(defined($line = <FH>) )
 		#mgk: new class volume_format produces
       		my $volume = volume_format->new();
       		#home dir abfangen
-		#mgk: home dir intercept
-      		if($line =~ /^([~]+)/)
+		#mgk: home dir intercept (~ or ~/)
+      		if($line =~ /^(~$slash*)$/)
       		{
          		$volume->path($1);
-         		$volume->name("Home directory");
+         		$volume->name("Home Directory");
+			push(@rv,$volume->name);
       		}
      		$count=0;
       		#alle anderes Dir abfangen
@@ -113,7 +114,8 @@ while(defined($line = <FH>) )
         		{
        				##print "PATH: $1\n";
        				$volume->path($1);
-       				if($1 eq "~"){
+				# ugly hack to capture ~ or ~/
+				if(substr($1, 0, 1) eq "~" && length($1) < 3){
        					$count++;
        				}
         		}
