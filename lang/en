@@ -119,6 +119,7 @@ editexist_server_header=Edit Server
 editexist_server_table_header=Edit Server
 
 misc_options_header=Miscellaneous Options
+misc_options_legacy=Legacy Options
 
 file=file
 not_readable=not readable
