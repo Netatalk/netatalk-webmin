@@ -18,7 +18,7 @@
 
 require './netapple-lib.pl';
 
-$rv = system("$config{restart_nettalk} </dev/null");
-if ($rv) { &error(&text('restart_failed', $rv)); }
+$rv = system("$config{restart_netatalk} </dev/null");
+if ($rv) { die &text('init_failed', $config{restart_netatalk}); }
 &redirect("");
 

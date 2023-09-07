@@ -21,7 +21,7 @@ require './netapple-lib.pl';
 &ReadParseMime();
 
 @files = ($config{'afpd_c'},$config{'afpdldap_c'},$config{'atalk_c'},$config{'applevolumedefault_c'},$config{'applevolumesystem_c'},$config{'netatalk_c'},$config{'papd_c'},$config{'pam_c'});
-&indexof($in{'file'}, @files) >= 0 || &error( $in{'file'} );
+&indexof($in{'file'}, @files) >= 0 || die $in{'file'};
 
 $temp = &transname();
 system("cp ".quotemeta($in{'file'})." $temp");
@@ -33,7 +33,7 @@ if ($config{'test_manual'}) {
 	$err = &test_config();
 	if ($err) {
 		system("mv $temp ".quotemeta($in{'file'}));
-		&error(&text('manual_etest', "<pre>$err</pre>"));
+		die &text('manual_etest', "<pre>$err</pre>");
 		}
 	}
 unlink($temp);

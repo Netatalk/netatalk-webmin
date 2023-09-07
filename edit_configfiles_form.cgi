@@ -35,7 +35,7 @@ foreach $f (@files) {
 	$found++ if ($f eq $in{'file'});
 	}
 print "</select></form>\n";
-$found || &error($text{'manual_efile'});
+$found || die $text{'manual_efile'};
 
 print qq|<form action="edit_configfiles_save.cgi" method="post" enctype="multipart/form-data">\n|;
 print qq|<input type="hidden" name="file" value="$in{'file'}">\n|;
