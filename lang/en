@@ -25,6 +25,7 @@ index_users=Show Current Users
 index_sharename=Share Name
 index_edit=Edit Config Files
 index_path=Path
+index_options=Volume Options
 index_secutity=Security
 index_create_file_share=Create New File Share
 index_delete_file_share=Delete File Share

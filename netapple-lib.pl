@@ -88,7 +88,7 @@ while(defined($line = <FH>) )
     	}
     	#Zeile einlesen welche mit '~' oder '/' beginnen
 	#mgk: Which read line in with ' ~ ' or ' / ' begin
-    	if($line=~/^([$slash~]\S*)\s?("([^"]+)")?\s?(\N+)?$/ )
+    	if($line=~/^([$slash~]\S*)\s?("([^"]+)")?\s?(\N+)?/ )
     	{
       		#neue Klasse volume_format erzeugen
 		#mgk: new class volume_format produces
@@ -120,16 +120,16 @@ while(defined($line = <FH>) )
 		if($options =~/(\w+):([A-Za-z$slash\$@,.0-9]+)/)
 		{
 			if("casefold" eq $1){
-				$volume->casefold($2);	
+				$volume->casefold($2);
 			}
 			elsif("codepage" eq $1){
-				$volume->codepage($2);	
+				$volume->codepage($2);
 			}
 			elsif("options" eq $1){
-				$volume->options($2);	
+				$volume->options($2);
 			}
 			elsif("allow" eq $1){
-				$volume->allow($2);	
+				$volume->allow($2);
 			}
 			elsif("deny" eq $1){
 				$volume->deny($2);
@@ -141,10 +141,10 @@ while(defined($line = <FH>) )
 				$volume->rolist($2);
 			}
 			elsif("dbpath" eq $1){
-				$volume->dbpath($2);	
+				$volume->dbpath($2);
 			}
 			elsif("password" eq $1){
-				$volume->password($2);	
+				$volume->password($2);
 			}
      		}
      		#vorhandene Options in $volume schreiben
