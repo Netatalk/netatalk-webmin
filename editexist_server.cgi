@@ -147,11 +147,7 @@ print "<input type=hidden name=link value=\"servers.cgi\">\n";
 print "<td align=left><input type=submit value=$text{'global_Save'}></td></form>\n";
 
 print"<form action=delete_server.cgi>";
-print "<input type=hidden name=servername value=$servername>\n";
-print "<input type=hidden name=tcpip value=$tcpip>\n";
-print "<input type=hidden name=ddp value=$ddp>\n";
-print "<input type=hidden name=port value=$port>\n";
-print "<input type=hidden name=adress value=$address>\n";
+print "<input type=hidden name=delete_servername value=$servername>\n";
 print "<td align=right><input type=submit value=$text{'edit_delete'}></td>\n";
 print"</tr></table></form>";
 
