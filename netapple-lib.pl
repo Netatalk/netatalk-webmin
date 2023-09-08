@@ -88,91 +88,64 @@ while(defined($line = <FH>) )
     	}
     	#Zeile einlesen welche mit '~' oder '/' beginnen
 	#mgk: Which read line in with ' ~ ' or ' / ' begin
-    	if($line=~/^[$slash~]+/ )
+    	if($line=~/^([$slash~]\S*)\s?("([^"]+)")?\s?(\N+)?$/ )
     	{
       		#neue Klasse volume_format erzeugen
 		#mgk: new class volume_format produces
       		my $volume = volume_format->new();
-      		#home dir abfangen
-		#mgk: home dir intercept (~ or ~/)
-      		if($line =~ /^(~$slash*)[\s\n]/)
-      		{
-         		$volume->path($1);
-         		$volume->name("Home Directory");
-			push(@rv,$volume->name);
-      		}
-     		$count=0;
-      		#alle anderes Dir abfangen
-		#mgk: all other dir intercept
-		#mgk: added '\$' to maintain compatibility
-		#	with new format
-      		while($line=~/([A-Za-z$slash"\$=~,-_.0-9]+)/g )
-      		{
-        		#PATH einlesen
-			#mgk: path read in
-        		if($count == 0)
-        		{
-       				##print "PATH: $1\n";
-       				$volume->path($1);
-				# ugly hack to capture ~ or ~/
-				if(substr($1, 0, 1) eq "~" && length($1) < 3){
-       					$count++;
-       				}
-        		}
-        		#Dir Name einlesen
-			#mgk: dir name read in
-        		elsif($count == 1)
-        		{
-       				if($1 =~/^(["])/){
-       				    #print"Line $line <br>\n";
-       					if($line =~/"(.*?)"/){
-       						#$volume->name($1);
-       					    #print"INFO $1 <br>\n";
-       					    $volume->name($1);
-       						push(@rv,$1);
-       					}
-       				}
-       				else{
-       				$volume->name($1);
-       				push(@rv,$1);
-       				}
-        		}	
-        		#options    einlesen
-			#mgk: options read in
-			#mgk: Changed to the new ":" delimiter,
-			#  added new allow,deny,rwlist,rolist options,
-			#  added the '\$' to the allowable characters
-      			elsif($1 =~/(\w+):([A-Za-z$slash\$@,.0-9]+)/)
-       			{
-      				if("casefold" eq $1){
-      					$volume->casefold($2);	
-      				}
-      				elsif("codepage" eq $1){
-      					$volume->codepage($2);	
-      				}
-      				elsif("options" eq $1){
-      					$volume->options($2);	
-      				}
-      				elsif("allow" eq $1){
-      					$volume->allow($2);	
-      				}
-				elsif("deny" eq $1){
-                                        $volume->deny($2);
-                                }
-				elsif("rwlist" eq $1){
-                                        $volume->rwlist($2);
-                                }
-				elsif("rolist" eq $1){
-                                        $volume->rolist($2);
-                                }
-      				elsif("dbpath" eq $1){
-      					$volume->dbpath($2);	
-      				}
-      				elsif("password" eq $1){
-      					$volume->password($2);	
-      				}
-       			}
- 			$count++;
+		$path = $1;
+		$name = $3;
+		$options = $4;
+		print "$options";
+		$volume->path($path);
+
+		if($name eq "")
+		{
+			if($path=~/([^$slash]+)$/ )
+			{
+				$name = $1;
+			}
+			else
+			{
+				$name = $path;
+			}
+		}
+		$volume->name($name);
+		push(@rv,$name);
+		#options    einlesen
+		#mgk: options read in
+		#mgk: Changed to the new ":" delimiter,
+		#  added new allow,deny,rwlist,rolist options,
+		#  added the '\$' to the allowable characters
+		if($options =~/(\w+):([A-Za-z$slash\$@,.0-9]+)/)
+		{
+			if("casefold" eq $1){
+				$volume->casefold($2);	
+			}
+			elsif("codepage" eq $1){
+				$volume->codepage($2);	
+			}
+			elsif("options" eq $1){
+				$volume->options($2);	
+			}
+			elsif("allow" eq $1){
+				$volume->allow($2);	
+			}
+			elsif("deny" eq $1){
+				$volume->deny($2);
+			}
+			elsif("rwlist" eq $1){
+				$volume->rwlist($2);
+			}
+			elsif("rolist" eq $1){
+				$volume->rolist($2);
+			}
+			elsif("dbpath" eq $1){
+				$volume->dbpath($2);	
+			}
+			elsif("password" eq $1){
+				$volume->password($2);	
+			}
      		}
      		#vorhandene Options in $volume schreiben
 		#mgk: available options in $volume write
