@@ -95,7 +95,7 @@ while(defined($line = <FH>) )
       		my $volume = volume_format->new();
       		#home dir abfangen
 		#mgk: home dir intercept (~ or ~/)
-      		if($line =~ /^(~$slash*)$/)
+      		if($line =~ /^(~$slash*)[\s\n]/)
       		{
          		$volume->path($1);
          		$volume->name("Home Directory");
