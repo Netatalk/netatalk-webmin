@@ -144,11 +144,11 @@ print "<tr $cb> <td><table >\n";
 	print "<tr><td align=right><b>$text{'edit_sharename'}</b></td>\n";
 	print "<td colspan=4>";
 	printf "<input type=radio  name=homes value=0 %s>\n",
-		$Old_path ne "~" ? "checked" : "";
+		($Old_path ne "~" && $Old_path ne "~/") ? "checked" : "";
 	printf "<input size=10 name=share value=\"%s\">\n",
-		$Old_path ne "~" ? $Old_shareName: "";
+		($Old_path ne "~" && $Old_path ne "~/") ? $Old_shareName: "";
 	printf "<input type=radio name=homes value=1 %s >$text{'edit_homedirectory'}\n",
-		$Old_path eq "~" ? "checked" : "";
+		($Old_path eq "~" || $Old_path eq "~/") ? "checked" : "";
 	print "</td> </tr>\n";
 print "<tr> <td align=right><b>$text{'edit_directory'}</b></td>\n";
 print "<td colspan=4>\n";

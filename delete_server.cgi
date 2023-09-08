@@ -24,10 +24,13 @@ require './netapple-lib.pl';
 $hostname=getHostName();
 	
 $filetoedit =   $config{'afpd_c'};
-if($in{servername}){
-		$server=$in{servername};
-		$server =~  /$hostname*/  ? $server="-" : "" ;
-	}
+if($in{delete_servername}){
+	$server=$in{delete_servername};
+	$server =~  /$hostname*/  ? $server="-" : "" ;
+}
+else {
+	die "No server to delete";
+}
 
 deleteSpezLine($filetoedit ,$server);
 

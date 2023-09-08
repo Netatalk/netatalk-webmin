@@ -20,6 +20,6 @@
 require './netapple-lib.pl';
 
 $rv = system("$config{'start_netatalk'} </dev/null");
-if ($rv) { &error(&text('start_1', $rv)); }
+if ($rv) { die &text('init_failed', $config{'start_netatalk'}); }
 
 &redirect("");

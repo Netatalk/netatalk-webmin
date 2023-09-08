@@ -39,17 +39,15 @@ if($in{kill}) {
 	}
 }
 
-my @processes = qx(ps aucx);
 my @users;
-
-foreach my $line (@processes) {
-	# Split the line into columns using whitespace as the delimiter
-	my @columns = split /\s+/, $line;
+for (qx(ps aux)) {
+	chomp;
+	my @columns = split /\s+/;
 
 	# Pick only lines that are afpd processes not owned by root
-	if ($columns[10] eq "afpd" && $columns[0] ne "root") {
+	if ($columns[10] =~ m/afpd/ && $columns[0] ne "root") {
 		# Columns with index 0 username, 1 PID, and 8 date
-		push @users, join(":::",$columns[0], $columns[1], $columns[8]);
+		push @users, join(":::", $columns[0], $columns[1], $columns[8]);
 	}
 }
 

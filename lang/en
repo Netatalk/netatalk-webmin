@@ -54,9 +54,7 @@ server_header=Servers
 
 index_misc=Miscellaneous Options
 index_server=Servers
-restart_failed=Restart failed
-start_1=$1 failed
-stop_1=$1 failed
+init_failed=Command "$1" failed
 
 edit_header=Create New Apple File Share
 edit_tableheader=Share Infos
@@ -118,6 +116,8 @@ create_server_lgmesg=Login Message
 editexist_server_header=Edit Server
 editexist_server_table_header=Edit Server
 
+save_newServer_noServerName=No usable server name
+
 misc_options_header=Miscellaneous Options
 misc_options_legacy=Legacy Options
 
@@ -143,4 +143,3 @@ manual_etest=Configuration file error detected : $1
 test_config=1
 test_always=0
 test_manual=0
-
