@@ -72,13 +72,16 @@ print "    <table width=\"100%\" border>\n";
 print "    <tr $tb>"; 
 print "        <td><b>$text{'index_sharename'}</b></td>";
 print "        <td><b>$text{'index_path'}</b></td>\n";
+print "        <td><b>$text{'index_options'}</b></td>\n";
 print "    </tr>\n";
 foreach $s (open_afile()){
     $sharename = getShareName($s);
     $path = getPath($s);
+    $options = getAllOptions($s);
     print "<tr $cb>\n";
     print "    <td><a href=\"modi_fshare.cgi?$share$sharename&$Path$path\"><b>$sharename</b></a></td>";
     print "    <td><b>$path</b></td>";
+    print "    <td><b>$options</b></td>";
     print "</tr>";
 }
 print "</table>\n";

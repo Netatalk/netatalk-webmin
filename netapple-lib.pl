@@ -45,15 +45,38 @@ use Class::Struct;
 	struct  volume_format => {
 		path=>'$',
 		name=>'$',
-		casefold=>'$',
-		codepage=>'$',
-		options=>'$',
-		dbpath=>'$',
-		password=>'$',
+		all_options=>'$',
+		options=>'options_format',
+	};
+
+	#note: deliberately skipped dropbox/dropkludge deprecated in netatalk2.2
+	struct  options_format => {
+		adouble=>'$',
+		volsizelimit=>'$',
 		allow=>'$',
 		deny=>'$',
-		rwlist=>'$',
+		allowed_hosts=>'$',
+		denied_hosts=>'$',
+		cnidscheme=>'$',
+		dbpath=>'$',
+		cnidserver=>'$',
+		ea=>'$',
+		maccharset=>'$',
+		options=>'$',
+		password=>'$',
+		perm=>'$',
+		fperm=>'$',
+		dperm=>'$',
+		umask=>'$',
+		preexec=>'$',
+		postexec=>'$',
+		root_preexec=>'$',
+		root_postexec=>'$',
 		rolist=>'$',
+		rwlist=>'$',
+		veto=>'$',
+		volcharset=>'$',
+		casefold=>'$',
 	};
 
 $|=1;
@@ -88,94 +111,116 @@ while(defined($line = <FH>) )
     	}
     	#Zeile einlesen welche mit '~' oder '/' beginnen
 	#mgk: Which read line in with ' ~ ' or ' / ' begin
-    	if($line=~/^[$slash~]+/ )
+    	if($line=~/^([$slash~]\S*)\s?("([^"]+)")?\s?(\N+)?/ )
     	{
       		#neue Klasse volume_format erzeugen
 		#mgk: new class volume_format produces
-      		my $volume = volume_format->new();
-      		#home dir abfangen
-		#mgk: home dir intercept (~ or ~/)
-      		if($line =~ /^(~$slash*)[\s\n]/)
-      		{
-         		$volume->path($1);
-         		$volume->name("Home Directory");
-			push(@rv,$volume->name);
-      		}
-     		$count=0;
-      		#alle anderes Dir abfangen
-		#mgk: all other dir intercept
-		#mgk: added '\$' to maintain compatibility
-		#	with new format
-      		while($line=~/([A-Za-z$slash"\$=~,-_.0-9]+)/g )
-      		{
-        		#PATH einlesen
-			#mgk: path read in
-        		if($count == 0)
-        		{
-       				##print "PATH: $1\n";
-       				$volume->path($1);
-				# ugly hack to capture ~ or ~/
-				if(substr($1, 0, 1) eq "~" && length($1) < 3){
-       					$count++;
-       				}
-        		}
-        		#Dir Name einlesen
-			#mgk: dir name read in
-        		elsif($count == 1)
-        		{
-       				if($1 =~/^(["])/){
-       				    #print"Line $line <br>\n";
-       					if($line =~/"(.*?)"/){
-       						#$volume->name($1);
-       					    #print"INFO $1 <br>\n";
-       					    $volume->name($1);
-       						push(@rv,$1);
-       					}
-       				}
-       				else{
-       				$volume->name($1);
-       				push(@rv,$1);
-       				}
-        		}	
-        		#options    einlesen
-			#mgk: options read in
-			#mgk: Changed to the new ":" delimiter,
-			#  added new allow,deny,rwlist,rolist options,
-			#  added the '\$' to the allowable characters
-      			elsif($1 =~/(\w+):([A-Za-z$slash\$@,.0-9]+)/)
-       			{
-      				if("casefold" eq $1){
-      					$volume->casefold($2);	
-      				}
-      				elsif("codepage" eq $1){
-      					$volume->codepage($2);	
-      				}
-      				elsif("options" eq $1){
-      					$volume->options($2);	
-      				}
-      				elsif("allow" eq $1){
-      					$volume->allow($2);	
-      				}
-				elsif("deny" eq $1){
-                                        $volume->deny($2);
-                                }
-				elsif("rwlist" eq $1){
-                                        $volume->rwlist($2);
-                                }
-				elsif("rolist" eq $1){
-                                        $volume->rolist($2);
-                                }
-      				elsif("dbpath" eq $1){
-      					$volume->dbpath($2);	
-      				}
-      				elsif("password" eq $1){
-      					$volume->password($2);	
-      				}
-       			}
- 			$count++;
+		my $options = options_format->new();
+      		my $volume = volume_format->new(options => $options);
+		$path = $1;
+		$name = $3;
+		$all_options = $4;
+		$volume->path($path);
+		$volume->all_options($all_options);
+
+		if($name eq "")
+		{
+			if($path=~/([^$slash]+)$/ )
+			{
+				$name = $1;
+			}
+			else
+			{
+				$name = $path;
+			}
+		}
+		$volume->name($name);
+		#options    einlesen
+		#mgk: options read in
+		while ($all_options =~ /(\w+):([\w\d$slash\$@,.-]+)/g)
+		{
+			if ("adouble" eq $1) {
+				$options->adouble($2);
+			}
+			elsif ("volsizelimit" eq $1) {
+				$options->volsizelimit($2);
+			}
+			elsif("allow" eq $1){
+				$options->allow($2);
+			}
+			elsif("allowed_hosts" eq $1){
+				$options->allowed_hosts($2);
+			}
+			elsif("deny" eq $1){
+				$options->deny($2);
+			}
+			elsif("denied_hosts" eq $1){
+				$options->denied_hosts($2);
+			}
+			elsif("cnidscheme" eq $1){
+				$options->cnidscheme($2);
+			}
+			elsif("cnidserver" eq $1){
+				$options->cnidserver($2);
+			}
+			elsif("dbpath" eq $1){
+				$options->dbpath($2);
+			}
+			elsif("ea" eq $1){
+				$options->ea($2);
+			}
+			elsif("maccharset" eq $1){
+				$options->maccharset($2);
+			}
+			elsif("options" eq $1){
+				$options->options($2);
+			}
+			elsif("password" eq $1){
+				$options->password($2);
+			}
+			elsif("perm" eq $1){
+				$options->perm($2);
+			}
+			elsif("fperm" eq $1){
+				$options->fperm($2);
+			}
+			elsif("dperm" eq $1){
+				$options->dperm($2);
+			}
+			elsif("umask" eq $1){
+				$options->umask($2);
+			}
+			elsif("preexec" eq $1){
+				$options->preexec($2);
+			}
+			elsif("postexec" eq $1){
+				$options->postexec($2);
+			}
+			elsif("root_preexec" eq $1){
+				$options->root_preexec($2);
+			}
+			elsif("root_postexec" eq $1){
+				$options->root_postexec($2);
+			}
+			elsif("rolist" eq $1){
+				$options->rolist($2);
+			}
+			elsif("rwlist" eq $1){
+				$options->rwlist($2);
+			}
+			elsif("veto" eq $1){
+				$options->veto($2);
+			}
+			elsif("volcharset" eq $1){
+				$options->volcharset($2);
+			}
+			elsif("casefold" eq $1){
+				$options->casefold($2);
+			}
      		}
      		#vorhandene Options in $volume schreiben
 		#mgk: available options in $volume write
+		push(@rv,$name);
      		$pername{$volume->name} = $volume;
    	}
 }
@@ -184,7 +229,7 @@ return @rv;
 }
 
 #------------------------------------------------------------------------------
-#returns shareName
+#Getter routines for volume_format object members
 #------------------------------------------------------------------------------
 sub getShareName
 {
@@ -192,168 +237,291 @@ sub getShareName
   $shareName = 1;
   if ($rp = $pername{$var1}){
 	$shareName = $rp->name;
-	
- }	
+ }
   return $shareName;
 }
 
-#------------------------------------------------------------------------------
-#gibt Path zurück
-#mgk: give Path back
-#------------------------------------------------------------------------------
 sub getPath
 {
   	my ($var1) = @_;
   	$path =0;
   	if ($rp = $pername{$var1}){
 		$path = $rp->path;
- 	}	
+ 	}
   	return $path;
 }
 
-#------------------------------------------------------------------------------
-#gibt casefold zurück
-#mgk: give casefold back
-#------------------------------------------------------------------------------
-sub getCasfold
+sub getAdouble
 {
   	my ($var1) = @_;
-  	$casefold = "";
+  	$adouble = "";
   	if ($rp = $pername{$var1}){
-		$casefold = $rp->casefold;
- 	}	
-  	return $casefold;
+		$adouble = $rp->options->adouble;
+ 	}
+  	return $adouble;
 }
 
-#------------------------------------------------------------------------------
-#gibt Options zurück
-#give options back
-#------------------------------------------------------------------------------
-sub getOptions
-	{
+sub getVolsizelimit
+{
   	my ($var1) = @_;
-  	$Options ="";
+  	$volsizelimit = "";
   	if ($rp = $pername{$var1}){
-		$Options = $rp->options;
- 	}	
-  	return $Options;
+		$volsizelimit = $rp->options->volsizelimit;
+ 	}
+  	return $volsizelimit;
 }
-
-#------------------------------------------------------------------------------
-#gibt Codepage zurück
-#give codepage back
-#------------------------------------------------------------------------------
-sub getCodepage
-	{
-  	my ($var1) = @_;
-  	$Codepage ="";
-  	if ($rp = $pername{$var1}){
-		$Codepage = $rp->codepage;
- 	}	
-  	return $Codepage;
-}
-
-
-
-#------------------------------------------------------------------------------
-#gibt Access zurück
-#give access back
-#mgk: Updated and added 3 new funcs to allow for the new
-#  allow/deny/rolist/rwlist format
-#------------------------------------------------------------------------------
-
-#mgk: legacy
-sub getAccess { return getAllow(@_); }
 
 sub getAllow
 	{
   	my ($var1) = @_;
   	$Access ="";
   	if ($rp = $pername{$var1}){
-		$Access = $rp->allow;
- 	}	
+		$Access = $rp->options->allow;
+ 	}
   	return $Access;
 }
+
 sub getDeny
         {
         my ($var1) = @_;
         $Access ="";
         if ($rp = $pername{$var1}){
-                $Access = $rp->deny;
-        }
-        return $Access;
-}
-sub getRwlist
-        {
-        my ($var1) = @_;
-        $Access ="";
-        if ($rp = $pername{$var1}){
-                $Access = $rp->rwlist;
-        }
-        return $Access;
-}
-sub getRolist
-        {
-        my ($var1) = @_;
-        $Access ="";
-        if ($rp = $pername{$var1}){
-                $Access = $rp->rolist;
+                $Access = $rp->options->deny;
         }
         return $Access;
 }
 
-#------------------------------------------------------------------------------
-#gibt Access zurück
-#mgk: give password back
-#------------------------------------------------------------------------------
-sub getPassword
+sub getAllowedHosts
 	{
   	my ($var1) = @_;
-  	$Password ="";
+  	$AllowedHosts ="";
   	if ($rp = $pername{$var1}){
-		$Password = $rp->password;
- 	}	
-  	return $Password;
+		$AllowedHosts = $rp->options->allowed_hosts;
+ 	}
+  	return $AllowedHosts;
 }
 
-#------------------------------------------------------------------------------
-#gibt Database Path zurück
-#mgk: give database path back
-#------------------------------------------------------------------------------
+sub getDeniedHosts
+        {
+        my ($var1) = @_;
+        $DeniedHosts ="";
+        if ($rp = $pername{$var1}){
+                $DeniedHosts = $rp->options->denied_hosts;
+        }
+        return $DeniedHosts;
+}
+
+sub getCnidScheme
+        {
+        my ($var1) = @_;
+        $CnidScheme ="";
+        if ($rp = $pername{$var1}){
+                $CnidScheme = $rp->options->cnidscheme;
+        }
+        return $CnidScheme;
+}
+
+sub getCnidServer
+        {
+        my ($var1) = @_;
+        $CnidServer ="";
+        if ($rp = $pername{$var1}){
+                $CnidServer = $rp->options->cnidserver;
+        }
+        return $CnidServer;
+}
+
 sub getDatabase
 	{
   	my ($var1) = @_;
   	$Database ="";
   	if ($rp = $pername{$var1}){
-		$Database = $rp->dbpath;
+		$Database = $rp->options->dbpath;
  	}	
   	return $Database;
 }
 
+sub getEa
+        {
+        my ($var1) = @_;
+        $Ea ="";
+        if ($rp = $pername{$var1}){
+                $Ea = $rp->options->ea;
+        }
+        return $Ea;
+}
+
+sub getMacCharset
+        {
+        my ($var1) = @_;
+        $MacCharset ="";
+        if ($rp = $pername{$var1}){
+                $MacCharset = $rp->options->maccharset;
+        }
+        return $MacCharset;
+}
+
+sub getOptions
+	{
+  	my ($var1) = @_;
+  	$Options ="";
+  	if ($rp = $pername{$var1}){
+		$Options = $rp->options->options;
+ 	}
+  	return $Options;
+}
+
+sub getPassword
+	{
+  	my ($var1) = @_;
+  	$Password ="";
+  	if ($rp = $pername{$var1}){
+		$Password = $rp->options->password;
+ 	}	
+  	return $Password;
+}
+
+sub getPerm
+	{
+  	my ($var1) = @_;
+  	$Perm ="";
+  	if ($rp = $pername{$var1}){
+		$Perm = $rp->options->perm;
+ 	}	
+  	return $Perm;
+}
+
+sub getFPerm
+	{
+  	my ($var1) = @_;
+  	$FPerm ="";
+  	if ($rp = $pername{$var1}){
+		$FPerm = $rp->options->fperm;
+ 	}	
+  	return $FPerm;
+}
+
+sub getDPerm
+	{
+  	my ($var1) = @_;
+  	$DPerm ="";
+  	if ($rp = $pername{$var1}){
+		$DPerm = $rp->options->dperm;
+ 	}	
+  	return $DPerm;
+}
+
+sub getUmask
+	{
+  	my ($var1) = @_;
+  	$Umask ="";
+  	if ($rp = $pername{$var1}){
+		$Umask = $rp->options->umask;
+ 	}	
+  	return $Umask;
+}
+
+sub getPreExec
+	{
+  	my ($var1) = @_;
+  	$PreExec ="";
+  	if ($rp = $pername{$var1}){
+		$PreExec = $rp->options->preexec;
+ 	}	
+  	return $PreExec;
+}
+
+sub getPostExec
+	{
+  	my ($var1) = @_;
+  	$PostExec ="";
+  	if ($rp = $pername{$var1}){
+		$PostExec = $rp->options->postexec;
+ 	}	
+  	return $PostExec;
+}
+
+sub getRootPreExec
+	{
+  	my ($var1) = @_;
+  	$RootPreExec ="";
+  	if ($rp = $pername{$var1}){
+		$RootPreExec = $rp->options->root_preexec;
+ 	}	
+  	return $RootPreExec;
+}
+
+sub getRootPostExec
+	{
+  	my ($var1) = @_;
+  	$RootPostExec ="";
+  	if ($rp = $pername{$var1}){
+		$RootPostExec = $rp->options->root_postexec;
+ 	}	
+  	return $RootPostExec;
+}
+
+sub getRolist
+        {
+        my ($var1) = @_;
+        $Access ="";
+        if ($rp = $pername{$var1}){
+                $Access = $rp->options->rolist;
+        }
+        return $Access;
+}
+
+sub getRwlist
+        {
+        my ($var1) = @_;
+        $Access ="";
+        if ($rp = $pername{$var1}){
+                $Access = $rp->options->rwlist;
+        }
+        return $Access;
+}
+
+sub getVeto
+        {
+        my ($var1) = @_;
+        $Veto ="";
+        if ($rp = $pername{$var1}){
+                $Veto = $rp->options->veto;
+        }
+        return $Veto;
+}
+
+sub getVolCharset
+        {
+        my ($var1) = @_;
+        $VolCharset ="";
+        if ($rp = $pername{$var1}){
+                $VolCharset = $rp->options->volcharset;
+        }
+        return $VolCharset;
+}
+
+sub getCasefold
+{
+  	my ($var1) = @_;
+  	$casefold = "";
+  	if ($rp = $pername{$var1}){
+		$casefold = $rp->options->casefold;
+ 	}
+  	return $casefold;
+}
 
 #------------------------------------------------------------------------------
-#erfasst alle dateien im Verzeichnis /atalk/nls/
-#mgk: enters all files in the directory /atalk/nls/
+#Special getter for a string of all options, to be printed in the UI
 #------------------------------------------------------------------------------
-sub getMacCodeFiles
-{
-    #local(@rv,@rs,$direntry,$realDir);
-    #$near="/nls";
-    #$dir=$config{'atalk_nls'};
-    #$realDir=$config{'atalk_nls'};
-    #opendir(DIR,$realDir);
-    #foreach $direntry (readdir(DIR)){
-    #next if $direntry eq ".";  #Sonderverzeichnisse
-    #mgk: Special directories
-	#next if $direntry eq ".."; #ignorieren
-    #mgk: ignore
-    #if(-f "$realDir/$direntry"){
-    #push(@rv,"$realDir/$direntry");
-    #}
-    #}
-    #closedir(DIR);
-    local(@rv);
-	return @rv;
+sub getAllOptions
+	{
+  	my ($var1) = @_;
+  	$AllOptions ="";
+  	if ($rp = $pername{$var1}){
+		$AllOptions = $rp->all_options;
+ 	}
+  	return $AllOptions;
 }
 
 #------------------------------------------------------------------------------
@@ -455,39 +623,16 @@ sub writeNewFileShare
 	}
 	#options einlesen---------------------
 	#mgk: options read in
-	if($in{casefold_options}  && $in{casefold_options} ne "default"){
-		$caseFoldOption =$in{casefold_options};
-		$line_1.="casefold:";
-		$line_1.=$caseFoldOption;
+	if($in{adouble_options} && $in{adouble_options} ne "default"){
+		$Adouble =$in{adouble_options};
+		$line_1.=" adouble:";
+		$line_1.=$Adouble;
 	}
-	if($in{codepage} && $in{codepage} ne "default"){
-		$codePage =$in{codepage};
-		$line_1.=" codepage:";
-		$line_1.=$codePage;
+	if($in{volsizelimit}){
+		$Volsizelimit=$in{volsizelimit};
+		$line_1.=" volsizelimit:";
+		$line_1.=$Volsizelimit;
 	}
-	if($in{misc_options}){
-		$line_1.=" options:";
-		foreach $name(param(misc_options)){
-			@values = param(misc_options);
-			$input_misc = join(',',@values);
-		}
-		$line_1.=$input_misc;
-	}
-	
-
-	if($in{password}){
-		$PassWord=$in{password};
-		$line_1.=" password:";
-		$line_1.=$PassWord;
-	}
-	if($in{dbpath}){
-		$dataPath=$in{dbpath};
-		$line_1.=" dbpath:";
-		$line_1.=$dataPath;
-	}
-	#mgk: revamped the rest of this function to properly handle the
-	#   newer format (allow/deny/rwlist/rolist)
-	#Allow
 	if($in{allow_users} || $in{allow_groups} ){
 		$line_1.=" allow:";
 		if($in{allow_users}){
@@ -505,7 +650,6 @@ sub writeNewFileShare
 			$line_1.=join(',@',split(/\s+/,$in{allow_groups}));
 		}
 	}
-        #Deny
         if($in{deny_users} || $in{deny_groups} ){
                 $line_1.=" deny:";
                 if($in{deny_users}){
@@ -523,7 +667,94 @@ sub writeNewFileShare
                         $line_1.=join(',@',split(/\s+/,$in{deny_groups}));
                 }
         }
-        #rolist
+	if($in{allowed_hosts}){
+		$AllowedHosts=$in{allowed_hosts};
+		$line_1.=" allowed_hosts:";
+		$line_1.=$AllowedHosts;
+	}
+	if($in{denied_hosts}){
+		$DeniedHosts=$in{denied_hosts};
+		$line_1.=" denied_hosts:";
+		$line_1.=$DeniedHosts;
+	}
+	if($in{cnidscheme}){
+		$CnidScheme=$in{cnidscheme};
+		$line_1.=" cnidscheme:";
+		$line_1.=$CnidScheme;
+	}
+	if($in{cnidserver}){
+		$CnidServer=$in{cnidserver};
+		$line_1.=" cnidserver:";
+		$line_1.=$CnidServer;
+	}
+	if($in{dbpath}){
+		$dataPath=$in{dbpath};
+		$line_1.=" dbpath:";
+		$line_1.=$dataPath;
+	}
+	if($in{ea_options} && $in{ea_options} ne "default"){
+		$Ea =$in{ea_options};
+		$line_1.=" ea:";
+		$line_1.=$Ea;
+	}
+	if($in{maccharset}){
+		$MacCharset=$in{maccharset};
+		$line_1.=" maccharset:";
+		$line_1.=$MacCharset;
+	}
+	if($in{misc_options}){
+		$line_1.=" options:";
+		foreach $name(param(misc_options)){
+			@values = param(misc_options);
+			$input_misc = join(',',@values);
+		}
+		$line_1.=$input_misc;
+	}
+	if($in{password}){
+		$PassWord=$in{password};
+		$line_1.=" password:";
+		$line_1.=$PassWord;
+	}
+	if($in{perm}){
+		$Perm=$in{perm};
+		$line_1.=" perm:";
+		$line_1.=$Perm;
+	}
+	if($in{fperm}){
+		$FPerm=$in{fperm};
+		$line_1.=" fperm:";
+		$line_1.=$FPerm;
+	}
+	if($in{dperm}){
+		$DPerm=$in{dperm};
+		$line_1.=" dperm:";
+		$line_1.=$DPerm;
+	}
+	if($in{umask}){
+		$Umask=$in{umask};
+		$line_1.=" umask:";
+		$line_1.=$Umask;
+	}
+	if($in{preexec}){
+		$PreExec=$in{preexec};
+		$line_1.=" preexec:";
+		$line_1.=$PreExec;
+	}
+	if($in{postexec}){
+		$PostExec=$in{postexec};
+		$line_1.=" postexec:";
+		$line_1.=$PostExec;
+	}
+	if($in{root_preexec}){
+		$RootPreExec=$in{root_preexec};
+		$line_1.=" root_preexec:";
+		$line_1.=$RootPreExec;
+	}
+	if($in{root_postexec}){
+		$RootPostExec=$in{root_postexec};
+		$line_1.=" root_postexec:";
+		$line_1.=$RootPostExec;
+	}
         if($in{rolist_users} || $in{rolist_groups} ){
                 $line_1.=" rolist:";
                 if($in{rolist_users}){
@@ -541,7 +772,6 @@ sub writeNewFileShare
                         $line_1.=join(',@',split(/\s+/,$in{rolist_groups}));
                 }
         }
-        #rwlist
         if($in{rwlist_users} || $in{rwlist_groups} ){
                 $line_1.=" rwlist:";
                 if($in{rwlist_users}){
@@ -559,6 +789,21 @@ sub writeNewFileShare
                         $line_1.=join(',@',split(/\s+/,$in{rwlist_groups}));
                 }
         }
+	if($in{veto}){
+		$Veto=$in{veto};
+		$line_1.=" veto:";
+		$line_1.=$Veto;
+	}
+	if($in{volcharset}){
+		$VolCharset=$in{volcharset};
+		$line_1.=" volcharset:";
+		$line_1.=$VolCharset;
+	}
+	if($in{casefold_options}  && $in{casefold_options} ne "default"){
+		$caseFoldOption =$in{casefold_options};
+		$line_1.=" casefold:";
+		$line_1.=$caseFoldOption;
+	}
 	writeLine( $line_1 ,$line_2);	
 }
 

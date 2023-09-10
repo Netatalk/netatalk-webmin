@@ -25,6 +25,7 @@ index_users=Show Current Users
 index_sharename=Share Name
 index_edit=Edit Config Files
 index_path=Path
+index_options=Options
 index_secutity=Security
 index_create_file_share=Create New File Share
 index_delete_file_share=Delete File Share
@@ -57,48 +58,86 @@ index_server=Servers
 init_failed=Command "$1" failed
 
 edit_header=Create New Apple File Share
-edit_tableheader=Share Infos
+edit_tableheader=Common Options
+edit_adv_tableheader=Advanced Options
 edit_sharename=Share name
 
 edit_homedirectory=Home Directories share
 edit_directory=Directory
+edit_default=default
 
-edit_Casefold=Casefold Options
-edit_Casefolddefault=default
-edit_Casefoldtolower=tolower -> lowercases names in both directions
-edit_Casefoldtoupper=toupper -> uppercases names in both directions
-edit_Casefoldxlatelower=xlatelower -> client sees lowercase, server sees uppercase
-edit_Casefoldxlateupper=xlateupper -> client sees uppercase, server sees lowercase
+edit_Adouble=AppleDouble format
+edit_Adoublev1=v1 -> Legacy metadata format
+edit_Adoublev2=v2 -> Current metadata format
+edit_Adoubleosx=osx -> Mac OS X 10.3 scheme (deprecated; don't use!)
 
-edit_CodePage=Code Page
-edit_CodePagedefault=default
+edit_Ea=Extended Attributes
+edit_Eaauto=auto -> Try sys, fallback to ad
+edit_Easys=sys -> Use filesystem Extended Attributes
+edit_Eaad=ad -> Use files in .AppleDouble directories
+edit_Eanone=none -> No Extended Attributes support
+
+edit_Volsizelimit=Volume Size Limit
+edit_AllowedHosts=Allowed Host IPs
+edit_DeniedHosts=Denied Host IPs
+edit_CnidScheme=CNID Backend
+edit_CnidServer=CNID Server IP
+edit_DataBase=Database Path
+edit_MacCharset=Mac Client Codepage
+edit_Password=Password
+edit_Perm=Permissions
+edit_FPerm=File Permissions
+edit_DPerm=Dir Permissions
+edit_Umask=Permissions Mask
+edit_PreExec=Volume Mount Command
+edit_PostExec=Volume Close Command
+edit_RootPreExec=Volume Mount Root Command
+edit_RootPostExec=Volume Close Root Command
+edit_Veto=Vetoed Paths
+edit_VolCharset=Volume Codepage
 
 edit_MisceOptions=Miscellaneous Options
-edit_MisceOptionsprodos=  prodos -> make compatible with Apple II clients
-edit_MisceOptionscrlf=  crlf -> enable crlf translation for TEXT files
-edit_MisceOptionsnoadouble=  noadouble -> don't create .AppleDouble unless a resource fork needs to be created
-edit_MisceOptionsro=  ro -> mount the volume as read-only
-edit_MisceOptionsmswindows=  mswindows -> enforce filename restrictions imposed by MS Windows
-edit_MisceOptionsnohex=  nohex -> don't do :hex translations for anything except dot files
-edit_MisceOptionsusedots=  usedots -> don't do :hex translation for dot files
-edit_MisceOptionslimitsize=  limitsize -> limit disk size reporting to 2GB.
-
-edit_DataBase=Database Path
-edit_Password=Password
+edit_AdvOptions=Advanced Options
+edit_Optionssearchdb=searchdb -> Use fast CNID database namesearch instead of slow recursive filesystem search
+edit_Optionstm=tm -> Enable Time Machine support
+edit_Optionsinvisibledots=invisibledots -> Use with usedots to make dot files invisible
+edit_Optionsnonetids=nonetids -> Try to force ACL unawareness on the client
+edit_Optionslimitsize=limitsize -> Limit disk size reporting to 2GB.
+edit_Optionspreexec_close=preexec_close -> A non-zero return code from preexec closes the volume immediately
+edit_Optionsro=ro -> Mount the volume as read-only
+edit_Optionsroot_preexec_close=root_preexec_close -> A non-zero return code from root_preexec closes the volume immediately
+edit_Optionsupriv=upriv -> Use AFP3 UNIX privileges
+edit_Optionsusedots=usedots -> Don't do :hex translation for dot files
+edit_Optionsfollowsymlinks=followsymlinks -> Follow symlinks on the server
+edit_Optionscaseinsensitive=caseinsensitive -> The underlying filesystem is case insensitive
+edit_Optionscrlf=crlf -> Enable crlf translation for TEXT files
+edit_Optionsillegalseq=illegalseq -> Encode illegal sequences in filenames as is
+edit_Optionsmswindows=mswindows -> Enforce filename restrictions imposed by MS Windows
+edit_Optionsnoadouble=noadouble -> Don't create .AppleDouble unless a resource fork needs to be created
+edit_Optionsnocnidcache=nocnidcache -> If set, afpd doesn't store the ID information in AppleDouble V2 header files
+edit_Optionsnodev=nodev -> Always use 0 for device number
+edit_Optionsnofileid=nofileid -> Don't advertise createfileid, resolveid, deleteid calls
+edit_Optionsnohex=nohex -> Don't do :hex translations for anything except dot files
+edit_Optionsnostat=nostat -> Don't stat volume path when enumerating volumes list
+edit_Optionsprodos=prodos -> Make compatible with Apple II clients
 
 edit_Allow=Allow
 edit_users=Users
 edit_groups=Groups
 edit_Deny=Deny
-edit_Rolist=RO
-edit_Rwlist=RW
+edit_Rolist=Read-only
+edit_Rwlist=Read-write
+
+edit_Casefold=Casefold
+edit_Casefoldtolower=tolower -> Lowercase names in both directions
+edit_Casefoldtoupper=toupper -> Uppercase names in both directions
+edit_Casefoldxlatelower=xlatelower -> Client sees lowercase, server sees uppercase
+edit_Casefoldxlateupper=xlateupper -> Client sees uppercase, server sees lowercase
+
 edit_Save=Save
 edit_create=Create
 edit_delete=Delete
 edit_return=Share List
-
-modi_tableheader=Modify File Share
-modi_save=Save
 
 create_server_header=Create New Server
 create_server_tabelheader=Create New Servers
