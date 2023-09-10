@@ -10,7 +10,6 @@ netatalk_init=/etc/init.d/netatalk
 pam_c=/etc/pam.d/netatalk
 papd_c=/etc/netatalk/papd.conf
 papd_d=/usr/sbin/papd
-select_maxUsers=20
 stop_netatalk=$netatalk_init stop
 start_netatalk=$netatalk_init start
 restart_netatalk=$netatalk_init restart

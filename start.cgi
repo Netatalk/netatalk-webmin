@@ -1,6 +1,5 @@
 #!/usr/bin/perl
-# start.cgi
-# Attempt to start the smbd and nmbd processes
+# Attempt to start the netatalk processes
 
 #    Netatalk Webmin Module
 #    Copyright (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>

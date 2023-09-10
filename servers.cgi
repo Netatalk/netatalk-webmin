@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+# List of the different server configurations
 
 #    Netatalk Webmin Module
 #    Copyright (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
@@ -19,47 +20,45 @@ do './netapple-lib.pl';
 
 &header($text{'server_header'}, "",undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
 
-# link to the different server options
-
 @Servers = readAfpd();
 if(@Servers[1] ne ""){
 	print "<table width=100% border>\n";
-       print "<tr $tb>";
-           print"<td><b>$text{'index_servername'}</b></td>";
-           print"<td><b>$text{'index_tcp'}</b></td>\n";
-           print"<td><b>$text{'index_ddp'}</b></td>";
-           print"<td><b>$text{'index_port'}</b></td>";
-           print"<td><b>$text{'index_address'}</b></td>";
-       print" </tr>\n";
-       print"<tr>";
-       $offset = 0;
-       $servername="servername=";
-       $tcp="tcpip=";
-       $ddp="ddp=";
-       $port="port=";
-       $address="address=";
-       $offsetStr="offset=";
-       for($i=0;$i<=$#Servers;$i++){
-       		 if( ($i%5 ==0) && ($i ne 0)){
-       		 	print"<td><b>$Servers[$i]</b></td></tr><tr>";
-       		 	$i++;
-       		 	$pointer=$i;
-       		 	$offset++;
-       		 	print"<td><a href=\"editexist_server.cgi?$offsetStr$offset\"><b>$Servers[$i]</b></a></td>";
-       		 }
-       		 elsif($i ne 0 && $i >1){
-       		 	  print"<td><b>$Servers[$i]</b></td>";
-       		 }
-       		 elsif($i ne 0 && $i eq 1){
-       		 		$pointer=$i;
-       		 	  print"<td><a href=\"editexist_server.cgi?$offsetStr$offset\"><b>$Servers[$i]</b></a></td>";
-       		 }
-       }
+	print "<tr $tb>";
+	print"<td><b>$text{'index_servername'}</b></td>";
+	print"<td><b>$text{'index_tcp'}</b></td>\n";
+	print"<td><b>$text{'index_ddp'}</b></td>";
+	print"<td><b>$text{'index_port'}</b></td>";
+	print"<td><b>$text{'index_address'}</b></td>";
+	print" </tr>\n";
+	print"<tr>";
+	$offset = 0;
+	$servername="servername=";
+	$tcp="tcpip=";
+	$ddp="ddp=";
+	$port="port=";
+	$address="address=";
+	$offsetStr="offset=";
+	for($i=0;$i<=$#Servers;$i++){
+		if( ($i%5 ==0) && ($i ne 0)){
+			print"<td><b>$Servers[$i]</b></td></tr><tr>";
+			$i++;
+			$pointer=$i;
+			$offset++;
+			print"<td><a href=\"server_edit_form.cgi?$offsetStr$offset\"><b>$Servers[$i]</b></a></td>";
+		}
+		elsif($i ne 0 && $i >1){
+			print"<td><b>$Servers[$i]</b></td>";
+		}
+		elsif($i ne 0 && $i eq 1){
+			$pointer=$i;
+			print"<td><a href=\"server_edit_form.cgi?$offsetStr$offset\"><b>$Servers[$i]</b></a></td>";
+		}
+	}
 	print "</tr></table>\n";
 }
-print"<p>";		
-print "<a href=\"create_server.cgi\">$text{'index_newServer'}</a>\n&nbsp&nbsp&nbsp";
-print"<p>";
+print "<p>";		
+print "<a href=\"server_create_form.cgi\">$text{'index_newServer'}</a>\n&nbsp&nbsp&nbsp";
+print "<p>";
 
 &footer("index.cgi", "Share List");
 

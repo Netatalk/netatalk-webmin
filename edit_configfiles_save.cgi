@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# edit_configfiles_save.cgi
+# Action for saving a netatalk configuration file
 #
 #    Netatalk Webmin Module
 #    Copyright (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>

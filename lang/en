@@ -29,8 +29,6 @@ index_options=Options
 index_secutity=Security
 index_create_file_share=Create New File Share
 index_delete_file_share=Delete File Share
-index_max_users=Specifies the maximum number
-index_max_users_2=of connections to allow for this file server
 index_stop_service=Stop Service 
 index_not_running_services=Netatalk services are not running. 
 index_running_services=Netatalk services are running. 
@@ -53,7 +51,6 @@ index_newServer=Create New Server
 
 server_header=Servers
 
-index_misc=Miscellaneous Options
 index_server=Servers
 init_failed=Command "$1" failed
 
@@ -156,9 +153,6 @@ editexist_server_header=Edit Server
 editexist_server_table_header=Edit Server
 
 save_newServer_noServerName=No usable server name
-
-misc_options_header=Miscellaneous Options
-misc_options_legacy=Legacy Options
 
 file=file
 not_readable=not readable
