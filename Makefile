@@ -1,20 +1,21 @@
 # Makefile for Netatalk webmin module
 
+WEBMIN_DIR ?= /usr/share/webmin
+
 FILES = \
 	CHANGES \
 	config \
 	config.info \
 	config-opt-netatalk \
 	config-usr-local \
-	server_create_form.cgi \
 	CREDITS \
-	fshare_delete_form.cgi \
-	fshare_delete_action.cgi \
-	server_delete_action.cgi \
 	edit_configfiles_form.cgi \
 	edit_configfiles_save.cgi \
-	server_edit_form.cgi \
 	fshare_create_form.cgi \
+	fshare_edit_form.cgi \
+	fshare_delete_action.cgi \
+	fshare_delete_form.cgi \
+	fshare_save_action.cgi \
 	help/configs.cgi \
 	images/edit.gif \
 	images/icon.gif \
@@ -26,12 +27,13 @@ FILES = \
 	index.cgi \
 	lang/de \
 	lang/en \
-	fshare_edit_form.cgi \
 	module.info \
 	netapple-lib.pl \
 	README \
 	restart.cgi \
-	fshare_save_action.cgi \
+	server_create_form.cgi \
+	server_delete_action.cgi \
+	server_edit_form.cgi \
 	server_save_action.cgi \
 	servers.cgi \
 	show_users.cgi \
@@ -46,6 +48,9 @@ dist: netatalk2-wbm.tgz
 localdist: netatalk2-local-wbm.tgz
 
 optdist: netatalk2-opt-wbm.tgz
+
+install:
+	@${WEBMIN_DIR}/install-module.pl netatalk2*-wbm.tgz
 
 clean:
 	-rm -f netatalk2-wbm.tgz netatalk2-local-wbm.tgz netatalk2-opt-wbm.tgz
