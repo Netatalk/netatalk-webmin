@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-#Common function for editing the atalk config files
+# Common function for editing the netatalk config files
 
 #
 #    Netatalk Webmin Module
@@ -7,6 +7,7 @@
 #    Some code (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
 #    Contributions from:
 #       Sven Mosimann <sven.mosimann@ecologic.ch>
+#       Daniel Markstedt <daniel@mindani.net>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -18,29 +19,20 @@
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
 
-# This module is almost all Sven's. I'm merging it into "the"
-#  Netatalk webmin lib module. I've had to update it to the "new"
-#  config file format, as it was using the older format.
-# I've held off merging some of this, but it is on my TODO. Before this
-#  module comes out of "BETA" I want ONE function module, not 2.
-
 do '../web-lib.pl';
 use File::Copy;
 use CGI qw/:standard/;
 &init_config("netapple");
 
-#mgk: datei means "file"
+#datei means "file"
 $datei = $config{'applevolumedefault_c'};
-$temp  = "$datei.temp";
+$temp = "$datei.temp";
 
-$slash="/";
+$slash = "/";
 $pername = ();
-$hostname= `hostname`;
+$hostname = `hostname`;
 
-
-
-#strcut volume_format verwaltet alle Informationen einer "Zeile"
-#mgk: struct volume_format administers all information of a " line " 
+#struct volume_format administers all information of a " line " 
 use Class::Struct;
 	struct  volume_format => {
 		path=>'$',
@@ -81,151 +73,143 @@ use Class::Struct;
 
 $|=1;
 
-#damit users aufgelistet werden können
-#mgk: so that users to be listed can
+# required in order to list users
 foreign_require("useradmin","user-lib.pl");
 
 
 #-------------------------------------------------------------------------------------
-#liest file AppleVolumes.default aus und durchfortset es nach
-#mgk: file AppleVolumes.default picks out and through away set it after
-#Infos
+#reads the file AppleVolumes.default and continues with it
 #-------------------------------------------------------------------------------------
 sub open_afile
 {
-local(@rv,$line);
+	local(@rv,$line);
 
-#mgk: File $datei not readable
-open(FH,"<$datei") || die "$text{file} $datei $text{not_readable}";
+	#File $datei not readable
+	open(FH,"<$datei") || die "$text{file} $datei $text{not_readable}";
 
-while(defined($line = <FH>) )
-{
-	local($longName);
-   	#Zeile mit Fortsetzungszeichen einlesen
-	#mgk: Line with continuation characters read in
-   	chomp $line;
-   	if($line =~ s/\\$//  )
-   	{
-  		$line .=<FH>;
-  		redo unless eof(FH);
-    	}
-    	#Zeile einlesen welche mit '~' oder '/' beginnen
-	#mgk: Which read line in with ' ~ ' or ' / ' begin
-    	if($line=~/^([$slash~]\S*)\s?("([^"]+)")?\s?(\N+)?/ )
-    	{
-      		#neue Klasse volume_format erzeugen
-		#mgk: new class volume_format produces
-		my $options = options_format->new();
-      		my $volume = volume_format->new(options => $options);
-		$path = $1;
-		$name = $3;
-		$all_options = $4;
-		$volume->path($path);
-		$volume->all_options($all_options);
-
-		if($name eq "")
+	while(defined($line = <FH>) )
+	{
+		local($longName);
+		#Line with continuation characters read in
+		chomp $line;
+		if($line =~ s/\\$//  )
 		{
-			if($path=~/([^$slash]+)$/ )
-			{
-				$name = $1;
-			}
-			else
-			{
-				$name = $path;
-			}
+			$line .=<FH>;
+			redo unless eof(FH);
 		}
-		$volume->name($name);
-		#options    einlesen
-		#mgk: options read in
-		while ($all_options =~ /(\w+):([\w\d$slash\$@,.-]+)/g)
+		#read lines which begins with ' ~ ' or ' / '
+		if($line=~/^([$slash~]\S*)\s?("([^"]+)")?\s?(\N+)?/ )
 		{
-			if ("adouble" eq $1) {
-				$options->adouble($2);
+			#create new objects using volume_format and options_format
+			my $options = options_format->new();
+			my $volume = volume_format->new(options => $options);
+			$path = $1;
+			$name = $3;
+			$all_options = $4;
+			$volume->path($path);
+			$volume->all_options($all_options);
+
+			if($name eq "")
+			{
+				if($path=~/([^$slash]+)$/ )
+				{
+					$name = $1;
+				}
+				else
+				{
+					$name = $path;
+				}
 			}
-			elsif ("volsizelimit" eq $1) {
-				$options->volsizelimit($2);
+			$volume->name($name);
+			#options read in
+			while ($all_options =~ /(\w+):([\w\d$slash\$@,.-]+)/g)
+			{
+				if ("adouble" eq $1) {
+					$options->adouble($2);
+				}
+				elsif ("volsizelimit" eq $1) {
+					$options->volsizelimit($2);
+				}
+				elsif("allow" eq $1){
+					$options->allow($2);
+				}
+				elsif("allowed_hosts" eq $1){
+					$options->allowed_hosts($2);
+				}
+				elsif("deny" eq $1){
+					$options->deny($2);
+				}
+				elsif("denied_hosts" eq $1){
+					$options->denied_hosts($2);
+				}
+				elsif("cnidscheme" eq $1){
+					$options->cnidscheme($2);
+				}
+				elsif("cnidserver" eq $1){
+					$options->cnidserver($2);
+				}
+				elsif("dbpath" eq $1){
+					$options->dbpath($2);
+				}
+				elsif("ea" eq $1){
+					$options->ea($2);
+				}
+				elsif("maccharset" eq $1){
+					$options->maccharset($2);
+				}
+				elsif("options" eq $1){
+					$options->options($2);
+				}
+				elsif("password" eq $1){
+					$options->password($2);
+				}
+				elsif("perm" eq $1){
+					$options->perm($2);
+				}
+				elsif("fperm" eq $1){
+					$options->fperm($2);
+				}
+				elsif("dperm" eq $1){
+					$options->dperm($2);
+				}
+				elsif("umask" eq $1){
+					$options->umask($2);
+				}
+				elsif("preexec" eq $1){
+					$options->preexec($2);
+				}
+				elsif("postexec" eq $1){
+					$options->postexec($2);
+				}
+				elsif("root_preexec" eq $1){
+					$options->root_preexec($2);
+				}
+				elsif("root_postexec" eq $1){
+					$options->root_postexec($2);
+				}
+				elsif("rolist" eq $1){
+					$options->rolist($2);
+				}
+				elsif("rwlist" eq $1){
+					$options->rwlist($2);
+				}
+				elsif("veto" eq $1){
+					$options->veto($2);
+				}
+				elsif("volcharset" eq $1){
+					$options->volcharset($2);
+				}
+				elsif("casefold" eq $1){
+					$options->casefold($2);
+				}
 			}
-			elsif("allow" eq $1){
-				$options->allow($2);
-			}
-			elsif("allowed_hosts" eq $1){
-				$options->allowed_hosts($2);
-			}
-			elsif("deny" eq $1){
-				$options->deny($2);
-			}
-			elsif("denied_hosts" eq $1){
-				$options->denied_hosts($2);
-			}
-			elsif("cnidscheme" eq $1){
-				$options->cnidscheme($2);
-			}
-			elsif("cnidserver" eq $1){
-				$options->cnidserver($2);
-			}
-			elsif("dbpath" eq $1){
-				$options->dbpath($2);
-			}
-			elsif("ea" eq $1){
-				$options->ea($2);
-			}
-			elsif("maccharset" eq $1){
-				$options->maccharset($2);
-			}
-			elsif("options" eq $1){
-				$options->options($2);
-			}
-			elsif("password" eq $1){
-				$options->password($2);
-			}
-			elsif("perm" eq $1){
-				$options->perm($2);
-			}
-			elsif("fperm" eq $1){
-				$options->fperm($2);
-			}
-			elsif("dperm" eq $1){
-				$options->dperm($2);
-			}
-			elsif("umask" eq $1){
-				$options->umask($2);
-			}
-			elsif("preexec" eq $1){
-				$options->preexec($2);
-			}
-			elsif("postexec" eq $1){
-				$options->postexec($2);
-			}
-			elsif("root_preexec" eq $1){
-				$options->root_preexec($2);
-			}
-			elsif("root_postexec" eq $1){
-				$options->root_postexec($2);
-			}
-			elsif("rolist" eq $1){
-				$options->rolist($2);
-			}
-			elsif("rwlist" eq $1){
-				$options->rwlist($2);
-			}
-			elsif("veto" eq $1){
-				$options->veto($2);
-			}
-			elsif("volcharset" eq $1){
-				$options->volcharset($2);
-			}
-			elsif("casefold" eq $1){
-				$options->casefold($2);
-			}
-     		}
-     		#vorhandene Options in $volume schreiben
-		#mgk: available options in $volume write
-		push(@rv,$name);
-     		$pername{$volume->name} = $volume;
-   	}
-}
-close(FH);
-return @rv;
+			#write available options in $volume
+			push(@rv,$name);
+			$pername{$volume->name} = $volume;
+		}
+	}
+	close(FH);
+	return @rv;
 }
 
 #------------------------------------------------------------------------------
@@ -233,12 +217,12 @@ return @rv;
 #------------------------------------------------------------------------------
 sub getShareName
 {
-  my ($var1) = @_;
-  $shareName = 1;
-  if ($rp = $pername{$var1}){
-	$shareName = $rp->name;
- }
-  return $shareName;
+	my ($var1) = @_;
+	$shareName = 1;
+	if ($rp = $pername{$var1}){
+		$shareName = $rp->name;
+	}
+	return $shareName;
 }
 
 sub getPath
@@ -272,7 +256,7 @@ sub getVolsizelimit
 }
 
 sub getAllow
-	{
+{
   	my ($var1) = @_;
   	$Access ="";
   	if ($rp = $pername{$var1}){
@@ -282,7 +266,7 @@ sub getAllow
 }
 
 sub getDeny
-        {
+{
         my ($var1) = @_;
         $Access ="";
         if ($rp = $pername{$var1}){
@@ -292,7 +276,7 @@ sub getDeny
 }
 
 sub getAllowedHosts
-	{
+{
   	my ($var1) = @_;
   	$AllowedHosts ="";
   	if ($rp = $pername{$var1}){
@@ -302,7 +286,7 @@ sub getAllowedHosts
 }
 
 sub getDeniedHosts
-        {
+{
         my ($var1) = @_;
         $DeniedHosts ="";
         if ($rp = $pername{$var1}){
@@ -312,7 +296,7 @@ sub getDeniedHosts
 }
 
 sub getCnidScheme
-        {
+{
         my ($var1) = @_;
         $CnidScheme ="";
         if ($rp = $pername{$var1}){
@@ -322,7 +306,7 @@ sub getCnidScheme
 }
 
 sub getCnidServer
-        {
+{
         my ($var1) = @_;
         $CnidServer ="";
         if ($rp = $pername{$var1}){
@@ -332,7 +316,7 @@ sub getCnidServer
 }
 
 sub getDatabase
-	{
+{
   	my ($var1) = @_;
   	$Database ="";
   	if ($rp = $pername{$var1}){
@@ -342,7 +326,7 @@ sub getDatabase
 }
 
 sub getEa
-        {
+{
         my ($var1) = @_;
         $Ea ="";
         if ($rp = $pername{$var1}){
@@ -352,7 +336,7 @@ sub getEa
 }
 
 sub getMacCharset
-        {
+{
         my ($var1) = @_;
         $MacCharset ="";
         if ($rp = $pername{$var1}){
@@ -362,7 +346,7 @@ sub getMacCharset
 }
 
 sub getOptions
-	{
+{
   	my ($var1) = @_;
   	$Options ="";
   	if ($rp = $pername{$var1}){
@@ -372,7 +356,7 @@ sub getOptions
 }
 
 sub getPassword
-	{
+{
   	my ($var1) = @_;
   	$Password ="";
   	if ($rp = $pername{$var1}){
@@ -382,7 +366,7 @@ sub getPassword
 }
 
 sub getPerm
-	{
+{
   	my ($var1) = @_;
   	$Perm ="";
   	if ($rp = $pername{$var1}){
@@ -392,7 +376,7 @@ sub getPerm
 }
 
 sub getFPerm
-	{
+{
   	my ($var1) = @_;
   	$FPerm ="";
   	if ($rp = $pername{$var1}){
@@ -402,7 +386,7 @@ sub getFPerm
 }
 
 sub getDPerm
-	{
+{
   	my ($var1) = @_;
   	$DPerm ="";
   	if ($rp = $pername{$var1}){
@@ -412,7 +396,7 @@ sub getDPerm
 }
 
 sub getUmask
-	{
+{
   	my ($var1) = @_;
   	$Umask ="";
   	if ($rp = $pername{$var1}){
@@ -422,7 +406,7 @@ sub getUmask
 }
 
 sub getPreExec
-	{
+{
   	my ($var1) = @_;
   	$PreExec ="";
   	if ($rp = $pername{$var1}){
@@ -432,7 +416,7 @@ sub getPreExec
 }
 
 sub getPostExec
-	{
+{
   	my ($var1) = @_;
   	$PostExec ="";
   	if ($rp = $pername{$var1}){
@@ -442,7 +426,7 @@ sub getPostExec
 }
 
 sub getRootPreExec
-	{
+{
   	my ($var1) = @_;
   	$RootPreExec ="";
   	if ($rp = $pername{$var1}){
@@ -452,7 +436,7 @@ sub getRootPreExec
 }
 
 sub getRootPostExec
-	{
+{
   	my ($var1) = @_;
   	$RootPostExec ="";
   	if ($rp = $pername{$var1}){
@@ -462,7 +446,7 @@ sub getRootPostExec
 }
 
 sub getRolist
-        {
+{
         my ($var1) = @_;
         $Access ="";
         if ($rp = $pername{$var1}){
@@ -472,7 +456,7 @@ sub getRolist
 }
 
 sub getRwlist
-        {
+{
         my ($var1) = @_;
         $Access ="";
         if ($rp = $pername{$var1}){
@@ -482,7 +466,7 @@ sub getRwlist
 }
 
 sub getVeto
-        {
+{
         my ($var1) = @_;
         $Veto ="";
         if ($rp = $pername{$var1}){
@@ -492,7 +476,7 @@ sub getVeto
 }
 
 sub getVolCharset
-        {
+{
         my ($var1) = @_;
         $VolCharset ="";
         if ($rp = $pername{$var1}){
@@ -515,7 +499,7 @@ sub getCasefold
 #Special getter for a string of all options, to be printed in the UI
 #------------------------------------------------------------------------------
 sub getAllOptions
-	{
+{
   	my ($var1) = @_;
   	$AllOptions ="";
   	if ($rp = $pername{$var1}){
@@ -525,8 +509,7 @@ sub getAllOptions
 }
 
 #------------------------------------------------------------------------------
-#überprüft ob angegebener Pfad existiert
-#mgk: checked whether indicated path exists
+#checked whether indicated path exists
 #------------------------------------------------------------------------------
 sub getPathOK
 {
@@ -543,8 +526,7 @@ sub getPathOK
 
 
 #------------------------------------------------------------------------------
-#listet alle users mit ID >=500 auf
-#mgk: list all users with ID >=500
+#list all users with ID >=500
 #------------------------------------------------------------------------------
 sub getUsers
 {
@@ -560,8 +542,7 @@ sub getUsers
 }
 
 #------------------------------------------------------------------------------
-#listet alle Gruppen mit ID >=100auf   plus root mot gid = 0
-#mgk: list all groups with ID >=100 and root gid == 0
+#list all groups with ID >=100 and root gid == 0
 #------------------------------------------------------------------------------
 sub getGroups
 {
@@ -577,21 +558,15 @@ sub getGroups
 }
 
 #------------------------------------------------------------------------------
-#schreibt neues File Share
-#mgk: writes new file Share
-#indem neue Zeile generiert wird oder Zeilen generiert werden
-#mgk: as new line is generated or lines to be generated
-#
+#writes new file share by generating new lines
 #------------------------------------------------------------------------------
 sub writeNewFileShare
 {
 	$space =" ";
 	local($line_1,$line_2,$setSlash,$zeichen);
-	#&ReadParse();
 	my ($in) = @_;
 	$zeichen='"';
-	#homes oder anderer Path
-	#mgk: homes or other Path
+	#homes or other Path
 	if($in{homes}){
 		$line_1 ="~ ";
 	}
@@ -606,23 +581,21 @@ sub writeNewFileShare
 			showMessage($text{give_correct_path});
 			return 0;	
 		}
-		#Share Name erfassen
-		#mgk: Enter share name
+		#share name is captured
 		if($in{share}){
 			 $sharename=$in{share};
 			 $line_1.=$zeichen;
 			 $line_1.=$sharename;
 			 $line_1.=$zeichen;
 			 $line_1.=" ";
-			 #mgk: zeichen == characters
+			 #zeichen == characters
 		}
 		else{
 			showMessage($text{indicate_sharename});
 			return 0;
 		}
 	}
-	#options einlesen---------------------
-	#mgk: options read in
+	#options read in
 	if($in{adouble_options} && $in{adouble_options} ne "default"){
 		$Adouble =$in{adouble_options};
 		$line_1.=" adouble:";
@@ -638,34 +611,28 @@ sub writeNewFileShare
 		if($in{allow_users}){
 		    $line_1.=join(',',split(/\s+/, $in{allow_users}));
 		}
-		#Komma zwischen Gruppen Users setzen
-		#mgk: Comma between groups of users set
 		if($in{allow_users} && $in{allow_groups} ){
 			$line_1.=",@";
 		} elsif($in{allow_groups}) {
-			#mgk: added to handle other case
 			$line_1.="@";
 		}
 		if($in{allow_groups}){
 			$line_1.=join(',@',split(/\s+/,$in{allow_groups}));
 		}
 	}
-        if($in{deny_users} || $in{deny_groups} ){
-                $line_1.=" deny:";
-                if($in{deny_users}){
-                    $line_1.=join(',',split(/\s+/, $in{deny_users}));
-                }
-                #Komma zwischen Gruppen Users setzen
-                #mgk: Comma between groups of users set
-                if($in{deny_users} && $in{deny_groups} ){
-                        $line_1.=",@";
-                } elsif($in{deny_groups}) {
-                        #mgk: added to handle other case
-                        $line_1.="@";
-                }
-                if($in{deny_groups}){
-                        $line_1.=join(',@',split(/\s+/,$in{deny_groups}));
-                }
+	if($in{deny_users} || $in{deny_groups} ){
+		$line_1.=" deny:";
+		if($in{deny_users}){
+			$line_1.=join(',',split(/\s+/, $in{deny_users}));
+		}
+		if($in{deny_users} && $in{deny_groups} ){
+			$line_1.=",@";
+		} elsif($in{deny_groups}) {
+			$line_1.="@";
+		}
+		if($in{deny_groups}){
+			$line_1.=join(',@',split(/\s+/,$in{deny_groups}));
+		}
         }
 	if($in{allowed_hosts}){
 		$AllowedHosts=$in{allowed_hosts};
@@ -760,12 +727,9 @@ sub writeNewFileShare
                 if($in{rolist_users}){
                     $line_1.=join(',',split(/\s+/, $in{rolist_users}));
                 }
-                #Komma zwischen Gruppen Users setzen
-                #mgk: Comma between groups of users set
                 if($in{rolist_users} && $in{rolist_groups} ){
                         $line_1.=",@";
                 } elsif($in{rolist_groups}) {
-                        #mgk: added to handle other case
                         $line_1.="@";
                 }
                 if($in{rolist_groups}){
@@ -777,12 +741,9 @@ sub writeNewFileShare
                 if($in{rwlist_users}){
                     $line_1.=join(',',split(/\s+/, $in{rwlist_users}));
                 }
-                #Komma zwischen Gruppen Users setzen
-                #mgk: Comma between groups of users set
                 if($in{rwlist_users} && $in{rwlist_groups} ){
                         $line_1.=",@";
                 } elsif($in{rwlist_groups}) {
-                        #mgk: added to handle other case
                         $line_1.="@";
                 }
                 if($in{rwlist_groups}){
@@ -804,19 +765,15 @@ sub writeNewFileShare
 		$line_1.=" casefold:";
 		$line_1.=$caseFoldOption;
 	}
-	writeLine( $line_1 ,$line_2);	
+	writeLine( $line_1 ,$line_2);
 }
 
 #------------------------------------------------------------------------------
-#schreibt neue Zeile in AppleVolumes.default
-#mgk: new line writes in AppleVolumes.default
+#new line writes in AppleVolumes.default
 #
-#var1 erste Linie welche zu schreiben ist
-#mgk: var1 first line to write
-#var2 zweite Linie welche zu schreiben ist
-#mgk: var2 second line to write
-#solle keine zweite geschrieben werden Linie ,var2="    " übergeben
-#mgk: no second line, var2 = " " is to be written transferred
+#var1 first line to write
+#var2 second line to write
+#no second line, var2 = " " is to be written instead
 #-----------------------------------------------------------------------------
 sub writeLine()
 {
@@ -831,8 +788,7 @@ sub writeLine()
 
 	while(<OLD>){
   		if($.== @line[0]){
-  		#if($.== 17){
-  		print NEW  "$var1\n";
+			print NEW  "$var1\n";
   		}
   		print NEW $_;
 	}
@@ -840,23 +796,17 @@ sub writeLine()
 	close(NEW);
 	&unlock_file("$temp");
 
-	#umbenans
 	rename($datei,"$datei.orig");
 	rename($temp,$datei);
-	#löschen der Datei    AppleVolumes.sven.old
-	#mgk: delete the file AppleVolumes.sven.old
 	unlink("$datei.orig") or die "$text{delete_failed}: $datei.orig\n";
 }
 
 
 #------------------------------------------------------------------
-#löscht eine bestimmte Zeile in File
-#mgk: deletes a certain line in file
-#mgk:
-#$var1 =>Datei
-#mgk: $var1 => File
-#$var2 =>Anfang der Zeile, welche gefunden werden soll (sprich Verzeichnis)
-#mgk: var2 => Start of the line, which is to be found (speak directory) 
+#deletes a certain line in file
+#
+#$var1 => File
+#$var2 => Start of the line, which is to be found (i.e. directory) 
 #------------------------------------------------------------------
 sub deleteLine(){
 	my ($var1,$var2) = @_;
@@ -882,30 +832,23 @@ sub deleteLine(){
   			print NEW $_;
   		}
   		$counter++;
-  		
 	}
 	close(OLD);
 	close(NEW);
         &unlock_file("$temp");
 
-	#umbenans
 	rename($datei,"$datei.orig");
 	rename($temp,$datei);
-	#löschen der Datei  AppleVolumes.sven.old
-	#mgk: Delete the file AppleVolumes.sven.old
 	unlink("$datei.orig") or die "$text{delete_failed}: $datei.orig\n";
 	return 1;
-	
 }
 
 
 #------------------------------------------------------------------
-#Seite, welche einen Eingabefehler anzeigen soll
-#mgk: Page, which displays input error
+#Page, which displays input error
 #
 #$var1 Info-Text
 #------------------------------------------------------------------
-
 sub showMessage
 {
 	my ($var1) = @_;
@@ -916,10 +859,9 @@ sub showMessage
 
 
 #------------------------------------------------------------------
-#Funktion liest File afpd.conf ein und speichert Infos in struct
+#mgk:Function reads file in afpd.conf and stores
 #afpd in array @afpd[server,tcp(tcp,notcp),ddp(ddp,noddp),port,address]
 # in file atalk
-#mgk:Function reads file in afpd.conf and stores
 #
 #------------------------------------------------------------------
 sub readAfpd
@@ -937,47 +879,37 @@ sub readAfpd
 	open(FH,"<$fileToRead") || die "$text{file} $fileToRead $text{not_readable}";
 	while(<FH>)
 	{
-   	#Zeile mit Fortsetzungszeichen einlesen
-	#mgk: Line with continuation characters read in
-    	if($_=~/(^[0-9A-Za-z$zeichen1"].*)/  ){
-    		#print "$1 <br>\n";
-    		@afpds = ($hostname,"-tcp","-ddp","-","-");
-    			#server auslesen
-			#mgk: servers select
-    		
-    		if($1 =~ /^(\w+)/)  {
-    			@afpds[0]=$1;
-    			#print"Servername $1 <br> \n";
-    		}
-    		if($_ =~ /$notcp/){
-    		 	@afpds[1]=$notcp;
-    		}
-    		
-    		if($_ =~ /$nodpp/){
-    		 	@afpds[2]=$nodpp;
-    		}
-    		if($_ =~ /$port\s*([0-9]*)/){
-    		 	@afpds[3]=$1;
-    		}
-    		if($_ =~ /$address\s*([0-9.]*)/){
-    		 	@afpds[4]=$1;
-    		}
-    		push(@afpd_all,@afpds);
-    	}
-    }	
+		#Line with continuation characters read in
+		if($_=~/(^[0-9A-Za-z$zeichen1"].*)/  ){
+			@afpds = ($hostname,"-tcp","-ddp","-","-");
+			
+			if($1 =~ /^(\w+)/)  {
+				@afpds[0]=$1;
+			}
+			if($_ =~ /$notcp/){
+				@afpds[1]=$notcp;
+			}
+			if($_ =~ /$nodpp/){
+				@afpds[2]=$nodpp;
+			}
+			if($_ =~ /$port\s*([0-9]*)/){
+				@afpds[3]=$1;
+			}
+			if($_ =~ /$address\s*([0-9.]*)/){
+				@afpds[4]=$1;
+			}
+			push(@afpd_all,@afpds);
+		}
+	}	
 	close(FH);
 	return @afpd_all;
 }
 
 
-
-
-
 #------------------------------------------------------------------
-#Funktion liest File afpd.conf ein und speichert Infos in struct
-#afpd in array @afpd[server,tcp(tcp,notcp),ddp(ddp,noddp),port,address]
+#Function reads file in afpd.conf and stores
+#afpd in array @afpd[server,tcp(tcp,notcp),ddp(ddp,noddp),port,address,savepass,setpass]
 # in file atalk
-#mgk: Function reads file in afpd.conf and stores
 #
 #------------------------------------------------------------------
 sub getAllAfpd
@@ -998,55 +930,46 @@ sub getAllAfpd
 	open(FH,"<$fileToRead") || die "Datei $fileToRead nicht einlesbar";
 	while(<FH>)
 	{
-   	#Zeile mit Fortsetzungszeichen einlesen
-	#mgk: Line with continuation characters read in
-    	if($_=~/(^[0-9A-Za-z$zeichen1"].*)/  ){
-    		#print "$1 <br>\n";
-    		@afpd = ($hostname,"-tcp","-ddp","-","-","","-savepassword","-setpassword");
-    			#server auslesen
-			#mgk: servers select
-    		
-    		if($1 =~ /^(\w+)/)  {
-    			@afpd[0]=$1;
-    		}
-    		if($_ =~ /$notcp/){
-    		 	@afpd[1]=$notcp;
-    		}   		
-    		if($_ =~ /$nodpp/){
-    		 	@afpd[2]=$nodpp;
-    		}
-    		if($_ =~ /$port\s([\d]+)/){
-    		 	@afpd[3]=$1;
-    		}
-    		if($_ =~ /$address\s(\d+\.\d+\.\d+\.\d+)/){
-    		 	@afpd[4]=$1;
-    		}
-    		if($_ =~ /$loginMessage\s"(.*?)"/){
-    		 	@afpd[5]=$1;
-    		}
-    		if($_ =~ /$nosavepass/){
-    		 	@afpd[6]=$nosavepass;
-    		}
-    		if($_ =~ /$nosetpass/){
-    		 	@afpd[7]=$nosetpass;
-    		}
-    		push(@afpd_all,@afpd);
-    	}
-    }	
+		#Line with continuation characters read in
+		if($_=~/(^[0-9A-Za-z$zeichen1"].*)/  ){
+			@afpd = ($hostname,"-tcp","-ddp","-","-","","-savepassword","-setpassword");
+			if($1 =~ /^(\w+)/)  {
+				@afpd[0]=$1;
+			}
+			if($_ =~ /$notcp/){
+				@afpd[1]=$notcp;
+			}   		
+			if($_ =~ /$nodpp/){
+				@afpd[2]=$nodpp;
+			}
+			if($_ =~ /$port\s([\d]+)/){
+				@afpd[3]=$1;
+			}
+			if($_ =~ /$address\s(\d+\.\d+\.\d+\.\d+)/){
+				@afpd[4]=$1;
+			}
+			if($_ =~ /$loginMessage\s"(.*?)"/){
+				@afpd[5]=$1;
+			}
+			if($_ =~ /$nosavepass/){
+				@afpd[6]=$nosavepass;
+			}
+			if($_ =~ /$nosetpass/){
+				@afpd[7]=$nosetpass;
+			}
+			push(@afpd_all,@afpd);
+		}
+	}	
 	close(FH);
 	return @afpd_all;
 }
 
 
 #------------------------------------------------------------------------------
-#Funktion hängt eine neue Linie an file
-#mgk: Function hangs a new line on file
+#Function appends a new line to file
 #
-#
-#$var1 Linie die hinzugefügt wird
-#mgk: var1 Line is added
-#$var2 File an das Linie angehängt werden soll
-#mgk: var2 File at line should be attached
+#$var1 Line is added
+#$var2 File to which the line should be appended
 #------------------------------------------------------------------------------
 sub addLineToFile()
 {
@@ -1062,84 +985,72 @@ sub addLineToFile()
 	open(NEW,">$temporary") || die "$text{file} $temporary $text{not_readable}";
 
 	while(<OLD>){
-	
 		print NEW $_;
   		if($.== $lin){
   			print NEW  "$var2\n";
   		}
-  		
 	}
 	close(OLD);
 	close(NEW);
 	unlock_file("$temporary");
-	#umbenans
 	rename($var1,"$var1.orig");
 	rename($temporary,$var1);
-	#löschen der Datei    AppleVolumes.sven.old
-	#mgk: Delete file AppleVolumes.sven.old
 	unlink("$var1.orig") or die "$text{delete_failed}: $var1.orig\n";
 }
 
 #------------------------------------------------------------------
-#gibt die Anzahl Zeilen des angeben Files zurück oder einer bestimmten Zeile
-#mgk: gives the number of lines, indicates files back or to a certain line
+#gives the number of lines, of the specified file or to a certain line
 #
-#$var1 File das zu öffenen ist
-#$var2 Linie, von welcher die ZeilenNummer zu ermitteln ist
-#mgk:  Line, from which the line number is to determine
+#$var1 File that needs to be opened
+#$var2 Line, from which the line number is to ne determined
 #------------------------------------------------------------------
 sub getLines(){
 	my ($var1,$var2,$var3) = @_;
 	local($counter,$output,@rv);
 	$counter = 0;$output = 1;
-	#Testen ob die Varibel übergeben worden ist
-	#mgk: Tests whether the variable transferred(?)
+	#Tests whether the variable has been passed
 	if( ! defined $var1){
 		return 0;
 	}
-	#Testen ob die zweite
-	#mgk: Tests the second
+	#Tests the second
 	elsif( ! defined $var2){
-	      open(FH,"<$var1") || die return 0;
-			while(defined($line = <FH>) ){
- 				if($line=~/^[$slash~]+/ ){
- 					push(@rv,$output);
- 				}
- 				$output++;
-	      }
+		open(FH,"<$var1") || die return 0;
+		while(defined($line = <FH>) ){
+			if($line=~/^[$slash~]+/ ){
+				push(@rv,$output);
+			}
+			$output++;
+		}
 	}
 	else{
 		open(FH,"<$var1") || die return 0;
-	      	while(defined($line = <FH>) )
-	      	{
- 				if($line=~/^[$slash~]+/ ){
-					if($line =~ /([A-Za-z$slash=~,-_\\]+)/){
- 						if($1 =~ /$var2/){
- 							$output = $counter;
- 							push(@rv,$output);
- 							$output++;
-							if($line =~ /[\\]/){
-								push(@rv,$output);
- 							}
- 							else{
- 								push(@rv,-1);
-							}
- 						}		
- 					}
-     			}	
- 				$counter++;	
+		while(defined($line = <FH>) )
+		{
+			if($line=~/^[$slash~]+/ ){
+				if($line =~ /([A-Za-z$slash=~,-_\\]+)/){
+					if($1 =~ /$var2/){
+						$output = $counter;
+						push(@rv,$output);
+						$output++;
+						if($line =~ /[\\]/){
+							push(@rv,$output);
+						}
+						else{
+							push(@rv,-1);
+						}
+					}
+				}
+     			}
+			$counter++;	
 	      	}
 	}
-	return @rv;	
+	return @rv;
 }
 
 #------------------------------------------------------------------
-#löscht eine bestimmte Zeile in File
-#mgk: deletes a certain line in file
-#$var1 =>Datei
-#mgk:    File
-#$var2 =>Anfang der Zeile, welche gefunden werden soll (sprich Verzeichnis)
-#mgk:    Start of the line, which is to be found (speak directory)
+#deletes a certain line in a file
+#$var1 =>File
+#$var2 =>Start of the line, which is to be found (e.g. directory)
 #------------------------------------------------------------------
 sub deleteSpezLine(){
 	my ($var1,$var2) = @_;
@@ -1152,7 +1063,6 @@ sub deleteSpezLine(){
 	}
 	$line = getSpezLine($var1,$var2);
 	$temporary="$var1.temp";
-        #print "Lines :  @lines[1]   @lines[0]<br>\n";
  	copy($var1, $temp)
 		or die "$text{copy_failed}: $!";
 
@@ -1168,11 +1078,8 @@ sub deleteSpezLine(){
 	close(OLD);
 	close(NEW);
 	unlock_file("$temporary");
-	#umbenans
 	rename($var1,"$var1.orig");
 	rename($temporary,$var1);
-	#löschen der Datei    AppleVolumes.sven.old
-	#mgk: delete the file
 	unlink("$var1.orig") or die "$text{delete_failed}: $var1.orig\n";
 	return 1;
 	
@@ -1196,18 +1103,15 @@ sub getSpezLine
 
 
 #-------------------------------------------------------------------------------
-#Funktion ermittelt Anzahl Linien eines Files
-#mgk: Function determines number of lines of the files
+#Function determines number of lines of a file
 #
-#$var1 File das auszulesen ist
-#mgk: $var1 is the file
+#$var1 is the file
 #-------------------------------------------------------------------------------
 sub getLinesSpezFile() {
 	my ($var1) = @_;
 	local($counting);
 	$counting = 0;
-	#Testen ob die Varibel übergeben worden ist
-	#mgk: Test the file
+	#Test whether the variable has been passed
 	open(FileHandle,"<$var1") || die return 0;
 	while(<FileHandle>){
 		$counting++;

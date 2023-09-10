@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+# Show users with an active afpd session
 #
 #    Netatalk Webmin Module
 #    Copyright (C) 2000 by Matthew Keller <kellermg@potsdam.edu>

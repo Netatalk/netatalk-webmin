@@ -1,7 +1,6 @@
 #!/usr/bin/perl
-# save_fshare.cgi
-# Save a new  file share
-#
+# Action for saving a new or edited file share
+
 #    Netatalk Webmin Module
 #    Copyright (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
 #
@@ -15,16 +14,11 @@
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
 
+use CGI qw/:standard/;
 require './netapple-lib.pl';
 
 &ReadParse();
 
-if($in{delete}){
-	$info =  $in{delete};
-	$lines = deleteLine($datei,$info);
-}
-
+writeNewFileShare($in);
 
 &redirect("");
-
-

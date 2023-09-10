@@ -1,7 +1,7 @@
 #!/usr/bin/perl
-# save_fshare.cgi
-# Save a new or edited file share
+# Delete a server configuration
 
+#
 #    Netatalk Webmin Module
 #    Copyright (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
 #
@@ -18,10 +18,19 @@
 use CGI qw/:standard/;
 require './netapple-lib.pl';
 
+
 &ReadParse();
+$hostname=getHostName();
+	
+$filetoedit = $config{'afpd_c'};
+if($in{delete_servername}){
+	$server=$in{delete_servername};
+	$server =~  /$hostname*/  ? $server="-" : "" ;
+}
+else {
+	die "No server to delete";
+}
 
-writeNewFileShare($in);
+deleteSpezLine($filetoedit ,$server);
 
-&redirect("");
-
-
+redirect("servers.cgi");

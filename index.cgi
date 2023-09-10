@@ -38,34 +38,34 @@ if (!-x $config{'afpd_d'}) {
 # Print start/stop part
 @afpd = &find_byname($config{'afpd_d'});
 if(@afpd){
-    print qq|<h3>$text{'index_running_services'}</h3>|;
-	print qq|	<table width="100%" cellspacing="8" cellpadding="8" border="0">
-					<tr height="20">
-						<td width="165" align="center"><form action="restart.cgi"><input type="submit" value="$text{'index_restart'}"></form></td>
-						<td>Restart netatalk services using <code>$config{restart_netatalk}</code></td>
-					</tr>
-					<tr height="20">
-						<td width="165" align="center"><form action="stop.cgi"><input type="submit" value="$text{'index_stop'}"></form></td>
-						<td>Stop netatalk services using <code>$config{'stop_netatalk'}</code></td>
-					</tr>
-				</table>
-			|;
+	print qq|<h3>$text{'index_running_services'}</h3>|;
+	print qq|<table width="100%" cellspacing="8" cellpadding="8" border="0">
+		<tr height="20">
+		<td width="165" align="center"><form action="restart.cgi"><input type="submit" value="$text{'index_restart'}"></form></td>
+		<td>Restart netatalk services using <code>$config{restart_netatalk}</code></td>
+		</tr>
+		<tr height="20">
+		<td width="165" align="center"><form action="stop.cgi"><input type="submit" value="$text{'index_stop'}"></form></td>
+		<td>Stop netatalk services using <code>$config{'stop_netatalk'}</code></td>
+		</tr>
+		</table>
+		|;
 } else{
-    print qq|<h3>$text{'index_not_running_services'}</h3>|;
-	print qq|	<table width="100%" cellspacing="8" cellpadding="8" border="0">
-					<tr height="20">
-						<td width="165" align="center"><form action="start.cgi"><input type="submit" value="$text{'index_start_service'}"></form></td>
-						<td>Start netatalk services using <code>$config{'start_netatalk'}</code></td>
-					</tr>
-				</table>
-			|;
+	print qq|<h3>$text{'index_not_running_services'}</h3>|;
+	print qq|<table width="100%" cellspacing="8" cellpadding="8" border="0">
+		<tr height="20">
+		<td width="165" align="center"><form action="start.cgi"><input type="submit" value="$text{'index_start_service'}"></form></td>
+		<td>Start netatalk services using <code>$config{'start_netatalk'}</code></td>
+		</tr>
+		</table>
+		|;
 }
 
 print "<hr>\n";
 
 # Print AFP volumes	
-$share= "shareName=";
-$Path="path=";
+$share = "shareName=";
+$Path = "path=";
 print "<p>";
 print "    <h3>$text{index_volumes}</h3>\n";
 print "    <table width=\"100%\" border>\n";
@@ -79,21 +79,21 @@ foreach $s (open_afile()){
     $path = getPath($s);
     $options = getAllOptions($s);
     print "<tr $cb>\n";
-    print "    <td><a href=\"modi_fshare.cgi?$share$sharename&$Path$path\"><b>$sharename</b></a></td>";
+    print "    <td><a href=\"fshare_edit_form.cgi?$share$sharename&$Path$path\"><b>$sharename</b></a></td>";
     print "    <td><b>$path</b></td>";
     print "    <td><b>$options</b></td>";
     print "</tr>";
 }
 print "</table>\n";
 
-print"<p>";
-print "<a href=\"edit_fshare.cgi\">$text{'index_create_file_share'}</a>\n&nbsp&nbsp&nbsp";
-print "<a href=\"delete_fshare.cgi\">$text{'index_delete_file_share'}</a>\n";
-print"<p>";
-print"<hr>\n";
-print"<p>\n";
+print "<p>";
+print "<a href=\"fshare_create_form.cgi\">$text{'index_create_file_share'}</a>\n&nbsp&nbsp&nbsp";
+print "<a href=\"fshare_delete_form.cgi\">$text{'index_delete_file_share'}</a>\n";
+print "<p>";
+print "<hr>\n";
+print "<p>\n";
 
-print"<h3>$text{index_global}</h3>\n";
+print "<h3>$text{index_global}</h3>\n";
 
 my @links = ("servers.cgi","show_users.cgi","edit_configfiles_form.cgi");
 my @titles = ($text{'index_server'},$text{'index_users'},$text{'index_edit'});

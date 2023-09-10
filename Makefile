@@ -6,16 +6,15 @@ FILES = \
 	config.info \
 	config-opt-netatalk \
 	config-usr-local \
-	create_server.cgi \
+	server_create_form.cgi \
 	CREDITS \
-	delete_fshare.cgi \
-	delete_FShare.cgi \
-	delete_server.cgi \
+	fshare_delete_form.cgi \
+	fshare_delete_action.cgi \
+	server_delete_action.cgi \
 	edit_configfiles_form.cgi \
 	edit_configfiles_save.cgi \
-	editexist_server.cgi \
-	edit_fshare.cgi \
-	edit_server.cgi \
+	server_edit_form.cgi \
+	fshare_create_form.cgi \
 	help/configs.cgi \
 	images/edit.gif \
 	images/icon.gif \
@@ -27,14 +26,13 @@ FILES = \
 	index.cgi \
 	lang/de \
 	lang/en \
-	modi_fshare.cgi \
+	fshare_edit_form.cgi \
 	module.info \
 	netapple-lib.pl \
 	README \
 	restart.cgi \
-	save_fshare.cgi \
-	save_Modi_FShare.cgi \
-	save_newServer.cgi \
+	fshare_save_action.cgi \
+	server_save_action.cgi \
 	servers.cgi \
 	show_users.cgi \
 	start.cgi \

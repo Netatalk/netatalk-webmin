@@ -1,6 +1,5 @@
 #!/usr/bin/perl
-# edit_fshare.cgi
-# Display a form for editing or creating a new directory share
+# Display a form for deleting a file share
 
 #
 #    Netatalk Webmin Module
@@ -23,30 +22,28 @@ $s="homes";
 
 &header("Delete Apple File Share", "",undef(),undef(),undef(),undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
 
-print"<p><p>\n";
+print "<p><p>\n";
+print "<form action=fshare_delete_action.cgi>\n";
 
+print "<h4>Select File Share</h4>\n";
 
-print "<hr>\n";
-print"<p><p>\n";
-print "<form action=delete_FShare.cgi>\n";
+print "<select name=delete> \n";
 
-print"<h4>Select File Share</h4>\n";
-
-print"<select  name=delete> \n";
+# Known bug: If two volumes are using the same path, the first in the list will be deleted
+#            regardless of which one is chosen in the dropdown.
 foreach $s (open_afile())
 {
-	$shareName=  getShareName($s);
+	$shareName= getShareName($s);
 	$Path     = getPath($s);
-	$show     = "$shareName &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp $Path";
+	$show     = "$shareName ($Path)";
 	
 	print "<option value=$Path> $show\n";
 }
 
-print"</select>\n";
+print "</select>\n";
 
-
-print "<input type=submit value=delete> </form>\n";
+print "<input type=submit value=$text{edit_delete}> </form>\n";
 
 print "<hr>\n";
-print"<p><p>\n";
+print "<p><p>\n";
 &footer('', $text{'index_module'});

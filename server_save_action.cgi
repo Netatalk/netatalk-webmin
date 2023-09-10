@@ -1,6 +1,5 @@
 #!/usr/bin/perl
-# save_fshare.cgi
-# Save a new or edited file share
+# Save a new or edited server configuration
 
 #    Netatalk Webmin Module
 #    Copyright (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
@@ -21,29 +20,22 @@ require './netapple-lib.pl';
 
 &ReadParse();
 	
-$hostname=getHostName();
+$hostname = getHostName();
 $filetoedit = $config{'afpd_c'};
 if($in{old_servername}){
-		$server=$in{old_servername};
-		$server =~  /$hostname*/  ? $server="-" : "" ;
-	}
+	$server = $in{old_servername};
+	$server =~  /$hostname*/  ? $server="-" : "" ;
+}
 
 deleteSpezLine($filetoedit ,$server);
-
-
-
 createNewLine();
 addLineToFile($filetoedit);
 
 &redirect("servers.cgi");
-#&footer("",$text{'edit_return'});
 
 #-----------------------------------------------------------------------------
-#Funktion kreiert neue Zeile mit Eintrag für Server
-#in File afpd.conf
-# mgk: Function creates new line with entry for servers
+# Function creates new line with entry for servers
 # in afpd.conf
-#
 #
 #-----------------------------------------------------------------------------
 sub createNewLine(){
@@ -91,10 +83,5 @@ sub createNewLine(){
 		$newString.=$in{logmesg};
 		$newString.="\" ";
 	}
-	
-	
 	addLineToFile($filetoedit,$newString);
 }
-
-
-

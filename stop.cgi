@@ -1,6 +1,5 @@
 #!/usr/bin/perl
-# restart.cgi
-# Kill all smbd and nmdb processes and re-start them
+# Kill all netatalk processes
 
 #    Netatalk Webmin Module
 #    Copyright (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
@@ -23,4 +22,3 @@ $rv = system("$config{stop_netatalk} </dev/null");
 if ($rv) { die &text('init_failed', $config{stop_netatalk}); }
 
 &redirect("");
-

@@ -1,6 +1,5 @@
 #!/usr/bin/perl
-# edit_fshare.cgi
-# Display a form for editing  directory share
+# Display a form for editing a file share
 
 #
 #    Netatalk Webmin Module
@@ -43,7 +42,6 @@ if($in{path}){
 }
 
 $Options = getAllOptions($Old_shareName);
-
 $Adouble = getAdouble($Old_shareName);
 $Volsizelimit = getVolsizelimit($Old_shareName);
 
@@ -192,7 +190,7 @@ $Casefold = getCasefold($Old_shareName);
 $Oldpath= "oldpath";
 
 print "<hr>\n";
-print"<p><p>\n";
+print "<p><p>\n";
 print "<form action=save_Modi_FShare.cgi>\n";
 print "<input type=hidden name=","oldpath"," value=$Old_path>\n";
 
@@ -214,10 +212,10 @@ printf "<input name=path size=40  value=%s>\n",
 		$Old_path ne "~" ? $Old_path : "" ;
 print  &file_chooser_button("path", 1);
 print "</td> </tr>\n";
-print"<tr><td align=left><br></td></tr>\n";
+print "<tr><td align=left><br></td></tr>\n";
 
-print"<tr><td align=right valign=top ><b>$text{'edit_Adouble'}</b></td>\n";
-print"<td align=left colspan=3>\n";
+print "<tr><td align=right valign=top ><b>$text{'edit_Adouble'}</b></td>\n";
+print "<td align=left colspan=3>\n";
 printf "<input type=radio name=adouble_options %s value=default>&nbsp;&nbsp;$text{'edit_default'}<br>\n",
 		 $Adouble eq "" ? "checked" : "";
 printf "<input type=radio name=adouble_options %s value=v1>&nbsp;&nbsp;$text{'edit_Adoublev1'}<br>\n",
@@ -226,7 +224,7 @@ printf "<input type=radio name=adouble_options %s value=v2>&nbsp;&nbsp;$text{'ed
 		 $Adouble eq "v2" ? "checked" : "";
 printf "<input type=radio name=adouble_options %s value=osx>&nbsp;&nbsp;$text{'edit_Adoubleosx'}<br>\n",
 		 $Adouble eq "osx" ? "checked" : "";
-print"</td></tr>\n";
+print "</td></tr>\n";
 
 print "<tr> <td align=right><b>$text{'edit_Volsizelimit'}</b></td>\n";
 printf "<td colspan=4><input type=\"number\" name=volsizelimit min=\"1\" max=\"99999\" value=%s>\n",
@@ -259,8 +257,8 @@ printf "<td colspan=4><input name=dbpath size=40 value=%s >\n",
 print &file_chooser_button("dbpath", 1);
 print "</td> </tr>\n";
 
-print"<tr><td align=right valign=top ><b>$text{'edit_Ea'}</b></td>\n";
-print"<td align=left colspan=3>\n";
+print "<tr><td align=right valign=top ><b>$text{'edit_Ea'}</b></td>\n";
+print "<td align=left colspan=3>\n";
 printf "<input type=radio name=ea_options %s value=default>&nbsp;&nbsp;$text{'edit_default'}<br>\n",
 		 $Ea eq "" ? "checked" : "";
 printf "<input type=radio name=ea_options %s value=auto>&nbsp;&nbsp;$text{'edit_Eaauto'}<br>\n",
@@ -271,15 +269,15 @@ printf "<input type=radio name=ea_options %s value=ad>&nbsp;&nbsp;$text{'edit_Ea
 		 $Ea eq "ad" ? "checked" : "";
 printf "<input type=radio name=ea_options %s value=none>&nbsp;&nbsp;$text{'edit_Eanone'}<br>\n",
 		 $Ea eq "none" ? "checked" : "";
-print"</td></tr>\n";
+print "</td></tr>\n";
 
 print "<tr> <td align=right><b>$text{'edit_MacCharset'}</b></td>\n";
 printf "<td colspan=4><input name=maccharset size=20 value=%s>\n",
 	$MacCharset ne "" ? $MacCharset : "";
 print "</td> </tr>\n";
 
-print"<tr><td  align=right valign=top><b>$text{'edit_MisceOptions'}</b></td>\n";
-print"<td  align=left colspan=3> \n";
+print "<tr><td  align=right valign=top><b>$text{'edit_MisceOptions'}</b></td>\n";
+print "<td align=left colspan=3> \n";
 printf "<input type=checkbox name=misc_options %s value=searchdb>&nbsp;&nbsp;$text{'edit_Optionssearchdb'} <br>\n",
 		 $searchdb eq "1" ? "checked" : "";
 printf "<input type=checkbox name=misc_options %s value=tm>&nbsp;&nbsp;$text{'edit_Optionstm'}<br>\n",
@@ -302,7 +300,7 @@ printf "<input type=checkbox name=misc_options %s value=usedots>&nbsp;&nbsp;$tex
                  $usedots eq "1" ? "checked" : "";
 printf "<input type=checkbox name=misc_options %s value=followsymlinks>&nbsp;&nbsp;$text{'edit_Optionsfollowsymlinks'}<br></td>\n",
                  $limitsize eq "1" ? "checked" : "";
-print"</td></tr>\n";
+print "</td></tr>\n";
 
 print "<tr> <td align=right><b>$text{'edit_Password'}</b></td>\n";
 printf "<td colspan=4><input maxlength=8 name=password size=8 value=%s>\n",
@@ -359,7 +357,7 @@ printf "<td colspan=4><input name=volcharset size=20 value=%s>\n",
 	$VolCharset ne "" ? $VolCharset : "";
 print "</td> </tr>\n";
 
-print"<tr><td  align=right valign=center><b>$text{'edit_Allow'}</b></td>\n";
+print "<tr><td align=right valign=center><b>$text{'edit_Allow'}</b></td>\n";
 	print "<td align=left>$text{'edit_users'}</td> <td align=left>\n";
 printf "<input name=allow_users size=40 value=\"%s\"> %s</td> </tr>\n",
 	join(' ',  @allow_users),
@@ -371,7 +369,7 @@ print "<tr>\n";
 	join(' ', grep { !/^@/ } @allow_groups),
 	&group_chooser_button("allow_groups", 1);
 
-print"<tr><td  align=right valign=center><b>$text{'edit_Deny'}</b></td>\n";
+print "<tr><td align=right valign=center><b>$text{'edit_Deny'}</b></td>\n";
         print "<td align=left>$text{'edit_users'}</td> <td align=left>\n";
 printf "<input name=deny_users size=40 value=\"%s\"> %s</td> </tr>\n",
         join(' ',  @deny_users),
@@ -383,7 +381,7 @@ print "<tr>\n";
         join(' ', grep { !/^@/ } @deny_groups),
         &group_chooser_button("deny_groups", 1);
 
-print"<tr><td  align=right valign=center><b>$text{'edit_Rolist'}</b></td>\n";
+print "<tr><td align=right valign=center><b>$text{'edit_Rolist'}</b></td>\n";
         print "<td align=left>$text{'edit_users'}</td> <td align=left>\n";
 printf "<input name=rolist_users size=40 value=\"%s\"> %s</td> </tr>\n",
         join(' ',  @rolist_users),
@@ -395,7 +393,7 @@ print "<tr>\n";
         join(' ', grep { !/^@/ } @rolist_groups),
         &group_chooser_button("rolist_groups", 1);
 
-print"<tr><td  align=right valign=center><b>$text{'edit_Rwlist'}</b></td>\n";
+print "<tr><td  align=right valign=center><b>$text{'edit_Rwlist'}</b></td>\n";
         print "<td align=left>$text{'edit_users'}</td> <td align=left>\n";
 printf "<input name=rwlist_users size=40 value=\"%s\"> %s</td> </tr>\n",
         join(' ',  @rwlist_users),
@@ -410,8 +408,8 @@ print "</table> </td></tr>\n";
 print "<tr $tb> <td><b>$text{'edit_adv_tableheader'}</b></td></tr>\n";
 print "<tr $cb> <td><table >\n";
 
-print"<tr><td align=right valign=top ><b>$text{'edit_Casefold'}</b></td>\n";
-print"<td  align=left colspan=3> \n";
+print "<tr><td align=right valign=top ><b>$text{'edit_Casefold'}</b></td>\n";
+print "<td align=left colspan=3> \n";
 printf "<input type=radio name=casefold_options %s value=default>&nbsp;&nbsp;$text{'edit_default'}<br>\n",
 		 $Casefold eq "" ? "checked" : "";
 printf "<input type=radio name=casefold_options %s value=tolower>&nbsp;&nbsp;$text{'edit_Casefoldtolower'}<br>\n",
@@ -422,10 +420,10 @@ printf "<input type=radio name=casefold_options %s value=xlatelower>&nbsp;&nbsp;
 		 $Casefold eq "xlatelower" ? "checked" : "";
 printf "<input type=radio name=casefold_options %s value=xlateupper>&nbsp;&nbsp;$text{'edit_Casefoldxlateupper'}<br>\n",
 		 $Casefold eq "xlateupper" ? "checked" : "";
-print"</td></tr>\n";
+print "</td></tr>\n";
 
-print"<tr><td  align=right valign=top><b>$text{'edit_AdvOptions'}</b></td>\n";
-print"<td  align=left colspan=3> \n";
+print "<tr><td  align=right valign=top><b>$text{'edit_AdvOptions'}</b></td>\n";
+print "<td align=left colspan=3> \n";
 printf "<input type=checkbox name=misc_options %s value=caseinsensitive>&nbsp;&nbsp;$text{'edit_Optionscaseinsensitive'}<br>\n",
 		 $caseinsensitive eq "1" ? "checked" : "";
 printf "<input type=checkbox name=misc_options %s value=crlf>&nbsp;&nbsp;$text{'edit_Optionscrlf'}<br>\n",
@@ -448,18 +446,19 @@ printf "<input type=checkbox name=misc_options %s value=nostat>&nbsp;&nbsp;$text
                  $nostat eq "1" ? "checked" : "";
 printf "<input type=checkbox name=misc_options %s value=prodos>&nbsp;&nbsp;$text{'edit_Optionsprodos'} <br>\n",
 		 $prodos eq "1" ? "checked" : "";
-print"</td></tr>\n";
+print "</td></tr>\n";
 
 print "</table> </td></tr>\n";
 print "</table><p>\n";
 
-print"<table width=100%>\n";
+print "<table width=100%>\n";
 print "<tr><td align=left><input type=submit value=$text{'edit_Save'}></td></form>\n";
-print"<form action=delete_FShare.cgi>\n";
+print "<form action=delete_FShare.cgi>\n";
 print "<td align=right>\n";
 	print"<input type=hidden  name=delete value=$Old_path>\n";
 	print"<input type=submit value=$text{'global_Delete'}></td></tr></form>\n";
-print"</table>\n";
+print "</table>\n";
 print "<hr>\n";
-print"<p><p>\n";
+print "<p><p>\n";
+
 &footer("",$text{'edit_return'});
