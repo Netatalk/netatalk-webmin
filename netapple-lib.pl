@@ -914,31 +914,6 @@ sub showMessage
 	&footer("","Share List");
 }
 
-#------------------------------------------------------------------
-#Funktion zum erfassen der maximalen zulässigen user
-# in file atalk
-#mgk: Function to enter the max. admissible user
-#
-#------------------------------------------------------------------
-
-sub getMaxUser
-{
-	local(@rv,$config, @rv);
-
-	$config = $config{'netatalk_c'};
-	push(@rv,"0");
-
-	open(OLD,"<$config") || die "$text{file} $config $text{not_readable}";
-	while (<OLD>) {
-        if ($_ =~ /AFPD_MAX_CLIENTS=\([0-9]*\)/ ) {
-            shift(@rv);
-            push(@rv,$1);
-        }
-    }
-	close(OLD);
-	return @rv;
-}
-
 
 #------------------------------------------------------------------
 #Funktion liest File afpd.conf ein und speichert Infos in struct

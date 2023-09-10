@@ -6,7 +6,6 @@ FILES = \
 	config.info \
 	config-opt-netatalk \
 	config-usr-local \
-	config-usr-local-netatalk \
 	create_server.cgi \
 	CREDITS \
 	delete_fshare.cgi \
@@ -28,7 +27,6 @@ FILES = \
 	index.cgi \
 	lang/de \
 	lang/en \
-	misc_opt.cgi \
 	modi_fshare.cgi \
 	module.info \
 	netapple-lib.pl \
@@ -38,7 +36,6 @@ FILES = \
 	save_Modi_FShare.cgi \
 	save_newServer.cgi \
 	servers.cgi \
-	settings.cgi \
 	show_users.cgi \
 	start.cgi \
 	stop.cgi \

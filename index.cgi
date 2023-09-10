@@ -95,8 +95,8 @@ print"<p>\n";
 
 print"<h3>$text{index_global}</h3>\n";
 
-my @links = ("servers.cgi","show_users.cgi","misc_opt.cgi","edit_configfiles_form.cgi");
-my @titles = ($text{'index_server'},$text{'index_users'},$text{'index_misc'},$text{'index_edit'});
+my @links = ("servers.cgi","show_users.cgi","edit_configfiles_form.cgi");
+my @titles = ($text{'index_server'},$text{'index_users'},$text{'index_edit'});
 my @icons = ("images/server.png","images/users.png","images/misc.png","images/edit.gif");
 icons_table(\@links, \@titles, \@icons);
 print "</table>\n";
