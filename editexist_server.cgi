@@ -27,8 +27,9 @@ print"<p>\n";
 
 
 $ddpon="-ddp";
-$tcp="-tcp";
-
+$tcpon="-tcp";
+$savepasswon="-savepassword";
+$setpasswon="-setpassword";
 
 $hostname=getHostName();#$hostli;#chomp($host);
 #$hostname="dellux";
@@ -43,7 +44,7 @@ else{
 	 $offset=0;
 }
 
-@allServer =   getAllAfpd();
+@allServer = getAllAfpd();
 $off= $offset*7;
 $off= $off+$offset;
 for($i=0;$i<=7;$i++){
@@ -57,16 +58,16 @@ for($i=0;$i<=7;$i++){
 		 $ddp= @allServer[$off];
 	}
 	elsif($i eq 3){
-		 $address= @allServer[$off];
+		 $port= @allServer[$off];
 	}
 	elsif($i eq 4){
-		 $port= @allServer[$off];
+		 $address= @allServer[$off];
 	}
 	elsif($i eq 5){
 		 $loginmesg= @allServer[$off];
 	}
 	elsif($i eq 6){
-		 $savepassw= @allServer[$off];
+		 $savepass= @allServer[$off];
 	}
 	elsif($i eq 7){
 		 $setpass= @allServer[$off];
@@ -95,9 +96,9 @@ print "<tr $cb> <td><table >\n";
 		print"<td  align=right><b>$text{'create_server_TCP'}</b></td>";
 		    print"<td>";
 			printf"<input type=radio %s name=tcpip value=-tcp>$text{'global_ON'}",
-				   $tcpip =~ /$tcp*/ ? "checked" : "";
+				   $tcpip =~ /$tcpon*/ ? "checked" : "";
 			printf"<input type=radio name=tcpip %s value=-notcp>$text{'global_OFF'}",
-					$tcpip =~ /$tcp*/ ? "" : "checked";
+					$tcpip =~ /$tcpon*/ ? "" : "checked";
 			print"</td>";
 		print"<td align=right><b>$text{'create_server_AppleTalk'}</b></td>";
 		print"<td >";
@@ -116,17 +117,17 @@ print "<tr $cb> <td><table >\n";
 				$address =~ /[0-9.]/ ? $address : "";
 	print"</tr>";
 	print"<tr >";
-		print"<td align=right><b>$text{'create_server_pass'}</b></td>";$setpassw="setpassword";
-		printf"<td ><input name=setpassword type=radio %s  value=setpassword>$text{'global_ON'}",
-		          $setpass =~ /$setpassw/ ? "checked" : "";	
-			printf"<input type=radio  %s name=setpassword value=>$text{'global_OFF'}",
-				  $setpass =~ /$setpassw/ ? "" : "checked";
+		print"<td align=right><b>$text{'create_server_pass'}</b></td>";
+		printf"<td ><input name=setpassword type=radio %s  value=-setpassword>$text{'global_ON'}",
+		          $setpass =~ /$setpasswon/ ? "checked" : "";
+			printf"<input type=radio  %s name=setpassword value=-nosetpassword>$text{'global_OFF'}",
+				  $setpass =~ /$setpasswon/ ? "" : "checked";
 		print"</td>";
-		print"<td align=right><b>$text{'create_server_setpass'}</b></td>";$savepass="savepassword";
-		printf"<td ><input type=radio %s name=savepassword value=savepassword>$text{'global_ON'}",
-				$savepassw =~ /$savepass*/ ? "checked" : "";
-			printf"<input type=radio %s name=savepassword value=>$text{'global_OFF'}",
-				    $savepassw =~ /$savepass*/ ? "" : "checked";
+		print"<td align=right><b>$text{'create_server_setpass'}</b></td>";
+		printf"<td ><input type=radio %s name=savepassword value=-savepassword>$text{'global_ON'}",
+				$savepass =~ /$savepasswon*/ ? "checked" : "";
+			printf"<input type=radio %s name=savepassword value=-nosavepassword>$text{'global_OFF'}",
+				    $savepass =~ /$savepasswon*/ ? "" : "checked";
 		print"</td>";
 	print"</tr>";
 	print"<tr >";

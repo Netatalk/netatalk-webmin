@@ -48,7 +48,7 @@ index_servername=Server Name
 index_tcp=TCP/IP
 index_ddp=AppleTalk
 index_port=Port
-index_address=address
+index_address=Address
 index_newServer=Create New Server
 
 server_header=Servers
@@ -140,9 +140,9 @@ edit_delete=Delete
 edit_return=Share List
 
 create_server_header=Create New Server
-create_server_tabelheader=Create New Servers
+create_server_tableheader=Server Configuration
 create_server_ServerName=Server Name
-create_server_localhost=Name of localhost
+create_server_localhost=Use name of localhost
 create_server_TCP=TCP/IP
 create_server_AppleTalk=AppleTalk
 create_server_Port=Port

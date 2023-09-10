@@ -33,7 +33,12 @@ if(@Servers[1] ne ""){
        print" </tr>\n";
        print"<tr>";
        $offset = 0;
-       $servername="servername=";$tcp="tcpip=";$ddp="ddp=";$port="port=";$address="address=";$offsetStr="offset=";
+       $servername="servername=";
+       $tcp="tcpip=";
+       $ddp="ddp=";
+       $port="port=";
+       $address="address=";
+       $offsetStr="offset=";
        for($i=0;$i<=$#Servers;$i++){
        		 if( ($i%5 ==0) && ($i ne 0)){
        		 	print"<td><b>$Servers[$i]</b></td></tr><tr>";
