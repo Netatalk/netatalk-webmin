@@ -52,7 +52,7 @@ print "</td> </tr>\n";
 
 print"<tr><td align=right valign=top ><b>$text{'edit_Adouble'}</b></td>\n";
 print"<td align=left colspan=3>\n";
-print "<input type=radio name=adouble_options %s value=default>&nbsp;&nbsp;$text{'edit_default'}<br>\n";
+print "<input type=radio name=adouble_options %s value=default checked>&nbsp;&nbsp;$text{'edit_default'}<br>\n";
 print "<input type=radio name=adouble_options %s value=v1>&nbsp;&nbsp;$text{'edit_Adoublev1'}<br>\n";
 print "<input type=radio name=adouble_options %s value=v2>&nbsp;&nbsp;$text{'edit_Adoublev2'}<br>\n";
 print "<input type=radio name=adouble_options %s value=osx>&nbsp;&nbsp;$text{'edit_Adoubleosx'}<br>\n";
@@ -85,7 +85,7 @@ print "</td> </tr>\n";
 
 print"<tr><td align=right valign=top ><b>$text{'edit_Ea'}</b></td>\n";
 print"<td align=left colspan=3>\n";
-print "<input type=radio name=ea_options value=default>&nbsp;&nbsp;$text{'edit_default'}<br>\n";
+print "<input type=radio name=ea_options value=default checked>&nbsp;&nbsp;$text{'edit_default'}<br>\n";
 print "<input type=radio name=ea_options value=auto>&nbsp;&nbsp;$text{'edit_Eaauto'}<br>\n";
 print "<input type=radio name=ea_options value=sys>&nbsp;&nbsp;$text{'edit_Easys'}<br>\n";
 print "<input type=radio name=ea_options value=ad>&nbsp;&nbsp;$text{'edit_Eaad'}<br>\n";

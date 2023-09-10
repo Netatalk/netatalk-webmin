@@ -950,12 +950,14 @@ sub getMaxUser
 sub readAfpd
 {
 	local($fileToRead,$zeichen1,@afpd,@afpd_all);
-	local($notcp,$nodpp,$port,$address,$logimMessage,$savepass,$setpass);
+	local($notcp,$nodpp,$port,$address,$loginMessage,$savepass,$setpass);
 	push(@afpd_all,1);
 	$hostname= `hostname`;
 	$zeichen1='-';
-	$notcp="-notcp";$nodpp="-noddp",$port="-port";$address="-address";
-	$logimMessage="-loginmesg";$savepass="savepassword";$setpass="setpassword";
+	$notcp="-notcp";
+	$nodpp="-noddp";
+	$port="-port";
+	$address="-ipaddr";
 	$fileToRead = $config{'afpd_c'};
 	open(FH,"<$fileToRead") || die "$text{file} $fileToRead $text{not_readable}";
 	while(<FH>)
@@ -1006,12 +1008,17 @@ sub readAfpd
 sub getAllAfpd
 {
 	local($fileToRead,$zeichen1,@afpd,@afpd_all);
-	local($notcp,$nodpp,$port,$address,$logimMessage,$savepass,$setpass);
+	local($notcp,$nodpp,$port,$address,$loginMessage,$nosavepass,$nosetpass);
 	push(@afpd_all);
 	$hostname= `hostname`;
 	$zeichen1='-';
-	$notcp="-notcp";$nodpp="-noddp",$port="-port";$address="-address";
-	$logimMessage="-loginmesg";$savepass="savepassword";$setpass="setpassword";
+	$notcp="-notcp";
+	$nodpp="-noddp";
+	$port="-port";
+	$address="-ipaddr";
+	$loginMessage="-loginmesg";
+	$nosavepass="-nosavepassword";
+	$nosetpass="-nosetpassword";
 	$fileToRead = $config{'afpd_c'};
 	open(FH,"<$fileToRead") || die "Datei $fileToRead nicht einlesbar";
 	while(<FH>)
@@ -1020,7 +1027,7 @@ sub getAllAfpd
 	#mgk: Line with continuation characters read in
     	if($_=~/(^[0-9A-Za-z$zeichen1"].*)/  ){
     		#print "$1 <br>\n";
-    		@afpd = ($hostname,"-tcp","-ddp","-","-","","-","-");
+    		@afpd = ($hostname,"-tcp","-ddp","-","-","","-savepassword","-setpassword");
     			#server auslesen
 			#mgk: servers select
     		
@@ -1033,20 +1040,20 @@ sub getAllAfpd
     		if($_ =~ /$nodpp/){
     		 	@afpd[2]=$nodpp;
     		}
-    		if($_ =~ /$port\s*([0-9]*)/){
+    		if($_ =~ /$port\s([\d]+)/){
     		 	@afpd[3]=$1;
     		}
-    		if($_ =~ /$address\s*([0-9.]*)/){
+    		if($_ =~ /$address\s(\d+\.\d+\.\d+\.\d+)/){
     		 	@afpd[4]=$1;
     		}
-    		if($_ =~ /$logimMessage\s*"(.*?)"/){
+    		if($_ =~ /$loginMessage\s"(.*?)"/){
     		 	@afpd[5]=$1;
     		}
-    		if($_ =~ /$savepass/){
-    		 	@afpd[6]=$savepass;
+    		if($_ =~ /$nosavepass/){
+    		 	@afpd[6]=$nosavepass;
     		}
-    		if($_ =~ /$setpass/){
-    		 	@afpd[7]=$setpass;
+    		if($_ =~ /$nosetpass/){
+    		 	@afpd[7]=$nosetpass;
     		}
     		push(@afpd_all,@afpd);
     	}

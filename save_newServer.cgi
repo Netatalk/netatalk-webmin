@@ -22,7 +22,7 @@ require './netapple-lib.pl';
 &ReadParse();
 	
 $hostname=getHostName();
-$filetoedit =   $config{'afpd_c'};
+$filetoedit = $config{'afpd_c'};
 if($in{old_servername}){
 		$server=$in{old_servername};
 		$server =~  /$hostname*/  ? $server="-" : "" ;
@@ -69,26 +69,22 @@ sub createNewLine(){
 		$newString.=" ";
 	}
 	if($in{port}){
+		$newString.="-port ";
 		$newString.=$in{port};
-		 $newString.=" ";
+		$newString.=" ";
 	}
 	if($in{address}){
+		$newString.="-ipaddr ";
 		$newString.=$in{address};
-		 $newString.=" ";
+		$newString.=" ";
 	}
-	if($in{savepassword} || $in{setpassword}){
-		$newString.=" passwd: ";
+	if($in{savepassword}){
+		$newString.="$in{savepassword}";
+		$newString.=" ";
 	}
 	if($in{setpassword}){
 		$newString.=$in{setpassword};
-		 $newString.=" ";
-	}
-	if($in{savepassword} && $in{setpassword}){
-		$newString.=",";
-	}
-	if($in{savepassword}){
-		$newString.=$in{savepassword};
-		 $newString.=" ";
+		$newString.=" ";
 	}
 	if($in{logmesg}){
 	    $newString.="-loginmesg \"";
