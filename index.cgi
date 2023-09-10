@@ -77,7 +77,7 @@ print "    </tr>\n";
 foreach $s (open_afile()){
     $sharename = getShareName($s);
     $path = getPath($s);
-    $options = getOptions($s);
+    $options = getAllOptions($s);
     print "<tr $cb>\n";
     print "    <td><a href=\"modi_fshare.cgi?$share$sharename&$Path$path\"><b>$sharename</b></a></td>";
     print "    <td><b>$path</b></td>";
