@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# Common function for editing the netatalk config files
+# Common functions for manipulating the netatalk config files
 
 #
 #    Netatalk Webmin Module
@@ -213,7 +213,7 @@ sub open_afile
 }
 
 #------------------------------------------------------------------------------
-#Getter routines for volume_format object members
+#Getter subroutines for volume_format object members
 #------------------------------------------------------------------------------
 sub getShareName
 {
@@ -227,12 +227,12 @@ sub getShareName
 
 sub getPath
 {
-  	my ($var1) = @_;
-  	$path =0;
-  	if ($rp = $pername{$var1}){
+	my ($var1) = @_;
+	$path = 0;
+	if ($rp = $pername{$var1}){
 		$path = $rp->path;
- 	}
-  	return $path;
+	}
+	return $path;
 }
 
 sub getAdouble
@@ -513,14 +513,15 @@ sub getAllOptions
 #------------------------------------------------------------------------------
 sub getPathOK
 {
-     	my ($var1) = @_;
-     	local($rv);
-     	$rv =0;
-     	opendir(DIR,$var1);
-     	if(readdir(DIR)){
-     		$rv = "1";
-     	}
-     	closedir(DIR);
+	my ($var1) = @_;
+	local($rv);
+	$rv = 0;
+	opendir(DIR,$var1);
+	# Bypass the dir exists check if the path starts at the home dir
+	if(readdir(DIR) || $var1 =~ /^~/){
+		$rv = "1";
+	}
+	closedir(DIR);
 	return $rv;
 }
 
