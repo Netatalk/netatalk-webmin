@@ -17,7 +17,7 @@
 #    GNU General Public License for more details.
 #
 
-require './netapple-lib.pl';
+require './netatalk2-lib.pl';
 
 $path="NoPath";
 $s="homes";

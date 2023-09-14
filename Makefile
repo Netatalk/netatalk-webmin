@@ -28,7 +28,7 @@ FILES = \
 	lang/de \
 	lang/en \
 	module.info \
-	netapple-lib.pl \
+	netatalk2-lib.pl \
 	README \
 	restart.cgi \
 	server_create_form.cgi \
@@ -54,33 +54,33 @@ install:
 
 clean:
 	-rm -f netatalk2-wbm.tgz netatalk2-local-wbm.tgz netatalk2-opt-wbm.tgz
-	-rm -rf netapple
+	-rm -rf netatalk2
 
 netatalk2-wbm.tgz: $(FILES)
 	@echo 'Creating Netatalk Webmin Module archive in "netatalk2-wbm.tgz" ...'
 	@-rm -rf netatalk2 netatalk2-wbm.tgz
-	@mkdir netapple
-	@tar cf - $(FILES) | tar xf - -C netapple
-	@tar cf - netapple | gzip > netatalk2-wbm.tgz
-	@rm -rf netapple
+	@mkdir netatalk2
+	@tar cf - $(FILES) | tar xf - -C netatalk2
+	@tar cf - netatalk2 | gzip > netatalk2-wbm.tgz
+	@rm -rf netatalk2
 	@echo Done.
 
 netatalk2-local-wbm.tgz: $(FILES)
 	@echo 'Creating Netatalk Webmin Module archive in "netatalk2-local-wbm.tgz" ...'
-	@-rm -rf netapple netatalk2-local-wbm.tgz
-	@mkdir netapple
-	@tar cf - $(FILES) | tar xf - -C netapple
-	@cp config-usr-local netapple/config
-	@tar cf - netapple | gzip > netatalk2-local-wbm.tgz
-	@rm -rf netapple
+	@-rm -rf netatalk2 netatalk2-local-wbm.tgz
+	@mkdir netatalk2
+	@tar cf - $(FILES) | tar xf - -C netatalk2
+	@cp config-usr-local netatalk2/config
+	@tar cf - netatalk2 | gzip > netatalk2-local-wbm.tgz
+	@rm -rf netatalk2
 	@echo Done.
 
 netatalk2-opt-wbm.tgz: $(FILES)
 	@echo 'Creating Netatalk Webmin Module archive in "netatalk2-opt-wbm.tgz" ...'
-	@-rm -rf netapple netatalk2-opt-wbm.tgz
-	@mkdir netapple
-	@tar cf - $(FILES) | tar xf - -C netapple
-	@cp config-opt-netatalk netapple/config
-	@tar cf - netapple | gzip > netatalk2-opt-wbm.tgz
-	@rm -rf netapple
+	@-rm -rf netatalk2 netatalk2-opt-wbm.tgz
+	@mkdir netatalk2
+	@tar cf - $(FILES) | tar xf - -C netatalk2
+	@cp config-opt-netatalk netatalk2/config
+	@tar cf - netatalk2 | gzip > netatalk2-opt-wbm.tgz
+	@rm -rf netatalk2
 	@echo Done.

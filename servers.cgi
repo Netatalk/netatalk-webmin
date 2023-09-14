@@ -16,7 +16,7 @@
 #    GNU General Public License for more details.
 
 
-do './netapple-lib.pl';
+do './netatalk2-lib.pl';
 
 &header($text{'server_header'}, "",undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
 

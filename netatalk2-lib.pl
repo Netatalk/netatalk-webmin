@@ -22,7 +22,7 @@
 do '../web-lib.pl';
 use File::Copy;
 use CGI qw/:standard/;
-&init_config("netapple");
+&init_config("netatalk2");
 
 #datei means "file"
 $datei = $config{'applevolumedefault_c'};

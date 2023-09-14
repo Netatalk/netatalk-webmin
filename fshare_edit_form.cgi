@@ -22,7 +22,7 @@
 # I had written one as well, but liked his O-O approach to things (after
 #   some tweaking).
 
-require './netapple-lib.pl';
+require './netatalk2-lib.pl';
 
 &ReadParse();
 open_afile();
@@ -191,7 +191,7 @@ $Oldpath= "oldpath";
 
 print "<hr>\n";
 print "<p><p>\n";
-print "<form action=save_Modi_FShare.cgi>\n";
+print "<form action=fshare_save_action.cgi>\n";
 print "<input type=hidden name=","oldpath"," value=$Old_path>\n";
 
 print "<table width=100%>\n";

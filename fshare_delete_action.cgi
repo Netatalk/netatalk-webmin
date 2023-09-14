@@ -14,7 +14,7 @@
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
 
-require './netapple-lib.pl';
+require './netatalk2-lib.pl';
 
 &ReadParse();
 

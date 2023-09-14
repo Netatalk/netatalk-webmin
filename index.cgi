@@ -26,10 +26,10 @@ require '../ui-lib.pl';
 
 
 &header($text{'index_title'}, "", undef, 1, 1, undef(), "<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
-do './netapple-lib.pl'; # Sven's lib
+do './netatalk2-lib.pl'; # Sven's lib
 
 if (!-x $config{'afpd_d'}) {
-	print &text('index_ever',"<tt> $config{'netapple'}</tt>", "/config.cgi?$module_name");
+	print &text('index_ever',"<tt> $config{'netatalk2'}</tt>", "/config.cgi?$module_name");
 	print "<p>\n<hr>\n";
 	&footer("/", $text{'index'});
 	exit;

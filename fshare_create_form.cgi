@@ -21,7 +21,7 @@
 # I had written one as well, but liked his O-O approach to things (after 
 #   some tweaking).
 
-require './netapple-lib.pl';
+require './netatalk2-lib.pl';
 
 $path="NoPath";
 $s="homes";
