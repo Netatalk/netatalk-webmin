@@ -19,17 +19,16 @@ use CGI qw/:standard/;
 require './netapple-lib.pl';
 
 &ReadParse();
-	
+
 $hostname = getHostName();
 $filetoedit = $config{'afpd_c'};
 if($in{old_servername}){
 	$server = $in{old_servername};
-	$server =~  /$hostname*/  ? $server="-" : "" ;
+	$server =~ /$hostname*/ ? $server="-" : "" ;
 }
 
 deleteSpezLine($filetoedit ,$server);
 createNewLine();
-addLineToFile($filetoedit);
 
 &redirect("servers.cgi");
 
@@ -41,47 +40,44 @@ addLineToFile($filetoedit);
 sub createNewLine(){
 	local($newString);
 	if($in{server}){
-		$newString="- ";
+		$newString = "- ";
 	}
 	else{
 		if($in{servername}){
-			 $newString=$in{servername};
-			 $newString.="  ";
+			if($in{servername} =~ /[:@]/){
+				showMessage($text{error_illegal_char});
+				return 0;
+			}
+			$newString = "\"$in{servername}\" ";
 		}
 		else{
 			error($text{'save_newServer_errorMessage'});
 		}
 	}
-	if($in{tcpip}){
-		$newString.=$in{tcpip};
-		$newString.=" ";
+	if($in{tcpip} eq "-tcp" && $in{ddp} eq "-ddp"){
+		$newString .= "-transall ";
 	}
-	if($in{ddp}){
-		$newString.=$in{ddp};
-		$newString.=" ";
+	else{
+		$newString .= "$in{ddp} $in{tcpip} ";
 	}
 	if($in{port}){
-		$newString.="-port ";
-		$newString.=$in{port};
-		$newString.=" ";
+		$newString .= "-port $in{port} ";
 	}
 	if($in{address}){
-		$newString.="-ipaddr ";
-		$newString.=$in{address};
-		$newString.=" ";
+		$newString .= "-ipaddr $in{address} ";
 	}
-	if($in{savepassword}){
-		$newString.="$in{savepassword}";
-		$newString.=" ";
-	}
-	if($in{setpassword}){
-		$newString.=$in{setpassword};
-		$newString.=" ";
-	}
+	$newString .= "$in{savepassword} ";
+	$newString .= "$in{setpassword} ";
 	if($in{logmesg}){
-	    $newString.="-loginmesg \"";
-		$newString.=$in{logmesg};
-		$newString.="\" ";
+		$newString .= "-loginmesg \"$in{logmesg}\" ";
+	}
+	if($in{uams}){
+		$in{uams} =~ s/\x00/\,/g;
+		$newString .= "-uamlist $in{uams} ";
+	}
+	$newString .= "$in{icon} ";
+	if($in{mimicmodel}){
+		$newString .= "-mimicmodel \"$in{mimicmodel}\" ";
 	}
 	addLineToFile($filetoedit,$newString);
 }

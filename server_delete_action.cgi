@@ -25,12 +25,12 @@ $hostname=getHostName();
 $filetoedit = $config{'afpd_c'};
 if($in{delete_servername}){
 	$server=$in{delete_servername};
-	$server =~  /$hostname*/  ? $server="-" : "" ;
+	$server =~ /$hostname*/ ? $server="-" : "";
 }
 else {
 	die "No server to delete";
 }
 
-deleteSpezLine($filetoedit ,$server);
+deleteSpezLine($filetoedit, $server);
 
 redirect("servers.cgi");
