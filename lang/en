@@ -136,23 +136,37 @@ edit_create=Create
 edit_delete=Delete
 edit_return=Share List
 
-create_server_header=Create New Server
-create_server_tableheader=Server Configuration
+edit_server_header=Edit Server Configuration
+edit_server_tableheader=Server Configuration
+
+create_server_header=Create New Server Configuration
 create_server_ServerName=Server Name
 create_server_localhost=Use name of localhost
 create_server_TCP=TCP/IP
 create_server_AppleTalk=AppleTalk
+create_server_uams=Authentication Modules
 create_server_Port=Port
 create_server_Address=Address
 create_server_return=Servers
 create_server_pass=Set Password
 create_server_setpass=Save Password
 create_server_lgmesg=Login Message
-
-editexist_server_header=Edit Server
-editexist_server_table_header=Edit Server
+create_server_icon=Classic Mac OS Icon
+create_server_mimicmodel=OSX Icon
 
 save_newServer_noServerName=No usable server name
+
+mimicmodel_rackmac=RackMac
+mimicmodel_powerbook=PowerBook
+mimicmodel_powermac=PowerMac
+mimicmodel_macmini=Macmini
+mimicmodel_imac=iMac
+mimicmodel_macbook=MacBook
+mimicmodel_macbookpro=MacBookPro
+mimicmodel_macbookair=MacBookAir
+mimicmodel_macpro=MacPro
+mimicmodel_appletv=AppleTV1,1
+mimicmodel_airport=AirPort
 
 file=file
 not_readable=not readable
@@ -162,6 +176,7 @@ copy_failed=Failed to copy file
 delete_failed=Can't delete file
 not_valid_path=Not Valid Path
 no_path=No Path
+error_illegal_char=Name may not contain : or @
 
 help_volume=Volume Config Help
 help_configs=Configurations Help

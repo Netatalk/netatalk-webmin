@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# Common function for editing the netatalk config files
+# Common functions for manipulating the netatalk config files
 
 #
 #    Netatalk Webmin Module
@@ -213,7 +213,7 @@ sub open_afile
 }
 
 #------------------------------------------------------------------------------
-#Getter routines for volume_format object members
+#Getter subroutines for volume_format object members
 #------------------------------------------------------------------------------
 sub getShareName
 {
@@ -227,12 +227,12 @@ sub getShareName
 
 sub getPath
 {
-  	my ($var1) = @_;
-  	$path =0;
-  	if ($rp = $pername{$var1}){
+	my ($var1) = @_;
+	$path = 0;
+	if ($rp = $pername{$var1}){
 		$path = $rp->path;
- 	}
-  	return $path;
+	}
+	return $path;
 }
 
 sub getAdouble
@@ -513,14 +513,15 @@ sub getAllOptions
 #------------------------------------------------------------------------------
 sub getPathOK
 {
-     	my ($var1) = @_;
-     	local($rv);
-     	$rv =0;
-     	opendir(DIR,$var1);
-     	if(readdir(DIR)){
-     		$rv = "1";
-     	}
-     	closedir(DIR);
+	my ($var1) = @_;
+	local($rv);
+	$rv = 0;
+	opendir(DIR,$var1);
+	# Bypass the dir exists check if the path starts at the home dir
+	if(readdir(DIR) || $var1 =~ /^~/){
+		$rv = "1";
+	}
+	closedir(DIR);
 	return $rv;
 }
 
@@ -859,18 +860,26 @@ sub showMessage
 
 
 #------------------------------------------------------------------
-#mgk:Function reads file in afpd.conf and stores
+#Function reads file in afpd.conf and stores
 #afpd in array @afpd[server,tcp(tcp,notcp),ddp(ddp,noddp),port,address]
-# in file atalk
 #
 #------------------------------------------------------------------
 sub readAfpd
 {
-	local($fileToRead,$zeichen1,@afpd,@afpd_all);
-	local($notcp,$nodpp,$port,$address,$loginMessage,$savepass,$setpass);
+	local(
+		$fileToRead,
+		@afpd,
+		@afpd_all,
+		$notcp,
+		$nodpp,
+		$port,
+		$address,
+		$loginMessage,
+		$savepass,
+		$setpass
+	);
 	push(@afpd_all,1);
 	$hostname= `hostname`;
-	$zeichen1='-';
 	$notcp="-notcp";
 	$nodpp="-noddp";
 	$port="-port";
@@ -880,25 +889,32 @@ sub readAfpd
 	while(<FH>)
 	{
 		#Line with continuation characters read in
-		if($_=~/(^[0-9A-Za-z$zeichen1"].*)/  ){
-			@afpds = ($hostname,"-tcp","-ddp","-","-");
+		if($_=~/(^[\w\d-\"].*)/ ){
+			@afpd = (
+				$hostname,
+				"-tcp",
+				"-ddp",
+				"-",
+				"-"
+			);
 			
-			if($1 =~ /^(\w+)/)  {
-				@afpds[0]=$1;
+			if($_ =~ /^(\"[^\"]+\"|[^\s-]+)\s/)  {
+				$1 =~ /^\"*([^\"]+)\"*/;
+				@afpd[0]=$1;
 			}
 			if($_ =~ /$notcp/){
-				@afpds[1]=$notcp;
+				@afpd[1]=$notcp;
 			}
 			if($_ =~ /$nodpp/){
-				@afpds[2]=$nodpp;
+				@afpd[2]=$nodpp;
 			}
 			if($_ =~ /$port\s*([0-9]*)/){
-				@afpds[3]=$1;
+				@afpd[3]=$1;
 			}
 			if($_ =~ /$address\s*([0-9.]*)/){
-				@afpds[4]=$1;
+				@afpd[4]=$1;
 			}
-			push(@afpd_all,@afpds);
+			push(@afpd_all,@afpd);
 		}
 	}	
 	close(FH);
@@ -909,16 +925,27 @@ sub readAfpd
 #------------------------------------------------------------------
 #Function reads file in afpd.conf and stores
 #afpd in array @afpd[server,tcp(tcp,notcp),ddp(ddp,noddp),port,address,savepass,setpass]
-# in file atalk
 #
 #------------------------------------------------------------------
 sub getAllAfpd
 {
-	local($fileToRead,$zeichen1,@afpd,@afpd_all);
-	local($notcp,$nodpp,$port,$address,$loginMessage,$nosavepass,$nosetpass);
+	local(
+		$fileToRead,
+		@afpd,
+		@afpd_all,
+		$notcp,
+		$nodpp,
+		$port,
+		$address,
+		$loginMessage,
+		$nosavepass,
+		$nosetpass,
+		$uamlist,
+		$mimicmodel,
+		$noicon
+	);
 	push(@afpd_all);
 	$hostname= `hostname`;
-	$zeichen1='-';
 	$notcp="-notcp";
 	$nodpp="-noddp";
 	$port="-port";
@@ -926,14 +953,30 @@ sub getAllAfpd
 	$loginMessage="-loginmesg";
 	$nosavepass="-nosavepassword";
 	$nosetpass="-nosetpassword";
+	$uamlist="-uamlist";
+	$mimicmodel="-mimicmodel";
+	$noicon="-noicon";
 	$fileToRead = $config{'afpd_c'};
-	open(FH,"<$fileToRead") || die "Datei $fileToRead nicht einlesbar";
+	open(FH,"<$fileToRead") || die "$text{file} $fileToRead $text{not_readable}";
 	while(<FH>)
 	{
 		#Line with continuation characters read in
-		if($_=~/(^[0-9A-Za-z$zeichen1"].*)/  ){
-			@afpd = ($hostname,"-tcp","-ddp","-","-","","-savepassword","-setpassword");
-			if($1 =~ /^(\w+)/)  {
+		if($_=~/(^[\w\d-\"].*)/ ){
+			@afpd = (
+				$hostname,
+				"-tcp",
+				"-ddp",
+				"-",
+				"-",
+				"",
+				"-savepassword",
+				"-setpassword",
+				"-uamlist uams_dhx.so,uams_dhx2.so",
+				"-icon",
+				""
+			);
+			if($_ =~ /^(\"[^\"]+\"|[^\s-]+)\s/)  {
+				$1 =~ /^\"*([^\"]+)\"*/;
 				@afpd[0]=$1;
 			}
 			if($_ =~ /$notcp/){
@@ -956,6 +999,15 @@ sub getAllAfpd
 			}
 			if($_ =~ /$nosetpass/){
 				@afpd[7]=$nosetpass;
+			}
+			if($_ =~ /$uamlist\s([\w\d\.,]+)/){
+				@afpd[8]=$1;
+			}
+			if($_ =~ /$noicon/){
+				@afpd[9]=$noicon;
+			}
+			if($_ =~ /$mimicmodel\s\"*([\w\d\,]+)\"*/){
+				@afpd[10]=$1;
 			}
 			push(@afpd_all,@afpd);
 		}
@@ -1093,7 +1145,8 @@ sub getSpezLine
 	open(OLD,"<$var1") || die "$text{file} $datei $text{not_readable}";
 	while(<OLD>){
 		$counter++;
- 		if($_ =~ /^$var2/ ){
+		# Server names may or may not be quoted
+ 		if($_ =~ /^\"?$var2/ ){
  			$outputli=$counter;
   		}
 	}
