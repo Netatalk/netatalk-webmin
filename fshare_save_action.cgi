@@ -19,6 +19,7 @@ require './netatalk2-lib.pl';
 
 &ReadParse();
 
+deleteLine($datei, $in{oldpath});
 writeNewFileShare($in);
 
 &redirect("");

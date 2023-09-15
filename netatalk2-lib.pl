@@ -122,7 +122,7 @@ sub open_afile
 			}
 			$volume->name($name);
 			#options read in
-			while ($all_options =~ /(\w+):([\w\d$slash\$@,.-]+)/g)
+			while ($all_options =~ /(\w+):([\w\d$slash\$@,.-:]+)/g)
 			{
 				if ("adouble" eq $1) {
 					$options->adouble($2);
@@ -563,10 +563,8 @@ sub getGroups
 #------------------------------------------------------------------------------
 sub writeNewFileShare
 {
-	$space =" ";
-	local($line_1,$line_2,$setSlash,$zeichen);
+	local($line_1, $line_2);
 	my ($in) = @_;
-	$zeichen='"';
 	#homes or other Path
 	if($in{homes}){
 		$line_1 ="~ ";
@@ -574,9 +572,7 @@ sub writeNewFileShare
 	else{
 		$pathli = $in{path};
 		if($pathli && 1 eq getPathOK($pathli)){
-			$path = $in{path};
-			$line_1 = $path;
-			$line_1 .= " ";
+			$line_1 = "$pathli ";
 		}
 		else{
 			showMessage($text{give_correct_path});
@@ -584,189 +580,113 @@ sub writeNewFileShare
 		}
 		#share name is captured
 		if($in{share}){
-			 $sharename=$in{share};
-			 $line_1.=$zeichen;
-			 $line_1.=$sharename;
-			 $line_1.=$zeichen;
-			 $line_1.=" ";
-			 #zeichen == characters
+			$line_1 .= "\"$in{share}\"";
 		}
 		else{
 			showMessage($text{indicate_sharename});
 			return 0;
 		}
 	}
+
 	#options read in
+	$line_1 .= " volsizelimit:$in{volsizelimit}" if $in{volsizelimit};
+	$line_1 .= " allowed_hosts:$in{allowed_hosts}" if $in{allowed_hosts};
+	$line_1 .= " denied_hosts:$in{denied_hosts}" if $in{denied_hosts};
+	$line_1 .= " cnidscheme:$in{cnidscheme}" if $in{cnidscheme};
+	$line_1 .= " cnidserver:$in{cnidserver}" if $in{cnidserver};
+	$line_1 .= " dbpath:$in{dbpath}" if $in{dbpath};
+	$line_1 .= " maccharset:$in{maccharset}" if $in{maccharset};
+	$line_1 .= " password:$in{password}" if $in{password};
+	$line_1 .= " perm:$in{perm}" if $in{perm};
+	$line_1 .= " fperm:$in{fperm}" if $in{fperm};
+	$line_1 .= " dperm:$in{dperm}" if $in{dperm};
+	$line_1 .= " umask:$in{umask}" if $in{umask};
+	$line_1 .= " preexec:$in{preexec}" if $in{preexec};
+	$line_1 .= " postexec:$in{postexec}" if $in{postexec};
+	$line_1 .= " root_preexec:$in{root_preexec}" if $in{root_preexec};
+	$line_1 .= " root_postexec:$in{root_postexec}" if $in{root_postexec};
+	$line_1 .= " veto:$in{veto}" if $in{veto};
+	$line_1 .= " volcharset:$in{volcharset}" if $in{volcharset};
+
 	if($in{adouble_options} && $in{adouble_options} ne "default"){
-		$Adouble =$in{adouble_options};
-		$line_1.=" adouble:";
-		$line_1.=$Adouble;
+		$line_1 .= " adouble:$in{adouble_options}";
 	}
-	if($in{volsizelimit}){
-		$Volsizelimit=$in{volsizelimit};
-		$line_1.=" volsizelimit:";
-		$line_1.=$Volsizelimit;
+	if($in{ea_options} && $in{ea_options} ne "default"){
+		$line_1 .= " ea:$in{ea_options}";
 	}
+	if($in{casefold_options} && $in{casefold_options} ne "default"){
+		$line_1 .= " casefold:$in{casefold_options}";
+	}
+
 	if($in{allow_users} || $in{allow_groups} ){
-		$line_1.=" allow:";
+		$line_1 .= " allow:";
 		if($in{allow_users}){
-		    $line_1.=join(',',split(/\s+/, $in{allow_users}));
+		    $line_1 .= join(',', split(/\s+/, $in{allow_users}));
 		}
 		if($in{allow_users} && $in{allow_groups} ){
-			$line_1.=",@";
+			$line_1 .= ",@";
 		} elsif($in{allow_groups}) {
-			$line_1.="@";
+			$line_1 .= "@";
 		}
 		if($in{allow_groups}){
-			$line_1.=join(',@',split(/\s+/,$in{allow_groups}));
+			$line_1 .= join(',@', split(/\s+/, $in{allow_groups}));
 		}
 	}
 	if($in{deny_users} || $in{deny_groups} ){
-		$line_1.=" deny:";
+		$line_1 .= " deny:";
 		if($in{deny_users}){
-			$line_1.=join(',',split(/\s+/, $in{deny_users}));
+			$line_1 .= join(',', split(/\s+/, $in{deny_users}));
 		}
 		if($in{deny_users} && $in{deny_groups} ){
-			$line_1.=",@";
+			$line_1 .= ",@";
 		} elsif($in{deny_groups}) {
-			$line_1.="@";
+			$line_1 .= "@";
 		}
 		if($in{deny_groups}){
-			$line_1.=join(',@',split(/\s+/,$in{deny_groups}));
+			$line_1 .= join(',@', split(/\s+/, $in{deny_groups}));
 		}
         }
-	if($in{allowed_hosts}){
-		$AllowedHosts=$in{allowed_hosts};
-		$line_1.=" allowed_hosts:";
-		$line_1.=$AllowedHosts;
-	}
-	if($in{denied_hosts}){
-		$DeniedHosts=$in{denied_hosts};
-		$line_1.=" denied_hosts:";
-		$line_1.=$DeniedHosts;
-	}
-	if($in{cnidscheme}){
-		$CnidScheme=$in{cnidscheme};
-		$line_1.=" cnidscheme:";
-		$line_1.=$CnidScheme;
-	}
-	if($in{cnidserver}){
-		$CnidServer=$in{cnidserver};
-		$line_1.=" cnidserver:";
-		$line_1.=$CnidServer;
-	}
-	if($in{dbpath}){
-		$dataPath=$in{dbpath};
-		$line_1.=" dbpath:";
-		$line_1.=$dataPath;
-	}
-	if($in{ea_options} && $in{ea_options} ne "default"){
-		$Ea =$in{ea_options};
-		$line_1.=" ea:";
-		$line_1.=$Ea;
-	}
-	if($in{maccharset}){
-		$MacCharset=$in{maccharset};
-		$line_1.=" maccharset:";
-		$line_1.=$MacCharset;
-	}
+
 	if($in{misc_options}){
-		$line_1.=" options:";
+		$line_1 .= " options:";
 		foreach $name(param(misc_options)){
 			@values = param(misc_options);
-			$input_misc = join(',',@values);
+			$input_misc = join(',', @values);
 		}
-		$line_1.=$input_misc;
+		$line_1 .= $input_misc;
 	}
-	if($in{password}){
-		$PassWord=$in{password};
-		$line_1.=" password:";
-		$line_1.=$PassWord;
-	}
-	if($in{perm}){
-		$Perm=$in{perm};
-		$line_1.=" perm:";
-		$line_1.=$Perm;
-	}
-	if($in{fperm}){
-		$FPerm=$in{fperm};
-		$line_1.=" fperm:";
-		$line_1.=$FPerm;
-	}
-	if($in{dperm}){
-		$DPerm=$in{dperm};
-		$line_1.=" dperm:";
-		$line_1.=$DPerm;
-	}
-	if($in{umask}){
-		$Umask=$in{umask};
-		$line_1.=" umask:";
-		$line_1.=$Umask;
-	}
-	if($in{preexec}){
-		$PreExec=$in{preexec};
-		$line_1.=" preexec:";
-		$line_1.=$PreExec;
-	}
-	if($in{postexec}){
-		$PostExec=$in{postexec};
-		$line_1.=" postexec:";
-		$line_1.=$PostExec;
-	}
-	if($in{root_preexec}){
-		$RootPreExec=$in{root_preexec};
-		$line_1.=" root_preexec:";
-		$line_1.=$RootPreExec;
-	}
-	if($in{root_postexec}){
-		$RootPostExec=$in{root_postexec};
-		$line_1.=" root_postexec:";
-		$line_1.=$RootPostExec;
-	}
+
         if($in{rolist_users} || $in{rolist_groups} ){
-                $line_1.=" rolist:";
+                $line_1 .= " rolist:";
                 if($in{rolist_users}){
-                    $line_1.=join(',',split(/\s+/, $in{rolist_users}));
+                    $line_1 .= join(',', split(/\s+/, $in{rolist_users}));
                 }
                 if($in{rolist_users} && $in{rolist_groups} ){
-                        $line_1.=",@";
+                        $line_1 .= ",@";
                 } elsif($in{rolist_groups}) {
-                        $line_1.="@";
+                        $line_1 .= "@";
                 }
                 if($in{rolist_groups}){
-                        $line_1.=join(',@',split(/\s+/,$in{rolist_groups}));
+                        $line_1 .= join(',@', split(/\s+/, $in{rolist_groups}));
                 }
         }
+
         if($in{rwlist_users} || $in{rwlist_groups} ){
-                $line_1.=" rwlist:";
+                $line_1 .= " rwlist:";
                 if($in{rwlist_users}){
-                    $line_1.=join(',',split(/\s+/, $in{rwlist_users}));
+                    $line_1 .= join(',', split(/\s+/, $in{rwlist_users}));
                 }
                 if($in{rwlist_users} && $in{rwlist_groups} ){
-                        $line_1.=",@";
+                        $line_1 .= ",@";
                 } elsif($in{rwlist_groups}) {
-                        $line_1.="@";
+                        $line_1 .= "@";
                 }
                 if($in{rwlist_groups}){
-                        $line_1.=join(',@',split(/\s+/,$in{rwlist_groups}));
+                        $line_1 .= join(',@', split(/\s+/, $in{rwlist_groups}));
                 }
         }
-	if($in{veto}){
-		$Veto=$in{veto};
-		$line_1.=" veto:";
-		$line_1.=$Veto;
-	}
-	if($in{volcharset}){
-		$VolCharset=$in{volcharset};
-		$line_1.=" volcharset:";
-		$line_1.=$VolCharset;
-	}
-	if($in{casefold_options}  && $in{casefold_options} ne "default"){
-		$caseFoldOption =$in{casefold_options};
-		$line_1.=" casefold:";
-		$line_1.=$caseFoldOption;
-	}
-	writeLine( $line_1 ,$line_2);
+
+	writeLine($line_1, $line_2);
 }
 
 #------------------------------------------------------------------------------
@@ -810,8 +730,8 @@ sub writeLine()
 #$var2 => Start of the line, which is to be found (i.e. directory) 
 #------------------------------------------------------------------
 sub deleteLine(){
-	my ($var1,$var2) = @_;
-	local($counter,$lines);
+	my ($var1, $var2) = @_;
+	local($counter, $lines);
 	if( ! defined $var1){
 		return 0;
 	}
@@ -820,7 +740,7 @@ sub deleteLine(){
 	}
 
         @lines = getLines($datei,$var2);
-        copy( $datei , $temp)
+        copy($datei, $temp)
 	or die "$text{copy_failed}: $!";
 
         &lock_file("$temp");
