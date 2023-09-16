@@ -15,12 +15,9 @@
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
 
-require './netapple-lib.pl';
+require 'netatalk2-lib.pl';
 
-$path="NoPath";
-$s="homes";
-
-&header("Delete Apple File Share", "",undef(),undef(),undef(),undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
+ui_print_header(undef, $text{'delete_file_share_title'}, "", "configs", 1);
 
 print "<p><p>\n";
 print "<form action=fshare_delete_action.cgi>\n";
@@ -46,4 +43,4 @@ print "<input type=submit value=$text{edit_delete}> </form>\n";
 
 print "<hr>\n";
 print "<p><p>\n";
-&footer('', $text{'index_module'});
+ui_print_footer("index.cgi", $text{'index_module'});

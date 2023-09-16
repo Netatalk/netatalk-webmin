@@ -16,14 +16,22 @@
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
 
-require './netapple-lib.pl';
+require 'netatalk2-lib.pl';
 
 &ReadParse();
 
-&header($text{'manual_configs'}, "", undef(), undef(), undef(),1,"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a><br><a href=\"restart.cgi\">Apply Changes</a>");
-print "<br><br>";
+ui_print_header(undef, $text{'manual_configs'}, "", "configs", 1);
 
-@files = ($config{'afpd_c'},$config{'afpdldap_c'},$config{'atalk_c'},$config{'applevolumedefault_c'},$config{'applevolumesystem_c'},$config{'netatalk_c'},$config{'papd_c'},$config{'pam_c'});
+@files = (
+	$config{'afpd_c'},
+	$config{'afpdldap_c'},
+	$config{'atalk_c'},
+	$config{'applevolumedefault_c'},
+	$config{'applevolumesystem_c'},
+	$config{'netatalk_c'},
+	$config{'papd_c'},
+	$config{'pam_c'}
+);
 $in{'file'} = $files[0] if (!$in{'file'});
 
 print qq|<form action="edit_configfiles_form.cgi">\n|;
@@ -50,4 +58,4 @@ print qq|<input type="submit" value="$text{'save'}">\n|;
 print qq|</form>|;
 
 print "<hr>\n";
-&footer('', $text{'index_module'});
+ui_print_footer("index.cgi", $text{'index_module'});

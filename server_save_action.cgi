@@ -15,8 +15,7 @@
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
 
-use CGI qw/:standard/;
-require './netapple-lib.pl';
+require 'netatalk2-lib.pl';
 
 &ReadParse();
 
@@ -24,13 +23,13 @@ $hostname = getHostName();
 $filetoedit = $config{'afpd_c'};
 if($in{old_servername}){
 	$server = $in{old_servername};
-	$server =~ /$hostname*/ ? $server="-" : "" ;
+	$server =~ /$hostname*/ ? $server = "-" : "";
 }
 
-deleteSpezLine($filetoedit ,$server);
+deleteSpezLine($filetoedit, $server);
 createNewLine();
 
-&redirect("servers.cgi");
+redirect("servers.cgi");
 
 #-----------------------------------------------------------------------------
 # Function creates new line with entry for servers
@@ -38,14 +37,15 @@ createNewLine();
 #
 #-----------------------------------------------------------------------------
 sub createNewLine(){
+	local $illegalChars = ":@\$\"";
 	local($newString);
 	if($in{server}){
 		$newString = "- ";
 	}
 	else{
 		if($in{servername}){
-			if($in{servername} =~ /[:@]/){
-				showMessage($text{error_illegal_char});
+			if($in{servername} =~ /[$illegalChars]/){
+				showMessage("$text{error_illegal_char} $illegalChars");
 				return 0;
 			}
 			$newString = "\"$in{servername}\" ";
@@ -79,5 +79,5 @@ sub createNewLine(){
 	if($in{mimicmodel}){
 		$newString .= "-mimicmodel \"$in{mimicmodel}\" ";
 	}
-	addLineToFile($filetoedit,$newString);
+	addLineToFile($filetoedit, $newString);
 }

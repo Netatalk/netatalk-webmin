@@ -17,10 +17,9 @@
 #    GNU General Public License for more details.
 #
 
-require './netapple-lib.pl';
+require 'netatalk2-lib.pl';
 
-$path="NoPath";
-$s="homes";
+ui_print_header(undef, $text{'create_server_header'}, "", "configs", 1);
 
 $uams_guest = "uams_guest.so";
 $uams_clrtxt = "uams_clrtxt.so";
@@ -115,6 +114,6 @@ print "</table> </td></tr></table><p>\n";
 print "<table width=100%><br>\n";
 print "<tr><td align=left><input type=submit value=$text{'edit_create'}></td>\n";
 print "<td align=right><input type=reset value=Reset></td>\n";
-print "</tr></table></form><br>\n";
-print "<hr>\n";
-&footer("servers.cgi",$text{'create_server_return'});
+print "</tr></table></form>\n";
+
+ui_print_footer("servers.cgi", $text{'create_server_return'});

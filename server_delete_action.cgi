@@ -15,16 +15,14 @@
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
 
-use CGI qw/:standard/;
-require './netapple-lib.pl';
-
+require 'netatalk2-lib.pl';
 
 &ReadParse();
-$hostname=getHostName();
+$hostname = getHostName();
 	
 $filetoedit = $config{'afpd_c'};
 if($in{delete_servername}){
-	$server=$in{delete_servername};
+	$server = $in{delete_servername};
 	$server =~ /$hostname*/ ? $server="-" : "";
 }
 else {
