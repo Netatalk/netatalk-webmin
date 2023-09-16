@@ -16,7 +16,7 @@
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
 
-require './netatalk2-lib.pl';
+require 'netatalk2-lib.pl';
 
 &ReadParseMime();
 
@@ -37,4 +37,4 @@ if ($config{'test_manual'}) {
 		}
 	}
 unlink($temp);
-&redirect("");
+redirect("index.cgi");

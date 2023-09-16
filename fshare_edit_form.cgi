@@ -449,7 +449,5 @@ print "<td align=right>\n";
 	print"<input type=hidden  name=delete value=$Old_path>\n";
 	print"<input type=submit value=$text{'global_Delete'}></td></tr></form>\n";
 print "</table>\n";
-print "<hr>\n";
-print "<p><p>\n";
 
 ui_print_footer("index.cgi", $text{'edit_return'});

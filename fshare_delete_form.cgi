@@ -19,7 +19,6 @@ require 'netatalk2-lib.pl';
 
 ui_print_header(undef, $text{'delete_file_share_title'}, "", "configs", 1);
 
-print "<p><p>\n";
 print "<form action=fshare_delete_action.cgi>\n";
 
 print "<h4>Select File Share</h4>\n";
@@ -38,9 +37,6 @@ foreach $s (open_afile())
 }
 
 print "</select>\n";
-
 print "<input type=submit value=$text{edit_delete}> </form>\n";
 
-print "<hr>\n";
-print "<p><p>\n";
-ui_print_footer("index.cgi", $text{'index_module'});
+ui_print_footer("index.cgi", $text{'edit_return'});

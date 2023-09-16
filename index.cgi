@@ -24,7 +24,7 @@ ui_print_header(undef, $text{'index_title'}, "", "configs", 1, 1);
 if (!-x $config{'afpd_d'}) {
 	print &text('index_ever',"<tt> $config{'netatalk2'}</tt>", "/config.cgi?$module_name");
 	print "<p>\n<hr>\n";
-	&footer("/", $text{'index'});
+	ui_print_footer("/", $text{'index'});
 	exit;
 }
 

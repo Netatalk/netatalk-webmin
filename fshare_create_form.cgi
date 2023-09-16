@@ -21,19 +21,11 @@
 # I had written one as well, but liked his O-O approach to things (after 
 #   some tweaking).
 
-require './netatalk2-lib.pl';
+require 'netatalk2-lib.pl';
 
-$path="NoPath";
-$s="homes";
+ui_print_header(undef, $text{'edit_header'}, "", "configs", 1);
 
-&header($text{'edit_header'},"", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
-print"<p><p>\n";
-
-
-print "<hr>\n";
-print "<p><p>\n";
 print "<form action=fshare_save_action.cgi>\n";
-
 print "<table width=100%>\n";
 print "<tr $tb> <td><b>$text{'edit_tableheader'}</b></td></tr>\n";
 print "<tr $cb> <td>\n";
@@ -45,7 +37,7 @@ print "<table>\n";
 	print "<input type=radio name=homes value=1 >$text{'edit_homedirectory'}\n";
 	print "</td> </tr>\n";
 print "<tr> <td align=right><b>$text{'edit_directory'}</b></td>\n";
-print "<td colspan=4><input name=path size=40  value= >\n";
+print "<td colspan=4><input name=path size=40 value= >\n";
 print &file_chooser_button("path", 1);
 print "</td> </tr>\n";
 
@@ -222,7 +214,4 @@ print "<td align=left><input type=submit value=$text{'edit_create'}></td>\n";
 print "<td align=right><input type=reset value=Reset></td><br>\n";
 print"</tr></table></form>";
 
-print "<hr>\n";
-print "<p><p>\n";
-
-&footer("index.cgi",$text{'edit_return'});
+ui_print_footer("index.cgi", $text{'edit_return'});
