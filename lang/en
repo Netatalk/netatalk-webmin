@@ -36,12 +36,16 @@ index_running_services=Netatalk services are running.
 index_not_running=Service is not running 
 index_start_service=Start Netatalk Service
 index_running_service=Service is running 
-index_restart=Restart Netatalk Services
-index_stop=Stop Netatalk Services
-index_start_but=Start Apple File Sharing
 index_ever=The afpd program was not found on your system. Maybe Netatalk is not installed, or your <a href='$2'> module configuration</a> is incorrect.
 index_global=Global Configurations and Options
 index_volumes=AFP Volumes
+
+index_process_control_restart_txt=Restart netatalk services using <code>$1</code>
+index_process_control_start_txt=Start netatalk services using <code>$1</code>
+index_process_control_stop_txt=Stop netatalk services using <code>$1</code>
+index_process_control_restart=Restart Netatalk Services
+index_process_control_start=Start Netatalk Services
+index_process_control_stop=Stop Netatalk Services
 
 index_servername=Server Name
 index_protocols=Active Protocols
