@@ -16,9 +16,9 @@
 #    GNU General Public License for more details.
 
 
-do './netatalk2-lib.pl';
+require 'netatalk2-lib.pl';
 
-&header($text{'server_header'}, "",undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
+ui_print_header(undef, $text{'servers_title'}, "", "configs", 1);
 
 @Servers = readAfpd();
 if(@Servers[1] ne ""){
@@ -60,6 +60,6 @@ print "<p>";
 print "<a href=\"server_create_form.cgi\">$text{'index_newServer'}</a>\n&nbsp&nbsp&nbsp";
 print "<p>";
 
-&footer("index.cgi", "Share List");
+ui_print_footer("index.cgi", $text{'edit_return'});
 
 ### END of servers.cgi ###.

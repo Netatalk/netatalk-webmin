@@ -18,15 +18,8 @@
 #
 #    This module inherited from the Webmin Module Template 0.79.1
 
-require '../web-lib.pl';
-&init_config();
-require '../ui-lib.pl';
-
-## put in ACL checks here if needed
-
-
-&header($text{'index_title'}, "", undef, 1, 1, undef(), "<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
-do './netatalk2-lib.pl'; # Sven's lib
+require 'netatalk2-lib.pl';
+ui_print_header(undef, $text{'index_title'}, "", "configs", 1, 1);
 
 if (!-x $config{'afpd_d'}) {
 	print &text('index_ever',"<tt> $config{'netatalk2'}</tt>", "/config.cgi?$module_name");
@@ -36,13 +29,13 @@ if (!-x $config{'afpd_d'}) {
 }
 
 # Print start/stop part
-@afpd = &find_byname($config{'afpd_d'});
+@afpd = find_byname($config{'afpd_d'});
 if(@afpd){
 	print qq|<h3>$text{'index_running_services'}</h3>|;
 	print qq|<table width="100%" cellspacing="8" cellpadding="8" border="0">
 		<tr height="20">
 		<td width="165" align="center"><form action="restart.cgi"><input type="submit" value="$text{'index_restart'}"></form></td>
-		<td>Restart netatalk services using <code>$config{restart_netatalk}</code></td>
+		<td>Restart netatalk services using <code>$config{'restart_netatalk'}</code></td>
 		</tr>
 		<tr height="20">
 		<td width="165" align="center"><form action="stop.cgi"><input type="submit" value="$text{'index_stop'}"></form></td>
@@ -50,7 +43,8 @@ if(@afpd){
 		</tr>
 		</table>
 		|;
-} else{
+}
+else{
 	print qq|<h3>$text{'index_not_running_services'}</h3>|;
 	print qq|<table width="100%" cellspacing="8" cellpadding="8" border="0">
 		<tr height="20">

@@ -14,12 +14,11 @@
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
 
-use CGI qw/:standard/;
-require './netatalk2-lib.pl';
+require 'netatalk2-lib.pl';
 
 &ReadParse();
 
 deleteLine($datei, $in{oldpath});
 writeNewFileShare($in);
 
-&redirect("");
+redirect("index.cgi");

@@ -16,11 +16,11 @@
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
 
-require './netatalk2-lib.pl';
+require 'netatalk2-lib.pl';
 
 &ReadParse();
 
-&header($text{'edit_server_header'},"", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
+ui_print_header(undef, $text{'edit_server_header'}, "", "configs", 1);
 
 print"<p>\n";
 
@@ -206,20 +206,12 @@ print "</table> </td></tr></table><p>\n";
 
 print "<table width=100%>\n";
 print "<tr>";
-print "<input type=hidden name=old_servername value=\"$servername\">\n";
-print "<input type=hidden name=old_tcpip value=$tcpip>\n";
-print "<input type=hidden name=old_ddp value=$ddp>\n";
-print "<input type=hidden name=old_port value=$port>\n";
-print "<input type=hidden name=old_adress value=$address>\n";
-print "<input type=hidden name=link value=\"servers.cgi\">\n";
+print "<input type=\"hidden\" name=\"old_servername\" value=\"$servername\">\n";
+print "<td align=left><input type=\"submit\" value=\"$text{'global_Save'}\"></td></form>\n";
 
-print "<td align=left><input type=submit value=$text{'global_Save'}></td></form>\n";
+print "<table><tr><form action=\"server_delete_action.cgi\">";
+print "<input type=\"hidden\" name=\"delete_servername\" value=\"$servername\">\n";
+print "<td align=right><input type=\"submit\" value=\"$text{'edit_delete'}\"></td>\n";
+print "</form></tr></table>";
 
-print "<form action=server_delete_action.cgi>";
-print "<input type=hidden name=delete_servername value=\"$servername\">\n";
-print "<td align=right><input type=submit value=$text{'edit_delete'}></td>\n";
-print "</tr></table></form>";
-
-print "<hr>\n";
-print "<p><p>\n";
-&footer("servers.cgi","Servers");
+ui_print_footer("servers.cgi", $text{'create_server_return'});

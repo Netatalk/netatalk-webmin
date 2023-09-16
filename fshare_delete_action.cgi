@@ -23,4 +23,4 @@ if($in{delete}){
 	$lines = deleteLine($datei, $info);
 }
 
-&redirect("");
+redirect("index.cgi");

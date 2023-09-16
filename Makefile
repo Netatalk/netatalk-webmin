@@ -12,11 +12,11 @@ FILES = \
 	edit_configfiles_form.cgi \
 	edit_configfiles_save.cgi \
 	fshare_create_form.cgi \
-	fshare_edit_form.cgi \
 	fshare_delete_action.cgi \
 	fshare_delete_form.cgi \
+	fshare_edit_form.cgi \
 	fshare_save_action.cgi \
-	help/configs.cgi \
+	help/configs.html \
 	images/edit.gif \
 	images/icon.gif \
 	images/interface.png \

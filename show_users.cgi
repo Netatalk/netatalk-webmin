@@ -17,19 +17,11 @@
 #    GNU General Public License for more details.
 #
 
-do '../web-lib.pl';
+require 'netatalk2-lib.pl';
 
-$|=1;
-
-&init_config();
-
-&header($text{users_title}, "", undef(), 1, 1,undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
+ui_print_header(undef, $text{'users_title'}, "", "configs", 1);
 
 &ReadParse();
-
-print "<br><BR>\n";
-print "<h3>You click \"Kill\", and they are gone.</h3>";
-print "<hr>\n";
 
 if($in{kill}) {
 	$in{kill} =~ s/\D//gi;
@@ -54,15 +46,15 @@ for (qx(ps aux)) {
 
 print "<h4>There are currently " . scalar(@users) . " users connected.</h4>\n";
 print "<table border=\"0\" width=\"80%\">\n";
-print "<tr $tb><td><b>User</b></td><td><b>Connected Since</b></td><td><b>Kill</b></td></tr>\n";
+print "<tr $tb><td><b>User</b></td><td><b>Connected Since</b></td><td><b>Action</b></td></tr>\n";
 foreach my $user (sort @users) {
 	#username,PID,date
 	my @line = split(":::", $user);
 	print "<tr $tc><td>$line[0] </td><td>$line[2]</td><td>";
-	print "<form action=\"show_users.cgi\"><input type=submit name=kill value=\"Kill $line[1]\"></form>";
+	print "<form action=\"show_users.cgi\"><input type=submit name=kill value=\"Disconnect (uid $line[1])\"></form>";
 	print "</td></tr>\n";
 }
 print "</table>\n";
 print "<br><br>\n";
 
-&footer("index.cgi",$text{'edit_return'});
+ui_print_footer("index.cgi", $text{'edit_return'});

@@ -22,13 +22,12 @@
 # I had written one as well, but liked his O-O approach to things (after
 #   some tweaking).
 
-require './netatalk2-lib.pl';
+require 'netatalk2-lib.pl';
 
 &ReadParse();
+ui_print_header(undef, $text{'edit_file_share_title'}, "", "configs", 1);
+
 open_afile();
-
-
-&header($text{'edit_file_title'}, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
 
 if($in{shareName}){
 	$Old_shareName = $in{shareName};
@@ -40,6 +39,13 @@ if($in{path}){
 $Options = getAllOptions($Old_shareName);
 $Adouble = getAdouble($Old_shareName);
 $Volsizelimit = getVolsizelimit($Old_shareName);
+$AllowedHosts = getAllowedHosts($Old_shareName);
+$DeniedHosts = getDeniedHosts($Old_shareName);
+$CnidScheme = getCnidScheme($Old_shareName);
+$CnidServer = getCnidServer($Old_shareName);
+$Database = getDatabase($Old_shareName);
+$Ea = getEa($Old_shareName);
+$MacCharset = getMacCharset($Old_shareName);
 
 $Allow = getAllow($Old_shareName);
 while( $Allow =~ /([A-Za-z0-9@\$]+)/g) {
@@ -64,16 +70,7 @@ while( $Deny =~ /([A-Za-z0-9@\$]+)/g) {
         else{
                 push(@deny_users,$1);
         }
-
 }
-
-$AllowedHosts = getAllowedHosts($Old_shareName);
-$DeniedHosts = getDeniedHosts($Old_shareName);
-$CnidScheme = getCnidScheme($Old_shareName);
-$CnidServer = getCnidServer($Old_shareName);
-$Database = getDatabase($Old_shareName);
-$Ea = getEa($Old_shareName);
-$MacCharset = getMacCharset($Old_shareName);
 
 while( $Options =~ /\b([A-Za-z]+)\b/g) {
 	if($1 eq "searchdb"){
@@ -455,4 +452,4 @@ print "</table>\n";
 print "<hr>\n";
 print "<p><p>\n";
 
-&footer("",$text{'edit_return'});
+ui_print_footer("index.cgi", $text{'edit_return'});

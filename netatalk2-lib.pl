@@ -19,10 +19,14 @@
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
 
+# TODO: Figure out how to avoid importing web-lib.pl explicitly here...
+#       It should be part of WebminCore imports
 do '../web-lib.pl';
+BEGIN { push(@INC, ".."); };
+use WebminCore;
 use File::Copy;
 use CGI qw/:standard/;
-&init_config("netatalk2");
+init_config();
 
 #datei means "file"
 $datei = $config{'applevolumedefault_c'};
@@ -258,7 +262,7 @@ sub getVolsizelimit
 sub getAllow
 {
   	my ($var1) = @_;
-  	$Access ="";
+  	$Access = "";
   	if ($rp = $pername{$var1}){
 		$Access = $rp->options->allow;
  	}
@@ -268,7 +272,7 @@ sub getAllow
 sub getDeny
 {
         my ($var1) = @_;
-        $Access ="";
+        $Access = "";
         if ($rp = $pername{$var1}){
                 $Access = $rp->options->deny;
         }
@@ -278,7 +282,7 @@ sub getDeny
 sub getAllowedHosts
 {
   	my ($var1) = @_;
-  	$AllowedHosts ="";
+  	$AllowedHosts = "";
   	if ($rp = $pername{$var1}){
 		$AllowedHosts = $rp->options->allowed_hosts;
  	}
@@ -288,7 +292,7 @@ sub getAllowedHosts
 sub getDeniedHosts
 {
         my ($var1) = @_;
-        $DeniedHosts ="";
+        $DeniedHosts = "";
         if ($rp = $pername{$var1}){
                 $DeniedHosts = $rp->options->denied_hosts;
         }
@@ -298,7 +302,7 @@ sub getDeniedHosts
 sub getCnidScheme
 {
         my ($var1) = @_;
-        $CnidScheme ="";
+        $CnidScheme = "";
         if ($rp = $pername{$var1}){
                 $CnidScheme = $rp->options->cnidscheme;
         }
@@ -308,7 +312,7 @@ sub getCnidScheme
 sub getCnidServer
 {
         my ($var1) = @_;
-        $CnidServer ="";
+        $CnidServer = "";
         if ($rp = $pername{$var1}){
                 $CnidServer = $rp->options->cnidserver;
         }
@@ -318,7 +322,7 @@ sub getCnidServer
 sub getDatabase
 {
   	my ($var1) = @_;
-  	$Database ="";
+  	$Database = "";
   	if ($rp = $pername{$var1}){
 		$Database = $rp->options->dbpath;
  	}	
@@ -328,7 +332,7 @@ sub getDatabase
 sub getEa
 {
         my ($var1) = @_;
-        $Ea ="";
+        $Ea = "";
         if ($rp = $pername{$var1}){
                 $Ea = $rp->options->ea;
         }
@@ -338,7 +342,7 @@ sub getEa
 sub getMacCharset
 {
         my ($var1) = @_;
-        $MacCharset ="";
+        $MacCharset = "";
         if ($rp = $pername{$var1}){
                 $MacCharset = $rp->options->maccharset;
         }
@@ -348,7 +352,7 @@ sub getMacCharset
 sub getOptions
 {
   	my ($var1) = @_;
-  	$Options ="";
+  	$Options = "";
   	if ($rp = $pername{$var1}){
 		$Options = $rp->options->options;
  	}
@@ -358,7 +362,7 @@ sub getOptions
 sub getPassword
 {
   	my ($var1) = @_;
-  	$Password ="";
+  	$Password = "";
   	if ($rp = $pername{$var1}){
 		$Password = $rp->options->password;
  	}	
@@ -368,7 +372,7 @@ sub getPassword
 sub getPerm
 {
   	my ($var1) = @_;
-  	$Perm ="";
+  	$Perm = "";
   	if ($rp = $pername{$var1}){
 		$Perm = $rp->options->perm;
  	}	
@@ -378,7 +382,7 @@ sub getPerm
 sub getFPerm
 {
   	my ($var1) = @_;
-  	$FPerm ="";
+  	$FPerm = "";
   	if ($rp = $pername{$var1}){
 		$FPerm = $rp->options->fperm;
  	}	
@@ -388,7 +392,7 @@ sub getFPerm
 sub getDPerm
 {
   	my ($var1) = @_;
-  	$DPerm ="";
+  	$DPerm = "";
   	if ($rp = $pername{$var1}){
 		$DPerm = $rp->options->dperm;
  	}	
@@ -398,7 +402,7 @@ sub getDPerm
 sub getUmask
 {
   	my ($var1) = @_;
-  	$Umask ="";
+  	$Umask = "";
   	if ($rp = $pername{$var1}){
 		$Umask = $rp->options->umask;
  	}	
@@ -408,7 +412,7 @@ sub getUmask
 sub getPreExec
 {
   	my ($var1) = @_;
-  	$PreExec ="";
+  	$PreExec = "";
   	if ($rp = $pername{$var1}){
 		$PreExec = $rp->options->preexec;
  	}	
@@ -418,7 +422,7 @@ sub getPreExec
 sub getPostExec
 {
   	my ($var1) = @_;
-  	$PostExec ="";
+  	$PostExec = "";
   	if ($rp = $pername{$var1}){
 		$PostExec = $rp->options->postexec;
  	}	
@@ -428,7 +432,7 @@ sub getPostExec
 sub getRootPreExec
 {
   	my ($var1) = @_;
-  	$RootPreExec ="";
+  	$RootPreExec = "";
   	if ($rp = $pername{$var1}){
 		$RootPreExec = $rp->options->root_preexec;
  	}	
@@ -438,7 +442,7 @@ sub getRootPreExec
 sub getRootPostExec
 {
   	my ($var1) = @_;
-  	$RootPostExec ="";
+  	$RootPostExec = "";
   	if ($rp = $pername{$var1}){
 		$RootPostExec = $rp->options->root_postexec;
  	}	
@@ -448,7 +452,7 @@ sub getRootPostExec
 sub getRolist
 {
         my ($var1) = @_;
-        $Access ="";
+        $Access = "";
         if ($rp = $pername{$var1}){
                 $Access = $rp->options->rolist;
         }
@@ -458,7 +462,7 @@ sub getRolist
 sub getRwlist
 {
         my ($var1) = @_;
-        $Access ="";
+        $Access = "";
         if ($rp = $pername{$var1}){
                 $Access = $rp->options->rwlist;
         }
@@ -468,7 +472,7 @@ sub getRwlist
 sub getVeto
 {
         my ($var1) = @_;
-        $Veto ="";
+        $Veto = "";
         if ($rp = $pername{$var1}){
                 $Veto = $rp->options->veto;
         }
@@ -478,7 +482,7 @@ sub getVeto
 sub getVolCharset
 {
         my ($var1) = @_;
-        $VolCharset ="";
+        $VolCharset = "";
         if ($rp = $pername{$var1}){
                 $VolCharset = $rp->options->volcharset;
         }
@@ -1025,7 +1029,7 @@ sub getLines(){
 #$var2 =>Start of the line, which is to be found (e.g. directory)
 #------------------------------------------------------------------
 sub deleteSpezLine(){
-	my ($var1,$var2) = @_;
+	my ($var1, $var2) = @_;
 	local($temporary);
 	if( ! defined $var1){
 		return 0;
@@ -1033,25 +1037,24 @@ sub deleteSpezLine(){
 	if( ! defined $var2){
 		return 0;
 	}
-	$line = getSpezLine($var1,$var2);
-	$temporary="$var1.temp";
+	$line = getSpezLine($var1, $var2);
+	$temporary = "$var1.temp";
  	copy($var1, $temp)
 		or die "$text{copy_failed}: $!";
 
 	lock_file("$temporary");
-	open(OLD,"<$var1") || die "$text{file} $datei $text{not_readable}";
-	open(NEW,">$temporary")  || die "$text{file} $temp $text{not_readable}";
+	open(OLD, "<$var1") || die "$text{file} $datei $text{not_readable}";
+	open(NEW, ">$temporary") || die "$text{file} $temp $text{not_readable}";
 	while(<OLD>){
-	
- 		if($. != $line ){
-  			print NEW $_;
-  		}
+		if($. != $line ){
+			print NEW $_;
+		}
 	}
 	close(OLD);
 	close(NEW);
 	unlock_file("$temporary");
-	rename($var1,"$var1.orig");
-	rename($temporary,$var1);
+	rename($var1, "$var1.orig");
+	rename($temporary, $var1);
 	unlink("$var1.orig") or die "$text{delete_failed}: $var1.orig\n";
 	return 1;
 	
@@ -1059,15 +1062,17 @@ sub deleteSpezLine(){
 
 sub getSpezLine
 {
-	my ($var1,$var2) = @_;
-	local($counter,$outputli);
+	my ($var1, $var2) = @_;
+	local($counter, $outputli, $escaped_name);
 	$counter = 0;
-	open(OLD,"<$var1") || die "$text{file} $datei $text{not_readable}";
+	# Escape special chars such as the dollar sign
+	$escaped_name = quotemeta($var2);
+	open(OLD, "<$var1") || die "$text{file} $datei $text{not_readable}";
 	while(<OLD>){
 		$counter++;
 		# Server names may or may not be quoted
- 		if($_ =~ /^\"?$var2/ ){
- 			$outputli=$counter;
+ 		if($_ =~ /^\"?$escaped_name/ ){
+ 			$outputli = $counter;
   		}
 	}
 	close(OLD);
@@ -1166,4 +1171,4 @@ sub parse_str
 	return @ret;
 }
 
-1;
+#1;
