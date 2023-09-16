@@ -22,9 +22,6 @@ require 'netatalk2-lib.pl';
 
 ui_print_header(undef, $text{'edit_server_header'}, "", "configs", 1);
 
-print"<p>\n";
-
-
 $ddpon = "-ddp";
 $tcpon = "-tcp";
 $savepasswon = "-savepassword";

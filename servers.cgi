@@ -25,8 +25,8 @@ if(@Servers[1] ne ""){
 	print "<table width=100% border>\n";
 	print "<tr $tb>";
 	print "<td><b>$text{'index_servername'}</b></td>";
-	print "<td><b>$text{'index_tcp'}</b></td>";
-	print "<td><b>$text{'index_ddp'}</b></td>";
+	print "<td><b>$text{'index_protocols'}</b></td>";
+	print "<td><b>$text{'index_auth'}</b></td>";
 	print "<td><b>$text{'index_port'}</b></td>";
 	print "<td><b>$text{'index_address'}</b></td>";
 	print "</tr>\n";
@@ -56,9 +56,11 @@ if(@Servers[1] ne ""){
 	}
 	print "</tr></table>\n";
 }
-print "<p>";		
-print "<a href=\"server_create_form.cgi\">$text{'index_newServer'}</a>\n&nbsp&nbsp&nbsp";
-print "<p>";
+
+my @links = ("server_create_form.cgi");
+my @titles = ($text{'index_newServer'});
+my @icons = ("images/interface.png");
+icons_table(\@links, \@titles, \@icons);
 
 ui_print_footer("index.cgi", $text{'edit_return'});
 

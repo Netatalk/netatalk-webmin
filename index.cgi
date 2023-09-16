@@ -24,38 +24,31 @@ ui_print_header(undef, $text{'index_title'}, "", "configs", 1, 1);
 if (!-x $config{'afpd_d'}) {
 	print &text('index_ever',"<tt> $config{'netatalk2'}</tt>", "/config.cgi?$module_name");
 	print "<p>\n<hr>\n";
-	&footer("/", $text{'index'});
+	ui_print_footer("/", $text{'index'});
 	exit;
 }
 
-# Print start/stop part
-@afpd = find_byname($config{'afpd_d'});
-if(@afpd){
-	print qq|<h3>$text{'index_running_services'}</h3>|;
-	print qq|<table width="100%" cellspacing="8" cellpadding="8" border="0">
-		<tr height="20">
-		<td width="165" align="center"><form action="restart.cgi"><input type="submit" value="$text{'index_restart'}"></form></td>
-		<td>Restart netatalk services using <code>$config{'restart_netatalk'}</code></td>
-		</tr>
-		<tr height="20">
-		<td width="165" align="center"><form action="stop.cgi"><input type="submit" value="$text{'index_stop'}"></form></td>
-		<td>Stop netatalk services using <code>$config{'stop_netatalk'}</code></td>
-		</tr>
-		</table>
-		|;
-}
-else{
-	print qq|<h3>$text{'index_not_running_services'}</h3>|;
-	print qq|<table width="100%" cellspacing="8" cellpadding="8" border="0">
-		<tr height="20">
-		<td width="165" align="center"><form action="start.cgi"><input type="submit" value="$text{'index_start_service'}"></form></td>
-		<td>Start netatalk services using <code>$config{'start_netatalk'}</code></td>
-		</tr>
-		</table>
-		|;
+# since we are using a different number of forms, depending on the status of the service,
+# we are keeping a running index while outputting the forms
+my $current_formindex = 0;
+
+# Process control Buttons
+if(&find_byname($config{'afpd_d'})) {
+    print "<h3>$text{'index_running_services'}</h3>\n";
+	print &ui_buttons_start();
+	print &ui_buttons_row('restart.cgi', $text{'index_process_control_restart'}, &text('index_process_control_restart_txt', $config{restart_netatalk}));
+	print &ui_buttons_row('stop.cgi', $text{'index_process_control_stop'}, &text('index_process_control_stop_txt', $config{stop_netatalk}));
+	print &ui_buttons_end();
+	$current_formindex += 2;
+} else {
+    print "<h3>$text{'index_not_running_services'}</h3>\n";
+	print &ui_buttons_start();
+	print &ui_buttons_row('start.cgi', $text{'index_process_control_start'}, &text('index_process_control_start_txt', $config{start_netatalk}));
+	print &ui_buttons_end();
+	$current_formindex += 1;
 }
 
-print "<hr>\n";
+print &ui_hr();
 
 # Print AFP volumes	
 $share = "shareName=";
@@ -80,19 +73,17 @@ foreach $s (open_afile()){
 }
 print "</table>\n";
 
-print "<p>";
-print "<a href=\"fshare_create_form.cgi\">$text{'index_create_file_share'}</a>\n&nbsp&nbsp&nbsp";
-print "<a href=\"fshare_delete_form.cgi\">$text{'index_delete_file_share'}</a>\n";
-print "<p>";
-print "<hr>\n";
-print "<p>\n";
+my @volume_links = ("fshare_create_form.cgi","fshare_delete_form.cgi");
+my @volume_titles = ($text{'index_create_file_share'},$text{'index_delete_file_share'});
+my @volume_icons = ("images/volumes.gif","images/misc.png");
+icons_table(\@volume_links, \@volume_titles, \@volume_icons);
 
 print "<h3>$text{index_global}</h3>\n";
 
-my @links = ("servers.cgi","show_users.cgi","edit_configfiles_form.cgi");
-my @titles = ($text{'index_server'},$text{'index_users'},$text{'index_edit'});
-my @icons = ("images/server.png","images/users.png","images/misc.png","images/edit.gif");
-icons_table(\@links, \@titles, \@icons);
+my @global_links = ("servers.cgi","show_users.cgi","edit_configfiles_form.cgi");
+my @global_titles = ($text{'index_server'},$text{'index_users'},$text{'index_edit'});
+my @global_icons = ("images/server.png","images/users.png","images/edit.gif");
+icons_table(\@global_links, \@global_titles, \@global_icons);
 print "</table>\n";
 
 ### END of index.cgi ###.

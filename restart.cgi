@@ -19,4 +19,5 @@ require 'netatalk2-lib.pl';
 
 $rv = system("$config{restart_netatalk} </dev/null");
 if ($rv) { die &text('init_failed', $config{restart_netatalk}); }
+
 redirect("index.cgi");
