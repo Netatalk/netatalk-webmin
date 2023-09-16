@@ -44,8 +44,8 @@ index_global=Global Configurations and Options
 index_volumes=AFP Volumes
 
 index_servername=Server Name
-index_tcp=TCP/IP
-index_ddp=AppleTalk
+index_protocols=Active Protocols
+index_auth=Active Authentication Methods
 index_port=Port
 index_address=Address
 index_newServer=Create New Server

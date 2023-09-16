@@ -784,8 +784,7 @@ sub showMessage
 
 
 #------------------------------------------------------------------
-#Function reads file in afpd.conf and stores
-#afpd in array @afpd[server,tcp(tcp,notcp),ddp(ddp,noddp),port,address]
+#Function reads afpd.conf and stores data for UI display in an array
 #
 #------------------------------------------------------------------
 sub readAfpd
@@ -794,20 +793,9 @@ sub readAfpd
 		$fileToRead,
 		@afpd,
 		@afpd_all,
-		$notcp,
-		$nodpp,
-		$port,
-		$address,
-		$loginMessage,
-		$savepass,
-		$setpass
 	);
 	push(@afpd_all,1);
 	$hostname= `hostname`;
-	$notcp="-notcp";
-	$nodpp="-noddp";
-	$port="-port";
-	$address="-ipaddr";
 	$fileToRead = $config{'afpd_c'};
 	open(FH,"<$fileToRead") || die "$text{file} $fileToRead $text{not_readable}";
 	while(<FH>)
@@ -816,26 +804,34 @@ sub readAfpd
 		if($_=~/(^[\w\d-\"].*)/ ){
 			@afpd = (
 				$hostname,
-				"-tcp",
-				"-ddp",
-				"-",
-				"-"
+				"Disabled",
+				"No Authentication",
+				"Default",
+				"Default"
 			);
 			
 			if($_ =~ /^(\"[^\"]+\"|[^\s-]+)\s/)  {
 				$1 =~ /^\"*([^\"]+)\"*/;
 				@afpd[0]=$1;
 			}
-			if($_ =~ /$notcp/){
-				@afpd[1]=$notcp;
+
+			if($_ =~ /-transall/ || $_ =~ /-(ddp|tcp)\s+-(ddp|tcp)/ ){
+				@afpd[1]="AppleTalk, TCP/IP"
 			}
-			if($_ =~ /$nodpp/){
-				@afpd[2]=$nodpp;
+			elsif($_ =~ /-(ddp|notcp)\s+-(notcp|ddp)/ ){
+				@afpd[1]="AppleTalk"
 			}
-			if($_ =~ /$port\s*([0-9]*)/){
+			elsif($_ =~ /-(noddp|tcp)\s+-(tcp|noddp)/ ){
+				@afpd[1]="TCP/IP"
+			}
+
+			if($_ =~ /-uamlist\s([\w\d\._,]+)\s/){
+				@afpd[2]=$1;
+			}
+			if($_ =~ /-port\s([0-9]*)/){
 				@afpd[3]=$1;
 			}
-			if($_ =~ /$address\s*([0-9.]*)/){
+			if($_ =~ /-ipaddr\s([0-9.]*)/){
 				@afpd[4]=$1;
 			}
 			push(@afpd_all,@afpd);
@@ -847,8 +843,7 @@ sub readAfpd
 
 
 #------------------------------------------------------------------
-#Function reads file in afpd.conf and stores
-#afpd in array @afpd[server,tcp(tcp,notcp),ddp(ddp,noddp),port,address,savepass,setpass]
+#Function reads afpd.conf and stores data for editing in an array
 #
 #------------------------------------------------------------------
 sub getAllAfpd
@@ -881,7 +876,7 @@ sub getAllAfpd
 	$mimicmodel="-mimicmodel";
 	$noicon="-noicon";
 	$fileToRead = $config{'afpd_c'};
-	open(FH,"<$fileToRead") || die "$text{file} $fileToRead $text{not_readable}";
+	open(FH, "<$fileToRead") || die "$text{file} $fileToRead $text{not_readable}";
 	while(<FH>)
 	{
 		#Line with continuation characters read in
@@ -901,39 +896,39 @@ sub getAllAfpd
 			);
 			if($_ =~ /^(\"[^\"]+\"|[^\s-]+)\s/)  {
 				$1 =~ /^\"*([^\"]+)\"*/;
-				@afpd[0]=$1;
+				@afpd[0] = $1;
 			}
 			if($_ =~ /$notcp/){
-				@afpd[1]=$notcp;
+				@afpd[1] = $notcp;
 			}   		
 			if($_ =~ /$nodpp/){
-				@afpd[2]=$nodpp;
+				@afpd[2] = $nodpp;
 			}
 			if($_ =~ /$port\s([\d]+)/){
-				@afpd[3]=$1;
+				@afpd[3] = $1;
 			}
 			if($_ =~ /$address\s(\d+\.\d+\.\d+\.\d+)/){
-				@afpd[4]=$1;
+				@afpd[4] = $1;
 			}
 			if($_ =~ /$loginMessage\s"(.*?)"/){
-				@afpd[5]=$1;
+				@afpd[5] = $1;
 			}
 			if($_ =~ /$nosavepass/){
-				@afpd[6]=$nosavepass;
+				@afpd[6] = $nosavepass;
 			}
 			if($_ =~ /$nosetpass/){
-				@afpd[7]=$nosetpass;
+				@afpd[7] = $nosetpass;
 			}
 			if($_ =~ /$uamlist\s([\w\d\.,]+)/){
-				@afpd[8]=$1;
+				@afpd[8] = $1;
 			}
 			if($_ =~ /$noicon/){
-				@afpd[9]=$noicon;
+				@afpd[9] = $noicon;
 			}
 			if($_ =~ /$mimicmodel\s\"*([\w\d\,]+)\"*/){
-				@afpd[10]=$1;
+				@afpd[10] = $1;
 			}
-			push(@afpd_all,@afpd);
+			push(@afpd_all, @afpd);
 		}
 	}	
 	close(FH);
@@ -949,28 +944,28 @@ sub getAllAfpd
 #------------------------------------------------------------------------------
 sub addLineToFile()
 {
-	my ($var1,$var2) = @_;
-	local($temporary,$lin);
+	my ($var1, $var2) = @_;
+	local($temporary, $lin);
     	$lin = getLinesSpezFile($var1);
  	$temporary = "$var1.temp";
 
-	copy($var1,$temporary) or die "$text{copy_failed}: $!";
+	copy($var1, $temporary) or die "$text{copy_failed}: $!";
 
 	lock_file("$temporary");
-	open(OLD,"<$var1") || die "$text{file} $var1 $text{not_readable}";
-	open(NEW,">$temporary") || die "$text{file} $temporary $text{not_readable}";
+	open(OLD, "<$var1") || die "$text{file} $var1 $text{not_readable}";
+	open(NEW, ">$temporary") || die "$text{file} $temporary $text{not_readable}";
 
 	while(<OLD>){
 		print NEW $_;
-  		if($.== $lin){
+  		if($. == $lin){
   			print NEW  "$var2\n";
   		}
 	}
 	close(OLD);
 	close(NEW);
 	unlock_file("$temporary");
-	rename($var1,"$var1.orig");
-	rename($temporary,$var1);
+	rename($var1, "$var1.orig");
+	rename($temporary, $var1);
 	unlink("$var1.orig") or die "$text{delete_failed}: $var1.orig\n";
 }
 
@@ -981,38 +976,39 @@ sub addLineToFile()
 #$var2 Line, from which the line number is to ne determined
 #------------------------------------------------------------------
 sub getLines(){
-	my ($var1,$var2,$var3) = @_;
-	local($counter,$output,@rv);
-	$counter = 0;$output = 1;
+	my ($var1, $var2, $var3) = @_;
+	local($counter, $output,@rv);
+	$counter = 0;
+	$output = 1;
 	#Tests whether the variable has been passed
 	if( ! defined $var1){
 		return 0;
 	}
 	#Tests the second
 	elsif( ! defined $var2){
-		open(FH,"<$var1") || die return 0;
+		open(FH, "<$var1") || die return 0;
 		while(defined($line = <FH>) ){
-			if($line=~/^[$slash~]+/ ){
-				push(@rv,$output);
+			if($line =~ /^[$slash~]+/ ){
+				push(@rv, $output);
 			}
 			$output++;
 		}
 	}
 	else{
-		open(FH,"<$var1") || die return 0;
+		open(FH, "<$var1") || die return 0;
 		while(defined($line = <FH>) )
 		{
-			if($line=~/^[$slash~]+/ ){
+			if($line =~ /^[$slash~]+/ ){
 				if($line =~ /([A-Za-z$slash=~,-_\\]+)/){
 					if($1 =~ /$var2/){
 						$output = $counter;
-						push(@rv,$output);
+						push(@rv, $output);
 						$output++;
 						if($line =~ /[\\]/){
-							push(@rv,$output);
+							push(@rv, $output);
 						}
 						else{
-							push(@rv,-1);
+							push(@rv, -1);
 						}
 					}
 				}

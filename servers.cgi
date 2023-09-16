@@ -25,8 +25,8 @@ if(@Servers[1] ne ""){
 	print "<table width=100% border>\n";
 	print "<tr $tb>";
 	print "<td><b>$text{'index_servername'}</b></td>";
-	print "<td><b>$text{'index_tcp'}</b></td>";
-	print "<td><b>$text{'index_ddp'}</b></td>";
+	print "<td><b>$text{'index_protocols'}</b></td>";
+	print "<td><b>$text{'index_auth'}</b></td>";
 	print "<td><b>$text{'index_port'}</b></td>";
 	print "<td><b>$text{'index_address'}</b></td>";
 	print "</tr>\n";
