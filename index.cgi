@@ -73,19 +73,17 @@ foreach $s (open_afile()){
 }
 print "</table>\n";
 
-print "<p>";
-print "<a href=\"fshare_create_form.cgi\">$text{'index_create_file_share'}</a>\n&nbsp&nbsp&nbsp";
-print "<a href=\"fshare_delete_form.cgi\">$text{'index_delete_file_share'}</a>\n";
-print "<p>";
-print "<hr>\n";
-print "<p>\n";
+my @volume_links = ("fshare_create_form.cgi","fshare_delete_form.cgi");
+my @volume_titles = ($text{'index_create_file_share'},$text{'index_delete_file_share'});
+my @volume_icons = ("images/volumes.gif","images/misc.png");
+icons_table(\@volume_links, \@volume_titles, \@volume_icons);
 
 print "<h3>$text{index_global}</h3>\n";
 
-my @links = ("servers.cgi","show_users.cgi","edit_configfiles_form.cgi");
-my @titles = ($text{'index_server'},$text{'index_users'},$text{'index_edit'});
-my @icons = ("images/server.png","images/users.png","images/misc.png","images/edit.gif");
-icons_table(\@links, \@titles, \@icons);
+my @global_links = ("servers.cgi","show_users.cgi","edit_configfiles_form.cgi");
+my @global_titles = ($text{'index_server'},$text{'index_users'},$text{'index_edit'});
+my @global_icons = ("images/server.png","images/users.png","images/edit.gif");
+icons_table(\@global_links, \@global_titles, \@global_icons);
 print "</table>\n";
 
 ### END of index.cgi ###.
