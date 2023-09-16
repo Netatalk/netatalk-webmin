@@ -23,7 +23,7 @@
 
 require 'netatalk2-lib.pl';
 
-ui_print_header(undef, $text{'edit_header'}, "", "configs", 1);
+ui_print_header(undef, $text{'edit_header'}, "", "shares", 1);
 
 print "<form action=fshare_save_action.cgi>\n";
 print "<table width=100%>\n";
@@ -214,4 +214,4 @@ print "<td align=left><input type=submit value=$text{'edit_create'}></td>\n";
 print "<td align=right><input type=reset value=Reset></td><br>\n";
 print"</tr></table></form>";
 
-ui_print_footer("index.cgi", $text{'edit_return'});
+ui_print_footer("index.cgi", $text{'index_module'});

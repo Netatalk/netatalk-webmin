@@ -17,6 +17,8 @@ FILES = \
 	fshare_edit_form.cgi \
 	fshare_save_action.cgi \
 	help/configs.html \
+	help/servers.html \
+	help/shares.html \
 	images/edit.gif \
 	images/icon.gif \
 	images/interface.png \
