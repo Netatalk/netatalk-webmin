@@ -24,5 +24,6 @@ Code Cleanup and Compatibility Fixes: Steffan Cline <steffan@hldns.com>
   ~ Addition of manually edit pages
   ~ Removal of network interfaces since no configs exist
 
+Compatibility with Netatalk 2 and Webmin 2: Daniel Markstedt <daniel@mindani.net>
 
 M@

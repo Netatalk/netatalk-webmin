@@ -1,3 +1,16 @@
+1.0.0:
+* Updated for the Netatalk 2.2 format of config files
+* Full support for all AppleVolumes.default options
+* Added uams, icon, and mimicmodel support in afpd.conf
+* Overhaul with Webmin 2 APIs
+* Changed module name to 'netatalk2' (previously 'netapple')
+* Changed display name to 'Netatalk Classic Mac File Sharing'
+* Restored support for AppleTalk services
+* systemd is the preferred init mechanism
+* Spruce up the UI, adding icons, contextual help
+* Removed legacy Max Clients setting
+* Huge code cleanup, removing bitrotted subroutines
+
 0.9.1:
 * rebrand 0.9-beta5
 
