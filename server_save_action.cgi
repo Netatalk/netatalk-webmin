@@ -19,7 +19,6 @@ require 'netatalk2-lib.pl';
 
 &ReadParse();
 
-$hostname = getHostName();
 $filetoedit = $config{'afpd_c'};
 if($in{old_servername}){
 	$server = $in{old_servername};
