@@ -776,9 +776,9 @@ sub deleteLine(){
 sub showMessage
 {
 	my ($var1) = @_;
-	&header("Warning", "");
-	print "<h2>****  $var1  ***</h2>\n";
-	&footer("", "Share List");
+	ui_print_header(undef, Warning, "", "configs", 1);
+	print "<h2>**** $var1 ****</h2>\n";
+	ui_print_footer("index.cgi", $text{'index_module'});
 }
 
 
