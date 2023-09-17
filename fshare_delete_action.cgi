@@ -20,7 +20,7 @@ require './netatalk2-lib.pl';
 
 if($in{delete}){
 	$info = $in{delete};
-	$lines = deleteLine($datei, $info);
+	$lines = deleteLine($applevolume_default, $info);
 }
 
 redirect("index.cgi");

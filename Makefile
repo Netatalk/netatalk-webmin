@@ -40,8 +40,7 @@ FILES = \
 	servers.cgi \
 	show_users.cgi \
 	start.cgi \
-	stop.cgi \
-	VERSION
+	stop.cgi
 
 all:
 

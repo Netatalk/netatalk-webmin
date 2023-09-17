@@ -35,8 +35,6 @@ $uams_dhx = "uams_dhx.so";
 $uams_dhx2 = "uams_dhx2.so";
 $uams_gss = "uams_gss.so";
 
-$hostname=getHostName();
-
 if($in{offset}){
 	$offset=$in{offset};
 }

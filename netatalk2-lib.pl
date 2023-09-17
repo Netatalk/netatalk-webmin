@@ -28,9 +28,8 @@ use File::Copy;
 use CGI qw/:standard/;
 init_config();
 
-#datei means "file"
-$datei = $config{'applevolumedefault_c'};
-$temp = "$datei.temp";
+$applevolume_default = $config{'applevolumedefault_c'};
+$temp = "$applevolume_default.temp";
 
 $slash = "/";
 $pername = ();
@@ -78,7 +77,7 @@ use Class::Struct;
 $|=1;
 
 # required in order to list users
-foreign_require("useradmin","user-lib.pl");
+foreign_require("useradmin", "user-lib.pl");
 
 
 #-------------------------------------------------------------------------------------
@@ -88,8 +87,8 @@ sub open_afile
 {
 	local(@rv,$line);
 
-	#File $datei not readable
-	open(FH,"<$datei") || die "$text{file} $datei $text{not_readable}";
+	#File $applevolume_default not readable
+	open(FH,"<$applevolume_default") || die "$text{file} $applevolume_default $text{not_readable}";
 
 	while(defined($line = <FH>) )
 	{
@@ -703,16 +702,16 @@ sub writeNewFileShare
 sub writeLine()
 {
 	my ($var1,$var2) = @_;
-        @line = getLines($datei);
-	copy($datei,$temp)
+	@line = getLines($applevolume_default);
+	copy($applevolume_default, $temp)
 	or die "$text{copy_failed}: $!";
 
 	&lock_file("$temp");
-	open(OLD,"<$datei") || die "$text{file} $datei $text{not_readable}";
-	open(NEW,">$temp") || die "$text{file} $temp $text{not_readable}";
+	open(OLD, "<$applevolume_default") || die "$text{file} $applevolume_default $text{not_readable}";
+	open(NEW, ">$temp") || die "$text{file} $temp $text{not_readable}";
 
 	while(<OLD>){
-  		if($.== @line[0]){
+  		if($. == @line[0]){
 			print NEW  "$var1\n";
   		}
   		print NEW $_;
@@ -721,9 +720,9 @@ sub writeLine()
 	close(NEW);
 	&unlock_file("$temp");
 
-	rename($datei,"$datei.orig");
-	rename($temp,$datei);
-	unlink("$datei.orig") or die "$text{delete_failed}: $datei.orig\n";
+	rename($applevolume_default, "$applevolume_default.orig");
+	rename($temp, $applevolume_default);
+	unlink("$applevolume_default.orig") or die "$text{delete_failed}: $applevolume_default.orig\n";
 }
 
 
@@ -743,13 +742,13 @@ sub deleteLine(){
 		return 0;
 	}
 
-        @lines = getLines($datei,$var2);
-        copy($datei, $temp)
+	@lines = getLines($applevolume_default, $var2);
+	copy($applevolume_default, $temp)
 	or die "$text{copy_failed}: $!";
 
-        &lock_file("$temp");
-	open(OLD,"<$datei") || die "$text{file} $datei $text{not_readable}";
-	open(NEW,">$temp")  || die "$text{file} $datei $text{not_readable}";
+	&lock_file("$temp");
+	open(OLD,"<$applevolume_default") || die "$text{file} $applevolume_default $text{not_readable}";
+	open(NEW,">$temp")  || die "$text{file} $applevolume_default $text{not_readable}";
 
 	$counter =0;
 	while(<OLD>){
@@ -760,11 +759,11 @@ sub deleteLine(){
 	}
 	close(OLD);
 	close(NEW);
-        &unlock_file("$temp");
+	&unlock_file("$temp");
 
-	rename($datei,"$datei.orig");
-	rename($temp,$datei);
-	unlink("$datei.orig") or die "$text{delete_failed}: $datei.orig\n";
+	rename($applevolume_default, "$applevolume_default.orig");
+	rename($temp, $applevolume_default);
+	unlink("$applevolume_default.orig") or die "$text{delete_failed}: $applevolume_default.orig\n";
 	return 1;
 }
 
@@ -777,9 +776,9 @@ sub deleteLine(){
 sub showMessage
 {
 	my ($var1) = @_;
-	&header("Warning", "");
-	print "<h2>****  $var1  ***</h2>\n";
-	&footer("","Share List");
+	ui_print_header(undef, Warning, "", "configs", 1);
+	print "<h2>**** $var1 ****</h2>\n";
+	ui_print_footer("index.cgi", $text{'index_module'});
 }
 
 
@@ -794,10 +793,9 @@ sub readAfpd
 		@afpd,
 		@afpd_all,
 	);
-	push(@afpd_all,1);
-	$hostname= `hostname`;
+	push(@afpd_all, 1);
 	$fileToRead = $config{'afpd_c'};
-	open(FH,"<$fileToRead") || die "$text{file} $fileToRead $text{not_readable}";
+	open(FH, "<$fileToRead") || die "$text{file} $fileToRead $text{not_readable}";
 	while(<FH>)
 	{
 		#Line with continuation characters read in
@@ -812,29 +810,29 @@ sub readAfpd
 			
 			if($_ =~ /^(\"[^\"]+\"|[^\s-]+)\s/)  {
 				$1 =~ /^\"*([^\"]+)\"*/;
-				@afpd[0]=$1;
+				@afpd[0] = $1;
 			}
 
 			if($_ =~ /-transall/ || $_ =~ /-(ddp|tcp)\s+-(ddp|tcp)/ ){
-				@afpd[1]="AppleTalk, TCP/IP"
+				@afpd[1] = "AppleTalk, TCP/IP"
 			}
 			elsif($_ =~ /-(ddp|notcp)\s+-(notcp|ddp)/ ){
-				@afpd[1]="AppleTalk"
+				@afpd[1] = "AppleTalk"
 			}
 			elsif($_ =~ /-(noddp|tcp)\s+-(tcp|noddp)/ ){
-				@afpd[1]="TCP/IP"
+				@afpd[1] = "TCP/IP"
 			}
 
 			if($_ =~ /-uamlist\s([\w\d\._,]+)\s/){
-				@afpd[2]=$1;
+				@afpd[2] = $1;
 			}
 			if($_ =~ /-port\s([0-9]*)/){
-				@afpd[3]=$1;
+				@afpd[3] = $1;
 			}
 			if($_ =~ /-ipaddr\s([0-9.]*)/){
-				@afpd[4]=$1;
+				@afpd[4] = $1;
 			}
-			push(@afpd_all,@afpd);
+			push(@afpd_all, @afpd);
 		}
 	}	
 	close(FH);
@@ -864,7 +862,6 @@ sub getAllAfpd
 		$noicon
 	);
 	push(@afpd_all);
-	$hostname= `hostname`;
 	$notcp="-notcp";
 	$nodpp="-noddp";
 	$port="-port";
@@ -1039,7 +1036,7 @@ sub deleteSpezLine(){
 		or die "$text{copy_failed}: $!";
 
 	lock_file("$temporary");
-	open(OLD, "<$var1") || die "$text{file} $datei $text{not_readable}";
+	open(OLD, "<$var1") || die "$text{file} $applevolume_default $text{not_readable}";
 	open(NEW, ">$temporary") || die "$text{file} $temp $text{not_readable}";
 	while(<OLD>){
 		if($. != $line ){
@@ -1063,7 +1060,7 @@ sub getSpezLine
 	$counter = 0;
 	# Escape special chars such as the dollar sign
 	$escaped_name = quotemeta($var2);
-	open(OLD, "<$var1") || die "$text{file} $datei $text{not_readable}";
+	open(OLD, "<$var1") || die "$text{file} $applevolume_default $text{not_readable}";
 	while(<OLD>){
 		$counter++;
 		# Server names may or may not be quoted
@@ -1086,85 +1083,10 @@ sub getLinesSpezFile() {
 	local($counting);
 	$counting = 0;
 	#Test whether the variable has been passed
-	open(FileHandle,"<$var1") || die return 0;
+	open(FileHandle, "<$var1") || die return 0;
 	while(<FileHandle>){
 		$counting++;
 	}
 	close(FileHandle);
 	return $counting;
 }
-
-sub getHostName(){
-	return $hostname;
-}
-
-
-sub create_entry {
-	my($filename,$line)=@_;
-	unless($filename and $line) { die "Not enough infor for create_entry to work!\n"; }
-	lock_file("$filename");
-	open(CNF,">>$filename") or die "Cannot open $filename for appending: $!\n";
-	print CNF "$line\n";
-	close CNF;
-	unlock_file("$filename");
-}
-
-sub startform {
-
-	return "<form METHOD=\"POST\"  ENCTYPE=\"application/x-www-form-urlencoded\">";
-
-}
-
-sub checkbox {
-	my $out="<INPUT TYPE=\"checkbox\" NAME=\"$_[0]\"";
-	$out .= " VALUE=\"1\"";
-	if(defined($_[1])) { $out .= " checked"; }
-	$out .= ">";
-	return $out;
-}
-
-sub textfield { # name,size,value
-        my $out="<INPUT TYPE=\"text\" NAME=\"$_[0]\"";
-        if($_[1]) {
-                $out .= " SIZE=$_[1]";
-        }
-        if($_[2]) {
-                $out .= " value=\"$_[2]\"";
-        }
-        $out .= ">";
-}
-
-sub td {
-	return "<td>".join('',@_)."</td>";
-}
-
-sub TR {
-        return "<tr>".join('',@_)."</tr>";
-}
-
-sub center {
-	return "<center>".join('',@_)."</center>";
-}
-
-sub parse_str
-{
-	my $line = shift @_;
-	local(@lines,@ret);
-
-	@lines = split(/\s/,$line);
-
-	while($#lines >= 0) {
-		$_ = $lines[0];
-		while((/^\"/ && !/\"$/) || ($_ eq "\"")) {
-			$a = shift(@lines);
-			$lines[0] = "$a $lines[0]";
-			$_ = $lines[0];
-		}
-		$lines[0] =~ s/\"//g;
-
-		push(@ret,shift(@lines));
-	}
-	return @ret;
-}
-
-#1;

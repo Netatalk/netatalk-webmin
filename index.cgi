@@ -51,8 +51,6 @@ if(&find_byname($config{'afpd_d'})) {
 print &ui_hr();
 
 # Print AFP volumes	
-$share = "shareName=";
-$Path = "path=";
 print "<p>";
 print "    <h3>$text{index_volumes}</h3>\n";
 print "    <table width=\"100%\" border>\n";
@@ -66,7 +64,7 @@ foreach $s (open_afile()){
     $path = getPath($s);
     $options = getAllOptions($s);
     print "<tr $cb>\n";
-    print "    <td><a href=\"fshare_edit_form.cgi?$share$sharename&$Path$path\"><b>$sharename</b></a></td>";
+    print "    <td><a href=\"fshare_edit_form.cgi?shareName=$sharename&path=$path\"><b>$sharename</b></a></td>";
     print "    <td><b>$path</b></td>";
     print "    <td><b>$options</b></td>";
     print "</tr>";
