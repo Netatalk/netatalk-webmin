@@ -25,7 +25,7 @@
 require 'netatalk2-lib.pl';
 
 &ReadParse();
-ui_print_header(undef, $text{'edit_file_share_title'}, "", "configs", 1);
+ui_print_header(undef, $text{'edit_file_share_title'}, "", "shares", 1);
 
 open_afile();
 
@@ -450,4 +450,4 @@ print "<td align=right>\n";
 	print"<input type=submit value=$text{'global_Delete'}></td></tr></form>\n";
 print "</table>\n";
 
-ui_print_footer("index.cgi", $text{'edit_return'});
+ui_print_footer("index.cgi", $text{'index_module'});

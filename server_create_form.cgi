@@ -19,7 +19,7 @@
 
 require 'netatalk2-lib.pl';
 
-ui_print_header(undef, $text{'create_server_header'}, "", "configs", 1);
+ui_print_header(undef, $text{'create_server_header'}, "", "servers", 1);
 
 $uams_guest = "uams_guest.so";
 $uams_clrtxt = "uams_clrtxt.so";

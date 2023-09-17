@@ -20,7 +20,7 @@ require 'netatalk2-lib.pl';
 
 &ReadParse();
 
-ui_print_header(undef, $text{'edit_server_header'}, "", "configs", 1);
+ui_print_header(undef, $text{'edit_server_header'}, "", "servers", 1);
 
 $ddpon = "-ddp";
 $tcpon = "-tcp";

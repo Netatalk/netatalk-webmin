@@ -18,7 +18,7 @@
 
 require 'netatalk2-lib.pl';
 
-ui_print_header(undef, $text{'servers_title'}, "", "configs", 1);
+ui_print_header(undef, $text{'servers_title'}, "", "servers", 1);
 
 @Servers = readAfpd();
 if(@Servers[1] ne ""){
@@ -62,6 +62,6 @@ my @titles = ($text{'index_newServer'});
 my @icons = ("images/interface.png");
 icons_table(\@links, \@titles, \@icons);
 
-ui_print_footer("index.cgi", $text{'edit_return'});
+ui_print_footer("index.cgi", $text{'index_module'});
 
 ### END of servers.cgi ###.

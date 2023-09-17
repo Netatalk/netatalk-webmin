@@ -139,7 +139,6 @@ edit_Casefoldxlateupper=xlateupper -> Client sees uppercase, server sees lowerca
 edit_Save=Save
 edit_create=Create
 edit_delete=Delete
-edit_return=Share List
 
 edit_server_header=Edit Server Configuration
 edit_server_tableheader=Server Configuration

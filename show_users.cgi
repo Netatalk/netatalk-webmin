@@ -57,4 +57,4 @@ foreach my $user (sort @users) {
 print "</table>\n";
 print "<br><br>\n";
 
-ui_print_footer("index.cgi", $text{'edit_return'});
+ui_print_footer("index.cgi", $text{'index_module'});
