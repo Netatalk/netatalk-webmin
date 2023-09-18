@@ -1,4 +1,2 @@
-netatalk3-wbm.tgz
-netatalk3-local-wbm.tgz
-netatalk3-opt-wbm.tgz
-netatalk3/
+netatalk*-wbm.tgz
+netatalk*/
