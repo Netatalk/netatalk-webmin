@@ -1,6 +1,6 @@
 name=Netatalk 3 Manager
 depends=0.81
 category=servers
-os_support=macos solaris redhat-linux centos-linux debian-linux slackware-linux aix suse-linux hpux freebsd osf1 irix open-linux openserver unixware turbo-linux openbsd corel-linux cobalt-linux lfs-linux
+os_support=macos solaris *-linux freebsd openbsd netbsd
 desc=Netatalk Mac File Sharing
 version=0.10
