@@ -34,26 +34,28 @@ if ($in{kill}) {
 	}
 }
 
-open(USERS, "/bin/ps aucx|");
+my @users;
+for (qx(ps aux)) {
+	chomp;
+	my @columns = split /\s+/;
 
-while (<USERS>) {
-    chop;
-    next if !/afpd/;
-    @_=split;
-    next if $_[0] eq "root";
-    push(@users, join(":::", $_[0], $_[1], $_[8]));
+	# Pick only lines that are afpd processes not owned by root
+	if ($columns[10] =~ m/afpd/ && $columns[0] ne "root") {
+		# Columns with index 0 username, 1 PID, and 8 date
+		push @users, join(":::", $columns[0], $columns[1], $columns[8]);
+	}
 }
-close USERS;
 
 print "<h4>There are currently " . scalar(@users) . " users connected.</h4>\n";
 print "<table border=\"0\" width=\"80%\">\n";
-print "<tr $tb><td><b>User</b></td><td><b>Connected Since</b></td><td><b>Kill</b></td></tr>\n";
-print "<form METHOD=\"POST\"  ENCTYPE=\"application/x-www-form-urlencoded\">";
-foreach (sort @users) {
-    @_=split ":::";
-    print "<tr $tc><td>$_[0] </td><td>$_[2]</td><td><input type=submit name=kill value=\"$_[1]\"></td></tr>\n";
+print "<tr $tb><td><b>User</b></td><td><b>Connected Since</b></td><td><b>Disconnect</b></td></tr>\n";
+foreach my $user (sort @users) {
+	#username,PID,date
+	my @line = split(":::", $user);
+	print "<tr $tc><td>$line[0] </td><td>$line[2]</td><td>";
+	print "<form action=\"show_users.cgi\"><input type=submit name=kill value=\"$line[1]\"></form>";
+	print "</td></tr>\n";
 }
-print "</form>\n";
 print "</table>\n";
 print "<br><br>\n";
 
