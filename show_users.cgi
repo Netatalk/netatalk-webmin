@@ -44,14 +44,16 @@ for (qx(ps aux)) {
 	}
 }
 
+print "<br><h4>Click \"Disconnect\" to disconnect a user.</h4><hr>\n";
+
 print "<h4>There are currently " . scalar(@users) . " users connected.</h4>\n";
 print "<table border=\"0\" width=\"80%\">\n";
-print "<tr $tb><td><b>User</b></td><td><b>Connected Since</b></td><td><b>Action</b></td></tr>\n";
+print "<tr $tb><td><b>User</b></td><td><b>Connected Since</b></td><td><b>Disconnect</b></td></tr>\n";
 foreach my $user (sort @users) {
 	#username,PID,date
 	my @line = split(":::", $user);
 	print "<tr $tc><td>$line[0] </td><td>$line[2]</td><td>";
-	print "<form action=\"show_users.cgi\"><input type=submit name=kill value=\"Disconnect (uid $line[1])\"></form>";
+	print "<form action=\"show_users.cgi\"><input type=submit name=kill value=\"$line[1]\"></form>";
 	print "</td></tr>\n";
 }
 print "</table>\n";
