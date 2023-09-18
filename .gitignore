@@ -1,4 +1,2 @@
-netatalk2-wbm.tgz
-netatalk2-local-wbm.tgz
-netatalk2-opt-wbm.tgz
-netatalk2/
+netatalk*-wbm.tgz
+netatalk*/
