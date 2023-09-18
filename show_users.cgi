@@ -23,6 +23,8 @@ ui_print_header(undef, $text{'users_title'}, "", "configs", 1);
 
 &ReadParse();
 
+print "<br><h4>Click \"Disconnect\" to disconnect a user.</h4><hr>\n";
+
 if($in{kill}) {
 	$in{kill} =~ s/\D//gi;
 	if(kill(15,$in{kill})) {
@@ -43,8 +45,6 @@ for (qx(ps aux)) {
 		push @users, join(":::", $columns[0], $columns[1], $columns[8]);
 	}
 }
-
-print "<br><h4>Click \"Disconnect\" to disconnect a user.</h4><hr>\n";
 
 print "<h4>There are currently " . scalar(@users) . " users connected.</h4>\n";
 print "<table border=\"0\" width=\"80%\">\n";
