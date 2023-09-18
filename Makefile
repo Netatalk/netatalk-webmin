@@ -1,5 +1,7 @@
 # Makefile for Netatalk webmin module
 
+WEBMIN_DIR ?= /usr/share/webmin
+
 FILES = \
 	CHANGES \
 	config \
@@ -37,6 +39,9 @@ dist: netatalk3-wbm.tgz
 localdist: netatalk3-local-wbm.tgz
 
 optdist: netatalk3-opt-wbm.tgz
+
+install:
+	@${WEBMIN_DIR}/install-module.pl netatalk3*-wbm.tgz
 
 clean:
 	-rm -f netatalk3-wbm.tgz netatalk3-local-wbm.tgz netatalk3-opt-wbm.tgz
