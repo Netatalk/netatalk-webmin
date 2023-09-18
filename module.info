@@ -1,6 +1,6 @@
 name=Netatalk Manager
 depends=0.81
 category=servers
-os_support=solaris *-linux freebsd openbsd netbsd
+os_support=macos solaris *-linux freebsd openbsd netbsd
 desc=Netatalk Classic Mac File Sharing
 version=1.0.0
