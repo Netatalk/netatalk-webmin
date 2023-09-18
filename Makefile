@@ -12,7 +12,7 @@ FILES = \
 	delete_sections.cgi \
 	edit_global_section.cgi \
 	edit_vol_section.cgi \
-	help/configs.cgi \
+	help/configs.html \
 	images/icon.gif \
 	images/interface.png \
 	images/misc.png \

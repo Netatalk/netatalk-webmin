@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 
-require './netatalk3-lib.pl';
+require 'netatalk3-lib.pl';
 
 eval {
 	&ReadParse();
@@ -35,15 +35,15 @@ eval {
 	my $afpconfRef = &read_afpconf();
 	modify_afpconf_ref_and_write($afpconfRef, \%in);
 	
-	&redirect("");
+	redirect("index.cgi");
 };
 if($@) {
 	my $msg = $@;
 	
-	&header($text{'errmsg_title'}, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
+	ui_print_header(undef, $text{'errmsg_title'}, "", "configs", 1, 1);
 
 	print "<p>$msg<p>";
 	
-	&footer("", $text{'edit_vol_section_return'});
+	ui_print_footer("index.cgi", $text{'edit_return'});
 	exit;
 }

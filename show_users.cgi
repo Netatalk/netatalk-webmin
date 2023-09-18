@@ -18,10 +18,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 
-require './netatalk3-lib.pl';
-do '../web-lib.pl';
+require 'netatalk3-lib.pl';
 
-&header($text{users_title}, "", undef(), 1, 1,undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
+ui_print_header(undef, $test{users_title}, "", "configs", 1, 1);
 
 &ReadParse();
 
@@ -58,4 +57,4 @@ print "</form>\n";
 print "</table>\n";
 print "<br><br>\n";
 
-&footer("index.cgi",$text{'edit_return'});
+ui_print_footer("index.cgi", $text{'edit_return'});

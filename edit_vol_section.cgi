@@ -26,7 +26,7 @@
 
 # all inputs for netatalk configuration parameters follow the naming convention "p_"+parameter name to keep the save_vol_section.cgi simple
 
-require './netatalk3-lib.pl';
+require 'netatalk3-lib.pl';
 
 my $subject; # what it is, we are going to edit: volume | volume_preset | homes
 my $pageTitle = $text{'errmsg_title'};
@@ -71,17 +71,17 @@ if($@) {
 
 	my $msg = $@;
 	
-	&header($pageTitle, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
+	ui_print_header(undef, $pageTitle, "", "configs", 1, 1);
 
 	print "<p>$msg<p>";
 	
-	&footer("", $text{'edit_return'});
+	ui_print_footer("index.cgi", $text{'edit_return'});
 	
 	exit;
 }
 
 # preparations done, start outputting page
-&header($pageTitle, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
+ui_print_header(undef, $pageTitle, "", "configs", 1, 1);
 
 print &ui_form_start('save_vol_section.cgi', 'POST', undef, 'name="configform"');
 
@@ -158,7 +158,7 @@ print &ui_table_row($text{'edit_vol_section_hosts_deny'},
 print &ui_table_end(); 
 print &ui_form_end([[undef, $text{'save_button_title'}, 0, undef]]);
 
-&footer("", $text{'edit_return'});
+ui_print_footer("index.cgi", $text{'edit_return'});
 	
 sub build_select {
 	my $afpconfRef = shift;

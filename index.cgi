@@ -18,15 +18,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 
-require './netatalk3-lib.pl';
+require 'netatalk3-lib.pl';
 
-&header($text{'index_title'}, "", undef, 1, 1, undef, "<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
+ui_print_header(undef, $text{'index_title'}, "", "configs", 1, 1);
 
 # check if netatalk daemon's path is configured correctly, if not: print error and footer then exit
 if(!-x $config{'netatalk_d'}) {
 	print &text('index_ever',"<tt>$config{'netatalk_d'}</tt>", "/config.cgi?$module_name");
 	print "<p>\n<hr>\n";
-	&footer("/", $text{'index'});
+	ui_print_footer("/", $text{'index'});
 	exit;
 }
 
