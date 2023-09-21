@@ -21,7 +21,7 @@
 # all inputs for netatalk configuration parameters follow the naming
 # convention "p_"+parameter name to keep the save_global_section.cgi simple
 
-require './netatalk3-lib.pl';
+require 'netatalk3-lib.pl';
 
 my $afpconfRef;
 my $sectionRef;
@@ -38,16 +38,16 @@ if($@) {
 
 	my $msg = $@;
 	
-	&header($text{'errmsg_title'}, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
+	ui_print_header(undef, $text{'errmsg_title'}, "", "configs", 1, 1);
 
 	print "<p>$msg<p>";
 	
-	&footer("", $text{'edit_return'});
+	ui_print_footer("index.cgi", $text{'edit_return'});
 	
 	exit;
 }
 
-&header($text{'edit_global_section_title'}, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
+ui_print_header(undef, $text{'edit_global_section_title'}, "", "configs", 1, 1);
 
 print &ui_form_start('save_global_section.cgi', 'POST');
 
@@ -131,4 +131,4 @@ print &ui_table_row($text{'edit_global_section_vol_dbpath'},
 print &ui_table_end(); 
 print &ui_form_end([[undef, $text{'save_button_title'}, 0, undef]]);
 
-&footer("", $text{'edit_return'});
+ui_print_footer("index.cgi", $text{'edit_return'});

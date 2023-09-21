@@ -18,15 +18,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 
-require './netatalk3-lib.pl';
+require 'netatalk3-lib.pl';
 
-&header($text{'index_title'}, "", undef, 1, 1, undef, "<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
+ui_print_header(undef, $text{'index_title'}, "", "configs", 1, 1);
 
 # check if netatalk daemon's path is configured correctly, if not: print error and footer then exit
 if(!-x $config{'netatalk_d'}) {
 	print &text('index_ever',"<tt>$config{'netatalk_d'}</tt>", "/config.cgi?$module_name");
 	print "<p>\n<hr>\n";
-	&footer("/", $text{'index'});
+	ui_print_footer("/", $text{'index'});
 	exit;
 }
 
@@ -147,7 +147,6 @@ if($$afpconf{sectionsByName}{'Homes'}) {
 		$text{'index_col_title_basedir_regex'},
 		$text{'index_col_title_home_path'},
 		$text{'index_col_title_home_name'},
-		$text{'index_col_title_uses_preset'}
 	] );
 	my $volumeSection = $$afpconf{sectionsByName}{'Homes'};
 	my @basedir_regex = get_parameter_of_section($afpconf, $volumeSection, 'basedir regex');
@@ -158,7 +157,6 @@ if($$afpconf{sectionsByName}{'Homes'}) {
 		"<a href=\"edit_vol_section.cgi?action=edit_homes&index=$$volumeSection{'index'}\"><b>".($basedir_regex[0] ne '' ? html_escape($basedir_regex[0]) : $text{'index_value_not_set'})."</b></a>",
 		$path[0] ne '' ? html_escape($path[0]) : $text{'index_value_not_set'},
 		$home_name[0] ne '' ? html_escape($home_name[0]) : $text{'index_value_not_set'},
-		html_escape((get_parameter_of_section($afpconf, $volumeSection, 'vol preset'))[0])
 	] );
 	print &ui_columns_end();	
 	print &ui_form_end([[undef, $text{'index_delete_homes_button_title'}, 0, undef]]);

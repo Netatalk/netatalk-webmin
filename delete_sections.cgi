@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 
-require './netatalk3-lib.pl';
+require 'netatalk3-lib.pl';
 
 # process deletion request silently and redirect back to the index page
 # only in case of error an error message is printed
@@ -31,15 +31,15 @@ eval {
 	my @indices = split(/\0/, $in{'section_index'});
 	delete_sections_in_afpconf_ref_and_write($afpconfRef, @indices);
 	
-	&redirect("");
+	redirect("index.cgi");
 };
 if($@) {
 	# in case the block above has been exited through "die": output error message
 	my $msg = $@;
 	
-	&header($text{'errmsg_title'}, "", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
+	ui_print_header(undef, $text{'errmsg_title'}, "", "configs", 1, 1);
 	print $msg;
-	&footer("", $text{'edit_return'});
+	ui_print_footer("index.cgi", $text{'edit_return'});
 	
 	exit;
 }
