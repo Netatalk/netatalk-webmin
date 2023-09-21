@@ -91,7 +91,7 @@ print &ui_hidden('index', $in{'index'}) if(defined $in{'index'});
 
 print &ui_table_start($text{'edit_vol_section_title_of_table'}, 'width="100%"', 2);
 
-if($subject ne 'volume_preset') {
+if($subject eq 'volume') {
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'vol preset', \%in);
 	my $select = "<select name='p_vol preset' onchange='document.configform.action=\"edit_vol_section.cgi\"; document.configform.submit();'>\n"
 				."<option value='' ".($values[0] eq '' ? "selected" : "").">".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : 'no preset')."</option>\n";
@@ -102,16 +102,20 @@ if($subject ne 'volume_preset') {
 	print &ui_table_row($text{'edit_vol_section_vol_preset'}, $select);
 }
 
-if($subject ne 'homes') {
-	print &ui_table_row($text{'edit_vol_section_name'}, &ui_textbox('name', exists $in{name} ? $in{name} : ($sectionRef ? $$sectionRef{name} : ''), 40));
-	if($subject eq 'volume') {
-		print &ui_table_row($text{'edit_vol_section_path'},
-			&ui_filebox('p_path', exists $in{p_path} ? $in{p_path} : (exists $$sectionRef{parameters}{'path'} ? $$sectionRef{parameters}{'path'}{value} : ''), 40, undef, undef, undef, 1)
-		);
-	}
-} else {
+if($subject eq 'homes') {
+	print &ui_hidden('name', 'Homes');
 	print &ui_table_row($text{'edit_vol_section_home_name'}, &ui_textbox('p_home name', (get_parameter_of_section($afpconfRef, $sectionRef, 'home name', \%in))[0], 40));
-	print &ui_table_row($text{'edit_vol_section_basedir_regex'}, &ui_textbox('p_basedir regex', (get_parameter_of_section($afpconfRef, $sectionRef, 'basedir regex', \%in))[0], 40));
+	print &ui_table_row($text{'edit_vol_section_basedir_regex'}, &ui_textbox('p_basedir regex', (get_parameter_of_section($afpconfRef, $sectionRef, 'basedir regex', \%in))[0], 40, undef, undef, "required"));
+	print &ui_table_row($text{'edit_vol_section_home_path'}, &ui_textbox('p_path', (get_parameter_of_section($afpconfRef, $sectionRef, 'path', \%in))[0], 40));
+}
+else {
+	print &ui_table_row($text{'edit_vol_section_name'}, &ui_textbox('name', exists $in{name} ? $in{name} : ($sectionRef ? $$sectionRef{name} : ''), 40, undef, undef, "required"));
+}
+
+if($subject eq 'volume') {
+	print &ui_table_row($text{'edit_vol_section_path'},
+		&ui_filebox('p_path', exists $in{p_path} ? $in{p_path} : (exists $$sectionRef{parameters}{'path'} ? $$sectionRef{parameters}{'path'}{value} : ''), 40, undef, undef, "required", 1)
+	);
 }
 
 print &ui_table_row($text{'edit_vol_section_ea'}, build_select($afpconfRef, $sectionRef, \%in, 'ea', 'leave undefined', 'none', 'none', 'auto', 'auto', 'sys', 'sys - use filesystem\'s', 'ad', 'ad - use .AppleDouble directories'));
@@ -129,13 +133,15 @@ print &ui_table_row('',
 	."<b>$text{'edit_vol_section_umask'}</b> ".&ui_textbox('p_umask', $umask_values[0])."<i>".($umask_values[2] ? html_escape($umask_values[1])." (".html_escape($umask_values[2]).")" : '')."</i>"
 );	
 
-print &ui_table_row($text{'edit_vol_section_time_machine'}, build_select($afpconfRef, $sectionRef, \%in, 'time machine', 'leave undefined', 'yes', 'yes', 'no', 'no'));
+if($subject ne 'homes') {
+	print &ui_table_row($text{'edit_vol_section_time_machine'}, build_select($afpconfRef, $sectionRef, \%in, 'time machine', 'leave undefined', 'yes', 'yes', 'no', 'no'));
 
-@values = get_parameter_of_section($afpconfRef, $sectionRef, 'password', \%in);
-print &ui_table_row($text{'edit_vol_section_password'},
-	&ui_textbox('p_password', $values[0], 8)
-	.($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')
-);
+	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'password', \%in);
+	print &ui_table_row($text{'edit_vol_section_password'},
+		&ui_textbox('p_password', $values[0], 8)
+		.($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')
+	);
+}
 
 print &ui_table_row($text{'edit_vol_section_valid_users'}, build_user_group_selection($afpconfRef, $sectionRef, \%in, 'valid users'));
 print &ui_table_row($text{'edit_vol_section_invalid_users'}, build_user_group_selection($afpconfRef, $sectionRef, \%in, 'invalid users'));

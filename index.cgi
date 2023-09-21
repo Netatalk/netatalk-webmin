@@ -147,7 +147,6 @@ if($$afpconf{sectionsByName}{'Homes'}) {
 		$text{'index_col_title_basedir_regex'},
 		$text{'index_col_title_home_path'},
 		$text{'index_col_title_home_name'},
-		$text{'index_col_title_uses_preset'}
 	] );
 	my $volumeSection = $$afpconf{sectionsByName}{'Homes'};
 	my @basedir_regex = get_parameter_of_section($afpconf, $volumeSection, 'basedir regex');
@@ -158,7 +157,6 @@ if($$afpconf{sectionsByName}{'Homes'}) {
 		"<a href=\"edit_vol_section.cgi?action=edit_homes&index=$$volumeSection{'index'}\"><b>".($basedir_regex[0] ne '' ? html_escape($basedir_regex[0]) : $text{'index_value_not_set'})."</b></a>",
 		$path[0] ne '' ? html_escape($path[0]) : $text{'index_value_not_set'},
 		$home_name[0] ne '' ? html_escape($home_name[0]) : $text{'index_value_not_set'},
-		html_escape((get_parameter_of_section($afpconf, $volumeSection, 'vol preset'))[0])
 	] );
 	print &ui_columns_end();	
 	print &ui_form_end([[undef, $text{'index_delete_homes_button_title'}, 0, undef]]);
