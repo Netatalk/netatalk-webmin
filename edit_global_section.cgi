@@ -86,13 +86,14 @@ print &ui_table_row($text{'edit_global_section_login_message'},
 my $nonstandardUAMs = $value[0];
 $nonstandardUAMS =~ s/uams_dhx2?.so|uams_clrtxt.so|uams_guest.so|uams_gss.so//g;
 $nonstandardUAMS =~ s/^[ ,]+//; $nonstandardUAMS =~ s/[ ,]+$//; $nonstandardUAMS =~ s/[ ,]+/ /g;
+@values[0] = "uams_dhx.so uams_dhx2.so" if ! @values[0];
 print &ui_table_row($text{'edit_global_section_uam_list'},
-	&ui_checkbox('p_uam list', 'uams_dhx.so uams_dhx2.so', 'Standard UAM', $values[0] =~ /uams_dhx2?.so/ ? 1 : 0)
+	&ui_checkbox('p_uam list', 'uams_dhx2.so', 'DHX2 UAM', $values[0] =~ /uams_dhx2.so/ ? 1 : 0)
+	.&ui_checkbox('p_uam list', 'uams_dhx.so', 'DHX UAM', $values[0] =~ /uams_dhx.so/ ? 1 : 0)
 	.&ui_checkbox('p_uam list', 'uams_clrtxt.so', 'Cleartext UAM', $values[0] =~ /uams_clrtxt.so/ ? 1 : 0)
 	.&ui_checkbox('p_uam list', 'uams_guest.so', 'Guest UAM', $values[0] =~ /uams_guest.so/ ? 1 : 0)
 	.&ui_checkbox('p_uam list', 'uams_gss.so', 'Kerberos UAM', $values[0] =~ /uams_gss.so/ ? 1 : 0)
 	."<br>".$text{'edit_global_section_uam_list_other'} .&ui_textbox('p_uam list', $nonstandardUAMS, 40)
-	."Standard UAM=uams_dhx.so uams_dhx2.so (netatalk default)"
 );
 
 print &ui_table_row("Kerberos",
