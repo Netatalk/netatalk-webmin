@@ -79,7 +79,7 @@ print &ui_table_row($text{'edit_global_section_set_password'},
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'login message', \%in);
 print &ui_table_row($text{'edit_global_section_login_message'},
-	&ui_textbox('p_login message', $values[0], 120)
+	&ui_textbox('p_login message', $values[0], 60)
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'uam list', \%in);
@@ -96,12 +96,17 @@ print &ui_table_row($text{'edit_global_section_uam_list'},
 	."<br>".$text{'edit_global_section_uam_list_other'} .&ui_textbox('p_uam list', $nonstandardUAMS, 40)
 );
 
-print &ui_table_row("Kerberos",
-	"<table><tr><td>Keytab</td><td>Service name</td><td>Realm</td><td>FQDN</td></tr><tr>"
-	."<td>".&ui_filebox('p_k5_keytab', (get_parameter_of_section($afpconfRef, $sectionRef, 'k5 keytab', \%in))[0], 40, undef, undef, undef, 1)."</td>"
-	."<td>".&ui_textbox('p_k5 service', (get_parameter_of_section($afpconfRef, $sectionRef, 'k5 service', \%in))[0])."</td>"
-	."<td>".&ui_textbox('p_k5 realm', (get_parameter_of_section($afpconfRef, $sectionRef, 'k5 realm', \%in))[0])."</td>"
-	."<td>".&ui_textbox('p_fqdn', (get_parameter_of_section($afpconfRef, $sectionRef, 'fqdn', \%in))[0])."</td></tr></table>"
+print &ui_table_row("Kerberos keytab",
+	&ui_filebox('p_k5_keytab', (get_parameter_of_section($afpconfRef, $sectionRef, 'k5 keytab', \%in))[0], 40, undef, undef, undef, 1)
+);
+print &ui_table_row("Kerberos service",
+	&ui_textbox('p_k5 service', (get_parameter_of_section($afpconfRef, $sectionRef, 'k5 service', \%in))[0], 40)
+);
+print &ui_table_row("Kerberos realm",
+	&ui_textbox('p_k5 realm', (get_parameter_of_section($afpconfRef, $sectionRef, 'k5 realm', \%in))[0], 40)
+);
+print &ui_table_row("Kerberos FQDN",
+	&ui_textbox('p_fqdn', (get_parameter_of_section($afpconfRef, $sectionRef, 'fqdn', \%in))[0], 40)
 );
 
 print &ui_table_row($text{'edit_global_section_log_file'},
@@ -114,6 +119,44 @@ print &ui_table_row($text{'edit_global_section_log_level'},
 	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
 );
 
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'zeroconf', \%in);
+print &ui_table_row($text{'edit_global_section_zeroconf'},
+	&ui_radio('p_zeroconf', $values[0], [['no', 'disabled'], ['', 'enabled']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'spotlight', \%in);
+print &ui_table_row($text{'edit_global_section_spotlight'},
+	&ui_radio('p_spotlight', $values[0], [['', 'disabled'], ['yes', 'enabled']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'afpstats', \%in);
+print &ui_table_row($text{'edit_global_section_afpstats'},
+	&ui_radio('p_afpstats', $values[0], [['', 'disabled'], ['yes', 'enabled']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'mimic model', \%in);
+my $select = "<select name='p_mimic model'>\n"
+	."<option value='' ".($values[0] eq '' ? "selected" : "").">default</option>\n"
+	."<option value='AirPort' ".($values[0] =~ 'AirPort' ? "selected" : "").">AirPort</option>\n"
+	."<option value='AppleTV1,1' ".($values[0] =~ 'AppleTV1,1' ? "selected" : "").">Apple TV</option>\n"
+	."<option value='MacPro' ".($values[0] =~ 'MacPro' ? "selected" : "").">Mac Pro</option>\n"
+	."<option value='MacBookAir' ".($values[0] =~ 'MacBookAir' ? "selected" : "").">MacBook Air</option>\n"
+	."<option value='MacBookPro' ".($values[0] =~ 'MacBookPro' ? "selected" : "").">MacBook Pro</option>\n"
+	."<option value='MacBook' ".($values[0] =~ 'MacBook' ? "selected" : "").">MacBook</option>\n"
+	."<option value='iMac' ".($values[0] =~ 'iMac' ? "selected" : "").">iMac</option>\n"
+	."<option value='Macmini' ".($values[0] =~ 'Macmini' ? "selected" : "").">Mac mini</option>\n"
+	."<option value='PowerMac' ".($values[0] =~ 'PowerMac' ? "selected" : "").">Power Mac</option>\n"
+	."<option value='PowerBook' ".($values[0] =~ 'PowerBook' ? "selected" : "").">PowerBook</option>\n"
+	."<option value='RackMac' ".($values[0] =~ 'RackMac' ? "selected" : "").">Xserve</option>\n"
+	."</select>";
+print &ui_table_row($text{'edit_global_section_mimic_model'}, $select);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'vol dbpath', \%in);
+print &ui_table_row($text{'edit_global_section_vol_dbpath'},
+	&ui_filebox('p_vol_dbpath', $values[0], 40, undef, undef, undef, 1)
+	.($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')
+);
+
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'vol preset', \%in);
 my $select = "<select name='p_vol preset'>\n"
 			."<option value='' ".($values[0] eq '' ? "selected" : "").">".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : 'no preset')."</option>\n";
@@ -122,12 +165,6 @@ for my $presetSectionRef (@{$$afpconfRef{volumePresetSections}}) {
 }
 $select .= "</select>";
 print &ui_table_row($text{'edit_global_section_vol_preset'}, $select);
-
-@values = get_parameter_of_section($afpconfRef, $sectionRef, 'vol dbpath', \%in);
-print &ui_table_row($text{'edit_global_section_vol_dbpath'},
-	&ui_filebox('p_vol_dbpath', $values[0], 40, undef, undef, undef, 1)
-	.($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')
-);
 
 print &ui_table_end(); 
 print &ui_form_end([[undef, $text{'save_button_title'}, 0, undef]]);

@@ -95,6 +95,10 @@ edit_global_section_uam_list=Authentication
 edit_global_section_uam_list_other=Additional non-standard UAM modules:
 edit_global_section_log_file=Log file
 edit_global_section_log_level=Log level
+edit_global_section_zeroconf=Zeroconf
+edit_global_section_spotlight=Spotlight
+edit_global_section_afpstats=AFP stats
+edit_global_section_mimic_model=Server icon
 
 edit_users=Users
 edit_groups=Groups
