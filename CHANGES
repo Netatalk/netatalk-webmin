@@ -1,2 +1,13 @@
+0.2:
+* fixed: User Home Volumes
+* fixed: Show current users
+* fixed: Start/Restart/Stop
+* added several Server Options
+* use systemd by default
+* display name: "Netatalk Mac File Sharing"
+* remove license functionality
+* update for webmin2 APIs
+* relicense under GPL v2+
+
 0.1:
 * first version of complete rewrite for Netatalk 3
