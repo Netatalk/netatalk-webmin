@@ -83,9 +83,11 @@ print &ui_table_row($text{'edit_global_section_login_message'},
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'uam list', \%in);
-my $nonstandardUAMs = $value[0];
-$nonstandardUAMS =~ s/uams_dhx2?.so|uams_clrtxt.so|uams_guest.so|uams_gss.so//g;
-$nonstandardUAMS =~ s/^[ ,]+//; $nonstandardUAMS =~ s/[ ,]+$//; $nonstandardUAMS =~ s/[ ,]+/ /g;
+my $nonstandardUAMs = @values[0];
+$nonstandardUAMs =~ s/uams_dhx2?.so|uams_clrtxt.so|uams_guest.so|uams_gss.so//g;
+$nonstandardUAMs =~ s/^[ ,]+//;
+$nonstandardUAMs =~ s/[ ,]+$//;
+$nonstandardUAMs =~ s/[ ,]+/ /g;
 @values[0] = "uams_dhx.so uams_dhx2.so" if ! @values[0];
 print &ui_table_row($text{'edit_global_section_uam_list'},
 	&ui_checkbox('p_uam list', 'uams_dhx2.so', 'DHX2 UAM', $values[0] =~ /uams_dhx2.so/ ? 1 : 0)
@@ -93,7 +95,7 @@ print &ui_table_row($text{'edit_global_section_uam_list'},
 	.&ui_checkbox('p_uam list', 'uams_clrtxt.so', 'Cleartext UAM', $values[0] =~ /uams_clrtxt.so/ ? 1 : 0)
 	.&ui_checkbox('p_uam list', 'uams_guest.so', 'Guest UAM', $values[0] =~ /uams_guest.so/ ? 1 : 0)
 	.&ui_checkbox('p_uam list', 'uams_gss.so', 'Kerberos UAM', $values[0] =~ /uams_gss.so/ ? 1 : 0)
-	."<br>".$text{'edit_global_section_uam_list_other'} .&ui_textbox('p_uam list', $nonstandardUAMS, 40)
+	."<br>".$text{'edit_global_section_uam_list_other'} .&ui_textbox('p_uam list', $nonstandardUAMs, 40)
 );
 
 print &ui_table_row("Kerberos keytab",
@@ -105,7 +107,7 @@ print &ui_table_row("Kerberos service",
 print &ui_table_row("Kerberos realm",
 	&ui_textbox('p_k5 realm', (get_parameter_of_section($afpconfRef, $sectionRef, 'k5 realm', \%in))[0], 40)
 );
-print &ui_table_row("Kerberos FQDN",
+print &ui_table_row("Fully-qualified domain name",
 	&ui_textbox('p_fqdn', (get_parameter_of_section($afpconfRef, $sectionRef, 'fqdn', \%in))[0], 40)
 );
 
