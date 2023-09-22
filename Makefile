@@ -24,6 +24,7 @@ FILES = \
 	lang/en \
 	module.info \
 	netatalk3-lib.pl \
+	README.md \
 	restart.cgi \
 	save_global_section.cgi \
 	save_vol_section.cgi \
