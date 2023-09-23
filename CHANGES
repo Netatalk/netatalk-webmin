@@ -1,4 +1,4 @@
-1.0.0:
+1.0:
 * Updated for the Netatalk 2.2 format of config files
 * Full support for all AppleVolumes.default options
 * Added uams, icon, and mimicmodel support in afpd.conf
