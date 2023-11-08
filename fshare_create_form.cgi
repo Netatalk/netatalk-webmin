@@ -91,7 +91,6 @@ print "<tr><td align=right valign=top><b>$text{'edit_MisceOptions'}</b></td>\n";
 print "<td align=left colspan=3>\n";
 print "<input type=checkbox name=misc_options value=searchdb>$text{'edit_Optionssearchdb'} <br>\n";
 print "<input type=checkbox name=misc_options value=tm>$text{'edit_Optionstm'}<br>\n";
-print "<input type=checkbox name=misc_options value=invisibledots>$text{'edit_Optionsinvisibledots'}<br>\n";
 print "<input type=checkbox name=misc_options value=nonetids>$text{'edit_Optionsnonetids'}<br>\n";
 print "<input type=checkbox name=misc_options value=limitsize>$text{'edit_Optionslimitsize'}<br>\n";
 print "<input type=checkbox name=misc_options value=preexec_close>$text{'edit_Optionspreexec_close'}<br>\n";
@@ -99,6 +98,7 @@ print "<input type=checkbox name=misc_options value=ro>$text{'edit_Optionsro'}<b
 print "<input type=checkbox name=misc_options value=root_preexec_close>$text{'edit_Optionsroot_preexec_close'}<br>\n";
 print "<input type=checkbox name=misc_options value=upriv>$text{'edit_Optionsupriv'}<br>\n";
 print "<input type=checkbox name=misc_options value=usedots>$text{'edit_Optionsusedots'}<br>\n";
+print "<input type=checkbox name=misc_options value=invisibledots>$text{'edit_Optionsinvisibledots'}<br>\n";
 print "<input type=checkbox name=misc_options value=followsymlinks>$text{'edit_Optionsfollowsymlinks'}<br>\n";
 print "</td></tr>\n";
 
@@ -185,7 +185,7 @@ print "<table>\n";
 
 print "<tr><td align=right valign=top ><b>$text{'edit_Casefold'}</b></td>\n";
 print "<td align=left colspan=3>\n";
-print "<input type=radio name=casefold_options checked value=default>$text{'edit_default'}<br>\n";
+print "<input type=radio name=casefold_options checked value=default>$text{'edit_Casefolddefault'}<br>\n";
 print "<input type=radio name=casefold_options value=tolower>$text{'edit_Casefoldtolower'}<br>\n";
 print "<input type=radio name=casefold_options value=toupper>$text{'edit_Casefoldtoupper'}<br>\n";
 print "<input type=radio name=casefold_options value=xlatelower>$text{'edit_Casefoldxlatelower'}<br>\n";

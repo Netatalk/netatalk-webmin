@@ -273,8 +273,6 @@ printf "<input type=checkbox name=misc_options %s value=searchdb>$text{'edit_Opt
 		 $searchdb eq "1" ? "checked" : "";
 printf "<input type=checkbox name=misc_options %s value=tm>$text{'edit_Optionstm'}<br>\n",
 		 $tm eq "1" ? "checked" : "";
-printf "<input type=checkbox name=misc_options %s value=invisibledots>$text{'edit_Optionsinvisibledots'}<br>\n",
-		 $invisibledots eq "1" ? "checked" : "";
 printf "<input type=checkbox name=misc_options %s value=nonetids>$text{'edit_Optionsnonetids'}<br>\n",
                  $nonetids eq "1" ? "checked" : "";
 printf "<input type=checkbox name=misc_options %s value=limitsize>$text{'edit_Optionslimitsize'}<br>\n",
@@ -289,6 +287,8 @@ printf "<input type=checkbox name=misc_options %s value=upriv>$text{'edit_Option
                  $upriv eq "1" ? "checked" : "";
 printf "<input type=checkbox name=misc_options %s value=usedots>$text{'edit_Optionsusedots'}<br>\n",
                  $usedots eq "1" ? "checked" : "";
+printf "<input type=checkbox name=misc_options %s value=invisibledots>$text{'edit_Optionsinvisibledots'}<br>\n",
+		 $invisibledots eq "1" ? "checked" : "";
 printf "<input type=checkbox name=misc_options %s value=followsymlinks>$text{'edit_Optionsfollowsymlinks'}<br></td>\n",
                  $limitsize eq "1" ? "checked" : "";
 print "</td></tr>\n";
@@ -401,7 +401,7 @@ print "<tr $cb> <td><table >\n";
 
 print "<tr><td align=right valign=top ><b>$text{'edit_Casefold'}</b></td>\n";
 print "<td align=left colspan=3> \n";
-printf "<input type=radio name=casefold_options %s value=default>$text{'edit_default'}<br>\n",
+printf "<input type=radio name=casefold_options %s value=default>$text{'edit_Casefolddefault'}<br>\n",
 		 $Casefold eq "" ? "checked" : "";
 printf "<input type=radio name=casefold_options %s value=tolower>$text{'edit_Casefoldtolower'}<br>\n",
 		 $Casefold eq "tolower" ? "checked" : "";
