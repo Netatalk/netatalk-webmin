@@ -1031,3 +1031,10 @@ sub getLinesSpezFile() {
 	close(FileHandle);
 	return $counting;
 }
+
+sub version() {
+	my $version = `$config{'afpd_d'} -v 0>&1`;
+	$version =~ m/(afpd \S+) /;
+
+	return $1;
+}

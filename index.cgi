@@ -19,7 +19,7 @@
 #    This module inherited from the Webmin Module Template 0.79.1
 
 require 'netatalk2-lib.pl';
-ui_print_header(undef, $text{'index_title'}, "", "configs", 1, 1);
+ui_print_header(version(), $text{'index_title'}, "", "configs", 1, 1);
 
 if (!-x $config{'afpd_d'}) {
 	print &text('index_ever',"<tt> $config{'netatalk2'}</tt>", "/config.cgi?$module_name");
