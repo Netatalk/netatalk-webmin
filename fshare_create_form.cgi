@@ -93,9 +93,7 @@ print "<input type=checkbox name=misc_options value=searchdb>$text{'edit_Options
 print "<input type=checkbox name=misc_options value=tm>$text{'edit_Optionstm'}<br>\n";
 print "<input type=checkbox name=misc_options value=nonetids>$text{'edit_Optionsnonetids'}<br>\n";
 print "<input type=checkbox name=misc_options value=limitsize>$text{'edit_Optionslimitsize'}<br>\n";
-print "<input type=checkbox name=misc_options value=preexec_close>$text{'edit_Optionspreexec_close'}<br>\n";
 print "<input type=checkbox name=misc_options value=ro>$text{'edit_Optionsro'}<br>\n";
-print "<input type=checkbox name=misc_options value=root_preexec_close>$text{'edit_Optionsroot_preexec_close'}<br>\n";
 print "<input type=checkbox name=misc_options value=upriv>$text{'edit_Optionsupriv'}<br>\n";
 print "<input type=checkbox name=misc_options value=usedots>$text{'edit_Optionsusedots'}<br>\n";
 print "<input type=checkbox name=misc_options value=invisibledots>$text{'edit_Optionsinvisibledots'}<br>\n";
@@ -120,22 +118,6 @@ print "</td> </tr>\n";
 
 print "<tr> <td align=right><b>$text{'edit_Umask'}</b></td>\n";
 print "<td colspan=4><input name=umask size=8 value= >\n";
-print "</td> </tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_PreExec'}</b></td>\n";
-print "<td colspan=4><input name=preexec size=20 value= >\n";
-print "</td> </tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_PostExec'}</b></td>\n";
-print "<td colspan=4><input name=postexec size=20 value= >\n";
-print "</td> </tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_RootPreExec'}</b></td>\n";
-print "<td colspan=4><input name=root_preexec size=20 value= >\n";
-print "</td> </tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_RootPostExec'}</b></td>\n";
-print "<td colspan=4><input name=root_postexec size=20 value= >\n";
 print "</td> </tr>\n";
 
 print "<tr> <td align=right><b>$text{'edit_Veto'}</b></td>\n";

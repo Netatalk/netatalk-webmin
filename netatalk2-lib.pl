@@ -44,7 +44,8 @@ use Class::Struct;
 		options=>'options_format',
 	};
 
-	#note: deliberately skipped dropbox/dropkludge deprecated in netatalk2.2
+	#note: deliberately skipped preexec/postexec/root_preexec/root_postexec
+	#these are dangerous options that should not be used
 	struct  options_format => {
 		adouble=>'$',
 		volsizelimit=>'$',
@@ -63,10 +64,6 @@ use Class::Struct;
 		fperm=>'$',
 		dperm=>'$',
 		umask=>'$',
-		preexec=>'$',
-		postexec=>'$',
-		root_preexec=>'$',
-		root_postexec=>'$',
 		rolist=>'$',
 		rwlist=>'$',
 		veto=>'$',
@@ -177,18 +174,6 @@ sub open_afile
 				}
 				elsif("umask" eq $1){
 					$options->umask($2);
-				}
-				elsif("preexec" eq $1){
-					$options->preexec($2);
-				}
-				elsif("postexec" eq $1){
-					$options->postexec($2);
-				}
-				elsif("root_preexec" eq $1){
-					$options->root_preexec($2);
-				}
-				elsif("root_postexec" eq $1){
-					$options->root_postexec($2);
 				}
 				elsif("rolist" eq $1){
 					$options->rolist($2);
@@ -408,46 +393,6 @@ sub getUmask
   	return $Umask;
 }
 
-sub getPreExec
-{
-  	my ($var1) = @_;
-  	$PreExec = "";
-  	if ($rp = $pername{$var1}){
-		$PreExec = $rp->options->preexec;
- 	}	
-  	return $PreExec;
-}
-
-sub getPostExec
-{
-  	my ($var1) = @_;
-  	$PostExec = "";
-  	if ($rp = $pername{$var1}){
-		$PostExec = $rp->options->postexec;
- 	}	
-  	return $PostExec;
-}
-
-sub getRootPreExec
-{
-  	my ($var1) = @_;
-  	$RootPreExec = "";
-  	if ($rp = $pername{$var1}){
-		$RootPreExec = $rp->options->root_preexec;
- 	}	
-  	return $RootPreExec;
-}
-
-sub getRootPostExec
-{
-  	my ($var1) = @_;
-  	$RootPostExec = "";
-  	if ($rp = $pername{$var1}){
-		$RootPostExec = $rp->options->root_postexec;
- 	}	
-  	return $RootPostExec;
-}
-
 sub getRolist
 {
         my ($var1) = @_;
@@ -604,10 +549,6 @@ sub writeNewFileShare
 	$line_1 .= " fperm:$in{fperm}" if $in{fperm};
 	$line_1 .= " dperm:$in{dperm}" if $in{dperm};
 	$line_1 .= " umask:$in{umask}" if $in{umask};
-	$line_1 .= " preexec:$in{preexec}" if $in{preexec};
-	$line_1 .= " postexec:$in{postexec}" if $in{postexec};
-	$line_1 .= " root_preexec:$in{root_preexec}" if $in{root_preexec};
-	$line_1 .= " root_postexec:$in{root_postexec}" if $in{root_postexec};
 	$line_1 .= " veto:$in{veto}" if $in{veto};
 	$line_1 .= " volcharset:$in{volcharset}" if $in{volcharset};
 

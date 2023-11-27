@@ -88,15 +88,9 @@ while( $Options =~ /\b([A-Za-z]+)\b/g) {
 	elsif($1 eq "limitsize"){
 		$limitsize=1;
 	}
-	elsif($1 eq "preexec_close"){
-		$preexec_close=1;
-	}
 	elsif($1 eq "ro"){
                 $ro=1;
         }
-	elsif($1 eq "root_preexec_close"){
-		$root_preexec_close=1;
-	}
 	elsif($1 eq "upriv"){
 		$upriv=1;
 	}
@@ -146,10 +140,6 @@ $Perm = getPerm($Old_shareName);
 $FPerm = getFPerm($Old_shareName);
 $DPerm = getDPerm($Old_shareName);
 $Umask = getUmask($Old_shareName);
-$PreExec = getPreExec($Old_shareName);
-$PostExec = getPostExec($Old_shareName);
-$RootPreExec = getRootPreExec($Old_shareName);
-$RootPostExec = getRootPostExec($Old_shareName);
 
 $Rolist = getRolist($Old_shareName);
 while( $Rolist =~ /([A-Za-z0-9@\$]+)/g) {
@@ -277,12 +267,8 @@ printf "<input type=checkbox name=misc_options %s value=nonetids>$text{'edit_Opt
                  $nonetids eq "1" ? "checked" : "";
 printf "<input type=checkbox name=misc_options %s value=limitsize>$text{'edit_Optionslimitsize'}<br>\n",
                  $limitsize eq "1" ? "checked" : "";
-printf "<input type=checkbox name=misc_options %s value=preexec_close>$text{'edit_Optionspreexec_close'}<br>\n",
-                 $preexec_close eq "1" ? "checked" : "";
 printf "<input type=checkbox name=misc_options %s value=ro>$text{'edit_Optionsro'}<br>\n",
                  $ro eq "1" ? "checked" : "";
-printf "<input type=checkbox name=misc_options %s value=root_preexec_close>$text{'edit_Optionsroot_preexec_close'}<br>\n",
-                 $root_preexec_close eq "1" ? "checked" : "";
 printf "<input type=checkbox name=misc_options %s value=upriv>$text{'edit_Optionsupriv'}<br>\n",
                  $upriv eq "1" ? "checked" : "";
 printf "<input type=checkbox name=misc_options %s value=usedots>$text{'edit_Optionsusedots'}<br>\n",
@@ -316,26 +302,6 @@ print "</td> </tr>\n";
 print "<tr> <td align=right><b>$text{'edit_Umask'}</b></td>\n";
 printf "<td colspan=4><input name=umask size=8 value=%s>\n",
 	$Umask ne "" ? $Umask : "";
-print "</td> </tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_PreExec'}</b></td>\n";
-printf "<td colspan=4><input name=preexec size=20 value=%s>\n",
-	$PreExec ne "" ? $PreExec : "";
-print "</td> </tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_PostExec'}</b></td>\n";
-printf "<td colspan=4><input name=postexec size=20 value=%s>\n",
-	$PostExec ne "" ? $PostExec : "";
-print "</td> </tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_RootPreExec'}</b></td>\n";
-printf "<td colspan=4><input name=root_preexec size=20 value=%s>\n",
-	$RootPreExec ne "" ? $RootPreExec : "";
-print "</td> </tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_RootPostExec'}</b></td>\n";
-printf "<td colspan=4><input name=root_postexec size=20 value=%s>\n",
-	$RootPostExec ne "" ? $RootPostExec : "";
 print "</td> </tr>\n";
 
 print "<tr> <td align=right><b>$text{'edit_Veto'}</b></td>\n";
