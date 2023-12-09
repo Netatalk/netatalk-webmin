@@ -5,6 +5,7 @@
 #    Some code (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
 #    Contributions from:
 #	Sven Mosimann <sven.mosimann@ecologic.ch>
+#    Copyright (C) 2023 Daniel Markstedt <daniel@mindani.net>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -28,30 +29,7 @@ if (!-x $config{'afpd_d'}) {
 	exit;
 }
 
-# since we are using a different number of forms, depending on the status of the service,
-# we are keeping a running index while outputting the forms
-my $current_formindex = 0;
-
-# Process control Buttons
-if(&find_byname($config{'afpd_d'})) {
-    print "<h3>$text{'index_running_services'}</h3>\n";
-	print &ui_buttons_start();
-	print &ui_buttons_row('restart.cgi', $text{'index_process_control_restart'}, &text('index_process_control_restart_txt', $config{restart_netatalk}));
-	print &ui_buttons_row('stop.cgi', $text{'index_process_control_stop'}, &text('index_process_control_stop_txt', $config{stop_netatalk}));
-	print &ui_buttons_end();
-	$current_formindex += 2;
-} else {
-    print "<h3>$text{'index_not_running_services'}</h3>\n";
-	print &ui_buttons_start();
-	print &ui_buttons_row('start.cgi', $text{'index_process_control_start'}, &text('index_process_control_start_txt', $config{start_netatalk}));
-	print &ui_buttons_end();
-	$current_formindex += 1;
-}
-
-print &ui_hr();
-
 # Print AFP volumes	
-print "<p>";
 print "    <h3>$text{index_volumes}</h3>\n";
 print "    <table width=\"100%\" border>\n";
 print "    <tr $tb>"; 
@@ -83,5 +61,27 @@ my @global_titles = ($text{'index_server'},$text{'index_users'},$text{'index_edi
 my @global_icons = ("images/server.png","images/users.png","images/edit.gif");
 icons_table(\@global_links, \@global_titles, \@global_icons);
 print "</table>\n";
+
+print &ui_hr();
+
+# since we are using a different number of forms, depending on the status of the service,
+# we are keeping a running index while outputting the forms
+my $current_formindex = 0;
+
+# Process control Buttons
+if(&find_byname($config{'afpd_d'})) {
+    print "<h3>$text{'index_running_services'}</h3>\n";
+	print &ui_buttons_start();
+	print &ui_buttons_row('restart.cgi', $text{'index_process_control_restart'}, &text('index_process_control_restart_txt', $config{restart_netatalk}));
+	print &ui_buttons_row('stop.cgi', $text{'index_process_control_stop'}, &text('index_process_control_stop_txt', $config{stop_netatalk}));
+	print &ui_buttons_end();
+	$current_formindex += 2;
+} else {
+    print "<h3>$text{'index_not_running_services'}</h3>\n";
+	print &ui_buttons_start();
+	print &ui_buttons_row('start.cgi', $text{'index_process_control_start'}, &text('index_process_control_start_txt', $config{start_netatalk}));
+	print &ui_buttons_end();
+	$current_formindex += 1;
+}
 
 ### END of index.cgi ###.
