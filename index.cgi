@@ -22,39 +22,13 @@ require 'netatalk3-lib.pl';
 
 ui_print_header(undef, $text{'index_title'}, "", "configs", 1, 1);
 
-# check if netatalk daemon's path is configured correctly, if not: print error and footer then exit
+# check if netatalk daemon's path is configured correctly, if not: print error then exit
 if(!-x $config{'netatalk_d'}) {
-	print &text('index_ever',"<tt>$config{'netatalk_d'}</tt>", "/config.cgi?$module_name");
-	print "<p>\n<hr>\n";
-	ui_print_footer("/", $text{'index'});
+	print &text('index_ever', "<tt>$config{'netatalk_d'}</tt>", "/config.cgi?$module_name");
 	exit;
 }
 
-print "<hr>\n";
-
-# since we are using a different number of forms, depending on the status of the service,
-# we are keeping a running index while outputting the forms
-my $current_formindex = 0;
-
-# Process control Buttons
-if(&find_byname($config{'netatalk_d'})) {
-    print "<h3>$text{'index_running_services'}</h3>\n";
-	print &ui_buttons_start();
-	print &ui_buttons_row('restart.cgi', $text{'index_process_control_restart'}, &text('index_process_control_restart_txt', $config{restart_netatalk}));
-	print &ui_buttons_row('stop.cgi', $text{'index_process_control_stop'}, &text('index_process_control_stop_txt', $config{stop_netatalk}));
-	print &ui_buttons_end();
-	$current_formindex += 2;
-} else {
-    print "<h3>$text{'index_not_running_services'}</h3>\n";
-	print &ui_buttons_start();
-	print &ui_buttons_row('start.cgi', $text{'index_process_control_start'}, &text('index_process_control_start_txt', $config{start_netatalk}));
-	print &ui_buttons_end();
-	$current_formindex += 1;
-}
-
-print &ui_hr();
-
-# now try to read and interpret afp.conf - if this doesn't work, print error and footer then exit
+# try to read and interpret afp.conf - if this doesn't work, print error and footer then exit
 my $afpconf;
 eval {
 	$afpconf = &read_afpconf();
@@ -175,3 +149,25 @@ my @links = ("edit_global_section.cgi", "show_users.cgi");
 my @titles = ($text{'index_icon_text_server'}, $text{'index_icon_text_users'});
 my @icons = ("images/server.png", "images/users.png");
 icons_table(\@links, \@titles, \@icons, 5);
+
+print &ui_hr();
+
+# since we are using a different number of forms, depending on the status of the service,
+# we are keeping a running index while outputting the forms
+my $current_formindex = 0;
+
+# Process control Buttons
+if(&find_byname($config{'netatalk_d'})) {
+    print "<h3>$text{'index_running_services'}</h3>\n";
+	print &ui_buttons_start();
+	print &ui_buttons_row('restart.cgi', $text{'index_process_control_restart'}, &text('index_process_control_restart_txt', $config{restart_netatalk}));
+	print &ui_buttons_row('stop.cgi', $text{'index_process_control_stop'}, &text('index_process_control_stop_txt', $config{stop_netatalk}));
+	print &ui_buttons_end();
+	$current_formindex += 2;
+} else {
+    print "<h3>$text{'index_not_running_services'}</h3>\n";
+	print &ui_buttons_start();
+	print &ui_buttons_row('start.cgi', $text{'index_process_control_start'}, &text('index_process_control_start_txt', $config{start_netatalk}));
+	print &ui_buttons_end();
+	$current_formindex += 1;
+}
