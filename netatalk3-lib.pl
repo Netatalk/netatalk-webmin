@@ -436,3 +436,10 @@ sub file_rotate {
     rename($file . ".1", $file . ".2");
     copy_source_dest($file, $file . ".1") or die "copy failed: $!";	# use function from web-lib-funcs.pl instead of File::Copy
 }
+
+sub version() {
+	my $version = `$config{'netatalk_d'} -v 0>&1`;
+	$version =~ m/netatalk (\S+) /;
+
+	return $1;
+}

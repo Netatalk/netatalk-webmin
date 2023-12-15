@@ -20,7 +20,7 @@
 
 require 'netatalk3-lib.pl';
 
-ui_print_header(undef, $text{'index_title'}, "", "configs", 1, 1);
+ui_print_header(&text('index_version', version()), $text{'index_title'}, "", "configs", 1, 1);
 
 # check if netatalk daemon's path is configured correctly, if not: print error then exit
 if(!-x $config{'netatalk_d'}) {
