@@ -44,8 +44,6 @@ use Class::Struct;
 		options=>'options_format',
 	};
 
-	#note: deliberately skipped preexec/postexec/root_preexec/root_postexec
-	#these are dangerous options that should not be used
 	struct  options_format => {
 		adouble=>'$',
 		volsizelimit=>'$',

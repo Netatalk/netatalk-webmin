@@ -185,7 +185,6 @@ print "<input type=checkbox name=misc_options value=nocnidcache>$text{'edit_Opti
 print "<input type=checkbox name=misc_options value=nodev>$text{'edit_Optionsnodev'}<br>\n";
 print "<input type=checkbox name=misc_options value=nofileid>$text{'edit_Optionsnofileid'}<br>\n";
 print "<input type=checkbox name=misc_options value=nohex>$text{'edit_Optionsnohex'}<br>\n";
-print "<input type=checkbox name=misc_options value=nostat>$text{'edit_Optionsnostat'}<br>\n";
 print "<input type=checkbox name=misc_options value=prodos>$text{'edit_Optionsprodos'} <br>\n";
 print "</td></tr>\n";
 

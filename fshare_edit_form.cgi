@@ -127,9 +127,6 @@ while( $Options =~ /\b([A-Za-z]+)\b/g) {
 	elsif($1 eq "nohex"){
                 $nohex=1;
         }
-	elsif($1 eq "nostat"){
-                $nostat=1;
-        }
 	elsif($1 eq "prodos"){
 		$prodos=1;
 	}
@@ -399,8 +396,6 @@ printf "<input type=checkbox name=misc_options %s value=nofileid>$text{'edit_Opt
                  $nofileid eq "1" ? "checked" : "";
 printf "<input type=checkbox name=misc_options %s value=nohex>$text{'edit_Optionsnohex'}<br>\n",
                  $nohex eq "1" ? "checked" : "";
-printf "<input type=checkbox name=misc_options %s value=nostat>$text{'edit_Optionsnostat'}<br>\n",
-                 $nostat eq "1" ? "checked" : "";
 printf "<input type=checkbox name=misc_options %s value=prodos>$text{'edit_Optionsprodos'} <br>\n",
 		 $prodos eq "1" ? "checked" : "";
 print "</td></tr>\n";
