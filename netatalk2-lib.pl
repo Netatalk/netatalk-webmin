@@ -828,7 +828,7 @@ sub getAllAfpd
 				"",
 				"-savepassword",
 				"-setpassword",
-				"-uamlist uams_dhx.so,uams_dhx2.so",
+				"-uamlist uams_dhx2.so",
 				"-icon",
 				""
 			);
