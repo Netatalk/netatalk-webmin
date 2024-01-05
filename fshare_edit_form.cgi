@@ -189,6 +189,7 @@ print "<td colspan=4>\n";
 printf "<input name=path size=40  value=%s>\n",
 		$Old_path ne "~" ? $Old_path : "" ;
 print  &file_chooser_button("path", 1);
+print "<br><a href=\"/filemin\" target=\"_blank\">$text{'edit_filemanager_link'}</a>";
 print "</td> </tr>\n";
 print "<tr><td align=left><br></td></tr>\n";
 

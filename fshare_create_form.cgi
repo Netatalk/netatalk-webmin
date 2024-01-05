@@ -39,6 +39,7 @@ print "<table>\n";
 print "<tr> <td align=right><b>$text{'edit_directory'}</b></td>\n";
 print "<td colspan=4><input name=path size=40 value= >\n";
 print &file_chooser_button("path", 1);
+print "<br><a href=\"/filemin\" target=\"_blank\">$text{'edit_filemanager_link'}</a>";
 print "</td> </tr>\n";
 
 print "<tr><td align=right valign=top ><b>$text{'edit_Adouble'}</b></td>\n";

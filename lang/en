@@ -66,6 +66,7 @@ edit_sharename=Share name
 edit_homedirectory=Home Directories share
 edit_directory=Directory
 edit_default=default
+edit_filemanager_link=Open the file manager if you need to create a new directory
 
 edit_Adouble=AppleDouble format
 edit_Adoublev1=Legacy metadata format
