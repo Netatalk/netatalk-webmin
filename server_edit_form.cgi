@@ -86,10 +86,8 @@ print "<p><p>\n";
 print "<form action=server_save_action.cgi>\n";
 
 print "<table width=100%>\n";
-print "<tr $tb> <td><b>$text{'edit_server_tableheader'}</b></td></tr>\n";
-print "<tr $cb> <td>\n";
-print "<table>\n";
-	print "<tr><td align=right><b>$text{'create_server_ServerName'}</b></td>\n";
+	print "<tr>\n";
+	print "<td align=right><b>$text{'create_server_ServerName'}</b></td>\n";
 	print "<td colspan=4>";
 	printf "<input type=radio name=server %s value=0>\n",
 		$servername =~ /$hostname*/ ? "" : "checked";
@@ -97,8 +95,9 @@ print "<table>\n";
 		$servername =~ /$hostname*/ ? "" : $servername;
 	printf "<input type=radio name=server %s value=1>$text{'create_server_localhost'}\n",
 		$servername =~ /$hostname*/ ? "checked" : "";
-	print "</td></tr>\n";
-	print "<tr>";
+	print "</td>\n";
+	print "</tr>\n";
+	print "<tr>\n";
 		print "<td align=right><b>$text{'create_server_TCP'}</b></td>";
 		    print "<td>";
 			printf "<input type=radio %s name=tcpip value=-tcp>$text{'global_ON'}",
@@ -113,8 +112,8 @@ print "<table>\n";
 			printf "<input type=radio name=ddp %s value=-noddp>$text{'global_OFF'}",
 				$ddp =~ /$ddpon*/ ? "" : "checked";
 			print"</td>";
-	print "</tr>";
-	print "<tr>";
+	print "</tr>\n";
+	print "<tr>\n";
 		print "<td align=right><b>$text{'create_server_uams'}</b></td>";
 		    print "<td>";
 			printf "<input type=\"checkbox\" %s name=\"uams\" value=\"$uams_guest\">Guest",
@@ -130,83 +129,94 @@ print "<table>\n";
 			printf "<input type=\"checkbox\" %s name=\"uams\" value=\"$uams_gss\">Kerberos",
 				$uamlist =~ /$uams_gss*/ ? "checked" : "";
 			print "</td>";
-	print "</tr>";
-	print "<tr>";
+	print "</tr>\n";
+	print "<tr>\n";
 		print "<td align=right><b>$text{'create_server_Address'}</b></td>";
-		printf "<td><input size=15 maxlength=15 name=address value=%s></td>",
+		printf "<td><input size=15 maxlength=15 name=address value=\"%s\"></td>",
 				$address =~ /[0-9.]/ ? $address : "";
-	print "</tr>";
-	print "<tr>";
+	print "</tr>\n";
+	print "<tr>\n";
 		print "<td align=right><b>$text{'create_server_Port'}</b></td>";
 		printf" <td><input type=\"number\" name=\"port\" min=\"0\" max=\"65535\" value=\"%s\"></td>",
 				$port =~ /[0-9]/ ? $port : "";
-	print "</tr>";
-	print "<tr>";
+	print "</tr>\n";
+	print "<tr>\n";
 		print "<td align=right><b>$text{'create_server_pass'}</b></td>";
 		printf "<td><input name=setpassword type=radio %s value=-setpassword>$text{'global_ON'}",
 				$setpass =~ /$setpasswon/ ? "checked" : "";
 			printf "<input type=radio %s name=setpassword value=-nosetpassword>$text{'global_OFF'}",
 				$setpass =~ /$setpasswon/ ? "" : "checked";
 		print "</td>";
-	print "</tr>";
-	print "<tr>";
+	print "</tr>\n";
+	print "<tr>\n";
 		print "<td align=right><b>$text{'create_server_setpass'}</b></td>";
 		printf "<td><input type=radio %s name=savepassword value=-savepassword>$text{'global_ON'}",
 				$savepass =~ /$savepasswon*/ ? "checked" : "";
 			printf "<input type=radio %s name=savepassword value=-nosavepassword>$text{'global_OFF'}",
 				$savepass =~ /$savepasswon*/ ? "" : "checked";
 		print "</td>";
-	print "</tr>";
-	print "<tr>";
+	print "</tr>\n";
+	print "<tr>\n";
 		print "<td align=right><b>$text{'create_server_lgmesg'}</b></td>";
 		print "<td colspan=3><input size=25 maxlength=25 name=logmesg value=\"$loginmesg\"></td>";
-	print "</tr>";
-	print "<tr>";
+	print "</tr>\n";
+	print "<tr>\n";
 		print "<td align=right><b>$text{'create_server_icon'}</b></td>";
 		printf "<td><input type=radio %s name=icon value=-icon>$text{'global_ON'}",
 				$icon =~ /$iconon*/ ? "checked" : "";
 			printf "<input type=radio %s name=icon value=-noicon>$text{'global_OFF'}",
 				$icon =~ /$iconon*/ ? "" : "checked";
 		print "</td>";
-	print "</tr>";
-	print "<tr>";
+	print "</tr>\n";
+	print "<tr>\n";
 		print "<td align=right><b>$text{'create_server_mimicmodel'}</b></td>";
 		    print "<td><select name=\"mimicmodel\">";
-			printf "<option value=>$text{'edit_default'}";
+			printf "<option value=\"\">$text{'edit_default'}";
+		    print "</option>\n";
 			printf "<option value=\"$text{mimicmodel_rackmac}\" %s>$text{mimicmodel_rackmac}",
 				$mimicmodel =~ /$text{mimicmodel_rackmac}*/ ? "selected" : "";
+		    print "</option>\n";
 			printf "<option value=\"$text{mimicmodel_powerbook}\" %s>$text{mimicmodel_powerbook}",
 				$mimicmodel =~ /$text{mimicmodel_powerbook}*/ ? "selected" : "";
+		    print "</option>\n";
 			printf "<option value=\"$text{mimicmodel_powermac}\" %s>$text{mimicmodel_powermac}",
 				$mimicmodel =~ /$text{mimicmodel_powermac}*/ ? "selected" : "";
+		    print "</option>\n";
 			printf "<option value=\"$text{mimicmodel_macmini}\" %s>$text{mimicmodel_macmini}",
 				$mimicmodel =~ /$text{mimicmodel_macmini}*/ ? "selected" : "";
+		    print "</option>\n";
 			printf "<option value=\"$text{mimicmodel_imac}\" %s>$text{mimicmodel_imac}",
 				$mimicmodel =~ /$text{mimicmodel_imac}*/ ? "selected" : "";
+		    print "</option>\n";
 			printf "<option value=\"$text{mimicmodel_macbook}\" %s>$text{mimicmodel_macbook}",
 				$mimicmodel =~ /$text{mimicmodel_macbook}*/ ? "selected" : "";
+		    print "</option>\n";
 			printf "<option value=\"$text{mimicmodel_macbookpro}\" %s>$text{mimicmodel_macbookpro}",
 				$mimicmodel =~ /$text{mimicmodel_macbookpro}*/ ? "selected" : "";
+		    print "</option>\n";
 			printf "<option value=\"$text{mimicmodel_macbookair}\" %s>$text{mimicmodel_macbookair}",
 				$mimicmodel =~ /$text{mimicmodel_macbookair}*/ ? "selected" : "";
+		    print "</option>\n";
 			printf "<option value=\"$text{mimicmodel_macpro}\" %s>$text{mimicmodel_macpro}",
 				$mimicmodel =~ /$text{mimicmodel_macpro}*/ ? "selected" : "";
+		    print "</option>\n";
 			printf "<option value=\"$text{mimicmodel_appletv}\" %s>$text{mimicmodel_appletv}",
 				$mimicmodel =~ /$text{mimicmodel_appletv}*/ ? "selected" : "";
+		    print "</option>\n";
 			printf "<option value=\"$text{mimicmodel_airport}\" %s>$text{mimicmodel_airport}",
 				$mimicmodel =~ /$text{mimicmodel_airport}*/ ? "selected" : "";
+		    print "</option>\n";
+		    print "</select>\n";
 			print "</td>";
-	print "</tr>";
-print "</table> </td></tr></table><p>\n";
+	print "</tr>\n";
+print "</table>\n";
 
-print "<table width=100%>\n";
-print "<tr>";
 print "<input type=\"hidden\" name=\"old_servername\" value=\"$servername\">\n";
-print "<td align=left><input type=\"submit\" value=\"$text{'global_Save'}\"></td></form>\n";
+print "<input type=\"submit\" value=\"$text{'global_Save'}\"></form>\n";
 
-print "<table><tr><form action=\"server_delete_action.cgi\">";
+print "<form action=\"server_delete_action.cgi\">";
 print "<input type=\"hidden\" name=\"delete_servername\" value=\"$servername\">\n";
-print "<td align=right><input type=\"submit\" value=\"$text{'edit_delete'}\"></td>\n";
-print "</form></tr></table>";
+print "<input type=\"submit\" value=\"$text{'edit_delete'}\">\n";
+print "</form>";
 
 ui_print_footer("servers.cgi", $text{'create_server_return'});

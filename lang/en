@@ -132,10 +132,10 @@ edit_Casefoldxlateupper=Client sees uppercase, server sees lowercase
 
 edit_Save=Save
 edit_create=Create
+edit_reset=Reset
 edit_delete=Delete
 
 edit_server_header=Edit Server Configuration
-edit_server_tableheader=Server Configuration
 
 create_server_header=Create New Server Configuration
 create_server_ServerName=Server Name

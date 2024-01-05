@@ -34,6 +34,7 @@ $temp = "$applevolume_default.temp";
 $slash = "/";
 $pername = ();
 $hostname = `hostname`;
+chomp($hostname);
 
 #struct volume_format administers all information of a " line " 
 use Class::Struct;
