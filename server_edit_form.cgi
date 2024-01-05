@@ -219,4 +219,4 @@ print "<input type=\"hidden\" name=\"delete_servername\" value=\"$servername\">\
 print "<input type=\"submit\" value=\"$text{'edit_delete'}\">\n";
 print "</form>";
 
-ui_print_footer("servers.cgi", $text{'create_server_return'});
+ui_print_footer("index.cgi", $text{'index_module'});

@@ -25,7 +25,6 @@ FILES = \
 	images/misc.png \
 	images/server.png \
 	images/users.png \
-	images/volumes.gif \
 	index.cgi \
 	lang/de \
 	lang/en \
@@ -37,7 +36,6 @@ FILES = \
 	server_delete_action.cgi \
 	server_edit_form.cgi \
 	server_save_action.cgi \
-	servers.cgi \
 	show_users.cgi \
 	start.cgi \
 	stop.cgi

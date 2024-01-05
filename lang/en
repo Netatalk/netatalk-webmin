@@ -37,8 +37,7 @@ index_not_running=Service is not running
 index_start_service=Start Netatalk Service
 index_running_service=Service is running 
 index_ever=The afpd program was not found on your system. Maybe Netatalk is not installed, or your <a href='$2'> module configuration</a> is incorrect.
-index_global=Global Configurations and Options
-index_volumes=AFP Volumes
+index_volumes=Shared Volumes
 
 index_process_control_restart_txt=Restart netatalk services using <code>$1</code>
 index_process_control_start_txt=Start netatalk services using <code>$1</code>
@@ -145,7 +144,6 @@ create_server_AppleTalk=AppleTalk
 create_server_uams=Authentication Modules
 create_server_Port=Port
 create_server_Address=Address
-create_server_return=Servers
 create_server_pass=Set Password
 create_server_setpass=Save Password
 create_server_lgmesg=Login Message

@@ -117,4 +117,4 @@ print "<input type=submit value=$text{'edit_create'}>\n";
 print "<input type=reset value=$text{'edit_reset'}>\n";
 print "</form>\n";
 
-ui_print_footer("servers.cgi", $text{'create_server_return'});
+ui_print_footer("index.cgi", $text{'index_module'});
