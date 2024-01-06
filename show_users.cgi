@@ -23,8 +23,6 @@ ui_print_header(undef, $text{'users_title'}, "", "configs", 1);
 
 &ReadParse();
 
-print "<br><h4>Click \"Disconnect\" to disconnect a user.</h4><hr>\n";
-
 if($in{kill}) {
 	$in{kill} =~ s/\D//gi;
 	if(kill(15,$in{kill})) {
@@ -46,17 +44,17 @@ for (qx(ps aux)) {
 	}
 }
 
-print "<h4>There are currently " . scalar(@users) . " users connected.</h4>\n";
-print "<table border=\"0\" width=\"80%\">\n";
-print "<tr $tb><td><b>User</b></td><td><b>Connected Since</b></td><td><b>Disconnect</b></td></tr>\n";
+print "<p>There are currently " . scalar(@users) . " users connected.</p>\n";
+print "<table width=\"100%\" border>\n";
+print "<tr $tb><td style=\"width: 25%;\"><b>User</b></td><td style=\"width: 25%;\"><b>Connected Since</b></td><td style=\"width: 25%;\"><b>PID</b></td><td style=\"width: 25%;\"><b>Action</b></td></tr>\n";
 foreach my $user (sort @users) {
 	#username,PID,date
 	my @line = split(":::", $user);
-	print "<tr $tc><td>$line[0] </td><td>$line[2]</td><td>";
-	print "<form action=\"show_users.cgi\"><input type=submit name=kill value=\"$line[1]\"></form>";
+	print "<tr $cb><td>$line[0] </td><td>$line[2]</td><td>$line[1]</td><td>";
+	print "<form action=\"show_users.cgi\"><input type=hidden name=kill value=\"$line[1]\"><input type=submit value=\"Disconnect\"></form>";
 	print "</td></tr>\n";
 }
 print "</table>\n";
-print "<br><br>\n";
+print "<br>\n";
 
 ui_print_footer("index.cgi", $text{'index_module'});
