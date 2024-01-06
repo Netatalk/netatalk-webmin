@@ -3,4 +3,4 @@ depends=0.81
 category=servers
 os_support=macos solaris *-linux freebsd openbsd netbsd
 desc=Netatalk Classic Mac File Sharing
-version=1.0
+version=1.1
