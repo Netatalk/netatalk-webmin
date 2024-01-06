@@ -54,6 +54,8 @@ my @volume_titles = ($text{'index_create_file_share'},$text{'index_delete_file_s
 my @volume_icons = ("images/server.png","images/misc.png");
 icons_table(\@volume_links, \@volume_titles, \@volume_icons);
 
+print &ui_hr();
+
 # Print Netatalk Server Configurations
 print "<h3>$text{'servers_title'}</h3>\n";
 
