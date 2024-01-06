@@ -47,7 +47,7 @@ index_servername=Server Name
 index_protocols=Active Protocols
 index_auth=Active Authentication Methods
 index_port=Port
-index_address=Address
+index_address=IP Address
 index_newServer=Create New Server
 
 server_header=Servers
