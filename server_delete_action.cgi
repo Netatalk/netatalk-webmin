@@ -30,4 +30,4 @@ else {
 
 deleteSpezLine($filetoedit, $server);
 
-redirect("servers.cgi");
+redirect("index.cgi");
