@@ -814,6 +814,7 @@ sub getAllAfpd
 	$mimicmodel="-mimicmodel";
 	$noicon="-noicon";
 	$setuplog="-setuplog";
+	$maccodepage="-maccodepage";
 	$fileToRead = $config{'afpd_c'};
 	open(FH, "<$fileToRead") || die "$text{file} $fileToRead $text{not_readable}";
 	while(<FH>)
@@ -831,6 +832,7 @@ sub getAllAfpd
 				"-setpassword",
 				"-uamlist uams_dhx2.so",
 				"-icon",
+				"",
 				"",
 				""
 			);
@@ -870,6 +872,9 @@ sub getAllAfpd
 			}
 			if($_ =~ /$setuplog\s\"(.+)\"/){
 				@afpd[11] = $1;
+			}
+			if($_ =~ /$maccodepage\s(.+)/){
+				@afpd[12] = $1;
 			}
 			push(@afpd_all, @afpd);
 		}

@@ -81,5 +81,8 @@ sub createNewLine(){
 	if($in{setuplog}){
 		$newString .= "-setuplog \"$in{setuplog}\" ";
 	}
+	if($in{maccodepage}){
+		$newString .= "-maccodepage $in{maccodepage} ";
+	}
 	addLineToFile($filetoedit, $newString);
 }

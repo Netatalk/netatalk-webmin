@@ -43,9 +43,9 @@ else{
 }
 
 @allServer = getAllAfpd();
-$off = $offset*11;
+$off = $offset*12;
 $off = $off+$offset;
-for($i=0; $i<=11; $i++){
+for($i=0; $i<=12; $i++){
 	if($i eq 0){
 		 $servername = @allServer[$off];
 	}
@@ -81,6 +81,9 @@ for($i=0; $i<=11; $i++){
 	}
 	elsif($i eq 11){
 		 $setuplog = @allServer[$off];
+	}
+	elsif($i eq 12){
+		 $maccodepage = @allServer[$off];
 	}
 	$off++;
 }
@@ -215,6 +218,44 @@ print "<table width=100%>\n";
 	print "<tr>\n";
 		print "<td align=right><b>$text{'create_server_setuplog'}</b></td>";
 		print "<td colspan=3><input size=52 name=setuplog value=\"$setuplog\"></td>";
+	print "</tr>\n";
+	print "<tr>\n";
+		print "<td align=right><b>$text{'create_server_maccodepage'}</b></td>";
+		    print "<td><select name=\"maccodepage\">";
+			printf "<option value=\"\">$text{'edit_default'}";
+		    print "</option>\n";
+			printf "<option value=\"MAC_CENTRALEUROPE\" %s>MAC_CENTRALEUROPE",
+				$maccodepage =~ /MAC_CENTRALEUROPE/ ? "selected" : "";
+		    print "</option>\n";
+			printf "<option value=\"MAC_CHINESE_SIMP\" %s>MAC_CHINESE_SIMP",
+				$maccodepage =~ /MAC_CHINESE_SIMP/ ? "selected" : "";
+		    print "</option>\n";
+			printf "<option value=\"MAC_CHINESE_TRAD\" %s>MAC_CHINESE_TRAD",
+				$maccodepage =~ /MAC_CHINESE_TRAD/ ? "selected" : "";
+		    print "</option>\n";
+			printf "<option value=\"MAC_CYRILLIC\" %s>MAC_CYRILLIC",
+				$maccodepage =~ /MAC_CYRILLIC/ ? "selected" : "";
+		    print "</option>\n";
+			printf "<option value=\"MAC_GREEK\" %s>MAC_GREEK",
+				$maccodepage =~ /MAC_GREEK/ ? "selected" : "";
+		    print "</option>\n";
+			printf "<option value=\"MAC_HEBREW\" %s>MAC_HEBREW",
+				$maccodepage =~ /MAC_HEBREW/ ? "selected" : "";
+		    print "</option>\n";
+			printf "<option value=\"MAC_JAPANESE\" %s>MAC_JAPANESE",
+				$maccodepage =~ /MAC_JAPANESE/ ? "selected" : "";
+		    print "</option>\n";
+			printf "<option value=\"MAC_KOREAN\" %s>MAC_KOREAN",
+				$maccodepage =~ /MAC_KOREAN/ ? "selected" : "";
+		    print "</option>\n";
+			printf "<option value=\"MAC_ROMAN\" %s>MAC_ROMAN",
+				$maccodepage =~ /MAC_ROMAN/ ? "selected" : "";
+		    print "</option>\n";
+			printf "<option value=\"MAC_TURKISH\" %s>MAC_TURKISH",
+				$maccodepage =~ /MAC_TURKISH/ ? "selected" : "";
+		    print "</option>\n";
+		    print "</select>\n";
+			print "</td>";
 	print "</tr>\n";
 print "</table>\n";
 
