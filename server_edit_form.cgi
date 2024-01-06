@@ -43,9 +43,9 @@ else{
 }
 
 @allServer = getAllAfpd();
-$off = $offset*10;
+$off = $offset*11;
 $off = $off+$offset;
-for($i=0; $i<=10; $i++){
+for($i=0; $i<=11; $i++){
 	if($i eq 0){
 		 $servername = @allServer[$off];
 	}
@@ -78,6 +78,9 @@ for($i=0; $i<=10; $i++){
 	}
 	elsif($i eq 10){
 		 $mimicmodel = @allServer[$off];
+	}
+	elsif($i eq 11){
+		 $setuplog = @allServer[$off];
 	}
 	$off++;
 }
@@ -208,6 +211,10 @@ print "<table width=100%>\n";
 		    print "</option>\n";
 		    print "</select>\n";
 			print "</td>";
+	print "</tr>\n";
+	print "<tr>\n";
+		print "<td align=right><b>$text{'create_server_setuplog'}</b></td>";
+		print "<td colspan=3><input size=52 name=setuplog value=\"$setuplog\"></td>";
 	print "</tr>\n";
 print "</table>\n";
 

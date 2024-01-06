@@ -66,7 +66,7 @@ edit_sharename=Share name
 edit_homedirectory=Home Directories share
 edit_directory=Directory
 edit_default=default
-edit_filemanager_link=Open the file manager if you need to create a new directory
+edit_filemanager_link=Use the file manager to create and modify directories to share
 
 edit_Adouble=AppleDouble format
 edit_Adoublev1=Legacy metadata format
@@ -150,6 +150,7 @@ create_server_setpass=Save Password
 create_server_lgmesg=Login Message
 create_server_icon=Classic Mac OS Icon
 create_server_mimicmodel=OSX Icon
+create_server_setuplog=Logging
 
 save_newServer_noServerName=No usable server name
 

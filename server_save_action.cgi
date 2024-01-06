@@ -28,7 +28,7 @@ if($in{old_servername}){
 deleteSpezLine($filetoedit, $server);
 createNewLine();
 
-redirect("servers.cgi");
+redirect("index.cgi");
 
 #-----------------------------------------------------------------------------
 # Function creates new line with entry for servers
@@ -77,6 +77,9 @@ sub createNewLine(){
 	$newString .= "$in{icon} ";
 	if($in{mimicmodel}){
 		$newString .= "-mimicmodel \"$in{mimicmodel}\" ";
+	}
+	if($in{setuplog}){
+		$newString .= "-setuplog \"$in{setuplog}\" ";
 	}
 	addLineToFile($filetoedit, $newString);
 }

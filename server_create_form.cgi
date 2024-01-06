@@ -111,6 +111,10 @@ print "<table width=100% >\n";
 		    print "</select>\n";
 		print "</td>";
 	print "</tr>\n";
+	print "<tr>\n";
+		print "<td align=right><b>$text{'create_server_setuplog'}</b></td>";
+		print "<td colspan=3><input size=52 name=setuplog value=\"$setuplog\"></td>";
+	print "</tr>\n";
 print "</table>\n";
 
 print "<input type=submit value=$text{'edit_create'}>\n";

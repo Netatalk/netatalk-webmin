@@ -799,7 +799,8 @@ sub getAllAfpd
 		$nosetpass,
 		$uamlist,
 		$mimicmodel,
-		$noicon
+		$noicon,
+		$setuplog
 	);
 	push(@afpd_all);
 	$notcp="-notcp";
@@ -812,6 +813,7 @@ sub getAllAfpd
 	$uamlist="-uamlist";
 	$mimicmodel="-mimicmodel";
 	$noicon="-noicon";
+	$setuplog="-setuplog";
 	$fileToRead = $config{'afpd_c'};
 	open(FH, "<$fileToRead") || die "$text{file} $fileToRead $text{not_readable}";
 	while(<FH>)
@@ -829,6 +831,7 @@ sub getAllAfpd
 				"-setpassword",
 				"-uamlist uams_dhx2.so",
 				"-icon",
+				"",
 				""
 			);
 			if($_ =~ /^(\"[^\"]+\"|[^\s-]+)\s/)  {
@@ -864,6 +867,9 @@ sub getAllAfpd
 			}
 			if($_ =~ /$mimicmodel\s\"*([\w\d\,]+)\"*/){
 				@afpd[10] = $1;
+			}
+			if($_ =~ /$setuplog\s\"(.+)\"/){
+				@afpd[11] = $1;
 			}
 			push(@afpd_all, @afpd);
 		}
