@@ -400,16 +400,13 @@ printf "<input type=checkbox name=misc_options %s value=nohex>$text{'edit_Option
 printf "<input type=checkbox name=misc_options %s value=prodos>$text{'edit_Optionsprodos'} <br>\n",
 		 $prodos eq "1" ? "checked" : "";
 print "</td></tr>\n";
-
 print "</table> </td></tr>\n";
-print "</table><p>\n";
-
-print "<table width=100%>\n";
-print "<tr><td align=left><input type=submit value=$text{'edit_Save'}></td></form>\n";
-print "<form action=fshare_delete_action.cgi>\n";
-print "<td align=right>\n";
-	print"<input type=hidden  name=delete value=$Old_path>\n";
-	print"<input type=submit value=$text{'global_Delete'}></td></tr></form>\n";
 print "</table>\n";
+
+print "<input type=submit value=$text{'edit_Save'}></form>\n";
+
+print "<form action=fshare_delete_action.cgi>\n";
+print "<input type=hidden name=delete value=$Old_path>\n";
+print "<input type=submit value=$text{'global_Delete'}></form>\n";
 
 ui_print_footer("index.cgi", $text{'index_module'});
