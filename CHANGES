@@ -1,3 +1,14 @@
+1.1:
+* Updated for Netatalk 2.3.0 (a handful of removed options)
+* Folded the server management page into the index page
+* Added support for setuplog and maccharpage options
+* Improved UX of user management module
+* Display subheading with afpd version
+* Added inline link to filemin file manager module
+* Moved the netatalk service management buttons to bottom of index page
+* Improve readability of shared volume edit pages
+* Use module configuration categories
+
 1.0:
 * Updated for the Netatalk 2.2 format of config files
 * Full support for all AppleVolumes.default options
