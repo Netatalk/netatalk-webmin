@@ -113,10 +113,11 @@ print "<table width=100% >\n";
 	print "</tr>\n";
 	print "<tr>\n";
 		print "<td align=right><b>$text{'create_server_setuplog'}</b></td>";
-		print "<td colspan=3><input size=52 name=setuplog value=\"$setuplog\"></td>";
+		print "<td colspan=3><input size=52 name=setuplog value=\"$setuplog\"><br>$text{'create_server_setuplog_help'}</td>";
 	print "</tr>\n";
 print "</table>\n";
 
+print "<div><b>$text{'create_server_notice'}</b></div>";
 print "<input type=submit value=$text{'edit_create'}>\n";
 print "<input type=reset value=$text{'edit_reset'}>\n";
 print "</form>\n";
