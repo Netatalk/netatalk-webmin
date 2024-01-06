@@ -259,12 +259,14 @@ print "<table width=100%>\n";
 	print "</tr>\n";
 print "</table>\n";
 
+print "<div><i>$text{'create_server_notice'}</i></div>";
 print "<input type=\"hidden\" name=\"old_servername\" value=\"$servername\">\n";
-print "<input type=\"submit\" value=\"$text{'global_Save'}\"></form>\n";
+print "<input type=\"submit\" value=\"$text{'global_Save'}\">\n";
+print "</form>\n";
 
 print "<form action=\"server_delete_action.cgi\">";
 print "<input type=\"hidden\" name=\"delete_servername\" value=\"$servername\">\n";
 print "<input type=\"submit\" value=\"$text{'edit_delete'}\">\n";
-print "</form>";
+print "</form>\n";
 
 ui_print_footer("index.cgi", $text{'index_module'});

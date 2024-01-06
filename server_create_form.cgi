@@ -134,7 +134,7 @@ print "<table width=100% >\n";
 	print "</tr>\n";
 print "</table>\n";
 
-print "<div><b>$text{'create_server_notice'}</b></div>";
+print "<div><i>$text{'create_server_notice'}</i></div>";
 print "<input type=submit value=$text{'edit_create'}>\n";
 print "<input type=reset value=$text{'edit_reset'}>\n";
 print "</form>\n";
