@@ -26,9 +26,9 @@ ui_print_header(undef, $text{'users_title'}, "", "configs", 1);
 if($in{kill}) {
 	$in{kill} =~ s/\D//gi;
 	if(kill(15,$in{kill})) {
-		print "<h4>User disconnected</h4>\n";		
+		print "<h4>$text{'users_disconnect_success'}</h4>\n";
 	} else {
-		print "<h4>User <blink>NOT</blink> disconnected !</h4>\n";
+		print "<h4>$text{'users_disconnect_fail'}</h4>\n";
 	}
 }
 
@@ -44,14 +44,21 @@ for (qx(ps aux)) {
 	}
 }
 
-print "<p>There are currently " . scalar(@users) . " users connected.</p>\n";
+print "<p>",&text('users_connected_users', scalar(@users)),"</p>\n";
 print "<table width=\"100%\" border>\n";
-print "<tr $tb><td style=\"width: 25%;\"><b>User</b></td><td style=\"width: 25%;\"><b>Connected Since</b></td><td style=\"width: 25%;\"><b>PID</b></td><td style=\"width: 25%;\"><b>Action</b></td></tr>\n";
+print "<tr $tb>\n";
+print "<td style=\"width: 25%;\"><b>$text{'users_table_user'}</b></td>\n";
+print "<td style=\"width: 25%;\"><b>$text{'users_table_connected'}</b></td>\n";
+print "<td style=\"width: 25%;\"><b>$text{'users_table_pid'}</b></td>\n";
+print "<td style=\"width: 25%;\"><b>$text{'users_table_action'}</b></td></tr>\n";
 foreach my $user (sort @users) {
 	#username,PID,date
 	my @line = split(":::", $user);
-	print "<tr $cb><td>$line[0] </td><td>$line[2]</td><td>$line[1]</td><td>";
-	print "<form action=\"show_users.cgi\"><input type=hidden name=kill value=\"$line[1]\"><input type=submit value=\"Disconnect\"></form>";
+	print "<tr $tc><td>$line[0] </td><td>$line[2]</td><td>$line[1]</td><td>";
+	print "<form action=\"show_users.cgi\">\n";
+	print "<input type=hidden name=kill value=\"$line[1]\">\n";
+	print "<input type=submit value=\"$text{'users_button_disconnect'}\">\n";
+	print "</form>\n";
 	print "</td></tr>\n";
 }
 print "</table>\n";

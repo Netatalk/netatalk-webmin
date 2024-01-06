@@ -1,9 +1,7 @@
-
 lang=en
 index_root=Webmin Home
 index_title=Netatalk AFP Server
 index_module=Module Index
-interfaces_title=Netatalk Interfaces
 servers_title=Virtual Servers
 users_title=Connected Users
 edit_file_share_title=Edit File Share
@@ -57,7 +55,7 @@ server_header=Servers
 index_server=Servers
 init_failed=Command "$1" failed
 
-edit_header=Create New Apple File Share
+edit_header=Create New File Share
 edit_tableheader=Common Options
 edit_adv_tableheader=Advanced Options
 edit_sharename=Share name
@@ -175,8 +173,6 @@ give_correct_path=Please give correct path
 indicate_sharename=Please indicate sharename
 copy_failed=Failed to copy file
 delete_failed=Can't delete file
-not_valid_path=Not Valid Path
-no_path=No Path
 error_illegal_char=Name contains illegal characters
 
 help_volume=Volume Config Help
@@ -192,3 +188,12 @@ manual_etest=Configuration file error detected : $1
 test_config=1
 test_always=0
 test_manual=0
+
+users_disconnect_success=User disconnected
+users_disconnect_fail=Could not disconnect user!
+users_connected_users=There are currently $1 user(s) connected.
+users_table_user=User
+users_table_connected=Connected Since
+users_table_pid=PID
+users_table_action=Action
+users_button_disconnect=Disconnect
