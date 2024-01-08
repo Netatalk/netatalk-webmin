@@ -27,7 +27,7 @@ install:
 	@${WEBMIN_DIR}/install-module.pl netatalk3-wbm-${VERSION}.tgz
 
 clean:
-	-rm -f netatalk3*.tgz
+	-rm -f netatalk*.tgz
 	-rm -rf netatalk3
 
 netatalk3-wbm.tgz: $(FILES)
