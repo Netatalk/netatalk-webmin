@@ -1,3 +1,10 @@
+0.3:
+* added page with the output from asip-status
+* improved user management page
+* print netatalk version in subheading on index page
+* moved service controls to bottom of index page
+* added hyperlink to filemin from volume editing page
+
 0.2:
 * fixed: User Home Volumes
 * fixed: Show current users
