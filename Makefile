@@ -4,41 +4,16 @@ WEBMIN_DIR ?= /usr/share/webmin
 
 FILES = \
 	CHANGES \
-	config \
-	config.info \
-	config-opt-netatalk \
-	config-usr-local \
+	COPYING \
 	CREDITS \
-	edit_configfiles_form.cgi \
-	edit_configfiles_save.cgi \
-	fshare_create_form.cgi \
-	fshare_delete_action.cgi \
-	fshare_delete_form.cgi \
-	fshare_edit_form.cgi \
-	fshare_save_action.cgi \
-	help/configs.html \
-	help/servers.html \
-	help/shares.html \
-	images/edit.gif \
-	images/icon.gif \
-	images/interface.png \
-	images/misc.png \
-	images/server.png \
-	images/users.png \
-	index.cgi \
-	lang/de \
-	lang/en \
+	README.md \
+	config* \
 	module.info \
 	netatalk2-lib.pl \
-	README \
-	restart.cgi \
-	server_create_form.cgi \
-	server_delete_action.cgi \
-	server_edit_form.cgi \
-	server_save_action.cgi \
-	show_users.cgi \
-	start.cgi \
-	stop.cgi
+	help/** \
+	images/** \
+	lang/** \
+	*.cgi
 
 all:
 
