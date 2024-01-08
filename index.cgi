@@ -144,9 +144,9 @@ print"<p>\n";
 print"<h3>$text{index_global}</h3>\n";
 print"<p>\n";
 
-my @links = ("edit_global_section.cgi", "show_users.cgi");
-my @titles = ($text{'index_icon_text_server'}, $text{'index_icon_text_users'});
-my @icons = ("images/server.png", "images/users.png");
+my @links = ("edit_global_section.cgi", "show_users.cgi", "server_status.cgi");
+my @titles = ($text{'index_icon_text_server'}, $text{'index_icon_text_users'}, "$text{index_icon_text_capabilities}");
+my @icons = ("images/server.png", "images/users.png", "images/asip.gif");
 icons_table(\@links, \@titles, \@icons, 5);
 
 print &ui_hr();

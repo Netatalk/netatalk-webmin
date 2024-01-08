@@ -45,8 +45,8 @@ index_col_title_home_name=Home volume name
 index_value_not_set=<i>not set</i>
 
 index_icon_text_server=Server Options
-index_icon_text_users=Show current users
-index_icon_text_file_edit=Edit config files
+index_icon_text_users=Manage Connected Users
+index_icon_text_capabilities=Show Server Capabilities
 
 edit_return=index page
 
@@ -134,3 +134,6 @@ users_table_connected=Connected Since
 users_table_pid=PID
 users_table_action=Action
 users_button_disconnect=Disconnect
+
+server_status_title=Server Capabilities
+server_status_message=The local AFP-over-TCP server reports the following capabilities
