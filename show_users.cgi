@@ -20,7 +20,7 @@
 
 require 'netatalk3-lib.pl';
 
-ui_print_header(undef, $test{users_title}, "", "configs", 1, 1);
+ui_print_header(undef, $text{users_title}, "", "configs", 1, 1);
 
 &ReadParse();
 

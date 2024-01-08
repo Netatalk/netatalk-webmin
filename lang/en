@@ -103,8 +103,6 @@ edit_global_section_mimic_model=Server icon
 edit_users=Users
 edit_groups=Groups
 
-users_title=Netatalk Users
-
 index_root=Webmin Home
 index_title=Netatalk AFP Server
 index_version=Version $1
@@ -126,6 +124,7 @@ manual_title=Edit Directives
 manual_file=Edit File:
 manual_efile=Invalid netatalk config file
 
+users_title=Connected Users
 users_disconnect_success=User disconnected
 users_disconnect_fail=Could not disconnect user!
 users_connected_users=There are currently $1 user(s) connected.
