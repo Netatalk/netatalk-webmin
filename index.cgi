@@ -39,7 +39,6 @@ if($@) {
 }
 
 # Volumes	
-print "<p>\n";
 print "<h3>$text{index_volumes}</h3>\n";
 print "<p>\n";
 my @volume_links = ( "<a href=\"edit_vol_section.cgi?action=new_volume\">$text{'index_create_volume_link_name'}</a>" );
