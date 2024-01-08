@@ -126,3 +126,11 @@ manual_title=Edit Directives
 manual_file=Edit File:
 manual_efile=Invalid netatalk config file
 
+users_disconnect_success=User disconnected
+users_disconnect_fail=Could not disconnect user!
+users_connected_users=There are currently $1 user(s) connected.
+users_table_user=User
+users_table_connected=Connected Since
+users_table_pid=PID
+users_table_action=Action
+users_button_disconnect=Disconnect
