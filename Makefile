@@ -1,39 +1,21 @@
 # Makefile for Netatalk webmin module
 
 WEBMIN_DIR ?= /usr/share/webmin
+VERSION=`cat module.info |grep version |sed 's/version=//'`
 
 FILES = \
+	help/** \
+	images/** \
+	lang/** \
 	CHANGES \
-	config \
-	config.info \
-	config-opt-netatalk \
-	config-suse-linux \
-	config-usr-local-netatalk \
-	delete_sections.cgi \
-	edit_global_section.cgi \
-	edit_vol_section.cgi \
-	help/configs.html \
-	images/icon.gif \
-	images/interface.png \
-	images/misc.png \
-	images/server.png \
-	images/users.png \
-	images/volumes.gif \
-	index.cgi \
-	lang/de \
-	lang/en \
+	COPYING \
+	README.md \
+	config* \
 	module.info \
 	netatalk3-lib.pl \
-	README.md \
-	restart.cgi \
-	save_global_section.cgi \
-	save_vol_section.cgi \
-	show_users.cgi \
-	start.cgi \
-	stop.cgi \
-	VERSION
+	*.cgi
 
-all:
+all: netatalk3-wbm.tgz
 
 dist: netatalk3-wbm.tgz
 
@@ -42,37 +24,37 @@ localdist: netatalk3-local-wbm.tgz
 optdist: netatalk3-opt-wbm.tgz
 
 install:
-	@${WEBMIN_DIR}/install-module.pl netatalk3*-wbm.tgz
+	@${WEBMIN_DIR}/install-module.pl netatalk3-wbm-${VERSION}.tgz
 
 clean:
-	-rm -f netatalk3-wbm.tgz netatalk3-local-wbm.tgz netatalk3-opt-wbm.tgz
+	-rm -f netatalk3*.tgz
 	-rm -rf netatalk3
 
 netatalk3-wbm.tgz: $(FILES)
-	@echo 'Creating Netatalk Webmin Module archive in "netatalk3-wbm.tgz" ...'
-	@-rm -rf netatalk3 netatalk3-wbm.tgz
+	@echo "Creating Netatalk Webmin Module archive for distribution: \"netatalk3-wbm-${VERSION}.tgz\" ..."
+	@-rm -rf netatalk3
 	@mkdir netatalk3
 	@tar cf - $(FILES) | tar xf - -C netatalk3
-	@tar cf - netatalk3 | gzip > netatalk3-wbm.tgz
+	@tar cf - netatalk3 | gzip > netatalk3-wbm-${VERSION}.tgz
 	@rm -rf netatalk3
 	@echo Done.
 
 netatalk3-local-wbm.tgz: $(FILES)
-	@echo 'Creating Netatalk Webmin Module archive in "netatalk3-local-wbm.tgz" ...'
-	@-rm -rf netatalk3 netatalk3-local-wbm.tgz
+	@echo "Creating Netatalk Webmin Module archive for distribution \"netatalk3-local-wbm-${VERSION}.tgz\" ..."
+	@-rm -rf netatalk3
 	@mkdir netatalk3
 	@tar cf - $(FILES) | tar xf - -C netatalk3
 	@cp config-usr-local-netatalk netatalk3/config
-	@tar cf - netatalk3 | gzip > netatalk3-local-wbm.tgz
+	@tar cf - netatalk3 | gzip > netatalk3-local-wbm-${VERSION}.tgz
 	@rm -rf netatalk3
 	@echo Done.
 
 netatalk3-opt-wbm.tgz: $(FILES)
-	@echo 'Creating Netatalk Webmin Module archive in "netatalk3-opt-wbm.tgz" ...'
-	@-rm -rf netatalk3 netatalk3-opt-wbm.tgz
+	@echo "Creating Netatalk Webmin Module archive for distribution: \"netatalk3-opt-wbm-${VERSION}.tgz\" ..."
+	@-rm -rf netatalk3
 	@mkdir netatalk3
 	@tar cf - $(FILES) | tar xf - -C netatalk3
 	@cp config-opt-netatalk netatalk3/config
-	@tar cf - netatalk3 | gzip > netatalk3-opt-wbm.tgz
+	@tar cf - netatalk3 | gzip > netatalk3-opt-wbm-${VERSION}.tgz
 	@rm -rf netatalk3
 	@echo Done.
