@@ -114,7 +114,8 @@ else {
 
 if($subject eq 'volume') {
 	print &ui_table_row($text{'edit_vol_section_path'},
-		&ui_filebox('p_path', exists $in{p_path} ? $in{p_path} : (exists $$sectionRef{parameters}{'path'} ? $$sectionRef{parameters}{'path'}{value} : ''), 40, undef, undef, "required", 1)
+		&ui_filebox('p_path', exists $in{p_path} ? $in{p_path} : (exists $$sectionRef{parameters}{'path'} ? $$sectionRef{parameters}{'path'}{value} : ''), 40, undef, undef, "required", 1) .
+		"<br /><a href=\"/filemin\" target=\"_blank\">$text{'edit_vol_section_path_note'}</a>"
 	);
 }
 
