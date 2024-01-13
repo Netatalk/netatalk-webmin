@@ -201,8 +201,6 @@ printf "<input type=radio name=adouble_options %s value=v1>$text{'edit_Adoublev1
 		 $Adouble eq "v1" ? "checked" : "";
 printf "<input type=radio name=adouble_options %s value=v2>$text{'edit_Adoublev2'}<br>\n",
 		 $Adouble eq "v2" ? "checked" : "";
-printf "<input type=radio name=adouble_options %s value=osx>$text{'edit_Adoubleosx'}<br>\n",
-		 $Adouble eq "osx" ? "checked" : "";
 print "</td></tr>\n";
 
 print "<tr> <td align=right><b>$text{'edit_Volsizelimit'}</b></td>\n";

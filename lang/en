@@ -68,7 +68,6 @@ edit_filemanager_link=Use the file manager to create and modify directories to s
 edit_Adouble=AppleDouble format
 edit_Adoublev1=Legacy metadata format
 edit_Adoublev2=Current metadata format (default)
-edit_Adoubleosx=Mac OS X 10.3 scheme (deprecated; don't use!)
 
 edit_Ea=Extended Attributes
 edit_Eaauto=Try filesystem Extended Attributes, fallback to AppleDouble (default)

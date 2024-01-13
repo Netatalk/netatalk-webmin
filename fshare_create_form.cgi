@@ -47,7 +47,6 @@ print "<td align=left colspan=3>\n";
 print "<input type=radio name=adouble_options %s value=default checked>$text{'edit_default'}<br>\n";
 print "<input type=radio name=adouble_options %s value=v1>$text{'edit_Adoublev1'}<br>\n";
 print "<input type=radio name=adouble_options %s value=v2>$text{'edit_Adoublev2'}<br>\n";
-print "<input type=radio name=adouble_options %s value=osx>$text{'edit_Adoubleosx'}<br>\n";
 print "</td></tr>\n";
 
 print "<tr> <td align=right><b>$text{'edit_Volsizelimit'}</b></td>\n";
