@@ -9,7 +9,7 @@ The afpd service needs to be restarted or reloaded for the new settings to take 
 - Install webmin by following the instructions at https://webmin.com/
 - Generate a module tarball with `make dist`
 - Multiple methods to install the module:
-  - `make install` (only tested on Debian)
+  - `make install` (tested on Debian and Fedora)
   - From the dir where webmin is installed, run `./install-module.pl /path/to/netatalk2-wbm.tgz`
   - From within the Webmin UI: Configuration -> Modules -> From local file
 
