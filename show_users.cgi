@@ -47,10 +47,10 @@ for (qx(ps aux)) {
 print "<p>",&text('users_connected_users', scalar(@users)),"</p>\n";
 print "<table width=\"100%\" border>\n";
 print "<tr $tb>\n";
-print "<td style=\"width: 25%;\"><b>$text{'users_table_user'}</b></td>\n";
-print "<td style=\"width: 25%;\"><b>$text{'users_table_connected'}</b></td>\n";
-print "<td style=\"width: 25%;\"><b>$text{'users_table_pid'}</b></td>\n";
-print "<td style=\"width: 25%;\"><b>$text{'users_table_action'}</b></td></tr>\n";
+print "<td style=\"width: 25%;\">$text{'users_table_user'}</td>\n";
+print "<td style=\"width: 25%;\">$text{'users_table_connected'}</td>\n";
+print "<td style=\"width: 25%;\">$text{'users_table_pid'}</td>\n";
+print "<td style=\"width: 25%;\">$text{'users_table_action'}</td></tr>\n";
 foreach my $user (sort @users) {
 	#username,PID,date
 	my @line = split(":::", $user);

@@ -742,10 +742,10 @@ sub readAfpd
 		if($_=~/(^[\w\d-\"].*)/ ){
 			@afpd = (
 				$hostname,
-				"Disabled",
-				"No Authentication",
-				"Default",
-				"Default"
+				$text{'create_server_disabled'},
+				$text{'create_server_no_auth'},
+				$text{'create_server_default'},
+				$text{'create_server_default'}
 			);
 			
 			if($_ =~ /^(\"[^\"]+\"|[^\s-]+)\s/)  {
@@ -754,13 +754,13 @@ sub readAfpd
 			}
 
 			if($_ =~ /-transall/ || $_ =~ /-(ddp|tcp)\s+-(ddp|tcp)/ ){
-				@afpd[1] = "AppleTalk, TCP/IP"
+				@afpd[1] = "$text{'create_server_AppleTalk'}, $text{'create_server_TCP'}";
 			}
 			elsif($_ =~ /-(ddp|notcp)\s+-(notcp|ddp)/ ){
-				@afpd[1] = "AppleTalk"
+				@afpd[1] = $text{'create_server_AppleTalk'};
 			}
 			elsif($_ =~ /-(noddp|tcp)\s+-(tcp|noddp)/ ){
-				@afpd[1] = "TCP/IP"
+				@afpd[1] = $text{'create_server_TCP'};
 			}
 
 			if($_ =~ /-uamlist\s([\w\d\._,]+)\s/){

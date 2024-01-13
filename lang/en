@@ -150,6 +150,9 @@ create_server_mimicmodel=OSX Icon
 create_server_setuplog=Logging
 create_server_setuplog_help=Example: default log_maxdebug /var/log/afpd.log
 create_server_maccodepage=Client Codepage
+create_server_default=Default
+create_server_no_auth=No Authentication
+create_server_disabled=Disabled
 
 create_server_notice=Note that this is not a comprehensive list. Please edit afpd.conf manually for advanced options.
 

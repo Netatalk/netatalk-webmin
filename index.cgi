@@ -32,18 +32,18 @@ if (!-x $config{'afpd_d'}) {
 print "    <h3>$text{index_volumes}</h3>\n";
 print "    <table width=\"100%\" border>\n";
 print "    <tr $tb>"; 
-print "        <td><b>$text{'index_sharename'}</b></td>";
-print "        <td><b>$text{'index_path'}</b></td>\n";
-print "        <td><b>$text{'index_options'}</b></td>\n";
+print "        <td>$text{'index_sharename'}</td>";
+print "        <td>$text{'index_path'}</td>\n";
+print "        <td>$text{'index_options'}</td>\n";
 print "    </tr>\n";
 foreach $s (open_afile()){
     $sharename = getShareName($s);
     $path = getPath($s);
     $options = getAllOptions($s);
     print "<tr $cb>\n";
-    print "    <td><a href=\"fshare_edit_form.cgi?shareName=$sharename&path=$path\"><b>$sharename</b></a></td>";
-    print "    <td><b>$path</b></td>";
-    print "    <td><b>$options</b></td>";
+    print "    <td><a href=\"fshare_edit_form.cgi?shareName=$sharename&path=$path\">$sharename</a></td>";
+    print "    <td>$path</td>";
+    print "    <td>$options</td>";
     print "</tr>";
 }
 print "</table>\n";
@@ -59,15 +59,15 @@ print &ui_hr();
 print "<h3>$text{'servers_title'}</h3>\n";
 
 @Servers = readAfpd();
+print "<table width=100% border>\n";
+print "<tr $tb>";
+print "<td>$text{'index_servername'}</td>";
+print "<td>$text{'index_protocols'}</td>";
+print "<td>$text{'index_auth'}</td>";
+print "<td>$text{'index_port'}</td>";
+print "<td>$text{'index_address'}</td>";
+print "</tr>\n";
 if(@Servers[1] ne ""){
-	print "<table width=100% border>\n";
-	print "<tr $tb>";
-	print "<td><b>$text{'index_servername'}</b></td>";
-	print "<td><b>$text{'index_protocols'}</b></td>";
-	print "<td><b>$text{'index_auth'}</b></td>";
-	print "<td><b>$text{'index_port'}</b></td>";
-	print "<td><b>$text{'index_address'}</b></td>";
-	print "</tr>\n";
 	print "<tr>";
 	$offset = 0;
 	$servername="servername=";
@@ -78,22 +78,28 @@ if(@Servers[1] ne ""){
 	$offsetStr="offset=";
 	for($i=0;$i<=$#Servers;$i++){
 		if( ($i%5 ==0) && ($i ne 0)){
-			print"<td><b>$Servers[$i]</b></td></tr><tr>";
+			print"<td>$Servers[$i]</td></tr><tr>";
 			$i++;
 			$pointer=$i;
 			$offset++;
-			print"<td><a href=\"server_edit_form.cgi?$offsetStr$offset\"><b>$Servers[$i]</b></a></td>";
+			print"<td><a href=\"server_edit_form.cgi?$offsetStr$offset\">$Servers[$i]</a></td>";
 		}
 		elsif($i ne 0 && $i >1){
-			print"<td><b>$Servers[$i]</b></td>";
+			print"<td>$Servers[$i]</td>";
 		}
 		elsif($i ne 0 && $i eq 1){
 			$pointer=$i;
-			print"<td><a href=\"server_edit_form.cgi?$offsetStr$offset\"><b>$Servers[$i]</b></a></td>";
+			print"<td><a href=\"server_edit_form.cgi?$offsetStr$offset\">$Servers[$i]</a></td>";
 		}
 	}
-	print "</tr></table>\n";
+	print "</tr>";
+} else {
+	# Print the default server settings when none are defined in afpd.conf
+	$hostname = `hostname`;
+	print "<tr><td>$hostname</td><td>$text{'create_server_AppleTalk'}, $text{'create_server_TCP'}</td>";
+	print "<td>uams_dhx2.so</td><td>$text{'create_server_default'}</td><td>$text{'create_server_default'}</td></tr>";
 }
+print "</table>\n";
 
 my @server_links = ("server_create_form.cgi","show_users.cgi","edit_configfiles_form.cgi", "server_status.cgi");
 my @server_titles = ($text{'index_newServer'},$text{'index_users'},$text{'index_edit'}, "$text{index_capabilities}");
