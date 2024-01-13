@@ -1,6 +1,9 @@
 # Makefile for Netatalk webmin module
 
 WEBMIN_DIR ?= /usr/share/webmin
+ifneq ($(wildcard /usr/libexec/webmin),)
+	WEBMIN_DIR := /usr/libexec/webmin
+endif
 VERSION=`cat module.info |grep version |sed 's/version=//'`
 
 FILES = \
