@@ -50,7 +50,7 @@ print "</table>\n";
 
 my @volume_links = ("fshare_create_form.cgi","fshare_delete_form.cgi");
 my @volume_titles = ($text{'index_create_file_share'},$text{'index_delete_file_share'});
-my @volume_icons = ("images/server.png","images/misc.png");
+my @volume_icons = ("images/server.png","images/delete.gif");
 icons_table(\@volume_links, \@volume_titles, \@volume_icons);
 
 print &ui_hr();
@@ -95,9 +95,9 @@ if(@Servers[1] ne ""){
 	print "</tr></table>\n";
 }
 
-my @server_links = ("server_create_form.cgi","show_users.cgi","edit_configfiles_form.cgi");
-my @server_titles = ($text{'index_newServer'},$text{'index_users'},$text{'index_edit'});
-my @server_icons = ("images/interface.png","images/users.png","images/edit.gif");
+my @server_links = ("server_create_form.cgi","show_users.cgi","edit_configfiles_form.cgi", "server_status.cgi");
+my @server_titles = ($text{'index_newServer'},$text{'index_users'},$text{'index_edit'}, "$text{index_capabilities}");
+my @server_icons = ("images/interface.png","images/users.png","images/edit.gif", "images/inspect.gif");
 icons_table(\@server_links, \@server_titles, \@server_icons);
 
 print &ui_hr();
