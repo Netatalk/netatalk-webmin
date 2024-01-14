@@ -67,13 +67,13 @@ edit_default=default
 edit_filemanager_link=Use the file manager to create and modify directories to share
 
 edit_Adouble=AppleDouble format
-edit_Adoublev1=Legacy metadata format
-edit_Adoublev2=Current metadata format (default)
+edit_Adoublev1=Legacy metadata format, v1
+edit_Adoublev2=Current metadata format, v2 (default)
 
 edit_Ea=Extended Attributes
 edit_Eaauto=Try filesystem Extended Attributes, fallback to AppleDouble (default)
 edit_Easys=Use filesystem Extended Attributes
-edit_Eaad=Use files in .AppleDouble directories
+edit_Eaad=Use AppleDouble
 edit_Eanone=No Extended Attributes support
 
 edit_Volsizelimit=Volume Size Limit
