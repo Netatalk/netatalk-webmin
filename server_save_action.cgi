@@ -56,6 +56,9 @@ sub createNewLine(){
 	if($in{tcpip} eq "-tcp" && $in{ddp} eq "-ddp"){
 		$newString .= "-transall ";
 	}
+	elsif($in{tcpip} eq "-notcp" && $in{ddp} eq "-noddp"){
+		$newString .= "-notransall ";
+	}
 	else{
 		$newString .= "$in{ddp} $in{tcpip} ";
 	}

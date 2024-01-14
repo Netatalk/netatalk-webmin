@@ -762,6 +762,9 @@ sub readAfpd
 			elsif($_ =~ /-(noddp|tcp)\s+-(tcp|noddp)/ ){
 				@afpd[1] = $text{'create_server_TCP'};
 			}
+			elsif($_ =~ /-notransall/ || $_ =~ /-(noddp|notcp)\s+-(noddp|notcp)/ ){
+				@afpd[1] = "$text{'create_server_disabled'}";
+			}
 
 			if($_ =~ /-uamlist\s([\w\d\._,]+)\s/){
 				@afpd[2] = $1;
