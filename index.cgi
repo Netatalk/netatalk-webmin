@@ -146,7 +146,7 @@ print"<p>\n";
 
 my @links = ("edit_global_section.cgi", "show_users.cgi", "server_status.cgi");
 my @titles = ($text{'index_icon_text_server'}, $text{'index_icon_text_users'}, "$text{index_icon_text_capabilities}");
-my @icons = ("images/server.png", "images/users.png", "images/asip.gif");
+my @icons = ("images/server.png", "images/users.png", "images/inspect.gif");
 icons_table(\@links, \@titles, \@icons, 5);
 
 print &ui_hr();
