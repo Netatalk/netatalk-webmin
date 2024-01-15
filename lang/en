@@ -35,7 +35,7 @@ index_start_service=Start Netatalk Service
 index_running_service=Service is running 
 index_ever=The afpd program was not found on your system. Maybe Netatalk is not installed, or your <a href='$2'> module configuration</a> is incorrect.
 index_volumes=Shared Volumes
-index_capabilities=ASIP Server Capabilities
+index_capabilities=Server Capabilities
 
 index_process_control_restart_txt=Restart netatalk services using <code>$1</code>
 index_process_control_start_txt=Start netatalk services using <code>$1</code>
@@ -202,5 +202,5 @@ users_table_action=Action
 users_button_disconnect=Disconnect
 
 server_status_title=Server Capabilities
-server_status_message=The local AFP-over-TCP server reports the following capabilities
-server_status_error=No response from the AFP server. Is afpd running?
+server_status_message=The local AFP server reports the following capabilities
+server_status_error=No response from the local AFP server. Is afpd running?

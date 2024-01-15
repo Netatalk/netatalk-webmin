@@ -22,7 +22,7 @@ require 'netatalk2-lib.pl';
 
 ui_print_header(undef, $text{server_status_title}, "", "configs", 1, 1);
 
-my $server_status = `asip-status localhost` || $text{'server_status_error'};
+my $server_status = `asip-status -i localhost` || $text{'server_status_error'};
 
 print "<p>" . $text{server_status_message} . "</p>";
 print "<textarea name=\"status\" rows=\"30\" style=\"width: 75%; font-family: monospace; resize: none;\" readonly>";
