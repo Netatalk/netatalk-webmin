@@ -25,7 +25,7 @@ ui_print_header(undef, $text{server_status_title}, "", "configs", 1, 1);
 my $server_status = `asip-status localhost` || $text{'server_status_error'};
 
 print "<p>" . $text{server_status_message} . "</p>";
-print "<textarea name=\"status\" rows=\"26\" style=\"width: 75%; font-family: monospace; resize: none;\" readonly>";
+print "<textarea name=\"status\" rows=\"30\" style=\"width: 75%; font-family: monospace; resize: none;\" readonly>";
 print $server_status;
 print "</textarea>";
 
