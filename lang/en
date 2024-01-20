@@ -36,6 +36,7 @@ index_running_service=Service is running
 index_ever=The afpd program was not found on your system. Maybe Netatalk is not installed, or your <a href='$2'> module configuration</a> is incorrect.
 index_volumes=Shared Volumes
 index_capabilities=View Server Capabilities
+index_no_file_shares=No shared volumes have been defined
 
 index_process_control_restart_txt=Restart netatalk services using <code>$1</code>
 index_process_control_start_txt=Start netatalk services using <code>$1</code>
@@ -52,6 +53,7 @@ index_address=IP Address
 index_newServer=Create New Server
 
 server_header=Servers
+server_default_active=Default server configuration active; Create new server to override
 
 index_server=Servers
 init_failed=Command "$1" failed

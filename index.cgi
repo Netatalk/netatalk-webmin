@@ -28,6 +28,8 @@ if (!-x $config{'afpd_d'}) {
 	exit;
 }
 
+@Shares = open_afile();
+
 # Print AFP volumes	
 print "    <h3>$text{index_volumes}</h3>\n";
 print "    <table width=\"100%\" border>\n";
@@ -36,15 +38,19 @@ print "        <td>$text{'index_sharename'}</td>";
 print "        <td>$text{'index_path'}</td>\n";
 print "        <td>$text{'index_options'}</td>\n";
 print "    </tr>\n";
-foreach $s (open_afile()){
-    $sharename = getShareName($s);
-    $path = getPath($s);
-    $options = getAllOptions($s);
-    print "<tr $cb>\n";
-    print "    <td><a href=\"fshare_edit_form.cgi?shareName=$sharename&path=$path\">$sharename</a></td>";
-    print "    <td>$path</td>";
-    print "    <td>$options</td>";
-    print "</tr>";
+if(@Shares){
+	foreach $s (@Shares) {
+		$sharename = getShareName($s);
+		$path = getPath($s);
+		$options = getAllOptions($s);
+		print "<tr $cb>\n";
+		print "    <td><a href=\"fshare_edit_form.cgi?shareName=$sharename&path=$path\">$sharename</a></td>";
+		print "    <td>$path</td>";
+		print "    <td>$options</td>";
+		print "</tr>";
+	}
+} else {
+	print "<tr><td><b>$text{'index_no_file_shares'}</b></td></tr>";
 }
 print "</table>\n";
 
@@ -96,6 +102,7 @@ if(@Servers[1] ne ""){
 } else {
 	# Print the default server settings when none are defined in afpd.conf
 	$hostname = `hostname`;
+	print "<tr><td><b>$text{'server_default_active'}</b></td></tr>";
 	print "<tr><td>$hostname</td><td>$text{'create_server_AppleTalk'}, $text{'create_server_TCP'}</td>";
 	print "<td>uams_dhx2.so</td><td>$text{'create_server_default'}</td><td>$text{'create_server_default'}</td></tr>";
 }
