@@ -818,8 +818,8 @@ sub getAllAfpd
 #------------------------------------------------------------------------------
 #Function appends a new line to file
 #
-#$var1 Line is added
-#$var2 File to which the line should be appended
+#$var1 File to which the line should be appended
+#$var2 Line to be appended
 #------------------------------------------------------------------------------
 sub addLineToFile()
 {
@@ -863,16 +863,16 @@ sub deleteSpezLine(){
 	if( ! defined $var2){
 		return 0;
 	}
-	$line = getSpezLine($var1, $var2);
+	$line_number = getSpezLine($var1, $var2);
 	$temporary = "$var1.temp";
  	copy($var1, $temp)
 		or die "$text{copy_failed}: $!";
 
 	lock_file("$temporary");
-	open(OLD, "<$var1") || die "$text{file} $applevolume_default $text{not_readable}";
+	open(OLD, "<$var1") || die "$text{file} $var1 $text{not_readable}";
 	open(NEW, ">$temporary") || die "$text{file} $temp $text{not_readable}";
 	while(<OLD>){
-		if($. != $line ){
+		if($. != $line_number ){
 			print NEW $_;
 		}
 	}
@@ -886,6 +886,12 @@ sub deleteSpezLine(){
 	
 }
 
+#-------------------------------------------------------------------------------
+#Returns the the line number where a specific string was found
+#
+#$var1 is the file
+#$var2 is the line to match
+#-------------------------------------------------------------------------------
 sub getSpezLine
 {
 	my ($var1, $var2) = @_;
@@ -893,7 +899,7 @@ sub getSpezLine
 	$counter = 0;
 	# Escape special chars such as the dollar sign
 	$escaped_name = quotemeta($var2);
-	open(OLD, "<$var1") || die "$text{file} $applevolume_default $text{not_readable}";
+	open(OLD, "<$var1") || die "$text{file} $var1 $text{not_readable}";
 	while(<OLD>){
 		$counter++;
 		# Server names may or may not be quoted
@@ -907,7 +913,7 @@ sub getSpezLine
 
 
 #-------------------------------------------------------------------------------
-#Function determines number of lines of a file
+#Returns the number of lines of a file
 #
 #$var1 is the file
 #-------------------------------------------------------------------------------
