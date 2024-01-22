@@ -520,14 +520,15 @@ sub createNewFileShare
 			showMessage($text{give_correct_path});
 			return 0;	
 		}
-		#share name is captured
-		if($in{share}){
-			$new_line .= "\"$in{share}\"";
-		}
-		else{
-			showMessage($text{indicate_sharename});
-			return 0;
-		}
+	}
+
+	#share name is captured
+	if($in{share}){
+		$new_line .= "\"$in{share}\"";
+	}
+	else{
+		showMessage($text{indicate_sharename});
+		return 0;
 	}
 
 	#options read in

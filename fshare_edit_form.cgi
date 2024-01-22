@@ -4,9 +4,7 @@
 #
 #    Netatalk Webmin Module
 #    Copyright (C) 2000 by Matthew Keller <kellermg@potsdam.edu>
-#    Some code (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
-#    Contributions from:
-#       Sven Mosimann <sven.mosimann@ecologic.ch>
+#    Copyright (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -167,31 +165,32 @@ $Veto = getVeto($Old_shareName);
 $VolCharset = getVolCharset($Old_shareName);
 $Casefold = getCasefold($Old_shareName);
 
-print "<hr>\n";
-print "<p><p>\n";
 print "<form action=fshare_save_action.cgi>\n";
 print "<input type=\"hidden\" name=\"oldpath\" value=\"$Old_path\">\n";
 
 print "<table width=100%>\n";
 print "<tr $tb> <td><b>$text{'edit_tableheader'}</b></td></tr>\n";
-print "<tr $cb> <td><table >\n";
+print "<tr $cb> <td>\n";
+print "<table >\n";
+
 	print "<tr><td align=right><b>$text{'edit_sharename'}</b></td>\n";
-	print "<td colspan=4>";
+	print "<td colspan=4>\n";
+	printf "<input size=44 name=share value=\"%s\" required>\n",
+		($Old_path ne "~" && $Old_path ne "~/") ? $Old_shareName: "";
+	print "</td> </tr>\n";
+print "<tr>\n";
+print "<td align=right><b>$text{'edit_sharedvolume'}</b></td>\n";
+print "<td colspan=4>";
 	printf "<input type=radio name=homes value=0 %s>\n",
 		($Old_path ne "~" && $Old_path ne "~/") ? "checked" : "";
-	printf "<input size=10 name=share value=\"%s\">\n",
-		($Old_path ne "~" && $Old_path ne "~/") ? $Old_shareName: "";
-	printf "<input type=radio name=homes value=1 %s >$text{'edit_homedirectory'}\n",
+	printf "$text{'edit_directory'}<input name=path size=26 value=\"%s\" >\n",
+		($Old_path ne "~" && $Old_path ne "~/") ? $Old_path: "";
+	print &file_chooser_button("path", 1);
+	print "<br>\n";
+	printf "<input type=radio name=homes value=1 %s >$text{'edit_homedirectory'}<br>\n",
 		($Old_path eq "~" || $Old_path eq "~/") ? "checked" : "";
-	print "</td> </tr>\n";
-print "<tr> <td align=right><b>$text{'edit_directory'}</b></td>\n";
-print "<td colspan=4>\n";
-printf "<input name=path size=40  value=%s>\n",
-		$Old_path ne "~" ? $Old_path : "" ;
-print  &file_chooser_button("path", 1);
-print "<br><a href=\"/filemin\" target=\"_blank\">$text{'edit_filemanager_link'}</a>";
+print "<a href=\"/filemin\" target=\"_blank\">$text{'edit_filemanager_link'}</a>\n";
 print "</td> </tr>\n";
-print "<tr><td align=left><br></td></tr>\n";
 
 print "<tr><td align=right valign=top ><b>$text{'edit_Adouble'}</b></td>\n";
 print "<td align=left colspan=3>\n";

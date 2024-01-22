@@ -61,9 +61,10 @@ init_failed=Command "$1" failed
 edit_header=Create New File Share
 edit_tableheader=Common Options
 edit_adv_tableheader=Advanced Options
-edit_sharename=Share name
+edit_sharename=Share Name
+edit_sharedvolume=Shared Volume
 
-edit_homedirectory=Home Directories share
+edit_homedirectory=Home Directories
 edit_directory=Directory
 edit_default=default
 edit_filemanager_link=Use the file manager to create and modify directories to share
