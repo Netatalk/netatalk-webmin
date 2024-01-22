@@ -18,7 +18,9 @@ require 'netatalk2-lib.pl';
 
 &ReadParse();
 
-deleteLine($applevolume_default, $in{oldpath});
+if ($in{oldpath}) {
+	deleteLine($applevolume_default, $in{oldpath});
+}
 writeNewFileShare($in);
 
 redirect("index.cgi");

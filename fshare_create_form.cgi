@@ -4,8 +4,6 @@
 #    Netatalk Webmin Module
 #    Copyright (C) 2000 by Matthew Keller <kellermg@potsdam.edu>
 #    Some code (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
-#    Contributions from:
-#       Sven Mosimann <sven.mosimann@ecologic.ch>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by

@@ -19,8 +19,6 @@
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
 
-# TODO: Figure out how to avoid importing web-lib.pl explicitly here...
-#       It should be part of WebminCore imports
 do '../web-lib.pl';
 BEGIN { push(@INC, ".."); };
 use WebminCore;
@@ -641,20 +639,20 @@ sub writeNewFileShare
 #-----------------------------------------------------------------------------
 sub writeLine()
 {
-	my ($var1,$var2) = @_;
-	@line = getLines($applevolume_default);
+	my ($var1, $var2) = @_;
+	$line = getLinesSpezFile($applevolume_default);
 	copy($applevolume_default, $temp)
-	or die "$text{copy_failed}: $!";
+		or die "$text{copy_failed}: $!";
 
 	&lock_file("$temp");
 	open(OLD, "<$applevolume_default") || die "$text{file} $applevolume_default $text{not_readable}";
 	open(NEW, ">$temp") || die "$text{file} $temp $text{not_readable}";
 
 	while(<OLD>){
-  		if($. == @line[0]){
-			print NEW  "$var1\n";
-  		}
-  		print NEW $_;
+		print NEW $_;
+		if($. == $line){
+			print NEW "$var1\n";
+		}
 	}
 	close(OLD);
 	close(NEW);
@@ -908,9 +906,9 @@ sub addLineToFile()
 
 	while(<OLD>){
 		print NEW $_;
-  		if($. == $lin){
-  			print NEW  "$var2\n";
-  		}
+		if($. == $lin){
+			print NEW "$var2\n";
+		}
 	}
 	close(OLD);
 	close(NEW);
@@ -924,11 +922,11 @@ sub addLineToFile()
 #gives the number of lines, of the specified file or to a certain line
 #
 #$var1 File that needs to be opened
-#$var2 Line, from which the line number is to ne determined
+#$var2 Line, from which the line number is to be determined
 #------------------------------------------------------------------
 sub getLines(){
-	my ($var1, $var2, $var3) = @_;
-	local($counter, $output,@rv);
+	my ($var1, $var2) = @_;
+	local($counter, $output, @rv);
 	$counter = 0;
 	$output = 1;
 	#Tests whether the variable has been passed
