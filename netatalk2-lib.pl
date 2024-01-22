@@ -507,16 +507,16 @@ sub getGroups
 #------------------------------------------------------------------------------
 sub writeNewFileShare
 {
-	local($line_1, $line_2);
+	local($new_line);
 	my ($in) = @_;
 	#homes or other Path
 	if($in{homes}){
-		$line_1 ="~ ";
+		$new_line ="~ ";
 	}
 	else{
 		$pathli = $in{path};
 		if($pathli && 1 eq getPathOK($pathli)){
-			$line_1 = "$pathli ";
+			$new_line = "$pathli ";
 		}
 		else{
 			showMessage($text{give_correct_path});
@@ -524,7 +524,7 @@ sub writeNewFileShare
 		}
 		#share name is captured
 		if($in{share}){
-			$line_1 .= "\"$in{share}\"";
+			$new_line .= "\"$in{share}\"";
 		}
 		else{
 			showMessage($text{indicate_sharename});
@@ -533,113 +533,109 @@ sub writeNewFileShare
 	}
 
 	#options read in
-	$line_1 .= " volsizelimit:$in{volsizelimit}" if $in{volsizelimit};
-	$line_1 .= " allowed_hosts:$in{allowed_hosts}" if $in{allowed_hosts};
-	$line_1 .= " denied_hosts:$in{denied_hosts}" if $in{denied_hosts};
-	$line_1 .= " cnidscheme:$in{cnidscheme}" if $in{cnidscheme};
-	$line_1 .= " cnidserver:$in{cnidserver}" if $in{cnidserver};
-	$line_1 .= " dbpath:$in{dbpath}" if $in{dbpath};
-	$line_1 .= " maccharset:$in{maccharset}" if $in{maccharset};
-	$line_1 .= " password:$in{password}" if $in{password};
-	$line_1 .= " perm:$in{perm}" if $in{perm};
-	$line_1 .= " fperm:$in{fperm}" if $in{fperm};
-	$line_1 .= " dperm:$in{dperm}" if $in{dperm};
-	$line_1 .= " umask:$in{umask}" if $in{umask};
-	$line_1 .= " veto:$in{veto}" if $in{veto};
-	$line_1 .= " volcharset:$in{volcharset}" if $in{volcharset};
+	$new_line .= " volsizelimit:$in{volsizelimit}" if $in{volsizelimit};
+	$new_line .= " allowed_hosts:$in{allowed_hosts}" if $in{allowed_hosts};
+	$new_line .= " denied_hosts:$in{denied_hosts}" if $in{denied_hosts};
+	$new_line .= " cnidscheme:$in{cnidscheme}" if $in{cnidscheme};
+	$new_line .= " cnidserver:$in{cnidserver}" if $in{cnidserver};
+	$new_line .= " dbpath:$in{dbpath}" if $in{dbpath};
+	$new_line .= " maccharset:$in{maccharset}" if $in{maccharset};
+	$new_line .= " password:$in{password}" if $in{password};
+	$new_line .= " perm:$in{perm}" if $in{perm};
+	$new_line .= " fperm:$in{fperm}" if $in{fperm};
+	$new_line .= " dperm:$in{dperm}" if $in{dperm};
+	$new_line .= " umask:$in{umask}" if $in{umask};
+	$new_line .= " veto:$in{veto}" if $in{veto};
+	$new_line .= " volcharset:$in{volcharset}" if $in{volcharset};
 
 	if($in{adouble_options} && $in{adouble_options} ne "default"){
-		$line_1 .= " adouble:$in{adouble_options}";
+		$new_line .= " adouble:$in{adouble_options}";
 	}
 	if($in{ea_options} && $in{ea_options} ne "default"){
-		$line_1 .= " ea:$in{ea_options}";
+		$new_line .= " ea:$in{ea_options}";
 	}
 	if($in{casefold_options} && $in{casefold_options} ne "default"){
-		$line_1 .= " casefold:$in{casefold_options}";
+		$new_line .= " casefold:$in{casefold_options}";
 	}
 
 	if($in{allow_users} || $in{allow_groups} ){
-		$line_1 .= " allow:";
+		$new_line .= " allow:";
 		if($in{allow_users}){
-		    $line_1 .= join(',', split(/\s+/, $in{allow_users}));
+		    $new_line .= join(',', split(/\s+/, $in{allow_users}));
 		}
 		if($in{allow_users} && $in{allow_groups} ){
-			$line_1 .= ",@";
+			$new_line .= ",@";
 		} elsif($in{allow_groups}) {
-			$line_1 .= "@";
+			$new_line .= "@";
 		}
 		if($in{allow_groups}){
-			$line_1 .= join(',@', split(/\s+/, $in{allow_groups}));
+			$new_line .= join(',@', split(/\s+/, $in{allow_groups}));
 		}
 	}
 	if($in{deny_users} || $in{deny_groups} ){
-		$line_1 .= " deny:";
+		$new_line .= " deny:";
 		if($in{deny_users}){
-			$line_1 .= join(',', split(/\s+/, $in{deny_users}));
+			$new_line .= join(',', split(/\s+/, $in{deny_users}));
 		}
 		if($in{deny_users} && $in{deny_groups} ){
-			$line_1 .= ",@";
+			$new_line .= ",@";
 		} elsif($in{deny_groups}) {
-			$line_1 .= "@";
+			$new_line .= "@";
 		}
 		if($in{deny_groups}){
-			$line_1 .= join(',@', split(/\s+/, $in{deny_groups}));
+			$new_line .= join(',@', split(/\s+/, $in{deny_groups}));
 		}
         }
 
 	if($in{misc_options}){
-		$line_1 .= " options:";
+		$new_line .= " options:";
 		foreach $name(param(misc_options)){
 			@values = param(misc_options);
 			$input_misc = join(',', @values);
 		}
-		$line_1 .= $input_misc;
+		$new_line .= $input_misc;
 	}
 
         if($in{rolist_users} || $in{rolist_groups} ){
-                $line_1 .= " rolist:";
+                $new_line .= " rolist:";
                 if($in{rolist_users}){
-                    $line_1 .= join(',', split(/\s+/, $in{rolist_users}));
+                    $new_line .= join(',', split(/\s+/, $in{rolist_users}));
                 }
                 if($in{rolist_users} && $in{rolist_groups} ){
-                        $line_1 .= ",@";
+                        $new_line .= ",@";
                 } elsif($in{rolist_groups}) {
-                        $line_1 .= "@";
+                        $new_line .= "@";
                 }
                 if($in{rolist_groups}){
-                        $line_1 .= join(',@', split(/\s+/, $in{rolist_groups}));
+                        $new_line .= join(',@', split(/\s+/, $in{rolist_groups}));
                 }
         }
 
         if($in{rwlist_users} || $in{rwlist_groups} ){
-                $line_1 .= " rwlist:";
+                $new_line .= " rwlist:";
                 if($in{rwlist_users}){
-                    $line_1 .= join(',', split(/\s+/, $in{rwlist_users}));
+                    $new_line .= join(',', split(/\s+/, $in{rwlist_users}));
                 }
                 if($in{rwlist_users} && $in{rwlist_groups} ){
-                        $line_1 .= ",@";
+                        $new_line .= ",@";
                 } elsif($in{rwlist_groups}) {
-                        $line_1 .= "@";
+                        $new_line .= "@";
                 }
                 if($in{rwlist_groups}){
-                        $line_1 .= join(',@', split(/\s+/, $in{rwlist_groups}));
+                        $new_line .= join(',@', split(/\s+/, $in{rwlist_groups}));
                 }
         }
 
-	writeLine($line_1, $line_2);
+	writeAppleVolumesLine($new_line);
 }
 
 #------------------------------------------------------------------------------
-#new line writes in AppleVolumes.default
-#
-#var1 first line to write
-#var2 second line to write
-#no second line, var2 = " " is to be written instead
+#write one new line to the bottom of AppleVolumes.default
 #-----------------------------------------------------------------------------
-sub writeLine()
+sub writeAppleVolumesLine()
 {
-	my ($var1, $var2) = @_;
-	$line = getLinesSpezFile($applevolume_default);
+	my ($new_line) = @_;
+	$line_number = getLinesSpezFile($applevolume_default);
 	copy($applevolume_default, $temp)
 		or die "$text{copy_failed}: $!";
 
@@ -649,8 +645,8 @@ sub writeLine()
 
 	while(<OLD>){
 		print NEW $_;
-		if($. == $line){
-			print NEW "$var1\n";
+		if($. == $line_number){
+			print NEW "$new_line\n";
 		}
 	}
 	close(OLD);
