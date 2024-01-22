@@ -19,15 +19,11 @@ require 'netatalk2-lib.pl';
 
 &ReadParse();
 
-$filetoedit = $config{'afpd_c'};
 if($in{delete_servername}){
-	$server = $in{delete_servername};
-	$server =~ /$hostname*/ ? $server="-" : "";
+	deleteSpezLine($config{'afpd_c'}, $in{delete_servername});
 }
 else {
-	die "No server to delete";
+	die $text{'edit_server_delete_error'};
 }
-
-deleteSpezLine($filetoedit, $server);
 
 redirect("index.cgi");
