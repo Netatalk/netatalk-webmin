@@ -28,65 +28,7 @@ if($in{old_servername}) {
 	$lineNumber = (getLinesSpezFile($filetoedit));
 }
 
-createNewLine();
+local $serverLine = createNewServerLine($in);
+addLineToFile($filetoedit, $serverLine, $lineNumber);
 
 redirect("index.cgi");
-
-#-----------------------------------------------------------------------------
-# Function creates new line with entry for servers
-# in afpd.conf
-#-----------------------------------------------------------------------------
-sub createNewLine(){
-	local $illegalChars = ":@\$\"<>\/";
-	local $newString;
-	if($in{localhost_servername}){
-		$newString = "- ";
-	}
-	else{
-		if($in{servername}){
-			if($in{servername} =~ /[$illegalChars]/){
-				showMessage("$text{error_illegal_char} $illegalChars");
-				return 0;
-			}
-			$newString = "\"$in{servername}\" ";
-		}
-		else{
-			error($text{'save_newServer_errorMessage'});
-		}
-	}
-	if($in{tcpip} eq "-tcp" && $in{ddp} eq "-ddp"){
-		$newString .= "-transall ";
-	}
-	elsif($in{tcpip} eq "-notcp" && $in{ddp} eq "-noddp"){
-		$newString .= "-notransall ";
-	}
-	else{
-		$newString .= "$in{ddp} $in{tcpip} ";
-	}
-	if($in{port}){
-		$newString .= "-port $in{port} ";
-	}
-	if($in{address}){
-		$newString .= "-ipaddr $in{address} ";
-	}
-	$newString .= "$in{savepassword} ";
-	$newString .= "$in{setpassword} ";
-	if($in{logmesg}){
-		$newString .= "-loginmesg \"$in{logmesg}\" ";
-	}
-	if($in{uams}){
-		$in{uams} =~ s/\x00/\,/g;
-		$newString .= "-uamlist $in{uams} ";
-	}
-	$newString .= "$in{icon} ";
-	if($in{mimicmodel}){
-		$newString .= "-mimicmodel \"$in{mimicmodel}\" ";
-	}
-	if($in{setuplog}){
-		$newString .= "-setuplog \"$in{setuplog}\" ";
-	}
-	if($in{maccodepage}){
-		$newString .= "-maccodepage $in{maccodepage} ";
-	}
-	addLineToFile($filetoedit, $newString, $lineNumber);
-}
