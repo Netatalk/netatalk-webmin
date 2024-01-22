@@ -19,8 +19,13 @@ require 'netatalk2-lib.pl';
 &ReadParse();
 
 if ($in{oldpath}) {
+	$lineNumber = (getSpezLine($applevolume_default, $in{oldpath}) - 1);
 	deleteSpezLine($applevolume_default, $in{oldpath});
+} else {
+	$lineNumber = (getLinesSpezFile($applevolume_default));
 }
-writeNewFileShare($in);
+
+local $fileShareLine = createNewFileShare($in);
+writeAppleVolumesLine($fileShareLine, $lineNumber);
 
 redirect("index.cgi");

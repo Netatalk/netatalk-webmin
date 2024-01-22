@@ -505,7 +505,7 @@ sub getGroups
 #------------------------------------------------------------------------------
 #writes new file share by generating new lines
 #------------------------------------------------------------------------------
-sub writeNewFileShare
+sub createNewFileShare
 {
 	local($new_line);
 	my ($in) = @_;
@@ -626,16 +626,15 @@ sub writeNewFileShare
                 }
         }
 
-	writeAppleVolumesLine($new_line);
+        return $new_line;
 }
 
 #------------------------------------------------------------------------------
 #write one new line to the bottom of AppleVolumes.default
 #-----------------------------------------------------------------------------
-sub writeAppleVolumesLine()
+sub writeAppleVolumesLine
 {
-	my ($new_line) = @_;
-	$line_number = getLinesSpezFile($applevolume_default);
+	my ($new_line, $line_number) = @_;
 	copy($applevolume_default, $temp)
 		or die "$text{copy_failed}: $!";
 
