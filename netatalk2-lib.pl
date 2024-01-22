@@ -664,48 +664,6 @@ sub writeLine()
 
 
 #------------------------------------------------------------------
-#deletes a certain line in file
-#
-#$var1 => File
-#$var2 => Start of the line, which is to be found (i.e. directory) 
-#------------------------------------------------------------------
-sub deleteLine(){
-	my ($var1, $var2) = @_;
-	local($counter, $lines);
-	if( ! defined $var1){
-		return 0;
-	}
-	if( ! defined $var2){
-		return 0;
-	}
-
-	@lines = getLines($applevolume_default, $var2);
-	copy($applevolume_default, $temp)
-	or die "$text{copy_failed}: $!";
-
-	&lock_file("$temp");
-	open(OLD,"<$applevolume_default") || die "$text{file} $applevolume_default $text{not_readable}";
-	open(NEW,">$temp")  || die "$text{file} $applevolume_default $text{not_readable}";
-
-	$counter =0;
-	while(<OLD>){
- 		if($counter != @lines[0] && $counter != @lines[1] ){
-  			print NEW $_;
-  		}
-  		$counter++;
-	}
-	close(OLD);
-	close(NEW);
-	&unlock_file("$temp");
-
-	rename($applevolume_default, "$applevolume_default.orig");
-	rename($temp, $applevolume_default);
-	unlink("$applevolume_default.orig") or die "$text{delete_failed}: $applevolume_default.orig\n";
-	return 1;
-}
-
-
-#------------------------------------------------------------------
 #Page, which displays input error
 #
 #$var1 Info-Text
@@ -917,55 +875,6 @@ sub addLineToFile()
 	unlink("$var1.orig") or die "$text{delete_failed}: $var1.orig\n";
 }
 
-#------------------------------------------------------------------
-#gives the number of lines, of the specified file or to a certain line
-#
-#$var1 File that needs to be opened
-#$var2 Line, from which the line number is to be determined
-#------------------------------------------------------------------
-sub getLines(){
-	my ($var1, $var2) = @_;
-	local($counter, $output, @rv);
-	$counter = 0;
-	$output = 1;
-	#Tests whether the variable has been passed
-	if( ! defined $var1){
-		return 0;
-	}
-	#Tests the second
-	elsif( ! defined $var2){
-		open(FH, "<$var1") || die return 0;
-		while(defined($line = <FH>) ){
-			if($line =~ /^[\/~]+/ ){
-				push(@rv, $output);
-			}
-			$output++;
-		}
-	}
-	else{
-		open(FH, "<$var1") || die return 0;
-		while(defined($line = <FH>) )
-		{
-			if($line =~ /^[\/~]+/ ){
-				if($line =~ /([A-Za-z\/=~,-_\\]+)/){
-					if($1 =~ /$var2/){
-						$output = $counter;
-						push(@rv, $output);
-						$output++;
-						if($line =~ /[\\]/){
-							push(@rv, $output);
-						}
-						else{
-							push(@rv, -1);
-						}
-					}
-				}
-     			}
-			$counter++;	
-	      	}
-	}
-	return @rv;
-}
 
 #------------------------------------------------------------------
 #deletes a certain line in a file

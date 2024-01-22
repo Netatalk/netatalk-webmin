@@ -19,7 +19,7 @@ require 'netatalk2-lib.pl';
 &ReadParse();
 
 if ($in{oldpath}) {
-	deleteLine($applevolume_default, $in{oldpath});
+	deleteSpezLine($applevolume_default, $in{oldpath});
 }
 writeNewFileShare($in);
 
