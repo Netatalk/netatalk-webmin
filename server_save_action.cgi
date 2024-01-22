@@ -20,8 +20,12 @@ require 'netatalk2-lib.pl';
 &ReadParse();
 
 $filetoedit = $config{'afpd_c'};
-if($in{old_servername}){
+
+if($in{old_servername}) {
+	$lineNumber = (getSpezLine($filetoedit, $in{old_servername}) - 1);
 	deleteSpezLine($filetoedit, $in{old_servername});
+} else {
+	$lineNumber = (getLinesSpezFile($filetoedit));
 }
 
 createNewLine();
@@ -34,7 +38,7 @@ redirect("index.cgi");
 #-----------------------------------------------------------------------------
 sub createNewLine(){
 	local $illegalChars = ":@\$\"<>\/";
-	local($newString);
+	local $newString;
 	if($in{localhost_servername}){
 		$newString = "- ";
 	}
@@ -84,5 +88,5 @@ sub createNewLine(){
 	if($in{maccodepage}){
 		$newString .= "-maccodepage $in{maccodepage} ";
 	}
-	addLineToFile($filetoedit, $newString);
+	addLineToFile($filetoedit, $newString, $lineNumber);
 }

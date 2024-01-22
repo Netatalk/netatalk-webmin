@@ -819,13 +819,13 @@ sub getAllAfpd
 #Function appends a new line to file
 #
 #$var1 File to which the line should be appended
-#$var2 Line to be appended
+#$var2 String to be appended
+#$var3 Line number to append string to
 #------------------------------------------------------------------------------
 sub addLineToFile()
 {
-	my ($var1, $var2) = @_;
+	my ($var1, $var2, $var3) = @_;
 	local($temporary, $lin);
-    	$lin = getLinesSpezFile($var1);
  	$temporary = "$var1.temp";
 
 	copy($var1, $temporary) or die "$text{copy_failed}: $!";
@@ -836,7 +836,7 @@ sub addLineToFile()
 
 	while(<OLD>){
 		print NEW $_;
-		if($. == $lin){
+		if($. == $var3){
 			print NEW "$var2\n";
 		}
 	}
