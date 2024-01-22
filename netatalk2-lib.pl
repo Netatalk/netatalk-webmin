@@ -29,7 +29,6 @@ init_config();
 $applevolume_default = $config{'applevolumedefault_c'};
 $temp = "$applevolume_default.temp";
 
-$slash = "/";
 $pername = ();
 $hostname = `hostname`;
 chomp($hostname);
@@ -95,7 +94,7 @@ sub open_afile
 			redo unless eof(FH);
 		}
 		#read lines which begins with ' ~ ' or ' / '
-		if($line=~/^([$slash~]\S*)\s?("([^"]+)")?\s?(\N+)?/ )
+		if($line=~/^([\/~]\S*)\s?("([^"]+)")?\s?(\N+)?/ )
 		{
 			#create new objects using volume_format and options_format
 			my $options = options_format->new();
@@ -108,7 +107,7 @@ sub open_afile
 
 			if($name eq "")
 			{
-				if($path=~/([^$slash]+)$/ )
+				if($path=~/([^\/]+)$/ )
 				{
 					$name = $1;
 				}
@@ -119,7 +118,7 @@ sub open_afile
 			}
 			$volume->name($name);
 			#options read in
-			while ($all_options =~ /(\w+):([\w\d$slash\$@,.-:]+)/g)
+			while ($all_options =~ /(\w+):([\w\d\/\$@,.-:]+)/g)
 			{
 				if ("adouble" eq $1) {
 					$options->adouble($2);
@@ -937,7 +936,7 @@ sub getLines(){
 	elsif( ! defined $var2){
 		open(FH, "<$var1") || die return 0;
 		while(defined($line = <FH>) ){
-			if($line =~ /^[$slash~]+/ ){
+			if($line =~ /^[\/~]+/ ){
 				push(@rv, $output);
 			}
 			$output++;
@@ -947,8 +946,8 @@ sub getLines(){
 		open(FH, "<$var1") || die return 0;
 		while(defined($line = <FH>) )
 		{
-			if($line =~ /^[$slash~]+/ ){
-				if($line =~ /([A-Za-z$slash=~,-_\\]+)/){
+			if($line =~ /^[\/~]+/ ){
+				if($line =~ /([A-Za-z\/=~,-_\\]+)/){
 					if($1 =~ /$var2/){
 						$output = $counter;
 						push(@rv, $output);
