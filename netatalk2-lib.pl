@@ -740,14 +740,14 @@ sub readAfpd
 #------------------------------------------------------------------
 sub getAllAfpd
 {
-	local @afpd = ("") x 13;
-	local @afpd_all;
+	local %afpd_all;
+	local $index = 0;
 	local $fileToRead = $config{'afpd_c'};
-	push(@afpd_all);
 
 	open(FH, "<$fileToRead") || die "$text{file} $fileToRead $text{not_readable}";
 	while(<FH>)
 	{
+		local @afpd = ("") x 13;
 		#Line with continuation characters read in
 		if($_=~/(^[\w\d-\"].*)/ ){
 			if($_ =~ /^(\"[^\"]+\"|[^\s-]+)\s/) {
@@ -806,11 +806,12 @@ sub getAllAfpd
 			if($_ =~ /-maccodepage\s(.+)/) {
 				@afpd[12] = $1;
 			}
-			push(@afpd_all, @afpd);
+			$afpd_all{$index} = \@afpd;
+			$index++;
 		}
-	}	
+	}
 	close(FH);
-	return @afpd_all;
+	return %afpd_all;
 }
 
 

@@ -43,51 +43,20 @@ else{
 	$offset=0;
 }
 
-@allServer = getAllAfpd();
-$off = $offset*12;
-$off = $off+$offset;
-for($i=0; $i<=12; $i++){
-	if($i eq 0){
-		 $servername = @allServer[$off];
-	}
-	elsif($i eq 1){
-		 $tcpip = @allServer[$off];
-	}
-	elsif($i eq 2){
-		 $ddp = @allServer[$off];
-	}
-	elsif($i eq 3){
-		 $port = @allServer[$off];
-	}
-	elsif($i eq 4){
-		 $address = @allServer[$off];
-	}
-	elsif($i eq 5){
-		 $loginmesg = @allServer[$off];
-	}
-	elsif($i eq 6){
-		 $savepass = @allServer[$off];
-	}
-	elsif($i eq 7){
-		 $setpass = @allServer[$off];
-	}
-	elsif($i eq 8){
-		 $uamlist = @allServer[$off];
-	}
-	elsif($i eq 9){
-		 $icon = @allServer[$off];
-	}
-	elsif($i eq 10){
-		 $mimicmodel = @allServer[$off];
-	}
-	elsif($i eq 11){
-		 $setuplog = @allServer[$off];
-	}
-	elsif($i eq 12){
-		 $maccodepage = @allServer[$off];
-	}
-	$off++;
-}
+%allServer = getAllAfpd();
+$servername = $allServer{$offset}[0];
+$tcpip = $allServer{$offset}[1];
+$ddp = $allServer{$offset}[2];
+$port = $allServer{$offset}[3];
+$address = $allServer{$offset}[4];
+$loginmsg = $allServer{$offset}[5];
+$savepass = $allServer{$offset}[6];
+$setpass = $allServer{$offset}[7];
+$uamlist = $allServer{$offset}[8];
+$icon = $allServer{$offset}[9];
+$mimicmodel = $allServer{$offset}[10];
+$setuplog = $allServer{$offset}[11];
+$maccodepage = $allServer{$offset}[12];
 
 print "<p><p>\n";
 print "<form action=server_save_action.cgi>\n";
