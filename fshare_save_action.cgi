@@ -26,6 +26,6 @@ if ($in{oldpath}) {
 }
 
 local $fileShareLine = createNewFileShare($in);
-writeAppleVolumesLine($fileShareLine, $lineNumber);
+addLineToFile($applevolume_default, $fileShareLine, $lineNumber);
 
 redirect("index.cgi");

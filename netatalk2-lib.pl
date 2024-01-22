@@ -692,35 +692,6 @@ sub createNewServerLine(){
 }
 
 
-#------------------------------------------------------------------------------
-#write one new line to the bottom of AppleVolumes.default
-#-----------------------------------------------------------------------------
-sub writeAppleVolumesLine
-{
-	my ($new_line, $line_number) = @_;
-	copy($applevolume_default, $temp)
-		or die "$text{copy_failed}: $!";
-
-	&lock_file("$temp");
-	open(OLD, "<$applevolume_default") || die "$text{file} $applevolume_default $text{not_readable}";
-	open(NEW, ">$temp") || die "$text{file} $temp $text{not_readable}";
-
-	while(<OLD>){
-		print NEW $_;
-		if($. == $line_number){
-			print NEW "$new_line\n";
-		}
-	}
-	close(OLD);
-	close(NEW);
-	&unlock_file("$temp");
-
-	rename($applevolume_default, "$applevolume_default.orig");
-	rename($temp, $applevolume_default);
-	unlink("$applevolume_default.orig") or die "$text{delete_failed}: $applevolume_default.orig\n";
-}
-
-
 #------------------------------------------------------------------
 #Page, which displays input error
 #
