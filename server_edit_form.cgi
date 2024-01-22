@@ -22,6 +22,7 @@ require 'netatalk2-lib.pl';
 
 ui_print_header(undef, $text{'edit_server_header'}, "", "servers", 1);
 
+local $servername = "";
 $ddpon = "-ddp";
 $tcpon = "-tcp";
 $savepasswon = "-savepassword";
@@ -95,12 +96,11 @@ print "<table width=100%>\n";
 	print "<tr>\n";
 	print "<td align=right><b>$text{'create_server_ServerName'}</b></td>\n";
 	print "<td colspan=4>";
-	printf "<input type=radio name=server %s value=0>\n",
-		$servername =~ /$hostname*/ ? "" : "checked";
-	printf "<input size=20 name=servername value=\"%s\">&nbsp;&nbsp;&nbsp;\n",
-		$servername =~ /$hostname*/ ? "" : $servername;
-	printf "<input type=radio name=server %s value=1>$text{'create_server_localhost'}\n",
-		$servername =~ /$hostname*/ ? "checked" : "";
+	printf "<input type=radio name=localhost_servername %s value=0>\n",
+		$servername eq "" ? "" : "checked";
+	print "<input size=20 name=servername value=\"$servername\">&nbsp;&nbsp;&nbsp;\n";
+	printf "<input type=radio name=localhost_servername %s value=1>$text{'create_server_localhost'}\n",
+		$servername eq "" ? "checked" : "";
 	print "</td>\n";
 	print "</tr>\n";
 	print "<tr>\n";
@@ -260,7 +260,8 @@ print "<table width=100%>\n";
 print "</table>\n";
 
 print "<div><i>$text{'create_server_notice'}</i></div>";
-print "<input type=\"hidden\" name=\"old_servername\" value=\"$servername\">\n";
+printf "<input type=\"hidden\" name=\"old_servername\" value=\"%s\">\n",
+		$servername eq "" ? "-" : $servername;
 print "<input type=\"submit\" value=\"$text{'global_Save'}\">\n";
 print "</form>\n";
 

@@ -21,11 +21,9 @@ require 'netatalk2-lib.pl';
 
 $filetoedit = $config{'afpd_c'};
 if($in{old_servername}){
-	$server = $in{old_servername};
-	$server =~ /$hostname*/ ? $server = "-" : "";
+	deleteSpezLine($filetoedit, $in{old_servername});
 }
 
-deleteSpezLine($filetoedit, $server);
 createNewLine();
 
 redirect("index.cgi");
@@ -33,12 +31,11 @@ redirect("index.cgi");
 #-----------------------------------------------------------------------------
 # Function creates new line with entry for servers
 # in afpd.conf
-#
 #-----------------------------------------------------------------------------
 sub createNewLine(){
-	local $illegalChars = ":@\$\"";
+	local $illegalChars = ":@\$\"<>\/";
 	local($newString);
-	if($in{server}){
+	if($in{localhost_servername}){
 		$newString = "- ";
 	}
 	else{

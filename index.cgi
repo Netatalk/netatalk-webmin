@@ -88,17 +88,17 @@ if(@Servers[1] ne ""){
 			$i++;
 			$pointer=$i;
 			$offset++;
-			print"<td><a href=\"server_edit_form.cgi?$offsetStr$offset\">$Servers[$i]</a></td>";
+			print"<td><a href=\"server_edit_form.cgi?$offsetStr$offset\">$Servers[$i]</a></td>\n";
 		}
 		elsif($i ne 0 && $i >1){
-			print"<td>$Servers[$i]</td>";
+			print"<td>$Servers[$i]</td>\n";
 		}
 		elsif($i ne 0 && $i eq 1){
 			$pointer=$i;
-			print"<td><a href=\"server_edit_form.cgi?$offsetStr$offset\">$Servers[$i]</a></td>";
+			print"<td><a href=\"server_edit_form.cgi?$offsetStr$offset\">$Servers[$i]</a></td>\n";
 		}
 	}
-	print "</tr>";
+	print "</tr>\n";
 } else {
 	# Print the default server settings when none are defined in afpd.conf
 	$hostname = `hostname`;

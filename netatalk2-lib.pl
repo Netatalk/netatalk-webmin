@@ -698,7 +698,7 @@ sub readAfpd
 				$text{'create_server_default'},
 				$text{'create_server_default'}
 			);
-			
+
 			if($_ =~ /^(\"[^\"]+\"|[^\s-]+)\s/)  {
 				$1 =~ /^\"*([^\"]+)\"*/;
 				@afpd[0] = $1;
@@ -740,94 +740,70 @@ sub readAfpd
 #------------------------------------------------------------------
 sub getAllAfpd
 {
-	local(
-		$fileToRead,
-		@afpd,
-		@afpd_all,
-		$notcp,
-		$nodpp,
-		$port,
-		$address,
-		$loginMessage,
-		$nosavepass,
-		$nosetpass,
-		$uamlist,
-		$mimicmodel,
-		$noicon,
-		$setuplog
-	);
+	local @afpd = ("") x 13;
+	local @afpd_all;
+	local $fileToRead = $config{'afpd_c'};
 	push(@afpd_all);
-	$notcp="-notcp";
-	$nodpp="-noddp";
-	$port="-port";
-	$address="-ipaddr";
-	$loginMessage="-loginmesg";
-	$nosavepass="-nosavepassword";
-	$nosetpass="-nosetpassword";
-	$uamlist="-uamlist";
-	$mimicmodel="-mimicmodel";
-	$noicon="-noicon";
-	$setuplog="-setuplog";
-	$maccodepage="-maccodepage";
-	$fileToRead = $config{'afpd_c'};
+
 	open(FH, "<$fileToRead") || die "$text{file} $fileToRead $text{not_readable}";
 	while(<FH>)
 	{
 		#Line with continuation characters read in
 		if($_=~/(^[\w\d-\"].*)/ ){
-			@afpd = (
-				$hostname,
-				"-tcp",
-				"-ddp",
-				"-",
-				"-",
-				"",
-				"-savepassword",
-				"-setpassword",
-				"-uamlist uams_dhx2.so",
-				"-icon",
-				"",
-				"",
-				""
-			);
-			if($_ =~ /^(\"[^\"]+\"|[^\s-]+)\s/)  {
+			if($_ =~ /^(\"[^\"]+\"|[^\s-]+)\s/) {
 				$1 =~ /^\"*([^\"]+)\"*/;
 				@afpd[0] = $1;
 			}
-			if($_ =~ /$notcp/){
-				@afpd[1] = $notcp;
-			}   		
-			if($_ =~ /$nodpp/){
-				@afpd[2] = $nodpp;
+			if($_ =~ /-transall/) {
+				@afpd[1] = "-transall";
+			} elsif($_ =~ /-notransall/) {
+				@afpd[1] = "-notransall";
+			} else {
+				if($_ =~ /-tcp/) {
+					@afpd[1] = "-tcp";
+				} elsif($_ =~ /-notcp/) {
+					@afpd[1] = "-notcp";
+				}
+				if($_ =~ /-ddp/) {
+					@afpd[2] = "-ddp";
+				} elsif($_ =~ /-noddp/) {
+					@afpd[2] = "-noddp";
+				}
 			}
-			if($_ =~ /$port\s([\d]+)/){
+			if($_ =~ /-port\s([\d]+)/) {
 				@afpd[3] = $1;
 			}
-			if($_ =~ /$address\s(\d+\.\d+\.\d+\.\d+)/){
+			if($_ =~ /-ipaddr\s(\d+\.\d+\.\d+\.\d+)/) {
 				@afpd[4] = $1;
 			}
-			if($_ =~ /$loginMessage\s"(.*?)"/){
+			if($_ =~ /-loginmesg\s"(.*?)"/) {
 				@afpd[5] = $1;
 			}
-			if($_ =~ /$nosavepass/){
-				@afpd[6] = $nosavepass;
+			if($_ =~ /-savepassword/) {
+				@afpd[6] = "-savepassword";
+			} elsif($_ =~ /-nosavepassword/) {
+				@afpd[6] = "-nosavepassword";
 			}
-			if($_ =~ /$nosetpass/){
-				@afpd[7] = $nosetpass;
+			if($_ =~ /-setpassword/) {
+				@afpd[7] = "-setpassword";
+			} elsif($_ =~ /-nosetpassword/) {
+				@afpd[7] = "-nosetpassword";
 			}
-			if($_ =~ /$uamlist\s([\w\d\.,]+)/){
+			if($_ =~ /-uamlist\s([\w\d\.,]+)/) {
 				@afpd[8] = $1;
 			}
-			if($_ =~ /$noicon/){
-				@afpd[9] = $noicon;
+			if($_ =~ /-icon/) {
+				@afpd[9] = "-icon";
+			} elsif($_ =~ /-noicon/) {
+				@afpd[9] = "-noicon";
 			}
-			if($_ =~ /$mimicmodel\s\"*([\w\d\,]+)\"*/){
+			if($_ =~ /-mimicmodel\s\"*([\w\d\,]+)\"*/) {
 				@afpd[10] = $1;
 			}
-			if($_ =~ /$setuplog\s\"(.+)\"/){
+			if($_ =~ /-setuplog\s\"(.+)\"/) {
 				@afpd[11] = $1;
 			}
-			if($_ =~ /$maccodepage\s(.+)/){
+			if($_ =~ /-maccodepage\s(.+)/) {
 				@afpd[12] = $1;
 			}
 			push(@afpd_all, @afpd);
