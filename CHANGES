@@ -1,3 +1,16 @@
+1.2:
+* Support for named home shares
+* Add new configuration lines to the bottom
+* Edit existing configuration lines in place
+* Remove obsoleted appledouble:osx option
+* Support the -notransall option (however useless)
+* List default virtual server if none defined
+* Show message when no shared volumes have been configured
+* Add page that displays the output of asip-status
+* Refresh UI icons
+* "make install" now works on Red Hat / Fedora as well
+* Refactoring of library methods, reducing duplicated functionality
+
 1.1:
 * Updated for Netatalk 2.3.0 (a handful of removed options)
 * Folded the server management page into the index page
