@@ -2,6 +2,8 @@
 
 Webmin module for managing Netatalk.
 
+<img src="https://netatalk.io/gfx/webmin3_1.png" alt="Webmin Module screenshot" width="75%" height="auto">
+
 It functions by parsing and modifying the afp.conf configuration file on the fly.
 
 The netatalk service needs to be restarted or reloaded after modifying afp.conf for the new settings to take effect.
