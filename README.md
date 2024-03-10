@@ -29,3 +29,6 @@ If you don't have it installed already, install webmin itself by following the i
 You may need to adjust the paths to the netatalk binary and afp.conf, as well as init commands, by editing the `config` file.
 
 The same thing can be accomplished within the Webmin UI, in the Netatalk module's Module config.
+
+# See Also
+- https://netatalk.io/docs/Webmin-Module
