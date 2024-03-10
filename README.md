@@ -44,3 +44,6 @@ The same thing can be accomplished within the Webmin UI, in the Netatalk module'
 - Frank Lahm and the Netatalk Team, January 2010
 - Steffan Cline, January 2011
 - Daniel Markstedt, September 2023
+
+# See Also
+- https://netatalk.io/docs/Webmin-Module
