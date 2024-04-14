@@ -175,8 +175,7 @@ print "<table >\n";
 
 	print "<tr><td align=right><b>$text{'edit_sharename'}</b></td>\n";
 	print "<td colspan=4>\n";
-	printf "<input size=44 name=share value=\"%s\" required>\n",
-		($Old_path ne "~" && $Old_path ne "~/") ? $Old_shareName: "";
+	print "<input size=44 name=share value=\"$Old_shareName\" required>\n";
 	print "</td> </tr>\n";
 print "<tr>\n";
 print "<td align=right><b>$text{'edit_sharedvolume'}</b></td>\n";
