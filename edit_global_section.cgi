@@ -31,7 +31,7 @@ eval {
 	# read afp.conf and check parameters
 	$afpconfRef = &read_afpconf();
 
-	$sectionRef = $$afpconfRef{sectionsByName}{'Global'} || die "No Global section in afp.conf.\n";	
+	$sectionRef = $$afpconfRef{sectionsByName}{'Global'} || die $text{edit_global_section_error}."\n";
 };
 if($@) {
 	# preparations failed with an error message in $@ - print error
@@ -57,7 +57,7 @@ print &ui_hidden('name', 'Global');
 print &ui_table_start($text{'edit_vol_section_title_of_table'}, 'width="100%"', 2);
 
 print &ui_table_row($text{'edit_global_section_hostname'},
-	&ui_textbox('p_hostname', (get_parameter_of_section($afpconfRef, $sectionRef, 'hostname', \%in))[0])." leave empty to use the host name of machine\n"
+	&ui_textbox('p_hostname', (get_parameter_of_section($afpconfRef, $sectionRef, 'hostname', \%in))[0]).$text{edit_global_section_hostname_help}
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'afp listen', \%in);
@@ -98,21 +98,21 @@ print &ui_table_row($text{'edit_global_section_uam_list'},
 	."<br>".$text{'edit_global_section_uam_list_other'} .&ui_textbox('p_uam list', $nonstandardUAMs, 40)
 );
 
-print &ui_table_row("Kerberos keytab",
+print &ui_table_row($text{edit_global_section_kerberos_keytab},
 	&ui_filebox('p_k5_keytab', (get_parameter_of_section($afpconfRef, $sectionRef, 'k5 keytab', \%in))[0], 40, undef, undef, undef, 1)
 );
-print &ui_table_row("Kerberos service",
+print &ui_table_row($text{edit_global_section_kerberos_service},
 	&ui_textbox('p_k5 service', (get_parameter_of_section($afpconfRef, $sectionRef, 'k5 service', \%in))[0], 40)
 );
-print &ui_table_row("Kerberos realm",
+print &ui_table_row($text{edit_global_section_kerberos_realm},
 	&ui_textbox('p_k5 realm', (get_parameter_of_section($afpconfRef, $sectionRef, 'k5 realm', \%in))[0], 40)
 );
-print &ui_table_row("Fully-qualified domain name",
+print &ui_table_row($text{edit_global_section_fqdn},
 	&ui_textbox('p_fqdn', (get_parameter_of_section($afpconfRef, $sectionRef, 'fqdn', \%in))[0], 40)
 );
 
 print &ui_table_row($text{'edit_global_section_log_file'},
-	&ui_filebox('p_log_file', (get_parameter_of_section($afpconfRef, $sectionRef, 'log file', \%in))[0])." leave empty to log through syslog daemon\n"
+	&ui_filebox('p_log_file', (get_parameter_of_section($afpconfRef, $sectionRef, 'log file', \%in))[0]).$text{edit_global_section_log_file_help}
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'log level', \%in);
@@ -136,22 +136,9 @@ print &ui_table_row($text{'edit_global_section_afpstats'},
 	&ui_radio('p_afpstats', $values[0], [['', 'disabled'], ['yes', 'enabled']])
 );
 
-@values = get_parameter_of_section($afpconfRef, $sectionRef, 'mimic model', \%in);
-my $select = "<select name='p_mimic model'>\n"
-	."<option value='' ".($values[0] eq '' ? "selected" : "").">default</option>\n"
-	."<option value='AirPort' ".($values[0] =~ 'AirPort' ? "selected" : "").">AirPort</option>\n"
-	."<option value='AppleTV1,1' ".($values[0] =~ 'AppleTV1,1' ? "selected" : "").">Apple TV</option>\n"
-	."<option value='MacPro' ".($values[0] =~ 'MacPro' ? "selected" : "").">Mac Pro</option>\n"
-	."<option value='MacBookAir' ".($values[0] =~ 'MacBookAir' ? "selected" : "").">MacBook Air</option>\n"
-	."<option value='MacBookPro' ".($values[0] =~ 'MacBookPro' ? "selected" : "").">MacBook Pro</option>\n"
-	."<option value='MacBook' ".($values[0] =~ 'MacBook' ? "selected" : "").">MacBook</option>\n"
-	."<option value='iMac' ".($values[0] =~ 'iMac' ? "selected" : "").">iMac</option>\n"
-	."<option value='Macmini' ".($values[0] =~ 'Macmini' ? "selected" : "").">Mac mini</option>\n"
-	."<option value='PowerMac' ".($values[0] =~ 'PowerMac' ? "selected" : "").">Power Mac</option>\n"
-	."<option value='PowerBook' ".($values[0] =~ 'PowerBook' ? "selected" : "").">PowerBook</option>\n"
-	."<option value='RackMac' ".($values[0] =~ 'RackMac' ? "selected" : "").">Xserve</option>\n"
-	."</select>";
-print &ui_table_row($text{'edit_global_section_mimic_model'}, $select);
+print &ui_table_row($text{'edit_global_section_mimic_model'},
+	&ui_textbox('p_mimic model', (get_parameter_of_section($afpconfRef, $sectionRef, 'mimic model', \%in))[0], 40).$text{edit_global_section_mimic_model_help}
+);
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'vol dbpath', \%in);
 print &ui_table_row($text{'edit_global_section_vol_dbpath'},
