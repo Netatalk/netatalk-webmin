@@ -133,7 +133,8 @@ print "<table width=100%>\n";
 	print "</tr>\n";
 	print "<tr>\n";
 		print "<td align=right><b>$text{'create_server_lgmesg'}</b></td>";
-		print "<td colspan=3><input size=25 maxlength=25 name=logmesg value=\"$loginmesg\"></td>";
+		print "<td colspan=3><input size=35 name=logmesg value=\"$loginmesg\">";
+		print "</td>";
 	print "</tr>\n";
 	print "<tr>\n";
 		print "<td align=right><b>$text{'create_server_icon'}</b></td>";
@@ -145,48 +146,15 @@ print "<table width=100%>\n";
 	print "</tr>\n";
 	print "<tr>\n";
 		print "<td align=right><b>$text{'create_server_mimicmodel'}</b></td>";
-		    print "<td><select name=\"mimicmodel\">";
-			printf "<option value=\"\">$text{'edit_default'}";
-		    print "</option>\n";
-			printf "<option value=\"$text{mimicmodel_rackmac}\" %s>$text{mimicmodel_rackmac}",
-				$mimicmodel =~ /$text{mimicmodel_rackmac}*/ ? "selected" : "";
-		    print "</option>\n";
-			printf "<option value=\"$text{mimicmodel_powerbook}\" %s>$text{mimicmodel_powerbook}",
-				$mimicmodel =~ /$text{mimicmodel_powerbook}*/ ? "selected" : "";
-		    print "</option>\n";
-			printf "<option value=\"$text{mimicmodel_powermac}\" %s>$text{mimicmodel_powermac}",
-				$mimicmodel =~ /$text{mimicmodel_powermac}*/ ? "selected" : "";
-		    print "</option>\n";
-			printf "<option value=\"$text{mimicmodel_macmini}\" %s>$text{mimicmodel_macmini}",
-				$mimicmodel =~ /$text{mimicmodel_macmini}*/ ? "selected" : "";
-		    print "</option>\n";
-			printf "<option value=\"$text{mimicmodel_imac}\" %s>$text{mimicmodel_imac}",
-				$mimicmodel =~ /$text{mimicmodel_imac}*/ ? "selected" : "";
-		    print "</option>\n";
-			printf "<option value=\"$text{mimicmodel_macbook}\" %s>$text{mimicmodel_macbook}",
-				$mimicmodel =~ /$text{mimicmodel_macbook}*/ ? "selected" : "";
-		    print "</option>\n";
-			printf "<option value=\"$text{mimicmodel_macbookpro}\" %s>$text{mimicmodel_macbookpro}",
-				$mimicmodel =~ /$text{mimicmodel_macbookpro}*/ ? "selected" : "";
-		    print "</option>\n";
-			printf "<option value=\"$text{mimicmodel_macbookair}\" %s>$text{mimicmodel_macbookair}",
-				$mimicmodel =~ /$text{mimicmodel_macbookair}*/ ? "selected" : "";
-		    print "</option>\n";
-			printf "<option value=\"$text{mimicmodel_macpro}\" %s>$text{mimicmodel_macpro}",
-				$mimicmodel =~ /$text{mimicmodel_macpro}*/ ? "selected" : "";
-		    print "</option>\n";
-			printf "<option value=\"$text{mimicmodel_appletv}\" %s>$text{mimicmodel_appletv}",
-				$mimicmodel =~ /$text{mimicmodel_appletv}*/ ? "selected" : "";
-		    print "</option>\n";
-			printf "<option value=\"$text{mimicmodel_airport}\" %s>$text{mimicmodel_airport}",
-				$mimicmodel =~ /$text{mimicmodel_airport}*/ ? "selected" : "";
-		    print "</option>\n";
-		    print "</select>\n";
-			print "</td>";
+		print "<td><input size=35 name=\"mimicmodel\" value=\"$mimicmodel\">";
+		print "<br><i>$text{'create_server_mimicmodel_help'}</i>";
+		print "</td>";
 	print "</tr>\n";
 	print "<tr>\n";
 		print "<td align=right><b>$text{'create_server_setuplog'}</b></td>";
-		print "<td colspan=3><input size=52 name=setuplog value=\"$setuplog\"></td>";
+		print "<td colspan=3><input size=52 name=setuplog value=\"$setuplog\">";
+		print "<br><i>$text{'create_server_setuplog_help'}</i>";
+		print "</td>";
 	print "</tr>\n";
 	print "<tr>\n";
 		print "<td align=right><b>$text{'create_server_maccodepage'}</b></td>";

@@ -149,8 +149,9 @@ create_server_Address=IP Address
 create_server_pass=Save Password
 create_server_setpass=Change Password
 create_server_lgmesg=Login Message
-create_server_icon=Use Daemon Icon (Classic Mac OS)
-create_server_mimicmodel=Spoof OSX Icon
+create_server_icon=Custom icon for mounted volume (Classic Mac OS)
+create_server_mimicmodel=Custom icon for mounted volume (macOS)
+create_server_mimicmodel_help=Examples: Laptop, RackMount, Tower
 create_server_setuplog=Logging
 create_server_setuplog_help=Example: default log_maxdebug /var/log/afpd.log
 create_server_maccodepage=Client Codepage
@@ -158,21 +159,9 @@ create_server_default=Default
 create_server_no_auth=No Authentication
 create_server_disabled=Disabled
 
-create_server_notice=Note that this is not a comprehensive list. Please edit afpd.conf manually for advanced options.
+create_server_notice=Note: This is not a comprehensive list of options. Please edit afpd.conf manually for advanced options.
 
 save_newServer_noServerName=No usable server name
-
-mimicmodel_rackmac=RackMac
-mimicmodel_powerbook=PowerBook
-mimicmodel_powermac=PowerMac
-mimicmodel_macmini=Macmini
-mimicmodel_imac=iMac
-mimicmodel_macbook=MacBook
-mimicmodel_macbookpro=MacBookPro
-mimicmodel_macbookair=MacBookAir
-mimicmodel_macpro=MacPro
-mimicmodel_appletv=AppleTV1,1
-mimicmodel_airport=AirPort
 
 file=file
 not_readable=not readable
