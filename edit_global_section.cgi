@@ -2,6 +2,7 @@
 #
 # Netatalk Webmin Module
 # Copyright (C) 2013 Ralph Boehme <sloowfranklin@gmail.com>
+# Copyright (C) 2023-4 Daniel Markstedt <daniel@mindani.net>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -47,6 +48,16 @@ if($@) {
 	exit;
 }
 
+
+my @tabs = ( [ 'common', $text{edit_global_section_tab_common} ],
+             [ 'auth', $text{edit_global_section_tab_auth} ],
+             [ 'network', $text{edit_global_section_tab_network} ],
+             [ 'misc', $text{edit_global_section_tab_misc} ],
+             [ 'cnid', $text{edit_global_section_tab_cnid} ],
+             [ 'acl', $text{edit_global_section_tab_acl} ],
+             [ 'fce', $text{edit_global_section_tab_fce} ]
+            );
+
 ui_print_header(undef, $text{'edit_global_section_title'}, "", "configs", 1, 1);
 
 print &ui_form_start('save_global_section.cgi', 'POST');
@@ -54,27 +65,13 @@ print &ui_form_start('save_global_section.cgi', 'POST');
 print &ui_hidden('index', $$sectionRef{'index'}) if($sectionRef);
 print &ui_hidden('name', 'Global');
 
+print &ui_tabs_start(\@tabs, 'mode', 'common');
+print &ui_tabs_start_tab('mode', 'common');
+
 print &ui_table_start($text{'edit_vol_section_title_of_table'}, 'width="100%"', 2);
 
 print &ui_table_row($text{'edit_global_section_hostname'},
 	&ui_textbox('p_hostname', (get_parameter_of_section($afpconfRef, $sectionRef, 'hostname', \%in))[0]).$text{edit_global_section_hostname_help}
-);
-
-@values = get_parameter_of_section($afpconfRef, $sectionRef, 'afp listen', \%in);
-print &ui_table_row($text{'edit_global_section_afp_listen'},
-	&ui_textbox('p_afp listen', $values[0])
-	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
-);
-
-@values = get_parameter_of_section($afpconfRef, $sectionRef, 'afp port', \%in);
-print &ui_table_row($text{'edit_global_section_afp_port'},
-	&ui_textbox('p_afp port', $values[0], 5)
-	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
-);
-
-@values = get_parameter_of_section($afpconfRef, $sectionRef, 'set password', \%in);
-print &ui_table_row($text{'edit_global_section_set_password'},
-	&ui_radio('p_set password', $values[0], [['', 'disabled'], ['yes', 'enabled']])
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'login message', \%in);
@@ -98,21 +95,9 @@ print &ui_table_row($text{'edit_global_section_uam_list'},
 	."<br>".$text{'edit_global_section_uam_list_other'} .&ui_textbox('p_uam list', $nonstandardUAMs, 40)
 );
 
-print &ui_table_row($text{edit_global_section_kerberos_keytab},
-	&ui_filebox('p_k5_keytab', (get_parameter_of_section($afpconfRef, $sectionRef, 'k5 keytab', \%in))[0], 40, undef, undef, undef, 1)
-);
-print &ui_table_row($text{edit_global_section_kerberos_service},
-	&ui_textbox('p_k5 service', (get_parameter_of_section($afpconfRef, $sectionRef, 'k5 service', \%in))[0], 40)
-);
-print &ui_table_row($text{edit_global_section_kerberos_realm},
-	&ui_textbox('p_k5 realm', (get_parameter_of_section($afpconfRef, $sectionRef, 'k5 realm', \%in))[0], 40)
-);
-print &ui_table_row($text{edit_global_section_fqdn},
-	&ui_textbox('p_fqdn', (get_parameter_of_section($afpconfRef, $sectionRef, 'fqdn', \%in))[0], 40)
-);
-
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'log file', \%in);
 print &ui_table_row($text{'edit_global_section_log_file'},
-	&ui_filebox('p_log_file', (get_parameter_of_section($afpconfRef, $sectionRef, 'log file', \%in))[0]).$text{edit_global_section_log_file_help}
+	&ui_filebox('p_log_file', $values[0]).$text{'edit_global_section_log_file_help'}
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'log level', \%in);
@@ -126,6 +111,11 @@ print &ui_table_row($text{'edit_global_section_zeroconf'},
 	&ui_radio('p_zeroconf', $values[0], [['no', 'disabled'], ['', 'enabled']])
 );
 
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'zerconf name', \%in);
+print &ui_table_row($text{'edit_global_section_zeroconf_name'},
+	&ui_textbox('p_zeroconf_name', $values[0], 40)
+);
+
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'spotlight', \%in);
 print &ui_table_row($text{'edit_global_section_spotlight'},
 	&ui_radio('p_spotlight', $values[0], [['', 'disabled'], ['yes', 'enabled']])
@@ -136,14 +126,28 @@ print &ui_table_row($text{'edit_global_section_afpstats'},
 	&ui_radio('p_afpstats', $values[0], [['', 'disabled'], ['yes', 'enabled']])
 );
 
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'mimic model', \%in);
 print &ui_table_row($text{'edit_global_section_mimic_model'},
-	&ui_textbox('p_mimic model', (get_parameter_of_section($afpconfRef, $sectionRef, 'mimic model', \%in))[0], 40).$text{edit_global_section_mimic_model_help}
+	&ui_textbox('p_mimic model', $values[0], 40)
+	.$text{edit_global_section_mimic_model_help}
 );
 
-@values = get_parameter_of_section($afpconfRef, $sectionRef, 'vol dbpath', \%in);
-print &ui_table_row($text{'edit_global_section_vol_dbpath'},
-	&ui_filebox('p_vol_dbpath', $values[0], 40, undef, undef, undef, 1)
-	.($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'mac charset', \%in);
+print &ui_table_row($text{'edit_global_section_mac_charset'},
+	&ui_textbox('p_mac charset', $values[0], 10)
+	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'unix charset', \%in);
+print &ui_table_row($text{'edit_global_section_unix_charset'},
+	&ui_textbox('p_unix charset', $values[0], 10)
+	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'vol charset', \%in);
+print &ui_table_row($text{'edit_global_section_vol_charset'},
+	&ui_textbox('p_vol charset', $values[0], 10)
+	.$text{edit_global_section_vol_charset_help}
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'vol preset', \%in);
@@ -155,7 +159,464 @@ for my $presetSectionRef (@{$$afpconfRef{volumePresetSections}}) {
 $select .= "</select>";
 print &ui_table_row($text{'edit_global_section_vol_preset'}, $select);
 
-print &ui_table_end(); 
+print &ui_table_end();
+print &ui_tabs_end_tab('mode', 'common');
+
+print &ui_tabs_start_tab('mode', 'auth');
+print &ui_table_start($text{'edit_vol_section_title_of_table'}, 'width="100%"', 2);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ad domain', \%in);
+print &ui_table_row($text{'edit_global_section_ad_domain'},
+	&ui_textbox('p_ad domain', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'admin auth user', \%in);
+print &ui_table_row($text{'edit_global_section_admin_auth_user'},
+	&ui_textbox('p_admin auth user', $values[0], 40).
+	&user_chooser_button("admin auth user")
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'admin group', \%in);
+print &ui_table_row($text{'edit_global_section_admin_group'},
+	&ui_textbox('p_admin group', $values[0], 40).
+	&group_chooser_button("admin group")
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'force user', \%in);
+print &ui_table_row($text{'edit_global_section_force_user'},
+	&ui_textbox('p_force user', $values[0], 40).
+	&user_chooser_button("force user")
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'force group', \%in);
+print &ui_table_row($text{'edit_global_section_force_group'},
+	&ui_textbox('p_force group', $values[0], 40).
+	&group_chooser_button("force group")
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'k5 keytab', \%in);
+print &ui_table_row($text{'edit_global_section_kerberos_keytab'},
+	&ui_filebox('p_k5_keytab', $values[0], 40, undef, undef, undef, 1)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'k5 service', \%in);
+print &ui_table_row($text{'edit_global_section_kerberos_service'},
+	&ui_textbox('p_k5 service', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'k5 realm', \%in);
+print &ui_table_row($text{'edit_global_section_kerberos_realm'},
+	&ui_textbox('p_k5 realm', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'nt domain', \%in);
+print &ui_table_row($text{'edit_global_section_nt_domain'},
+	&ui_textbox('p_nt domain', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'nt separator', \%in);
+print &ui_table_row($text{'edit_global_section_nt_separator'},
+	&ui_textbox('p_nt separator', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'save password', \%in);
+print &ui_table_row($text{'edit_global_section_save_password'},
+	&ui_radio('p_save password', $values[0], [['no', 'disabled'], ['', 'enabled']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'set password', \%in);
+print &ui_table_row($text{'edit_global_section_set_password'},
+	&ui_radio('p_set password', $values[0], [['', 'disabled'], ['yes', 'enabled']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'passwd file', \%in);
+print &ui_table_row($text{'edit_global_section_passwd_file'},
+	&ui_filebox('p_passwd file', $values[0])
+	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'passwd minlen', \%in);
+print &ui_table_row($text{'edit_global_section_passwd_minlen'},
+	"<input name='p_passwd minlen' type='number' value='".$values[0]."'>"
+	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+);
+
+print &ui_table_end();
+print &ui_tabs_end_tab('mode', 'auth');
+
+print &ui_tabs_start_tab('mode', 'network');
+print &ui_table_start($text{'edit_vol_section_title_of_table'}, 'width="100%"', 2);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'advertise ssh', \%in);
+print &ui_table_row($text{'edit_global_section_advertise_ssh'},
+	&ui_radio('p_advertise ssh', $values[0], [['', 'disabled'], ['yes', 'enabled']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'afp interfaces', \%in);
+print &ui_table_row($text{'edit_global_section_afp_interfaces'},
+	&ui_textbox('p_afp interfaces', $values[0], 40)
+	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'afp listen', \%in);
+print &ui_table_row($text{'edit_global_section_afp_listen'},
+	&ui_textbox('p_afp listen', $values[0])
+	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'afp port', \%in);
+print &ui_table_row($text{'edit_global_section_afp_port'},
+	&ui_textbox('p_afp port', $values[0], 5)
+	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'disconnect time', \%in);
+print &ui_table_row($text{'edit_global_section_disconnect_time'},
+	"<input name='p_disconnect time' type='number' value='".$values[0]."'>"
+	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'dsireadbuf', \%in);
+print &ui_table_row($text{'edit_global_section_dsireadbuf'},
+	"<input name='p_dsireadbuf' type='number' value='".$values[0]."'>"
+	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'fqdn', \%in);
+print &ui_table_row($text{edit_global_section_fqdn},
+	&ui_textbox('p_fqdn', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'max connections', \%in);
+print &ui_table_row($text{'edit_global_section_max_connections'},
+	"<input name='p_max connections' type='number' value='".$values[0]."'>"
+	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'server quantum', \%in);
+print &ui_table_row($text{'edit_global_section_server_quantum'},
+	"<input name='p_server quantum' type='number' value='".$values[0]."'>"
+	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'sleep time', \%in);
+print &ui_table_row($text{'edit_global_section_sleep_time'},
+	"<input name='p_sleep time' type='number' value='".$values[0]."'>"
+	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'tcprcvbuf', \%in);
+print &ui_table_row($text{'edit_global_section_tcprcvbuf'},
+	"<input name='p_tcprcvbuf' type='number' value='".$values[0]."'>"
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'tcpsndbuf', \%in);
+print &ui_table_row($text{'edit_global_section_tcpsndbuf'},
+	"<input name='p_tcpsndbuf' type='number' value='".$values[0]."'>"
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'recvfile', \%in);
+print &ui_table_row($text{'edit_global_section_recvfile'},
+	&ui_radio('p_recvfile', $values[0], [['', 'disabled'], ['yes', 'enabled']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'splice size', \%in);
+print &ui_table_row($text{'edit_global_section_splice_size'},
+	"<input name='p_splice size' type='number' value='".$values[0]."'> 65536 (netatalk default)\n"
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'use sendfile', \%in);
+print &ui_table_row($text{'edit_global_section_use_sendfile'},
+	&ui_radio('p_use sendfile', $values[0], [['no', 'disabled'], ['', 'enabled']])
+);
+
+print &ui_table_end();
+print &ui_tabs_end_tab('mode', 'network');
+
+print &ui_tabs_start_tab('mode', 'misc');
+print &ui_table_start($text{'edit_vol_section_title_of_table'}, 'width="100%"', 2);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'afp read locks', \%in);
+print &ui_table_row($text{'edit_global_section_afp_read_locks'},
+	&ui_radio('p_afp read locks', $values[0], [['', 'disabled'], ['yes', 'enabled']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'close vol', \%in);
+print &ui_table_row($text{'edit_global_section_close_vol'},
+	&ui_radio('p_close vol', $values[0], [['', 'disabled'], ['yes', 'enabled']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'dbus daemon', \%in);
+print &ui_table_row($text{'edit_global_section_dbus_daemon'},
+	&ui_filebox('p_dbus daemon', $values[0])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'dircachesize', \%in);
+print &ui_table_row($text{'edit_global_section_dircachesize'},
+	"<input name='p_dircachesize' type='number' value='".$values[0]."'> 8192 (netatalk default)\n"
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'extmap file', \%in);
+print &ui_table_row($text{'edit_global_section_extmap_file'},
+	&ui_filebox('p_extmap file', $values[0])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'force xattr with sticky bit', \%in);
+print &ui_table_row($text{'edit_global_section_force_xattr_with_sticky_bit'},
+	&ui_radio('p_force xattr with sticky bit', $values[0], [['', 'disabled'], ['yes', 'enabled']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'guest account', \%in);
+print &ui_table_row($text{'edit_global_section_guest_account'},
+	&ui_textbox('p_guest account', $values[0], 40).
+	&user_chooser_button("guest account").
+	" nobody (netatalk default)\n"
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ignored attributes', \%in);
+print &ui_table_row($text{'edit_global_section_ignored_attributes'},
+	&ui_radio('p_ignored attributes', $values[0], [['', 'none (default)'], ['all', 'all'], ['nowrite', 'nowrite'], ['nodelete', 'nodelete'], ['norename', 'norename']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'signature', \%in);
+print &ui_table_row($text{'edit_global_section_signature'},
+	&ui_textbox('p_signature', $values[0], 20, undef, 16)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'solaris share reservations', \%in);
+print &ui_table_row($text{'edit_global_section_solaris_share_reservations'},
+	&ui_radio('p_solaris share reservations', $values[0], [['no', 'disabled'], ['', 'enabled']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'sparql results limit', \%in);
+print &ui_table_row($text{'edit_global_section_sparql_results_limit'},
+	"<input name='p_sparql results limit' type='number' value='".$values[0]."'>"
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'spotlight attributes', \%in);
+print &ui_table_row($text{'edit_global_section_spotlight_attributes'},
+	&ui_textbox('p_spotlight attributes', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'spotlight expr', \%in);
+print &ui_table_row($text{'edit_global_section_spotlight_expr'},
+	&ui_radio('p_spotlight expr', $values[0], [['no', 'disabled'], ['', 'enabled']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'start dbus', \%in);
+print &ui_table_row($text{'edit_global_section_start_dbus'},
+	&ui_radio('p_start dbus', $values[0], [['no', 'disabled'], ['', 'enabled']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'start tracker', \%in);
+print &ui_table_row($text{'edit_global_section_start_tracker'},
+	&ui_radio('p_start tracker', $values[0], [['no', 'disabled'], ['', 'enabled']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'veto message', \%in);
+print &ui_table_row($text{'edit_global_section_veto_message'},
+	&ui_radio('p_veto message', $values[0], [['', 'disabled'], ['yes', 'enabled']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'volnamelen', \%in);
+print &ui_table_row($text{'edit_global_section_volnamelen'},
+	"<input name='p_volnamelen' type='number' value='".$values[0]."'> 80 (netatalk default)\n"
+);
+
+print &ui_table_end();
+print &ui_tabs_end_tab('mode', 'misc');
+
+print &ui_tabs_start_tab('mode', 'cnid');
+print &ui_table_start($text{'edit_vol_section_title_of_table'}, 'width="100%"', 2);
+
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'vol dbpath', \%in);
+print &ui_table_row($text{'edit_global_section_vol_dbpath'},
+	&ui_filebox('p_vol_dbpath', $values[0], 40, undef, undef, undef, 1)
+	.($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'vol dbnest', \%in);
+print &ui_table_row($text{'edit_global_section_vol_dbnest'},
+	&ui_radio('p_vol dbnest', $values[0], [['', 'disabled'], ['yes', 'enabled']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'cnid mysql host', \%in);
+print &ui_table_row($text{'edit_global_section_cnid_mysql_host'},
+	&ui_textbox('p_cnid mysql host', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'cnid mysql user', \%in);
+print &ui_table_row($text{'edit_global_section_cnid_mysql_user'},
+	&ui_textbox('p_cnid mysql user', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'cnid mysql pw', \%in);
+print &ui_table_row($text{'edit_global_section_cnid_mysql_pw'},
+	&ui_textbox('p_cnid mysql pw', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'cnid mysql db', \%in);
+print &ui_table_row($text{'edit_global_section_cnid_mysql_db'},
+	&ui_textbox('p_cnid mysql db', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'cnid server', \%in);
+print &ui_table_row($text{'edit_global_section_cnid_server'},
+	&ui_textbox('p_cnid server', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'cnid listen', \%in);
+print &ui_table_row($text{'edit_global_section_cnid_listen'},
+	&ui_textbox('p_cnid listen', $values[0], 40)
+	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+);
+
+
+print &ui_table_end();
+print &ui_tabs_end_tab('mode', 'cnid');
+
+print &ui_tabs_start_tab('mode', 'acl');
+print &ui_table_start($text{'edit_vol_section_title_of_table'}, 'width="100%"', 2);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'chmod request', \%in);
+print &ui_table_row($text{'edit_global_section_chmod_request'},
+	&ui_radio('p_chmod request', $values[0], [['', 'preserve (default)'], ['ignore', 'ignore'], ['simple', 'simple']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'map acls', \%in);
+print &ui_table_row($text{'edit_global_section_map_acls'},
+	&ui_radio('p_map acls', $values[0], [['', 'none (default)'], ['rights', 'rights'], ['mode', 'mode']])
+
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ldap auth method', \%in);
+print &ui_table_row($text{'edit_global_section_ldap_auth_method'},
+	&ui_radio('p_ldap auth method', $values[0], [['', 'disabled (default)'], ['none', 'none'], ['simple', 'simple']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ldap auth dn', \%in);
+print &ui_table_row($text{'edit_global_section_ldap_auth_dn'},
+	&ui_textbox('p_ldap auth dn', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ldap auth pw', \%in);
+print &ui_table_row($text{'edit_global_section_ldap_auth_pw'},
+	&ui_textbox('p_ldap auth pw', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ldap server', \%in);
+print &ui_table_row($text{'edit_global_section_ldap_server'},
+	&ui_textbox('p_ldap server', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ldap userbase', \%in);
+print &ui_table_row($text{'edit_global_section_ldap_userbase'},
+	&ui_textbox('p_ldap userbase', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ldap userscope', \%in);
+print &ui_table_row($text{'edit_global_section_ldap_userscope'},
+	&ui_radio('p_ldap userscope', $values[0], [['', 'disabled (default)'], ['base', 'base'], ['one', 'one'], ['sub', 'sub']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ldap groupbase', \%in);
+print &ui_table_row($text{'edit_global_section_ldap_groupbase'},
+	&ui_textbox('p_ldap groupbase', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ldap groupscope', \%in);
+print &ui_table_row($text{'edit_global_section_ldap_groupscope'},
+	&ui_radio('p_ldap groupscope', $values[0], [['', 'disabled (default)'], ['base', 'base'], ['one', 'one'], ['sub', 'sub']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ldap uuid attr', \%in);
+print &ui_table_row($text{'edit_global_section_ldap_uuid_attr'},
+	&ui_textbox('p_ldap uuid attr', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ldap name attr', \%in);
+print &ui_table_row($text{'edit_global_section_ldap_name_attr'},
+	&ui_textbox('p_ldap name attr', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ldap group attr', \%in);
+print &ui_table_row($text{'edit_global_section_ldap_group_attr'},
+	&ui_textbox('p_ldap group attr', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ldap uuid string', \%in);
+print &ui_table_row($text{'edit_global_section_ldap_uuid_string'},
+	&ui_textbox('p_ldap uuid string', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ldap uuid encoding', \%in);
+print &ui_table_row($text{'edit_global_section_ldap_uuid_encoding'},
+	&ui_radio('p_ldap uuid encoding', $values[0], [['', 'string (default)'], ['ms-guid', 'ms-guid']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ldap user filter', \%in);
+print &ui_table_row($text{'edit_global_section_ldap_user_filter'},
+	&ui_textbox('p_ldap user filter', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ldap group filter', \%in);
+print &ui_table_row($text{'edit_global_section_ldap_group_filter'},
+	&ui_textbox('p_ldap group filter', $values[0], 40)
+);
+
+print &ui_table_end();
+print &ui_tabs_end_tab('mode', 'acl');
+
+print &ui_tabs_start_tab('mode', 'fce');
+print &ui_table_start($text{'edit_vol_section_title_of_table'}, 'width="100%"', 2);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'fce listener', \%in);
+print &ui_table_row($text{'edit_global_section_fce_listener'},
+	&ui_textbox('p_fce listener', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'fce version', \%in);
+print &ui_table_row($text{'edit_global_section_fce_version'},
+	&ui_radio('p_fce version', $values[0], [['', '1 (default)'], ['2', '2']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'fce events', \%in);
+print &ui_table_row($text{'edit_global_section_fce_events'},
+	&ui_textbox('p_fce events', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'fce coalesce', \%in);
+print &ui_table_row($text{'edit_global_section_fce_coalesce'},
+	&ui_radio('p_fce coalesce', $values[0], [['', 'none (default)'], ['all', 'all'], ['delete', 'delete'], ['create', 'create']])
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'fce holdfmod', \%in);
+print &ui_table_row($text{'edit_global_section_fce_holdfmod'},
+	"<input name='p_fce holdfmod' type='number' value='".$values[0]."'>"
+	." 60s (netatalk default)\n"
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'fce ignore names', \%in);
+print &ui_table_row($text{'edit_global_section_fce_ignore_names'},
+	&ui_textbox('p_fce ignore names', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'fce ignore directories', \%in);
+print &ui_table_row($text{'edit_global_section_fce_ignore_directories'},
+	&ui_textbox('p_fce ignore directories', $values[0], 40)
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'fce notify script', \%in);
+print &ui_table_row($text{'edit_global_section_fce_notify_script'},
+	&ui_filebox('p_fce notify script', $values[0])
+);
+
+print &ui_table_end();
+print &ui_tabs_end_tab('mode', 'fce');
+
+print &ui_tabs_end();
+
 print &ui_form_end([[undef, $text{'save_button_title'}, 0, undef]]);
 
 ui_print_footer("index.cgi", $text{'edit_return'});
