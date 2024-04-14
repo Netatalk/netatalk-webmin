@@ -186,10 +186,9 @@ print "<td colspan=4>";
 	printf "$text{'edit_directory'}<input name=path size=26 value=\"%s\" >\n",
 		($Old_path ne "~" && $Old_path ne "~/") ? $Old_path: "";
 	print &file_chooser_button("path", 1);
-	print "<br>\n";
+	print "<a href=\"/filemin\" target=\"_blank\">$text{'edit_filemanager_link'}</a><br>\n";
 	printf "<input type=radio name=homes value=1 %s >$text{'edit_homedirectory'}<br>\n",
 		($Old_path eq "~" || $Old_path eq "~/") ? "checked" : "";
-print "<a href=\"/filemin\" target=\"_blank\">$text{'edit_filemanager_link'}</a>\n";
 print "</td> </tr>\n";
 
 print "<tr><td align=right valign=top ><b>$text{'edit_Adouble'}</b></td>\n";

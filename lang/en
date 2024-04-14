@@ -67,7 +67,7 @@ edit_sharedvolume=Shared Volume
 edit_homedirectory=Home Directories
 edit_directory=Directory
 edit_default=default
-edit_filemanager_link=Use the file manager to create and modify directories to share
+edit_filemanager_link=File Manager (new tab)
 
 edit_Adouble=AppleDouble format
 edit_Adoublev1=Legacy metadata format, v1

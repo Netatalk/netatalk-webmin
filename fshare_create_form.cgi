@@ -36,8 +36,8 @@ print "<tr>\n";
 print "<td align=right><b>$text{'edit_sharedvolume'}</b></td>\n";
 print "<td colspan=4><input type=radio name=homes value=0 checked >$text{'edit_directory'}<input name=path size=26 value=\"\" >\n";
 print &file_chooser_button("path", 1);
-	print "<br><input type=radio name=homes value=1 >$text{'edit_homedirectory'}<br>\n";
-print "<a href=\"/filemin\" target=\"_blank\">$text{'edit_filemanager_link'}</a>\n";
+	print "<a href=\"/filemin\" target=\"_blank\">$text{'edit_filemanager_link'}</a><br>\n";
+	print "<input type=radio name=homes value=1 >$text{'edit_homedirectory'}\n";
 print "</td> </tr>\n";
 
 print "<tr><td align=right valign=top ><b>$text{'edit_Adouble'}</b></td>\n";
