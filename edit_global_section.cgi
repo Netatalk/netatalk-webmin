@@ -49,13 +49,13 @@ if($@) {
 }
 
 
-my @tabs = ( [ 'common', $text{edit_global_section_tab_common} ],
-             [ 'auth', $text{edit_global_section_tab_auth} ],
-             [ 'network', $text{edit_global_section_tab_network} ],
-             [ 'misc', $text{edit_global_section_tab_misc} ],
-             [ 'cnid', $text{edit_global_section_tab_cnid} ],
-             [ 'acl', $text{edit_global_section_tab_acl} ],
-             [ 'fce', $text{edit_global_section_tab_fce} ]
+my @tabs = ( [ 'common', $text{'edit_global_section_tab_common'} ],
+             [ 'auth', $text{'edit_global_section_tab_auth'} ],
+             [ 'network', $text{'edit_global_section_tab_network'} ],
+             [ 'misc', $text{'edit_global_section_tab_misc'} ],
+             [ 'cnid', $text{'edit_global_section_tab_cnid'} ],
+             [ 'acl', $text{'edit_global_section_tab_acl'} ],
+             [ 'fce', $text{'edit_global_section_tab_fce'} ]
             );
 
 ui_print_header(undef, $text{'edit_global_section_title'}, "", "configs", 1, 1);
@@ -428,7 +428,6 @@ print &ui_tabs_end_tab('mode', 'misc');
 
 print &ui_tabs_start_tab('mode', 'cnid');
 print &ui_table_start($text{'edit_vol_section_title_of_table'}, 'width="100%"', 2);
-
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'vol dbpath', \%in);
 print &ui_table_row($text{'edit_global_section_vol_dbpath'},
