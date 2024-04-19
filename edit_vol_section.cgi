@@ -261,7 +261,7 @@ if($subject ne 'homes') {
 
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'acls', \%in);
 	print &ui_table_row($text{'edit_vol_section_acls'},
-		&ui_radio('p_acls', $values[0], [['no', 'disabled'], ['', 'enabled']])
+		&ui_radio('p_acls', $values[0], [['no', 'disabled'], ['', 'enabled (default)']])
 	);
 
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'case sensitive', \%in);

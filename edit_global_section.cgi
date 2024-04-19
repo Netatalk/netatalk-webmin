@@ -400,7 +400,7 @@ print &ui_table_row($text{'edit_global_section_spotlight_attributes'},
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'spotlight expr', \%in);
 print &ui_table_row($text{'edit_global_section_spotlight_expr'},
-	&ui_radio('p_spotlight expr', $values[0], [['no', 'disabled'], ['', 'enabled']])
+	&ui_radio('p_spotlight expr', $values[0], [['no', 'disabled'], ['', 'enabled (default)']])
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'start dbus', \%in);
@@ -410,7 +410,7 @@ print &ui_table_row($text{'edit_global_section_start_dbus'},
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'start tracker', \%in);
 print &ui_table_row($text{'edit_global_section_start_tracker'},
-	&ui_radio('p_start tracker', $values[0], [['no', 'disabled'], ['', 'enabled']])
+	&ui_radio('p_start tracker', $values[0], [['no', 'disabled'], ['', 'enabled (default)']])
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'veto message', \%in);
@@ -599,11 +599,13 @@ print &ui_table_row($text{'edit_global_section_fce_holdfmod'},
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'fce ignore names', \%in);
 print &ui_table_row($text{'edit_global_section_fce_ignore_names'},
 	&ui_textbox('p_fce ignore names', $values[0], 40)
+	. "Default: .DS_Store . Separate multiple items with /\n"
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'fce ignore directories', \%in);
 print &ui_table_row($text{'edit_global_section_fce_ignore_directories'},
 	&ui_textbox('p_fce ignore directories', $values[0], 40)
+	. "Default: empty. Separate multiple items with ,\n"
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'fce notify script', \%in);
