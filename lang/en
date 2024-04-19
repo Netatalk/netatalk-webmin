@@ -231,8 +231,6 @@ delete_failed=Can't delete file
 not_valid_path=Not Valid Path
 no_path=No Path
 
-help_configs=Configurations Help
-
 manual_title=Edit Directives
 manual_file=Edit File:
 manual_efile=Invalid netatalk config file
