@@ -210,7 +210,7 @@ if($subject ne 'homes') {
 
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'force xattr with sticky bit', \%in);
 	print &ui_table_row($text{'edit_global_section_force_xattr_with_sticky_bit'},
-		&ui_radio('p_force xattr with sticky bit', $values[0], [['', 'disabled'], ['yes', 'enabled']])
+		&ui_radio('p_force xattr with sticky bit', $values[0], [['', 'disabled (default)'], ['yes', 'enabled']])
 	);
 
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ignored attributes', \%in);
@@ -220,7 +220,7 @@ if($subject ne 'homes') {
 
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'spotlight', \%in);
 	print &ui_table_row($text{'edit_global_section_spotlight'},
-		&ui_radio('p_spotlight', $values[0], [['', 'disabled'], ['yes', 'enabled']])
+		&ui_radio('p_spotlight', $values[0], [['', 'disabled (default)'], ['yes', 'enabled']])
 	);
 
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'vol dbpath', \%in);
@@ -266,47 +266,47 @@ if($subject ne 'homes') {
 
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'case sensitive', \%in);
 	print &ui_table_row($text{'edit_vol_section_case_sensitive'},
-		&ui_radio('p_case sensitive', $values[0], [['no', 'disabled'], ['', 'enabled']])
+		&ui_radio('p_case sensitive', $values[0], [['no', 'disabled'], ['', 'enabled (default)']])
 	);
 
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'cnid dev', \%in);
 	print &ui_table_row($text{'edit_vol_section_cnid_dev'},
-		&ui_radio('p_cnid dev', $values[0], [['no', 'disabled'], ['', 'enabled']])
+		&ui_radio('p_cnid dev', $values[0], [['no', 'disabled'], ['', 'enabled (default)']])
 	);
 
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'convert appledouble', \%in);
 	print &ui_table_row($text{'edit_vol_section_convert_appledouble'},
-		&ui_radio('p_convert appledouble', $values[0], [['no', 'disabled'], ['', 'enabled']])
+		&ui_radio('p_convert appledouble', $values[0], [['no', 'disabled'], ['', 'enabled (default)']])
 	);
 
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'delete veto files', \%in);
 	print &ui_table_row($text{'edit_vol_section_delete_veto_files'},
-		&ui_radio('p_delete veto files', $values[0], [['', 'disabled'], ['yes', 'enabled']])
+		&ui_radio('p_delete veto files', $values[0], [['', 'disabled (default)'], ['yes', 'enabled']])
 	);
 
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'follow symlinks', \%in);
 	print &ui_table_row($text{'edit_vol_section_follow_symlinks'},
-		&ui_radio('p_follow symlinks', $values[0], [['', 'disabled'], ['yes', 'enabled']])
+		&ui_radio('p_follow symlinks', $values[0], [['', 'disabled (default)'], ['yes', 'enabled']])
 	);
 
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'invisible dots', \%in);
 	print &ui_table_row($text{'edit_vol_section_invisible_dots'},
-		&ui_radio('p_invisible dots', $values[0], [['', 'disabled'], ['yes', 'enabled']])
+		&ui_radio('p_invisible dots', $values[0], [['', 'disabled (default)'], ['yes', 'enabled']])
 	);
 
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'network ids', \%in);
 	print &ui_table_row($text{'edit_vol_section_network_ids'},
-		&ui_radio('p_network ids', $values[0], [['no', 'disabled'], ['', 'enabled']])
+		&ui_radio('p_network ids', $values[0], [['no', 'disabled'], ['', 'enabled (default)']])
 	);
 
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'preexec close', \%in);
 	print &ui_table_row($text{'edit_vol_section_preexec_close'},
-		&ui_radio('p_preexec close', $values[0], [['', 'disabled'], ['yes', 'enabled']])
+		&ui_radio('p_preexec close', $values[0], [['', 'disabled (default)'], ['yes', 'enabled']])
 	);
 
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'stat vol', \%in);
 	print &ui_table_row($text{'edit_vol_section_stat_vol'},
-		&ui_radio('p_stat vol', $values[0], [['', 'disabled'], ['yes', 'enabled']])
+		&ui_radio('p_stat vol', $values[0], [['', 'disabled (default)'], ['yes', 'enabled']])
 	);
 
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'mac charset', \%in);
