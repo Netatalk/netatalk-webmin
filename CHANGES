@@ -1,3 +1,12 @@
+1.3:
+* bugfix: Editing an existing home dir share retains current name
+* bugfix: Properly editing a server with both transport layers activated
+* Shared volume UI is now split into multiple tabs
+* Now using webmin2 API to create forms; removed form reset buttons
+* Makes mimicmodel option a free form field
+* Moved the File Manager link to the side of the volume path form field
+* Updated help system URLs to point to netatalk.io domain
+
 1.2:
 * Support for named home shares
 * Add new configuration lines to the bottom
@@ -48,4 +57,3 @@
 0.9b2:
 * fixed the "Bad Header" message
 * replaced icons
-
