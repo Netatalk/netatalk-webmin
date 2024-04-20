@@ -2,6 +2,7 @@
 #
 # Netatalk Webmin Module
 # Copyright (C) 2013 Ralph Boehme <sloowfranklin@gmail.com>
+# Copyright (C) 2023-4 Daniel Markstedt <daniel@mindani.net>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,52 +24,77 @@ use WebminCore;
 &init_config();
 
 our %netatalkParameterDefaults = (
-	'save password'			=> 'yes',
-	'set password'			=> 'no',
-	'mac charset'			=> 'MAC_ROMAN',
-	'unix charset'			=> 'UTF8',
-	'vol charset'			=> "=> 'unix charset'",
-	'afp port'				=> '548',
-	'disconnect time'		=> '24',
-	'dsireadbuf'			=> '12',
-	'ea'					=> 'auto',
-	'uam list'				=> 'uams_dhx.so uams_dhx2.so',
-	'uam path'				=> '/usr/local/lib/netatalk',
-	'passwd file'			=> '/etc/afppasswd',
-	'advertise ssh'			=> 'no',
-	'afp listen'			=> "system's first IP address",
-	'afp port'				=> '548',
-	'cnid listen'			=> 'localhost:4700',
-	'max connections'		=> '200',
-	'server quantum'		=> '1048576',
-	'sleep time'			=> '10',
-	'appledouble'			=> 'ea',
-	'acls'					=> 'yes',
-	'cnid dev'				=> 'yes',
+  'acls'							=> 'yes',
+  'advertise ssh'			=> 'no',
+  'afp port'					=> '548',
+	'afp read locks'		=> 'no',
+	'afpstats'					=> 'no',
+	'appledouble'				=> 'ea',
+	'case sensitive'		=> 'yes',
+	'chmod request'			=> 'preserve',
+	'close vol'					=> 'no',
+	'cnid dev'					=> 'yes',
+	'cnid listen'				=> 'localhost:4700',
+	'cnid scheme'				=> 'dbd',
 	'convert appledouble'	=> 'yes',
+	'delete veto files'	=> 'no',
+	'dircachesize'  	  => '8192',
+	'disconnect time'		=> '24',
+	'dsireadbuf'				=> '12',
+	'ea'								=> 'auto',
+	'fce holdfmod'      => '60',
+	'fce ignore names'  => '.DS_Store',
+	'fce listener'			=> ':12250',
+	'fce version'				=> '1',
 	'follow symlinks'		=> 'no',
+	'force xattr with sticky bit'	=> 'no',
+	'guest account'			=> 'nobody',
 	'invisible dots'		=> 'no',
-	'network ids'			=> 'no',
+	'ldap uuid encoding'	=> 'string',
+	'log level'					=> 'default:note',
+	'mac charset'				=> 'MAC_ROMAN',
+	'map acls'					=> 'none',
+	'max connections'		=> '200',
+	'network ids'				=> 'no',
+	'passwd file'				=> '/etc/afppasswd',
 	'preexec close'			=> 'no',
-	'read only'				=> 'no',
+	'recvfile'					=> 'no',
+	'read only'					=> 'no',
 	'root preexec close'	=> 'no',
-	'search db'				=> 'no',
-	'stat vol'				=> 'yes',
+	'save password'			=> 'yes',
+	'search db'					=> 'no',
+	'server quantum'		=> '1048576',
+	'set password'			=> 'no',
+	'sleep time'				=> '10',
+	'solaris share reservations'	=> 'yes',
+	'splice size'   	  => '65536',
+	'spotlight'					=> 'yes',
+	'spotlight expr'		=> 'yes',
+	'start dbus'				=> 'yes',
+	'start tracker'			=> 'yes',
+	'stat vol'					=> 'yes',
 	'time machine'			=> 'no',
-	'unix priv'				=> 'yes',
-	'vol dbpath'			=> '/var/netatalk/CNID/',
-	'log level'				=> 'default:note',
+	'uam list'					=> 'uams_dhx.so uams_dhx2.so',
+	'uam path'					=> '/usr/local/lib/netatalk',
+	'unix charset'			=> 'UTF8',
+	'unix priv'					=> 'yes',
+	'use sendfile'			=> 'yes',
+	'veto message'			=> 'no',
+	'vol dbnest'				=> 'no',
+	'vol dbpath'				=> '/var/netatalk/CNID/',
+	'volnamelen'				=> '80',
+	'zeroconf'					=> 'yes',
 );
 
 sub write_afpconf {
 	file_rotate($config{'afp_conf'});
-	
+
 	local (*NEW);
-	
+
     open(NEW,">", "$config{'afp_conf'}.tmp") or die "$config{'afp_conf'}.tmp $!";
     print NEW $_[0];
 	close(NEW);
-	
+
 	rename($config{'afp_conf'}, "$config{'afp_conf'}.orig") or die "rename failed: $config{'afp_conf'} -> $config{'afp_conf'}.orig $!\n";
 	rename("$config{'afp_conf'}.tmp", $config{'afp_conf'}) or die "rename failed: $config{'afp_conf'}.tmp -> $config{'afp_conf'}\n";
 	unlink("$config{'afp_conf'}.orig") or die "$text{delete_failed}: $config{'afp_conf'}.orig\n";
@@ -90,9 +116,9 @@ sub parse_afpconf {
 
 	my ($linesep) = ($afpconftxt =~ /(\x0d\x0a|\x0a|\x0d)/);
 	die "$text{'afpconf_unexpectedeof'}\n" unless($linesep);
-	
+
 	my @afpconflines = split(/\x0d\x0a|\x0a|\x0d/, $afpconftxt, -1);
-	
+
 	my @sectionsByIndex = ();
 	my %sections = ();
 	my $section;
@@ -130,9 +156,9 @@ sub parse_afpconf {
 			$$section{linecount} = $i - $$section{firstline} if($section);
 
 			next if($line =~ /^\s*(#|;|$)/);			# skip empty or comment lines
-		
+
 			die &text('afpconf_err_no_section', $line, $j + 1)."\n" unless($section);
-				
+
 			# key = value
 			if($line =~ /^(\s*(.*?)\s*=\s*)(.*?)\s*(?:#|;|$)/) {
 				my ($keyAsInFile, $key, $value) = ($1, $2, $3);
@@ -148,10 +174,10 @@ sub parse_afpconf {
 				}
 			} else {
 				die &text('afpconf_syntax_err', $line, $j + 1)."\n";
-			}	
+			}
 		}
 	}
-	
+
 	my @volumes = ();
 	my @volumepresets = ();
 	for my $sectionName (keys(%sections)) {
@@ -163,7 +189,7 @@ sub parse_afpconf {
 				push @volumepresets, $sections{$sectionName};
 			}
 		}
-		
+
 		# accumulate list of names of sections using a volume preset
 		if($sectionName ne 'Homes' && ${$sections{$sectionName}}{parameters}{'vol preset'}) {
 			my $sectionNameOfVolumePreset = ${$sections{$sectionName}}{parameters}{'vol preset'}{value};
@@ -172,7 +198,7 @@ sub parse_afpconf {
 			}
 		}
 	}
-	
+
 	return {
 		volumeSections => \@volumes,
 		volumePresetSections => \@volumepresets,
@@ -180,13 +206,13 @@ sub parse_afpconf {
 		sectionsByIndex => \@sectionsByIndex,
 		lines => \@afpconflines,
 		linesep => $linesep,
-	}	
+	}
 }
 
 sub trim {
 	return undef unless(defined $_[0]);
 	$_[0] =~ /^\s*(.*?)\s*$/;
-	
+
 	return $1;
 }
 
@@ -195,22 +221,22 @@ sub get_parameter_of_section {
 	my $sectionRef = shift;
 	my $name = shift;
 	my $inRef = shift;
-	
+
 	my $value = (defined $sectionRef && defined $$sectionRef{parameters}{$name}) ? $$sectionRef{parameters}{$name}{value} : '';
 	if($inRef && exists $$inRef{"reload"}) {
-		$value = defined $$inRef{"p_$name"} ? $$inRef{"p_$name"} : ''; 
+		$value = defined $$inRef{"p_$name"} ? $$inRef{"p_$name"} : '';
 	}
-		
+
 	my $default = defined $netatalkParameterDefaults{$name} ? $netatalkParameterDefaults{$name} : '';
-	my $defaultSource = defined $netatalkParameterDefaults{$name} ? 'netatalk default' : '';
-	
+	my $defaultSource = defined $netatalkParameterDefaults{$name} ? $text{'edit_default'} : '';
+
 	# if $sectionRef is a volume or user homes, the default may be overridden:
 	# by the 'vol preset' defined in this section
 	# and if this isn't defined
 	# by a 'vol preset' defined by the global section
 	if($$sectionRef{name} !~ /Global/) {
 		my @searchList = ();
-		
+
 		if($inRef && exists $$inRef{"reload"}) {
 			# if p_vol preset exists in $inRef this is a reload of a form
 			if($$inRef{"p_vol preset"}) {
@@ -223,7 +249,7 @@ sub get_parameter_of_section {
 				push @searchList, $volumePresetName, '-> '.$volumePresetName;
 			}
 		}
-		
+
 		# if a vol preset has been found, don't use the one in Global section, as they aren't cascading
 		unless(@searchList) {
 			if(exists $$afpconfRef{sectionsByName}{'Global'}{parameters}{'vol preset'} && $$afpconfRef{sectionsByName}{'Global'}{parameters}{'vol preset'}{value}) {
@@ -232,9 +258,9 @@ sub get_parameter_of_section {
 				push @searchList, $volumePresetName, '-> Global -> '.$volumePresetName;
 			}
 		}
-		# Global section is used as a volume preset (for values that might be defined in all sections)		
+		# Global section is used as a volume preset (for values that might be defined in all sections)
 		push @searchList, 'Global', '-> Global';
-		
+
 		# now use list to find a definition
 		while(@searchList) {
 			my $sectionName = shift @searchList;
@@ -246,40 +272,40 @@ sub get_parameter_of_section {
 			}
 		}
 	}
-	
+
 	return ($value, $default, $defaultSource);
 }
 
 # modify_afpconf_ref_and_write
-# 
+#
 # Parameters:
 # - a reference to an afpconf structure as constructed by parse_afpconf
 # - a reference to a hash with the web parameters
 #   - index
 #   - name
 #   - p_...
-# 
+#
 # Checks the parameters for consistency, modifies the structure and
 # writes out the afp.conf file, if modifications actually took place.
 #
 sub modify_afpconf_ref_and_write {
 	my $afpconfRef = shift;
 	my $paramRef = shift;
-	
+
 	# list of array refs of the form [firstline, linecount, value] or [firstline, linecount]
 	# if value is not given, the lines will be removed
 	# if linecount is 0, then value will be inserted before firstline
-	my @modlist = ();	
-	
+	my @modlist = ();
+
 	my $index = trim($$paramRef{'index'});
 	my $name = trim($$paramRef{'name'});
-	
+
 	die "Volume/Volume preset name must not be empty.\n" unless($name);
-	
+
 	my $parametersOfSectionRef = {};
 	my $insertWhere = scalar(@{$$afpconfRef{lines}});			# default to appending at end
 	my @insertedLines = ();
-	
+
 	if($index =~ /\d+/) {
 		# the index is numerical - we're about to MODIFY a section
 		my $sectionToModifyRef;
@@ -294,17 +320,17 @@ sub modify_afpconf_ref_and_write {
 		} else {
 			die "Section doesn't exist.\n";
 		}
-		
+
 		# insert new parameters directly after the section header
 		$insertWhere = $$sectionToModifyRef{firstline} + $$sectionToModifyRef{linecountOfSectionHeader};
 	} else {
 		# the index is something else, therefore ignored: we're about to ADD a section
 		die "Volume/Volume preset name already used.\n" if($$afpconfRef{sectionsByName}{$name});
-		
+
 		# insert section header line
 		push @insertedLines, "[$name]";
 	}
-	
+
 	# now work through the parameters in the parameters
 	for my $key (keys(%$paramRef)) {
 		if($key =~ /^p_(.*)/) {
@@ -325,31 +351,31 @@ sub modify_afpconf_ref_and_write {
 			}
 		}
 	}
-	
+
 	# append eventual inserted lines to @modlist
 	if(@insertedLines) {
 		push @modlist, [$insertWhere, 0, join($$afpconfRef{linesep}, @insertedLines)];
 	}
-	
+
 	# and simply return if nothing needs to be changed
 	return unless(@modlist);
-	
+
 	# now process @modlist
 	for my $modActionRef (sort { $$b[0] <=> $$a[0] } @modlist) {
 		my ($first, $len, @replacement) = @$modActionRef;
 		splice(@{$$afpconfRef{lines}}, $first, $len, @replacement);
 	};
-	
+
 	# reparse afpconf (and thereby do a final syntax check before writing) and write it
 	my $afpconftxt = join($$afpconfRef{linesep}, @{$$afpconfRef{lines}});
 	%$afpconfRef = %{parse_afpconf($afpconftxt)};
 	write_afpconf($afpconftxt);
-	
+
 	return;
 }
 
 # delete_section_in_afpconf_ref_and_write
-# 
+#
 # Parameters:
 # - a reference to an afpconf structure as constructed by parse_afpconf
 # - indices of sections to delete
@@ -367,20 +393,20 @@ sub delete_sections_in_afpconf_ref_and_write {
 		die "Index doesn't exist." unless(exists ${$$afpconfRef{sectionsByIndex}}[$index]);
 		$index;
 	} @_;
-	
+
 	return unless(@indices);
-	
+
 	# delete the sections from the lines array
 	map {
 		my $sectionToModifyRef = ${$$afpconfRef{sectionsByIndex}}[$_];
 		splice(@{$$afpconfRef{lines}}, $$sectionToModifyRef{firstline}, $$sectionToModifyRef{linecount});
 	} @indices;
-	
+
 	# reparse afpconf (and thereby do a final syntax check before writing) and write it
 	my $afpconftxt = join($$afpconfRef{linesep}, @{$$afpconfRef{lines}});
 	%$afpconfRef = %{parse_afpconf($afpconftxt)};
 	write_afpconf($afpconftxt);
-	
+
 	return;
 }
 
@@ -389,7 +415,7 @@ sub split_into_users_and_groups {
 
 	my @users = ();
 	my @groups = ();
-	
+
 	# user and group names are separated by spaces or commas
 	# to allow for spaces in names, they may be enclosed in pairs of "
 	# group names are prefixed with @ (if enclosing " then INSIDE of them)
@@ -401,14 +427,14 @@ sub split_into_users_and_groups {
 			push @users, $match;
 		}
 	}
-	
+
 	return (join(' ', @users), join(' ', @groups));
 }
 
 sub join_users_and_groups {
 	my $users = shift;
 	my $groups = shift;
-	
+
 	# prefix groups with @
 	my @groups = ();
 	while($groups =~ /[, ]*(".*?"|[^ ,]+)/g) {
@@ -416,12 +442,12 @@ sub join_users_and_groups {
 		$match =~ s/(^"?)/$1@/;
 		push @groups, $match;
 	}
-	
+
 	my @users = ();
 	while($users =~ /[, ]*(".*?"|[^ ,]+)/g) {
 		push @users, $1;
 	}
-	
+
 	return join(' ', @users, @groups);
 }
 
@@ -442,4 +468,51 @@ sub version() {
 	$version =~ m/netatalk (\S+) /;
 
 	return $1;
+}
+
+sub build_select {
+	my $afpconfRef = shift;
+	my $sectionRef = shift;
+	my $inRef = shift;
+	my $parameterName = shift;
+	my $textIfNoDefault = shift;
+
+	my @values = get_parameter_of_section($afpconfRef, $sectionRef, $parameterName, $inRef);
+
+	my $select = "<select name='p_$parameterName'>\n";
+	if(defined $textIfNoDefault) {
+		$select .= "<option value='' ".($values[0] eq '' ? "selected" : "").">".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : $textIfNoDefault)."</option>\n";
+	}
+
+	while(@_) {
+		my $value = shift;
+		my $userVisibleValue = shift;
+		$select .= "<option value='$value' ".($values[0] eq $value ? "selected" : "").">$userVisibleValue</option>\n";
+	}
+
+	return $select."</select>\n";
+}
+
+sub build_user_group_selection {
+	my $afpconfRef = shift;
+	my $sectionRef = shift;
+	my $inRef = shift;
+	my $parameterName = shift;
+
+	my $parameterNameUnderscored = $parameterName; $parameterNameUnderscored =~ s/ /_/g;
+
+	my @values = get_parameter_of_section($afpconfRef, $sectionRef, $parameterName, $inRef);
+	my $result = "<table><tr><td align=left>$text{'edit_users'}</td><td align=left>\n";
+	$result .= sprintf("<input name='pu_$parameterNameUnderscored' size=40 value=\"%s\"> %s %s</td></tr>\n",
+		join(' ',  html_escape(((split_into_users_and_groups($values[0]))[0]))),
+		&user_chooser_button("pu_$parameterNameUnderscored", 1),
+		$values[2] ? html_escape(((split_into_users_and_groups($values[1]))[0]))." (".html_escape($values[2]).")" : '');
+	$result .= "<tr><td align=right>$text{'edit_groups'}</td><td align=left>\n";
+	$result .= sprintf("<input name='pg_$parameterNameUnderscored' size=40 value=\"%s\"> %s %s</td></tr>\n",
+		join(' ',  html_escape(((split_into_users_and_groups($values[0]))[1]))),
+		&user_chooser_button("pg_$parameterNameUnderscored", 1),
+		$values[2] ? html_escape(((split_into_users_and_groups($values[1]))[1]))." (".html_escape($values[2]).")" : '');
+	$result .= "</table>\n";
+
+	return $result;
 }
