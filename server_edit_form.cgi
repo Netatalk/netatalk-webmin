@@ -20,11 +20,9 @@ require 'netatalk2-lib.pl';
 
 &ReadParse();
 
-ui_print_header(undef, $text{'edit_server_header'}, "", "servers", 1);
+&ui_print_header(undef, $text{'edit_server_header'}, "", "servers", 1);
 
 local $servername = "";
-$ddpon = "-ddp";
-$tcpon = "-tcp";
 $savepasswon = "-savepassword";
 $setpasswon = "-setpassword";
 $iconon = "-icon";
@@ -58,10 +56,8 @@ $mimicmodel = $allServer{$offset}[10];
 $setuplog = $allServer{$offset}[11];
 $maccodepage = $allServer{$offset}[12];
 
-print "<p><p>\n";
-print "<form action=server_save_action.cgi>\n";
-
-print "<table width=100%>\n";
+print &ui_form_start('server_save_action.cgi', 'POST');
+print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
 	print "<tr>\n";
 	print "<td align=right><b>$text{'create_server_ServerName'}</b></td>\n";
 	print "<td colspan=4>";
@@ -76,16 +72,16 @@ print "<table width=100%>\n";
 		print "<td align=right><b>$text{'create_server_TCP'}</b></td>";
 		    print "<td>";
 			printf "<input type=radio %s name=tcpip value=-tcp>$text{'global_ON'}",
-				$tcpip =~ /$tcpon*/ ? "checked" : "";
+				$tcpip =~ /-tcp*|-transall*/ ? "checked" : "";
 			printf "<input type=radio %s name=tcpip value=-notcp>$text{'global_OFF'}",
-				$tcpip =~ /$tcpon*/ ? "" : "checked";
+				$tcpip =~ /-tcp*|-transall*/ ? "" : "checked";
 			print "</td></tr>";
 		print "<tr><td align=right><b>$text{'create_server_AppleTalk'}</b></td>";
 		print "<td>";
 		printf "<input type=radio name=ddp %s value=-ddp>$text{'global_ON'}",
-				$ddp =~ /$ddpon*/ ? "checked" : "";
+				$ddp =~ /-ddp*/ || $tcpip =~ /-transall*/ ? "checked" : "";
 			printf "<input type=radio name=ddp %s value=-noddp>$text{'global_OFF'}",
-				$ddp =~ /$ddpon*/ ? "" : "checked";
+				$ddp =~ /-ddp*/ || $tcpip =~ /-transall*/ ? "" : "checked";
 			print"</td>";
 	print "</tr>\n";
 	print "<tr>\n";
@@ -194,18 +190,15 @@ print "<table width=100%>\n";
 		    print "</select>\n";
 			print "</td>";
 	print "</tr>\n";
-print "</table>\n";
 
-print "<div><i>$text{'create_server_notice'}</i></div>";
+print &ui_table_end();
 printf "<input type=\"hidden\" name=\"old_servername\" value=\"%s\">\n",
 		$servername eq "" ? "-" : $servername;
-print "<input type=\"submit\" value=\"$text{'global_Save'}\">\n";
-print "</form>\n";
+print &ui_form_end([[undef, $text{'edit_save'}]]);
 
-print "<form action=\"server_delete_action.cgi\">";
+print &ui_form_start('server_delete_action.cgi', 'POST');
 printf "<input type=\"hidden\" name=\"delete_servername\" value=\"$servername\">\n",
 		$servername eq "" ? "-" : $servername;
-print "<input type=\"submit\" value=\"$text{'edit_delete'}\">\n";
-print "</form>\n";
+print &ui_form_end([[undef, $text{'edit_delete'}, ]]);
 
-ui_print_footer("index.cgi", $text{'index_module'});
+&ui_print_footer("index.cgi", $text{'index_module'});

@@ -56,7 +56,7 @@ while( $Allow =~ /([A-Za-z0-9@\$]+)/g) {
 	else{
 		push(@allow_users,$1);
 	}
-	
+
 }
 $Deny = getDeny($Old_shareName);
 while( $Deny =~ /([A-Za-z0-9@\$]+)/g) {
@@ -165,13 +165,18 @@ $Veto = getVeto($Old_shareName);
 $VolCharset = getVolCharset($Old_shareName);
 $Casefold = getCasefold($Old_shareName);
 
-print "<form action=fshare_save_action.cgi>\n";
+my @tabs = ( [ 'basic', $text{'edit_tab_basic'} ],
+             [ 'users', $text{'edit_tab_users'} ],
+             [ 'advanced', $text{'edit_tab_advanced'} ]
+            );
+
+print &ui_form_start('fshare_save_action.cgi', 'POST');
 print "<input type=\"hidden\" name=\"oldpath\" value=\"$Old_path\">\n";
 
-print "<table width=100%>\n";
-print "<tr $tb> <td><b>$text{'edit_tableheader'}</b></td></tr>\n";
-print "<tr $cb> <td>\n";
-print "<table >\n";
+print &ui_tabs_start(\@tabs, 'mode', 'basic');
+print &ui_tabs_start_tab('mode', 'basic');
+
+print &ui_table_start($text{'edit_tableheader'}, 'width="100%"', 2);
 
 	print "<tr><td align=right><b>$text{'edit_sharename'}</b></td>\n";
 	print "<td colspan=4>\n";
@@ -250,6 +255,16 @@ printf "<td colspan=4><input name=maccharset size=20 value=%s>\n",
 	$MacCharset ne "" ? $MacCharset : "";
 print "</td> </tr>\n";
 
+print "<tr> <td align=right><b>$text{'edit_VolCharset'}</b></td>\n";
+printf "<td colspan=4><input name=volcharset size=20 value=%s>\n",
+	$VolCharset ne "" ? $VolCharset : "";
+print "</td> </tr>\n";
+
+print "<tr> <td align=right><b>$text{'edit_Veto'}</b></td>\n";
+printf "<td colspan=4><input name=veto size=20 value=%s>\n",
+	$Veto ne "" ? $Veto : "";
+print "</td> </tr>\n";
+
 print "<tr><td  align=right valign=top><b>$text{'edit_MisceOptions'}</b></td>\n";
 print "<td align=left colspan=3> \n";
 printf "<input type=checkbox name=misc_options %s value=searchdb>$text{'edit_Optionssearchdb'} <br>\n",
@@ -271,6 +286,12 @@ printf "<input type=checkbox name=misc_options %s value=invisibledots>$text{'edi
 printf "<input type=checkbox name=misc_options %s value=followsymlinks>$text{'edit_Optionsfollowsymlinks'}<br></td>\n",
                  $limitsize eq "1" ? "checked" : "";
 print "</td></tr>\n";
+
+print &ui_table_end();
+
+print &ui_tabs_end_tab('mode', 'basic');
+print &ui_tabs_start_tab('mode', 'users');
+print &ui_table_start($text{'edit_tableheader'}, 'width="100%"', 2);
 
 print "<tr> <td align=right><b>$text{'edit_Password'}</b></td>\n";
 printf "<td colspan=4><input maxlength=8 name=password size=8 value=%s>\n",
@@ -297,16 +318,6 @@ printf "<td colspan=4><input name=umask size=8 value=%s>\n",
 	$Umask ne "" ? $Umask : "";
 print "</td> </tr>\n";
 
-print "<tr> <td align=right><b>$text{'edit_Veto'}</b></td>\n";
-printf "<td colspan=4><input name=veto size=20 value=%s>\n",
-	$Veto ne "" ? $Veto : "";
-print "</td> </tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_VolCharset'}</b></td>\n";
-printf "<td colspan=4><input name=volcharset size=20 value=%s>\n",
-	$VolCharset ne "" ? $VolCharset : "";
-print "</td> </tr>\n";
-
 print "<tr><td align=right valign=center><b>$text{'edit_Allow'}</b></td>\n";
 	print "<td align=left>$text{'edit_users'}</td> <td align=left>\n";
 printf "<input name=allow_users size=40 value=\"%s\"> %s</td> </tr>\n",
@@ -314,7 +325,7 @@ printf "<input name=allow_users size=40 value=\"%s\"> %s</td> </tr>\n",
 	&user_chooser_button("allow_users", 1);
 print "<tr>\n";
 	print"<td>&nbsp;&nbsp</td>\n";
-	print" <td align=right>$text{'edit_groups'}</td> <td colspan=3>\n";
+	print" <td align=left>$text{'edit_groups'}</td> <td colspan=3>\n";
 	printf "<input name=allow_groups size=40 value=\"%s\"> %s</td> </tr>\n",
 	join(' ', grep { !/^@/ } @allow_groups),
 	&group_chooser_button("allow_groups", 1);
@@ -326,7 +337,7 @@ printf "<input name=deny_users size=40 value=\"%s\"> %s</td> </tr>\n",
         &user_chooser_button("deny_users", 1);
 print "<tr>\n";
         print"<td>&nbsp;&nbsp</td>\n";
-        print" <td align=right>$text{'edit_groups'}</td> <td colspan=3>\n";
+        print" <td align=left>$text{'edit_groups'}</td> <td colspan=3>\n";
         printf "<input name=deny_groups size=40 value=\"%s\"> %s</td> </tr>\n",
         join(' ', grep { !/^@/ } @deny_groups),
         &group_chooser_button("deny_groups", 1);
@@ -338,7 +349,7 @@ printf "<input name=rolist_users size=40 value=\"%s\"> %s</td> </tr>\n",
         &user_chooser_button("rolist_users", 1);
 print "<tr>\n";
         print"<td>&nbsp;&nbsp</td>\n";
-        print" <td align=right>$text{'edit_groups'}</td> <td colspan=3>\n";
+        print" <td align=left>$text{'edit_groups'}</td> <td colspan=3>\n";
         printf "<input name=rolist_groups size=40 value=\"%s\"> %s</td> </tr>\n",
         join(' ', grep { !/^@/ } @rolist_groups),
         &group_chooser_button("rolist_groups", 1);
@@ -350,14 +361,16 @@ printf "<input name=rwlist_users size=40 value=\"%s\"> %s</td> </tr>\n",
         &user_chooser_button("rwlist_users", 1);
 print "<tr>\n";
         print"<td>&nbsp;&nbsp</td>\n";
-        print" <td align=right>$text{'edit_groups'}</td> <td colspan=3>\n";
+        print" <td align=left>$text{'edit_groups'}</td> <td colspan=3>\n";
         printf "<input name=rwlist_groups size=40 value=\"%s\"> %s</td> </tr>\n",
         join(' ', grep { !/^@/ } @rwlist_groups),
         &group_chooser_button("rwlist_groups", 1);
-print "</table> </td></tr>\n";
-print "<tr $tb> <td><b>$text{'edit_adv_tableheader'}</b></td></tr>\n";
-print "<tr $cb> <td><table >\n";
+print &ui_table_end();
 
+print &ui_tabs_end_tab('mode', 'users');
+print &ui_tabs_start_tab('mode', 'advanced');
+
+print &ui_table_start($text{'edit_tableheader'}, 'width="100%"', 2);
 print "<tr><td align=right valign=top ><b>$text{'edit_Casefold'}</b></td>\n";
 print "<td align=left colspan=3> \n";
 printf "<input type=radio name=casefold_options %s value=default>$text{'edit_Casefolddefault'}<br>\n",
@@ -395,13 +408,11 @@ printf "<input type=checkbox name=misc_options %s value=nohex>$text{'edit_Option
 printf "<input type=checkbox name=misc_options %s value=prodos>$text{'edit_Optionsprodos'} <br>\n",
 		 $prodos eq "1" ? "checked" : "";
 print "</td></tr>\n";
-print "</table> </td></tr>\n";
-print "</table>\n";
+print &ui_table_end();
 
-print "<input type=submit value=$text{'edit_Save'}></form>\n";
+print &ui_tabs_end_tab('mode', 'advanced');
+print &ui_tabs_end();
 
-print "<form action=fshare_delete_action.cgi>\n";
-print "<input type=hidden name=delete value=$Old_path>\n";
-print "<input type=submit value=$text{'global_Delete'}></form>\n";
+print &ui_form_end([[undef, $text{'edit_save'}]]);
 
-ui_print_footer("index.cgi", $text{'index_module'});
+&ui_print_footer("index.cgi", $text{'index_module'});

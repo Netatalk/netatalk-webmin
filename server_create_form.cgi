@@ -19,7 +19,7 @@
 
 require 'netatalk2-lib.pl';
 
-ui_print_header(undef, $text{'create_server_header'}, "", "servers", 1);
+&ui_print_header(undef, $text{'create_server_header'}, "", "servers", 1);
 
 $uams_guest = "uams_guest.so";
 $uams_clrtxt = "uams_clrtxt.so";
@@ -29,10 +29,10 @@ $uams_dhx2 = "uams_dhx2.so";
 $uams_gss = "uams_gss.so";
 
 &header($text{'create_server_header'},"", undef(), 1, 1, undef(),"<a href=\"help/configs.cgi\" target=\"_blank\">$text{help_configs}</a>");
-print "<p><p>\n";
-print "<form action=server_save_action.cgi>\n";
 
-print "<table width=100% >\n";
+print &ui_form_start('server_save_action.cgi', 'POST');
+print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
+
 	print "<tr>\n";
 	print "<td align=right><b>$text{'create_server_ServerName'}</b></td>\n";
 	print "<td>\n";
@@ -126,8 +126,8 @@ print "<table width=100% >\n";
 print "</table>\n";
 
 print "<div><i>$text{'create_server_notice'}</i></div>";
-print "<input type=submit value=$text{'edit_create'}>\n";
-print "<input type=reset value=$text{'edit_reset'}>\n";
-print "</form>\n";
 
-ui_print_footer("index.cgi", $text{'index_module'});
+print &ui_table_end();
+print &ui_form_end([[undef, $text{'edit_create'}]]);
+
+&ui_print_footer("index.cgi", $text{'index_module'});

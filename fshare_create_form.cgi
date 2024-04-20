@@ -20,7 +20,9 @@
 #   some tweaking).
 
 require 'netatalk2-lib.pl';
+
 my @tabs = ( [ 'basic', $text{'edit_tab_basic'} ],
+             [ 'users', $text{'edit_tab_users'} ],
              [ 'advanced', $text{'edit_tab_advanced'} ]
             );
 
@@ -30,10 +32,7 @@ print &ui_form_start('fshare_save_action.cgi', 'POST');
 print &ui_tabs_start(\@tabs, 'mode', 'basic');
 print &ui_tabs_start_tab('mode', 'basic');
 
-print "<table width=100%>\n";
-print "<tr $tb> <td><b>$text{'edit_tableheader'}</b></td></tr>\n";
-print "<tr $cb> <td>\n";
-print "<table>\n";
+print &ui_table_start($text{'edit_tableheader'}, 'width="100%"', 2);
 	print "<tr><td align=right><b>$text{'edit_sharename'}</b></td>\n";
 	print "<td colspan=4>\n";
 	print "<input size=44 name=share value=\"\" required>\n";
@@ -91,6 +90,13 @@ print "<tr> <td align=right><b>$text{'edit_MacCharset'}</b></td>\n";
 print "<td colspan=4><input name=maccharset size=20 value=\"\">\n";
 print "</td> </tr>\n";
 
+print "<tr> <td align=right><b>$text{'edit_VolCharset'}</b></td>\n";
+print "<td colspan=4><input name=volcharset size=20 value=\"\">\n";
+
+print "<tr> <td align=right><b>$text{'edit_Veto'}</b></td>\n";
+print "<td colspan=4><input name=veto size=20 value=\"\">\n";
+print "</td> </tr>\n";
+
 print "<tr><td align=right valign=top><b>$text{'edit_MisceOptions'}</b></td>\n";
 print "<td align=left colspan=3>\n";
 print "<input type=checkbox name=misc_options value=searchdb>$text{'edit_Optionssearchdb'} <br>\n";
@@ -103,6 +109,12 @@ print "<input type=checkbox name=misc_options value=usedots>$text{'edit_Optionsu
 print "<input type=checkbox name=misc_options value=invisibledots>$text{'edit_Optionsinvisibledots'}<br>\n";
 print "<input type=checkbox name=misc_options value=followsymlinks>$text{'edit_Optionsfollowsymlinks'}<br>\n";
 print "</td></tr>\n";
+
+print &ui_table_end();
+
+print &ui_tabs_end_tab('mode', 'basic');
+print &ui_tabs_start_tab('mode', 'users');
+print &ui_table_start($text{'edit_tableheader'}, 'width="100%"', 2);
 
 print "<tr> <td align=right><b>$text{'edit_Password'}</b></td>\n";
 	print "<td colspan=4><input maxlength=8 name=password size=8 value=\"\">\n";
@@ -122,14 +134,6 @@ print "</td> </tr>\n";
 
 print "<tr> <td align=right><b>$text{'edit_Umask'}</b></td>\n";
 print "<td colspan=4><input name=umask size=8 value=\"\">\n";
-print "</td> </tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_Veto'}</b></td>\n";
-print "<td colspan=4><input name=veto size=20 value=\"\">\n";
-print "</td> </tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_VolCharset'}</b></td>\n";
-print "<td colspan=4><input name=volcharset size=20 value=\"\">\n";
 print "</td> </tr>\n";
 
 print "<tr><td  align=right valign=center><b>$text{'edit_Allow'}</b></td>\n";
@@ -163,14 +167,12 @@ print "<tr>";
         print "<td>&nbsp;&nbsp;</td>\n";
         print "<td align=left>$text{'edit_groups'}</td> <td align=left>\n";
 printf "<input name=rwlist_groups size=40 value=\"\"> %s</td> </tr>\n",&group_chooser_button("rwlist_groups", 1);
-print "</table> </td></tr></table>\n";
+print &ui_table_end();
 
-print &ui_tabs_end_tab('mode', 'basic');
+print &ui_tabs_end_tab('mode', 'users');
 print &ui_tabs_start_tab('mode', 'advanced');
 
-print "<table><tr $tb> <td><b>$text{'edit_adv_tableheader'}</b></td></tr>\n";
-print "<tr $cb> <td>\n";
-print "<table>\n";
+print &ui_table_start($text{'edit_tableheader'}, 'width="100%"', 2);
 print "<tr><td align=right valign=top ><b>$text{'edit_Casefold'}</b></td>\n";
 print "<td align=left colspan=3>\n";
 print "<input type=radio name=casefold_options checked value=default>$text{'edit_Casefolddefault'}<br>\n";
@@ -193,8 +195,7 @@ print "<input type=checkbox name=misc_options value=nofileid>$text{'edit_Options
 print "<input type=checkbox name=misc_options value=nohex>$text{'edit_Optionsnohex'}<br>\n";
 print "<input type=checkbox name=misc_options value=prodos>$text{'edit_Optionsprodos'} <br>\n";
 print "</td></tr>\n";
-
-print "</table> </td></tr></table>\n";
+print &ui_table_end();
 
 print &ui_tabs_end_tab('mode', 'advanced');
 print &ui_tabs_end();

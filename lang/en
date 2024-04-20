@@ -59,10 +59,10 @@ index_server=Servers
 init_failed=Command "$1" failed
 
 edit_header=Create New File Share
-edit_tableheader=Basic Options
-edit_adv_tableheader=Advanced Options
-edit_tab_basic=Basic
-edit_tab_advanced=Advanced
+edit_tableheader=Shared Volume Options
+edit_tab_basic=Basic Options
+edit_tab_users=Users & Authentication
+edit_tab_advanced=Advanced Options
 edit_sharename=Share Name
 edit_sharedvolume=Shared Volume
 
@@ -132,7 +132,7 @@ edit_Casefoldtoupper=Uppercase names in both directions
 edit_Casefoldxlatelower=Client sees lowercase, server sees uppercase
 edit_Casefoldxlateupper=Client sees uppercase, server sees lowercase
 
-edit_Save=Save
+edit_save=Save
 edit_create=Create
 edit_delete=Delete
 
@@ -140,6 +140,7 @@ edit_server_header=Edit Server Configuration
 edit_server_delete_error=No server to delete
 
 create_server_header=Create New Server Configuration
+create_server_tableheader=Server Options
 create_server_ServerName=Server Name
 create_server_localhost=Use name of localhost
 create_server_TCP=TCP/IP
@@ -158,7 +159,7 @@ create_server_setuplog_help=Example: default log_maxdebug /var/log/afpd.log
 create_server_maccodepage=Client Codepage
 create_server_default=Default
 create_server_no_auth=No Authentication
-create_server_disabled=Disabled
+create_server_disabled=None
 
 create_server_notice=Note: This is not a comprehensive list of options. Please edit afpd.conf manually for advanced options.
 

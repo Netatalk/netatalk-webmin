@@ -17,9 +17,9 @@
 
 require 'netatalk2-lib.pl';
 
-ui_print_header(undef, $text{'delete_file_share_title'}, "", "shares", 1);
+&ui_print_header(undef, $text{'delete_file_share_title'}, "", "shares", 1);
 
-print "<form action=fshare_delete_action.cgi>\n";
+print &ui_form_start('fshare_delete_action.cgi', 'POST');
 
 print "<h4>Select File Share</h4>\n";
 
@@ -32,11 +32,11 @@ foreach $s (open_afile())
 	$shareName= getShareName($s);
 	$Path     = getPath($s);
 	$show     = "$shareName ($Path)";
-	
+
 	print "<option value=$Path> $show\n";
 }
 
 print "</select>\n";
-print "<input type=submit value=$text{edit_delete}> </form>\n";
+print &ui_form_end([[undef, $text{'edit_delete'}, ]]);
 
 ui_print_footer("index.cgi", $text{'index_module'});
