@@ -27,13 +27,13 @@ index_options=Options
 index_secutity=Security
 index_create_file_share=Create New File Share
 index_delete_file_share=Delete File Share
-index_stop_service=Stop Service 
-index_not_running_services=Netatalk services are not running. 
-index_running_services=Netatalk services are running. 
-index_not_running=Service is not running 
+index_stop_service=Stop Service
+index_not_running_services=Netatalk services are not running.
+index_running_services=Netatalk services are running.
+index_not_running=Service is not running
 index_start_service=Start Netatalk Service
-index_running_service=Service is running 
-index_ever=The afpd program was not found on your system. Maybe Netatalk is not installed, or your <a href='$2'> module configuration</a> is incorrect.
+index_running_service=Service is running
+index_ever=The afpd program was not found on your system. Maybe Netatalk is not installed, or your <a href='$2'>module configuration</a> is incorrect.
 index_volumes=Shared Volumes
 index_capabilities=View Server Capabilities
 index_no_file_shares=No shared volumes have been defined
@@ -59,8 +59,10 @@ index_server=Servers
 init_failed=Command "$1" failed
 
 edit_header=Create New File Share
-edit_tableheader=Common Options
+edit_tableheader=Basic Options
 edit_adv_tableheader=Advanced Options
+edit_tab_basic=Basic
+edit_tab_advanced=Advanced
 edit_sharename=Share Name
 edit_sharedvolume=Shared Volume
 
@@ -132,7 +134,6 @@ edit_Casefoldxlateupper=Client sees uppercase, server sees lowercase
 
 edit_Save=Save
 edit_create=Create
-edit_reset=Reset
 edit_delete=Delete
 
 edit_server_header=Edit Server Configuration

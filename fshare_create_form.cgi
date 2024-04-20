@@ -16,14 +16,20 @@
 #    GNU General Public License for more details.
 
 # This module is mostly Sven's with my overhaul additions and changed.
-# I had written one as well, but liked his O-O approach to things (after 
+# I had written one as well, but liked his O-O approach to things (after
 #   some tweaking).
 
 require 'netatalk2-lib.pl';
+my @tabs = ( [ 'basic', $text{'edit_tab_basic'} ],
+             [ 'advanced', $text{'edit_tab_advanced'} ]
+            );
 
 ui_print_header(undef, $text{'edit_header'}, "", "shares", 1);
 
-print "<form action=fshare_save_action.cgi>\n";
+print &ui_form_start('fshare_save_action.cgi', 'POST');
+print &ui_tabs_start(\@tabs, 'mode', 'basic');
+print &ui_tabs_start_tab('mode', 'basic');
+
 print "<table width=100%>\n";
 print "<tr $tb> <td><b>$text{'edit_tableheader'}</b></td></tr>\n";
 print "<tr $cb> <td>\n";
@@ -157,12 +163,14 @@ print "<tr>";
         print "<td>&nbsp;&nbsp;</td>\n";
         print "<td align=left>$text{'edit_groups'}</td> <td align=left>\n";
 printf "<input name=rwlist_groups size=40 value=\"\"> %s</td> </tr>\n",&group_chooser_button("rwlist_groups", 1);
-print "</table> </td></tr>\n";
+print "</table> </td></tr></table>\n";
 
-print "<tr $tb> <td><b>$text{'edit_adv_tableheader'}</b></td></tr>\n";
+print &ui_tabs_end_tab('mode', 'basic');
+print &ui_tabs_start_tab('mode', 'advanced');
+
+print "<table><tr $tb> <td><b>$text{'edit_adv_tableheader'}</b></td></tr>\n";
 print "<tr $cb> <td>\n";
 print "<table>\n";
-
 print "<tr><td align=right valign=top ><b>$text{'edit_Casefold'}</b></td>\n";
 print "<td align=left colspan=3>\n";
 print "<input type=radio name=casefold_options checked value=default>$text{'edit_Casefolddefault'}<br>\n";
@@ -188,8 +196,9 @@ print "</td></tr>\n";
 
 print "</table> </td></tr></table>\n";
 
-print "<input type=submit value=$text{'edit_create'}>\n";
-print "<input type=reset value=$text{'edit_reset'}>\n";
-print "</form>";
+print &ui_tabs_end_tab('mode', 'advanced');
+print &ui_tabs_end();
 
-ui_print_footer("index.cgi", $text{'index_module'});
+print &ui_form_end([[undef, $text{'edit_create'}]]);
+
+&ui_print_footer("index.cgi", $text{'index_module'});
