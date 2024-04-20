@@ -1,3 +1,19 @@
+1.0:
+* full support for netatalk 3.1.18
+* exposed all Global Server options (except debug ones)
+* exposed all Volume options (except root exec ones)
+* exposed select Home Volume options
+* introduced a tabbed GUI to house all the settings,
+  and rearranged them into logical groupings
+* added through default values for options
+* added more contextual help text for options
+* made the mimic model option a text field
+* pointed manual URL to the netatalk.io domain
+* server status page error handling
+* pull in GUI icons from the Webmin Authentic theme,
+  and add a LICENSE with attribution
+* added a make install target for Fedora
+
 0.3:
 * added page with the output from asip-status
 * improved user management page
