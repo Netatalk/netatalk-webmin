@@ -30,10 +30,10 @@ if (!-x $config{'afpd_d'}) {
 
 @Shares = open_afile();
 
-# Print AFP volumes	
+# Print AFP volumes
 print "    <h3>$text{index_volumes}</h3>\n";
 print "    <table width=\"100%\" border>\n";
-print "    <tr $tb>"; 
+print "    <tr $tb>";
 print "        <td>$text{'index_sharename'}</td>";
 print "        <td>$text{'index_path'}</td>\n";
 print "        <td>$text{'index_options'}</td>\n";
@@ -44,7 +44,7 @@ if(@Shares){
 		$path = getPath($s);
 		$options = getAllOptions($s);
 		print "<tr $cb>\n";
-		print "    <td><a href=\"fshare_edit_form.cgi?shareName=$sharename&path=$path\">$sharename</a></td>";
+		print "    <td><a href=\"fshare_edit_form.cgi?shareName=$sharename&path=$path&action=edit\">$sharename</a></td>";
 		print "    <td>$path</td>";
 		print "    <td>$options</td>";
 		print "</tr>";
@@ -54,7 +54,7 @@ if(@Shares){
 }
 print "</table>\n";
 
-my @volume_links = ("fshare_create_form.cgi","fshare_delete_form.cgi");
+my @volume_links = ("fshare_edit_form.cgi?action=create","fshare_delete_form.cgi");
 my @volume_titles = ($text{'index_create_file_share'},$text{'index_delete_file_share'});
 my @volume_icons = ("images/volumes.gif","images/delete.gif");
 icons_table(\@volume_links, \@volume_titles, \@volume_icons);

@@ -23,7 +23,13 @@
 require 'netatalk2-lib.pl';
 
 &ReadParse();
-ui_print_header(undef, $text{'edit_file_share_title'}, "", "shares", 1);
+
+if ($in{action} =~ /create/) {
+	ui_print_header(undef, $text{'edit_header'}, "", "shares", 1);
+}
+elsif ($in{action} =~ /edit/) {
+	ui_print_header(undef, $text{'edit_file_share_title'}, "", "shares", 1);
+}
 
 open_afile();
 
@@ -171,7 +177,10 @@ my @tabs = ( [ 'basic', $text{'edit_tab_basic'} ],
             );
 
 print &ui_form_start('fshare_save_action.cgi', 'POST');
-print "<input type=\"hidden\" name=\"oldpath\" value=\"$Old_path\">\n";
+
+if ($in{action} =~ /edit/) {
+	print "<input type=\"hidden\" name=\"oldpath\" value=\"$Old_path\">\n";
+}
 
 print &ui_tabs_start(\@tabs, 'mode', 'basic');
 print &ui_tabs_start_tab('mode', 'basic');

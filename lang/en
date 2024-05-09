@@ -133,7 +133,6 @@ edit_Casefoldxlatelower=Client sees lowercase, server sees uppercase
 edit_Casefoldxlateupper=Client sees uppercase, server sees lowercase
 
 edit_save=Save
-edit_create=Create
 edit_delete=Delete
 
 edit_server_header=Edit Server Configuration
