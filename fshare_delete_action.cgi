@@ -18,9 +18,11 @@ require './netatalk2-lib.pl';
 
 &ReadParse();
 
-if($in{delete}){
-	$info = $in{delete};
-	$lines = deleteSpezLine($applevolume_default, $info);
+if($in{delete_volumepath}){
+	$lines = deleteSpezLine($applevolume_default, $in{delete_volumepath});
+}
+else {
+	die $text{'edit_volume_delete_error'};
 }
 
 redirect("index.cgi");

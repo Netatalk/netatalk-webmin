@@ -5,6 +5,7 @@
 #    Netatalk Webmin Module
 #    Copyright (C) 2000 by Matthew Keller <kellermg@potsdam.edu>
 #    Copyright (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
+#    Copyright (C) 2023-4 by Daniel Markstedt <daniel@mindani.net>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -423,5 +424,11 @@ print &ui_tabs_end_tab('mode', 'advanced');
 print &ui_tabs_end();
 
 print &ui_form_end([[undef, $text{'edit_save'}]]);
+
+if ($in{action} =~ /edit/) {
+	print &ui_form_start('fshare_delete_action.cgi', 'POST');
+	print "<input type=\"hidden\" name=\"delete_volumepath\" value=\"$Old_path\">\n";
+	print &ui_form_end([[undef, $text{'edit_delete'}, ]]);
+}
 
 &ui_print_footer("index.cgi", $text{'index_module'});

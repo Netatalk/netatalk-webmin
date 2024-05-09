@@ -5,7 +5,6 @@ index_module=Module Index
 servers_title=Virtual Servers
 users_title=Connected Users
 edit_file_share_title=Edit File Share
-delete_file_share_title=Delete File Share
 
 author=Matthew Keller
 module_author=Matthew Keller
@@ -65,6 +64,7 @@ edit_tab_users=Users & Authentication
 edit_tab_advanced=Advanced Options
 edit_sharename=Share Name
 edit_sharedvolume=Shared Volume
+edit_volume_delete_error=No volume with that path to delete
 
 edit_homedirectory=Home Directories
 edit_directory=Directory
