@@ -4,7 +4,8 @@
 #
 #    Netatalk Webmin Module
 #    Copyright (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
-#    Some code (C) 2000 by Matthew Keller <kellermg@potsdam.edu>
+#    Copyright (C) 2000 by Matthew Keller <kellermg@potsdam.edu>
+#    Copyright (C) 2023-4 by Daniel Markstedt <daniel@mindani.net>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -20,7 +21,7 @@ require 'netatalk2-lib.pl';
 
 &ReadParse();
 
-&ui_print_header(undef, $text{'edit_server_header'}, "", "servers", 1);
+%allServer = getAllAfpd();
 
 local $servername = "";
 $savepasswon = "-savepassword";
@@ -33,28 +34,39 @@ $uams_randnum = "uams_randnum.so";
 $uams_dhx = "uams_dhx.so";
 $uams_dhx2 = "uams_dhx2.so";
 $uams_gss = "uams_gss.so";
+if ($in{action} =~ /create/) {
+	&ui_print_header(undef, $text{'create_server_header'}, "", "servers", 1);
 
-if($in{offset}){
-	$offset=$in{offset};
+	$tcpip = "-transall";
+	$savepass = $savepasswon;
+	$uamlist = $uams_dhx2;
 }
-else{
-	$offset=0;
-}
+elsif ($in{action} =~ /edit/) {
+	if ($in{offset}) {
+		$offset = $in{offset};
+	}
+	else {
+		$offset = 0;
+	}
+	&ui_print_header(undef, $text{'edit_server_header'}, "", "servers", 1);
 
-%allServer = getAllAfpd();
-$servername = $allServer{$offset}[0];
-$tcpip = $allServer{$offset}[1];
-$ddp = $allServer{$offset}[2];
-$port = $allServer{$offset}[3];
-$address = $allServer{$offset}[4];
-$loginmsg = $allServer{$offset}[5];
-$savepass = $allServer{$offset}[6];
-$setpass = $allServer{$offset}[7];
-$uamlist = $allServer{$offset}[8];
-$icon = $allServer{$offset}[9];
-$mimicmodel = $allServer{$offset}[10];
-$setuplog = $allServer{$offset}[11];
-$maccodepage = $allServer{$offset}[12];
+	$servername = $allServer{$offset}[0];
+	$tcpip = $allServer{$offset}[1];
+	$ddp = $allServer{$offset}[2];
+	$port = $allServer{$offset}[3];
+	$address = $allServer{$offset}[4];
+	$loginmsg = $allServer{$offset}[5];
+	$savepass = $allServer{$offset}[6];
+	$setpass = $allServer{$offset}[7];
+	$uamlist = $allServer{$offset}[8];
+	$icon = $allServer{$offset}[9];
+	$mimicmodel = $allServer{$offset}[10];
+	$setuplog = $allServer{$offset}[11];
+	$maccodepage = $allServer{$offset}[12];
+}
+else {
+	die("Unknown action type. Are you trying something naughty?")
+}
 
 print &ui_form_start('server_save_action.cgi', 'POST');
 print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
@@ -112,7 +124,7 @@ print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
 				$port =~ /[0-9]/ ? $port : "";
 	print "</tr>\n";
 	print "<tr>\n";
-		print "<td align=right><b>$text{'create_server_pass'}</b></td>";
+		print "<td align=right><b>$text{'create_server_setpass'}</b></td>";
 		printf "<td><input name=setpassword type=radio %s value=-setpassword>$text{'global_ON'}",
 				$setpass =~ /$setpasswon/ ? "checked" : "";
 			printf "<input type=radio %s name=setpassword value=-nosetpassword>$text{'global_OFF'}",
@@ -120,7 +132,7 @@ print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
 		print "</td>";
 	print "</tr>\n";
 	print "<tr>\n";
-		print "<td align=right><b>$text{'create_server_setpass'}</b></td>";
+		print "<td align=right><b>$text{'create_server_pass'}</b></td>";
 		printf "<td><input type=radio %s name=savepassword value=-savepassword>$text{'global_ON'}",
 				$savepass =~ /$savepasswon*/ ? "checked" : "";
 			printf "<input type=radio %s name=savepassword value=-nosavepassword>$text{'global_OFF'}",
@@ -192,13 +204,18 @@ print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
 	print "</tr>\n";
 
 print &ui_table_end();
+print "<div><i>$text{'create_server_notice'}</i></div>";
+if ($in{action} =~ /edit/) {
 printf "<input type=\"hidden\" name=\"old_servername\" value=\"%s\">\n",
 		$servername eq "" ? "-" : $servername;
+}
 print &ui_form_end([[undef, $text{'edit_save'}]]);
 
-print &ui_form_start('server_delete_action.cgi', 'POST');
-printf "<input type=\"hidden\" name=\"delete_servername\" value=\"$servername\">\n",
+if ($in{action} =~ /edit/) {
+	print &ui_form_start('server_delete_action.cgi', 'POST');
+	printf "<input type=\"hidden\" name=\"delete_servername\" value=\"$servername\">\n",
 		$servername eq "" ? "-" : $servername;
-print &ui_form_end([[undef, $text{'edit_delete'}, ]]);
+	print &ui_form_end([[undef, $text{'edit_delete'}, ]]);
+}
 
 &ui_print_footer("index.cgi", $text{'index_module'});

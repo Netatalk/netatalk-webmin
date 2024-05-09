@@ -88,14 +88,14 @@ if(@Servers[1] ne ""){
 			$i++;
 			$pointer=$i;
 			$offset++;
-			print"<td><a href=\"server_edit_form.cgi?$offsetStr$offset\">$Servers[$i]</a></td>\n";
+			print"<td><a href=\"server_edit_form.cgi?action=edit&$offsetStr$offset\">$Servers[$i]</a></td>\n";
 		}
 		elsif($i ne 0 && $i >1){
 			print"<td>$Servers[$i]</td>\n";
 		}
 		elsif($i ne 0 && $i eq 1){
 			$pointer=$i;
-			print"<td><a href=\"server_edit_form.cgi?$offsetStr$offset\">$Servers[$i]</a></td>\n";
+			print"<td><a href=\"server_edit_form.cgi?action=edit&$offsetStr$offset\">$Servers[$i]</a></td>\n";
 		}
 	}
 	print "</tr>\n";
@@ -108,7 +108,7 @@ if(@Servers[1] ne ""){
 }
 print "</table>\n";
 
-my @server_links = ("server_create_form.cgi","show_users.cgi","edit_configfiles_form.cgi", "server_status.cgi");
+my @server_links = ("server_edit_form.cgi?action=create","show_users.cgi","edit_configfiles_form.cgi", "server_status.cgi");
 my @server_titles = ($text{'index_newServer'},$text{'index_users'},$text{'index_edit'}, "$text{index_capabilities}");
 my @server_icons = ("images/server.gif","images/users.gif","images/edit.gif", "images/inspect.gif");
 icons_table(\@server_links, \@server_titles, \@server_icons);
