@@ -2,10 +2,8 @@
 #
 #    Netatalk Webmin Module
 #    Copyright (C) 2000 by Matthew Keller <kellermg@potsdam.edu>
-#    Some code (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
-#    Contributions from:
-#	Sven Mosimann <sven.mosimann@ecologic.ch>
-#    Copyright (C) 2023 Daniel Markstedt <daniel@mindani.net>
+#    Copyright (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
+#    Copyright (C) 2023-4 Daniel Markstedt <daniel@mindani.net>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -53,11 +51,9 @@ if(@Shares){
 	print "<tr><td><b>$text{'index_no_file_shares'}</b></td></tr>";
 }
 print "</table>\n";
-
-my @volume_links = ("fshare_edit_form.cgi?action=create","fshare_delete_form.cgi");
-my @volume_titles = ($text{'index_create_file_share'},$text{'index_delete_file_share'});
-my @volume_icons = ("images/volumes.gif","images/delete.gif");
-icons_table(\@volume_links, \@volume_titles, \@volume_icons);
+print ui_buttons_start();
+print ui_buttons_row('fshare_edit_form.cgi?action=create', $text{'index_create_file_share'});
+print ui_buttons_end();
 
 print &ui_hr();
 
@@ -100,17 +96,21 @@ if(@Servers[1] ne ""){
 	}
 	print "</tr>\n";
 } else {
-	# Print the default server settings when none are defined in afpd.conf
 	$hostname = `hostname`;
 	print "<tr><td><b>$text{'server_default_active'}</b></td></tr>";
-	print "<tr><td>$hostname</td><td>$text{'create_server_AppleTalk'}, $text{'create_server_TCP'}</td>";
-	print "<td>uams_dhx2.so</td><td>$text{'create_server_default'}</td><td>$text{'create_server_default'}</td></tr>";
 }
 print "</table>\n";
+print ui_buttons_start();
+print ui_buttons_row('server_edit_form.cgi?action=create', $text{'index_create_server'});
+print ui_buttons_end();
 
-my @server_links = ("server_edit_form.cgi?action=create","show_users.cgi","edit_configfiles_form.cgi", "server_status.cgi");
-my @server_titles = ($text{'index_newServer'},$text{'index_users'},$text{'index_edit'}, "$text{index_capabilities}");
-my @server_icons = ("images/server.gif","images/users.gif","images/edit.gif", "images/inspect.gif");
+print &ui_hr();
+
+print"<h3>$text{index_global}</h3>\n";
+
+my @server_links = ("show_users.cgi", "edit_configfiles_form.cgi", "server_status.cgi");
+my @server_titles = ($text{'index_users'}, $text{'index_edit'}, "$text{index_capabilities}");
+my @server_icons = ("images/users.gif", "images/edit.gif", "images/server.gif");
 icons_table(\@server_links, \@server_titles, \@server_icons);
 
 print &ui_hr();

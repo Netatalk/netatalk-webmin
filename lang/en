@@ -8,9 +8,9 @@ edit_file_share_title=Edit File Share
 
 author=Matthew Keller
 module_author=Matthew Keller
-homepage=netatalk.sourceforge.io
+homepage=netatalk.io
 copyright=see module source
-license=GPL
+license=GPLv2
 
 global_ON=ON
 global_OFF=OFF
@@ -25,7 +25,6 @@ index_path=Path
 index_options=Options
 index_secutity=Security
 index_create_file_share=Create New File Share
-index_delete_file_share=Delete File Share
 index_stop_service=Stop Service
 index_not_running_services=Netatalk services are not running.
 index_running_services=Netatalk services are running.
@@ -35,7 +34,7 @@ index_running_service=Service is running
 index_ever=The afpd program was not found on your system. Maybe Netatalk is not installed, or your <a href='$2'>module configuration</a> is incorrect.
 index_volumes=Shared Volumes
 index_capabilities=View Server Capabilities
-index_no_file_shares=No shared volumes have been defined
+index_no_file_shares=No shared volumes have been defined; Users can access only their home directories.
 
 index_process_control_restart_txt=Restart netatalk services using <code>$1</code>
 index_process_control_start_txt=Start netatalk services using <code>$1</code>
@@ -49,10 +48,11 @@ index_protocols=Active Protocols
 index_auth=Active Authentication Methods
 index_port=Port
 index_address=IP Address
-index_newServer=Create New Server
+index_create_server=Create New Server
+index_global=Global Configurations and Options
 
 server_header=Servers
-server_default_active=Default server configuration active; Create new server to override
+server_default_active=Default server configuration active; Create new server to override.
 
 index_server=Servers
 init_failed=Command "$1" failed
