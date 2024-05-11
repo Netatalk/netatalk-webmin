@@ -513,7 +513,7 @@ sub createNewFileShare
 	}
 	else{
 		$pathli = $in{path};
-		if($pathli && 1 eq getPathOK($pathli)){
+		if($pathli){
 			$new_line = "$pathli ";
 		}
 		else{
@@ -767,7 +767,6 @@ sub readAfpd
 
 #------------------------------------------------------------------
 #Function reads afpd.conf and stores data for editing in an array
-#
 #------------------------------------------------------------------
 sub getAllAfpd
 {
