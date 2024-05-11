@@ -54,7 +54,6 @@ $MacCharset = getMacCharset($Old_shareName);
 
 $Allow = getAllow($Old_shareName);
 while( $Allow =~ /([A-Za-z0-9@\$]+)/g) {
-	#print "users : $1 <br>\n";
 	if($1 =~ /^([@].*)/){
 		if($1 =~ /([A-Za-z0-9\$]+)/){
 			push(@allow_groups,$1);
@@ -94,17 +93,17 @@ while( $Options =~ /\b([A-Za-z]+)\b/g) {
 		$limitsize=1;
 	}
 	elsif($1 eq "ro"){
-                $ro=1;
-        }
+		$ro=1;
+	}
 	elsif($1 eq "upriv"){
 		$upriv=1;
 	}
 	elsif($1 eq "usedots"){
-                $usedots=1;
-        }
+		$usedots=1;
+	}
 	elsif($1 eq "followsymlinks"){
-                $followsymlinks=1;
-        }
+		$followsymlinks=1;
+	}
 	elsif($1 eq "caseinsensitive"){
 		$caseinsensitive=1;
 	}
@@ -115,23 +114,23 @@ while( $Options =~ /\b([A-Za-z]+)\b/g) {
 		$illegalseq=1;
 	}
 	elsif($1 eq "mswindows"){
-                $mswindows=1;
-        }
+    $mswindows=1;
+  }
 	elsif($1 eq "noadouble"){
 		$noadouble=1;
 	}
 	elsif($1 eq "nocnidcache"){
-                $nocnidcache=1;
-        }
+	  $nocnidcache=1;
+  }
 	elsif($1 eq "nodev"){
-                $nodev=1;
-        }
+    $nodev=1;
+  }
 	elsif($1 eq "nofileid"){
-                $nofileid=1;
-        }
+    $nofileid=1;
+  }
 	elsif($1 eq "nohex"){
-                $nohex=1;
-        }
+    $nohex=1;
+  }
 	elsif($1 eq "prodos"){
 		$prodos=1;
 	}
@@ -187,115 +186,123 @@ print &ui_tabs_start(\@tabs, 'mode', 'basic');
 print &ui_tabs_start_tab('mode', 'basic');
 
 print &ui_table_start($text{'edit_tableheader'}, 'width="100%"', 2);
-
-	print "<tr><td align=right><b>$text{'edit_sharename'}</b></td>\n";
-	print "<td colspan=4>\n";
-	print "<input size=44 name=share value=\"$Old_shareName\" required>\n";
-	print "</td> </tr>\n";
-print "<tr>\n";
-print "<td align=right><b>$text{'edit_sharedvolume'}</b></td>\n";
-print "<td colspan=4>";
-	printf "<input type=radio name=homes value=0 %s>\n",
-		($Old_path ne "~" && $Old_path ne "~/") ? "checked" : "";
-	printf "$text{'edit_directory'}<input name=path size=26 value=\"%s\" >\n",
-		($Old_path ne "~" && $Old_path ne "~/") ? $Old_path: "";
-	print &file_chooser_button("path", 1);
-	print "<a href=\"/filemin\" target=\"_blank\">$text{'edit_filemanager_link'}</a><br>\n";
-	printf "<input type=radio name=homes value=1 %s >$text{'edit_homedirectory'}<br>\n",
-		($Old_path eq "~" || $Old_path eq "~/") ? "checked" : "";
-print "</td> </tr>\n";
-
-print "<tr><td align=right valign=top ><b>$text{'edit_Adouble'}</b></td>\n";
-print "<td align=left colspan=3>\n";
-printf "<input type=radio name=adouble_options %s value=default>$text{'edit_default'}<br>\n",
-		 $Adouble eq "" ? "checked" : "";
-printf "<input type=radio name=adouble_options %s value=v1>$text{'edit_Adoublev1'}<br>\n",
-		 $Adouble eq "v1" ? "checked" : "";
-printf "<input type=radio name=adouble_options %s value=v2>$text{'edit_Adoublev2'}<br>\n",
-		 $Adouble eq "v2" ? "checked" : "";
-print "</td></tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_Volsizelimit'}</b></td>\n";
-printf "<td colspan=4><input type=\"number\" name=volsizelimit min=\"1\" max=\"99999\" value=%s>\n",
-	$Volsizelimit ne "" ? $Volsizelimit : "";
-print "</td> </tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_AllowedHosts'}</b></td>\n";
-printf "<td colspan=4><input name=allowed_hosts size=20 value=%s>\n",
-	$AllowedHosts ne "" ? $AllowedHosts : "";
-print "</td> </tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_DeniedHosts'}</b></td>\n";
-printf "<td colspan=4><input name=denied_hosts size=20 value=%s>\n",
-	$DeniedHosts ne "" ? $DeniedHosts : "";
-print "</td> </tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_CnidScheme'}</b></td>\n";
-printf "<td colspan=4><input name=cnidscheme size=5 value=%s>\n",
-	$CnidScheme ne "" ? $CnidScheme : "";
-print "</td> </tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_CnidServer'}</b></td>\n";
-printf "<td colspan=4><input name=cnidserver size=20 value=%s>\n",
-	$CnidServer ne "" ? $CnidServer : "";
-print "</td> </tr>\n";
-
-print "<tr><td align=right> <b>$text{'edit_DataBase'}</b></td>\n";
-printf "<td colspan=4><input name=dbpath size=40 value=%s >\n",
-	$Database ne "" ? $Database :  "";
-print &file_chooser_button("dbpath", 1);
-print "</td> </tr>\n";
-
-print "<tr><td align=right valign=top ><b>$text{'edit_Ea'}</b></td>\n";
-print "<td align=left colspan=3>\n";
-printf "<input type=radio name=ea_options %s value=default>$text{'edit_default'}<br>\n",
-		 $Ea eq "" ? "checked" : "";
-printf "<input type=radio name=ea_options %s value=auto>$text{'edit_Eaauto'}<br>\n",
-		 $Ea eq "auto" ? "checked" : "";
-printf "<input type=radio name=ea_options %s value=sys>$text{'edit_Easys'}<br>\n",
-		 $Ea eq "sys" ? "checked" : "";
-printf "<input type=radio name=ea_options %s value=ad>$text{'edit_Eaad'}<br>\n",
-		 $Ea eq "ad" ? "checked" : "";
-printf "<input type=radio name=ea_options %s value=none>$text{'edit_Eanone'}<br>\n",
-		 $Ea eq "none" ? "checked" : "";
-print "</td></tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_MacCharset'}</b></td>\n";
-printf "<td colspan=4><input name=maccharset size=20 value=%s>\n",
-	$MacCharset ne "" ? $MacCharset : "";
-print "</td> </tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_VolCharset'}</b></td>\n";
-printf "<td colspan=4><input name=volcharset size=20 value=%s>\n",
-	$VolCharset ne "" ? $VolCharset : "";
-print "</td> </tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_Veto'}</b></td>\n";
-printf "<td colspan=4><input name=veto size=20 value=%s>\n",
-	$Veto ne "" ? $Veto : "";
-print "</td> </tr>\n";
-
-print "<tr><td  align=right valign=top><b>$text{'edit_MisceOptions'}</b></td>\n";
-print "<td align=left colspan=3> \n";
-printf "<input type=checkbox name=misc_options %s value=searchdb>$text{'edit_Optionssearchdb'} <br>\n",
-		 $searchdb eq "1" ? "checked" : "";
-printf "<input type=checkbox name=misc_options %s value=tm>$text{'edit_Optionstm'}<br>\n",
-		 $tm eq "1" ? "checked" : "";
-printf "<input type=checkbox name=misc_options %s value=nonetids>$text{'edit_Optionsnonetids'}<br>\n",
-                 $nonetids eq "1" ? "checked" : "";
-printf "<input type=checkbox name=misc_options %s value=limitsize>$text{'edit_Optionslimitsize'}<br>\n",
-                 $limitsize eq "1" ? "checked" : "";
-printf "<input type=checkbox name=misc_options %s value=ro>$text{'edit_Optionsro'}<br>\n",
-                 $ro eq "1" ? "checked" : "";
-printf "<input type=checkbox name=misc_options %s value=upriv>$text{'edit_Optionsupriv'}<br>\n",
-                 $upriv eq "1" ? "checked" : "";
-printf "<input type=checkbox name=misc_options %s value=usedots>$text{'edit_Optionsusedots'}<br>\n",
-                 $usedots eq "1" ? "checked" : "";
-printf "<input type=checkbox name=misc_options %s value=invisibledots>$text{'edit_Optionsinvisibledots'}<br>\n",
-		 $invisibledots eq "1" ? "checked" : "";
-printf "<input type=checkbox name=misc_options %s value=followsymlinks>$text{'edit_Optionsfollowsymlinks'}<br></td>\n",
-                 $limitsize eq "1" ? "checked" : "";
-print "</td></tr>\n";
+print &ui_table_row($text{'edit_sharename'},
+	&ui_textbox('share', $Old_shareName, 44, undef, undef, 'required')
+);
+print &ui_table_row($text{'edit_sharedvolume'},
+	"<input type=radio name=homes value=0 "
+	.(($Old_path ne "~" && $Old_path ne "~/") ? "checked" : "").">"
+	.$text{'edit_directory'}."<input name=path size=30 value="
+	.(($Old_path ne "~" && $Old_path ne "~/") ? $Old_path: "").">"
+	.&file_chooser_button("path", 1)
+	."<a href=\"/filemin\" target=\"_blank\">".$text{'edit_filemanager_link'}
+	."</a><br><input type=radio name=homes value=1 "
+	.(($Old_path eq "~" || $Old_path eq "~/") ? "checked" : "").">"
+	.$text{'edit_homedirectory'}."<br>"
+);
+print &ui_table_row($text{'edit_Adouble'},
+	'<select name="adouble_options">'
+	.'<option value="">'.$text{'edit_default'}.'</option>'
+	.'<option value="v1" '
+	.($Ea =~ /v1/ ? 'selected' : '')
+	.'>'.$text{'edit_Adoublev1'}.'</option>'
+	.'<option value="v2" '
+	.($Ea =~ /v2/ ? 'selected' : '')
+	.'>'.$text{'edit_Adoublev2'}.'</option>'
+	.'</select>'
+);
+print &ui_table_row($text{'edit_Volsizelimit'},
+	"<input type=\"number\" name=volsizelimit min=\"1\" max=\"99999\" value="
+	.$Volsizelimit.">\n"
+);
+print &ui_table_row($text{'edit_AllowedHosts'},
+	&ui_textbox('allowed_hosts', $AllowedHosts, 20)
+);
+print &ui_table_row($text{'edit_DeniedHosts'},
+	&ui_textbox('denied_hosts', $DeniedHosts, 20)
+);
+print &ui_table_row($text{'edit_CnidScheme'},
+	&ui_textbox('cnidscheme', $CnidScheme, 10)
+	." ".$text{'edit_CnidScheme_help'}
+);
+print &ui_table_row($text{'edit_CnidServer'},
+	&ui_textbox('cnidserver', $CnidServer, 20)
+);
+print &ui_table_row($text{'edit_DataBase'},
+	&ui_filebox('dbpath', $Database, 30)
+);
+print &ui_table_row($text{'edit_Ea'},
+	'<select name="ea_options">'
+	.'<option value="">'.$text{'edit_default'}.'</option>'
+	.'<option value="auto" '
+	.($Ea =~ /auto/ ? 'selected' : '')
+	.'>'.$text{'edit_Eaauto'}.'</option>'
+	.'<option value="sys" '
+	.($Ea =~ /sys/ ? 'selected' : '')
+	.'>'.$text{'edit_Easys'}.'</option>'
+	.'<option value="ad" '
+	.($Ea =~ /ad/ ? 'selected' : '')
+	.'>'.$text{'edit_Eaad'}.'</option>'
+	.'<option value="none" '
+	.($Ea =~ /none/ ? 'selected' : '')
+	.'>'.$text{'edit_Eanone'}.'</option>'
+	.'</select>'
+);
+print &ui_table_row($text{'edit_MacCharset'},
+	'<select name="maccharset">'
+	.'<option value="">'.$text{'edit_default'}.'</option>'
+	.'<option value="MAC_CENTRALEUROPE" '
+	.($maccodepage =~ /MAC_CENTRALEUROPE/ ? 'selected' : '')
+	.'>MAC_CENTRALEUROPE'.'</option>'
+	.'<option value="MAC_CHINESE_SIMP" '
+	.($maccodepage =~ /MAC_CHINESE_SIMP/ ? 'selected' : '')
+	.'>MAC_CHINESE_SIMP'.'</option>'
+	.'<option value="MAC_CHINESE_TRAD" '
+	.($maccodepage =~ /MAC_CHINESE_TRAD/ ? 'selected' : '')
+	.'>MAC_CHINESE_TRAD'.'</option>'
+	.'<option value="MAC_CYRILLIC" '
+	.($maccodepage =~ /MAC_CYRILLIC/ ? 'selected' : '')
+	.'>MAC_CYRILLIC'.'</option>'
+	.'<option value="MAC_GREEK" '
+	.($maccodepage =~ /MAC_GREEK/ ? 'selected' : '')
+	.'>MAC_GREEK'.'</option>'
+	.'<option value="MAC_HEBREW" '
+	.($maccodepage =~ /MAC_HEBREW/ ? 'selected' : '')
+	.'>MAC_HEBREW'.'</option>'
+	.'<option value="MAC_JAPANESE" '
+	.($maccodepage =~ /MAC_JAPANESE/ ? 'selected' : '')
+	.'>MAC_JAPANESE'.'</option>'
+	.'<option value="MAC_KOREAN" '
+	.($maccodepage =~ /MAC_KOREAN/ ? 'selected' : '')
+	.'>MAC_KOREAN'.'</option>'
+	.'<option value="MAC_ROMAN" '
+	.($maccodepage =~ /MAC_ROMAN/ ? 'selected' : '')
+	.'>MAC_ROMAN'.'</option>'
+	.'<option value="MAC_TURKISH" '
+	.($maccodepage =~ /MAC_TURKISH/ ? 'selected' : '')
+	.'>MAC_TURKISH'.'</option>'
+	.'</select>'
+	." ".$text{'create_server_maccodepage_help'}
+);
+print &ui_table_row($text{'edit_VolCharset'},
+	&ui_textbox('volcharset', $VolCharset, 20)
+	." ".$text{'edit_VolCharset_help'}
+);
+print &ui_table_row($text{'edit_Veto'},
+	&ui_textbox('veto', $Veto, 20)
+	." ".$text{'edit_Veto_help'}
+);
+print &ui_table_row($text{'edit_MisceOptions'},
+	"<input type=checkbox name=misc_options ".($searchdb eq "1" ? "checked" : "")." value=searchdb>$text{'edit_Optionssearchdb'} <br>\n"
+	."<input type=checkbox name=misc_options ".($tm eq "1" ? "checked" : "")." value=tm>$text{'edit_Optionstm'}<br>\n"
+	."<input type=checkbox name=misc_options ".($nonetids eq "1" ? "checked" : "")." value=nonetids>$text{'edit_Optionsnonetids'}<br>\n"
+	."<input type=checkbox name=misc_options ".($limitsize eq "1" ? "checked" : "")." value=limitsize>$text{'edit_Optionslimitsize'}<br>\n"
+	."<input type=checkbox name=misc_options ".($ro eq "1" ? "checked" : "")." value=ro>$text{'edit_Optionsro'}<br>\n"
+	."<input type=checkbox name=misc_options ".($upriv eq "1" ? "checked" : "")." value=upriv>$text{'edit_Optionsupriv'}<br>\n"
+	."<input type=checkbox name=misc_options ".($usedots eq "1" ? "checked" : "")." value=usedots>$text{'edit_Optionsusedots'}<br>\n"
+	."<input type=checkbox name=misc_options ".($invisibledots eq "1" ? "checked" : "")." value=invisibledots>$text{'edit_Optionsinvisibledots'}<br>\n"
+	."<input type=checkbox name=misc_options ".($limitsize eq "1" ? "checked" : "")." value=followsymlinks>$text{'edit_Optionsfollowsymlinks'}<br>\n"
+);
 
 print &ui_table_end();
 
@@ -303,121 +310,112 @@ print &ui_tabs_end_tab('mode', 'basic');
 print &ui_tabs_start_tab('mode', 'users');
 print &ui_table_start($text{'edit_tableheader'}, 'width="100%"', 2);
 
-print "<tr> <td align=right><b>$text{'edit_Password'}</b></td>\n";
-printf "<td colspan=4><input maxlength=8 name=password size=8 value=%s>\n",
-	$Password ne "" ? $Password : "";
-print "</td> </tr>\n";
+print &ui_table_row($text{'edit_Password'},
+	&ui_textbox('password', $Password, 10, undef, 8)
+	." ".$text{'edit_Password_help'}
+);
+print &ui_table_row($text{'edit_Perm'},
+	&ui_textbox('perm', $Perm, 6)
+);
+print &ui_table_row($text{'edit_FPerm'},
+	&ui_textbox('fperm', $FPerm, 6)
+);
+print &ui_table_row($text{'edit_DPerm'},
+	&ui_textbox('dperm', $DPerm, 6)
+);
+print &ui_table_row($text{'edit_Umask'},
+	&ui_textbox('umask', $Umask, 6)
+);
+print &ui_table_row($text{'edit_Allow'},
+	"<table><tr>"
+	."<td>$text{'edit_users'}</td>"
+	."<td><input name=allow_users size=40 value="
+	.join(' ', @allow_users)."> "
+	.&user_chooser_button("allow_users", 1)."</td>"
+	."</tr><tr>"
+	."<td>$text{'edit_groups'}</td>"
+	."<td><input name=allow_groups size=40 value="
+	.join(' ', grep { !/^@/ } @allow_groups)."> "
+	.&group_chooser_button("allow_groups", 1)."</td>"
+	."</tr></table>"
+);
+print &ui_table_row($text{'edit_Deny'},
+	"<table><tr>"
+	."<td>$text{'edit_users'}</td>"
+	."<td><input name=deny_users size=40 value="
+	.join(' ', @deny_users)."> "
+	.&user_chooser_button("deny_users", 1)."</td>"
+	."</tr><tr>"
+	."<td>$text{'edit_groups'}</td>"
+	."<td><input name=deny_groups size=40 value="
+	.join(' ', grep { !/^@/ } @deny_groups)."> "
+	.&group_chooser_button("deny_groups", 1)."</td>"
+	."</tr></table>"
+);
+print &ui_table_row($text{'edit_Rolist'},
+	"<table><tr>"
+	."<td>$text{'edit_users'}</td>"
+	."<td><input name=rolist_users size=40 value="
+	.join(' ', @rolist_users)."> "
+	.&user_chooser_button("rolist_users", 1)."</td>"
+	."</tr><tr>"
+	."<td>$text{'edit_groups'}</td>"
+	."<td><input name=rolist_groups size=40 value="
+	.join(' ', grep { !/^@/ } @rolist_groups)."> "
+	.&group_chooser_button("rolist_groups", 1)."</td>"
+	."</tr></table>"
+);
+print &ui_table_row($text{'edit_Rwlist'},
+	"<table><tr>"
+	."<td>$text{'edit_users'}</td>"
+	."<td><input name=rwlist_users size=40 value="
+	.join(' ', @rwlist_users)."> "
+	.&user_chooser_button("rwlist_users", 1)."</td>"
+	."</tr><tr>"
+	."<td>$text{'edit_groups'}</td>"
+	."<td><input name=rwlist_groups size=40 value="
+	.join(' ', grep { !/^@/ } @rwlist_groups)."> "
+	.&group_chooser_button("rwlist_groups", 1)."</td>"
+	."</tr></table>"
+);
 
-print "<tr> <td align=right><b>$text{'edit_Perm'}</b></td>\n";
-printf "<td colspan=4><input name=perm size=8 value=%s>\n",
-	$Perm ne "" ? $Perm : "";
-print "</td> </tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_FPerm'}</b></td>\n";
-printf "<td colspan=4><input name=fperm size=8 value=%s>\n",
-	$FPerm ne "" ? $FPerm : "";
-print "</td> </tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_DPerm'}</b></td>\n";
-printf "<td colspan=4><input name=dperm size=8 value=%s>\n",
-	$DPerm ne "" ? $DPerm : "";
-print "</td> </tr>\n";
-
-print "<tr> <td align=right><b>$text{'edit_Umask'}</b></td>\n";
-printf "<td colspan=4><input name=umask size=8 value=%s>\n",
-	$Umask ne "" ? $Umask : "";
-print "</td> </tr>\n";
-
-print "<tr><td align=right valign=center><b>$text{'edit_Allow'}</b></td>\n";
-	print "<td align=left>$text{'edit_users'}</td> <td align=left>\n";
-printf "<input name=allow_users size=40 value=\"%s\"> %s</td> </tr>\n",
-	join(' ',  @allow_users),
-	&user_chooser_button("allow_users", 1);
-print "<tr>\n";
-	print"<td>&nbsp;&nbsp</td>\n";
-	print" <td align=left>$text{'edit_groups'}</td> <td colspan=3>\n";
-	printf "<input name=allow_groups size=40 value=\"%s\"> %s</td> </tr>\n",
-	join(' ', grep { !/^@/ } @allow_groups),
-	&group_chooser_button("allow_groups", 1);
-
-print "<tr><td align=right valign=center><b>$text{'edit_Deny'}</b></td>\n";
-        print "<td align=left>$text{'edit_users'}</td> <td align=left>\n";
-printf "<input name=deny_users size=40 value=\"%s\"> %s</td> </tr>\n",
-        join(' ',  @deny_users),
-        &user_chooser_button("deny_users", 1);
-print "<tr>\n";
-        print"<td>&nbsp;&nbsp</td>\n";
-        print" <td align=left>$text{'edit_groups'}</td> <td colspan=3>\n";
-        printf "<input name=deny_groups size=40 value=\"%s\"> %s</td> </tr>\n",
-        join(' ', grep { !/^@/ } @deny_groups),
-        &group_chooser_button("deny_groups", 1);
-
-print "<tr><td align=right valign=center><b>$text{'edit_Rolist'}</b></td>\n";
-        print "<td align=left>$text{'edit_users'}</td> <td align=left>\n";
-printf "<input name=rolist_users size=40 value=\"%s\"> %s</td> </tr>\n",
-        join(' ',  @rolist_users),
-        &user_chooser_button("rolist_users", 1);
-print "<tr>\n";
-        print"<td>&nbsp;&nbsp</td>\n";
-        print" <td align=left>$text{'edit_groups'}</td> <td colspan=3>\n";
-        printf "<input name=rolist_groups size=40 value=\"%s\"> %s</td> </tr>\n",
-        join(' ', grep { !/^@/ } @rolist_groups),
-        &group_chooser_button("rolist_groups", 1);
-
-print "<tr><td  align=right valign=center><b>$text{'edit_Rwlist'}</b></td>\n";
-        print "<td align=left>$text{'edit_users'}</td> <td align=left>\n";
-printf "<input name=rwlist_users size=40 value=\"%s\"> %s</td> </tr>\n",
-        join(' ',  @rwlist_users),
-        &user_chooser_button("rwlist_users", 1);
-print "<tr>\n";
-        print"<td>&nbsp;&nbsp</td>\n";
-        print" <td align=left>$text{'edit_groups'}</td> <td colspan=3>\n";
-        printf "<input name=rwlist_groups size=40 value=\"%s\"> %s</td> </tr>\n",
-        join(' ', grep { !/^@/ } @rwlist_groups),
-        &group_chooser_button("rwlist_groups", 1);
 print &ui_table_end();
 
 print &ui_tabs_end_tab('mode', 'users');
 print &ui_tabs_start_tab('mode', 'advanced');
 
 print &ui_table_start($text{'edit_tableheader'}, 'width="100%"', 2);
-print "<tr><td align=right valign=top ><b>$text{'edit_Casefold'}</b></td>\n";
-print "<td align=left colspan=3> \n";
-printf "<input type=radio name=casefold_options %s value=default>$text{'edit_Casefolddefault'}<br>\n",
-		 $Casefold eq "" ? "checked" : "";
-printf "<input type=radio name=casefold_options %s value=tolower>$text{'edit_Casefoldtolower'}<br>\n",
-		 $Casefold eq "tolower" ? "checked" : "";
-printf "<input type=radio name=casefold_options %s value=toupper>$text{'edit_Casefoldtoupper'}<br>\n",
-		 $Casefold eq "toupper" ? "checked" : "";
-printf "<input type=radio name=casefold_options %s value=xlatelower>$text{'edit_Casefoldxlatelower'}<br>\n",
-		 $Casefold eq "xlatelower" ? "checked" : "";
-printf "<input type=radio name=casefold_options %s value=xlateupper>$text{'edit_Casefoldxlateupper'}<br>\n",
-		 $Casefold eq "xlateupper" ? "checked" : "";
-print "</td></tr>\n";
 
-print "<tr><td  align=right valign=top><b>$text{'edit_AdvOptions'}</b></td>\n";
-print "<td align=left colspan=3> \n";
-printf "<input type=checkbox name=misc_options %s value=caseinsensitive>$text{'edit_Optionscaseinsensitive'}<br>\n",
-		 $caseinsensitive eq "1" ? "checked" : "";
-printf "<input type=checkbox name=misc_options %s value=crlf>$text{'edit_Optionscrlf'}<br>\n",
-		 $crlf eq "1" ? "checked" : "";
-printf "<input type=checkbox name=misc_options %s value=illegalseq>$text{'edit_Optionsillegalseq'}<br>\n",
-                 $illegalseq eq "1" ? "checked" : "";
-printf "<input type=checkbox name=misc_options %s value=mswindows>$text{'edit_Optionsmswindows'}<br>\n",
-                 $mswindows eq "1" ? "checked" : "";
-printf "<input type=checkbox name=misc_options %s value=noadouble>$text{'edit_Optionsnoadouble'}<br>\n",
-		 $noadouble eq "1" ? "checked" : "";
-printf "<input type=checkbox name=misc_options %s value=nocnidcache>$text{'edit_Optionsnocnidcache'}<br>\n",
-                 $nocnidcache eq "1" ? "checked" : "";
-printf "<input type=checkbox name=misc_options %s value=nodev>$text{'edit_Optionsnodev'}<br>\n",
-                 $nodev eq "1" ? "checked" : "";
-printf "<input type=checkbox name=misc_options %s value=nofileid>$text{'edit_Optionsnofileid'}<br>\n",
-                 $nofileid eq "1" ? "checked" : "";
-printf "<input type=checkbox name=misc_options %s value=nohex>$text{'edit_Optionsnohex'}<br>\n",
-                 $nohex eq "1" ? "checked" : "";
-printf "<input type=checkbox name=misc_options %s value=prodos>$text{'edit_Optionsprodos'} <br>\n",
-		 $prodos eq "1" ? "checked" : "";
-print "</td></tr>\n";
+print &ui_table_row($text{'edit_Casefold'},
+	'<select name="casefold_options">'
+	.'<option value="default">'.$text{'edit_Casefolddefault'}.'</option>'
+	.'<option value="tolower" '
+	.($Ea =~ /tolower/ ? 'selected' : '')
+	.'>'.$text{'edit_Casefoldtolower'}.'</option>'
+	.'<option value="toupper" '
+	.($Ea =~ /toupper/ ? 'selected' : '')
+	.'>'.$text{'edit_Casefoldtoupper'}.'</option>'
+	.'<option value="xlatelower" '
+	.($Ea =~ /xlatelower/ ? 'selected' : '')
+	.'>'.$text{'edit_Casefoldxlatelower'}.'</option>'
+	.'<option value="xlateupper" '
+	.($Ea =~ /xlateupper/ ? 'selected' : '')
+	.'>'.$text{'edit_Casefoldxlateupper'}.'</option>'
+	.'</select>'
+);
+print &ui_table_row($text{'edit_AdvOptions'},
+	"<input type=checkbox name=misc_options ".($caseinsensitive eq "1" ? "checked" : "")." value=caseinsensitive>$text{'edit_Optionscaseinsensitive'} <br>\n"
+	."<input type=checkbox name=misc_options ".($crlf eq "1" ? "checked" : "")." value=crlf>$text{'edit_Optionscrlf'}<br>\n"
+	."<input type=checkbox name=misc_options ".($illegalseq eq "1" ? "checked" : "")." value=illegalseq>$text{'edit_Optionsillegalseq'}<br>\n"
+	."<input type=checkbox name=misc_options ".($mswindows eq "1" ? "checked" : "")." value=mswindows>$text{'edit_Optionsmswindows'}<br>\n"
+	."<input type=checkbox name=misc_options ".($noadouble eq "1" ? "checked" : "")." value=noadouble>$text{'edit_Optionsnoadouble'}<br>\n"
+	."<input type=checkbox name=misc_options ".($nocnidcache eq "1" ? "checked" : "")." value=nocnidcache>$text{'edit_Optionsnocnidcache'}<br>\n"
+	."<input type=checkbox name=misc_options ".($nodev eq "1" ? "checked" : "")." value=nodev>$text{'edit_Optionsnodev'}<br>\n"
+	."<input type=checkbox name=misc_options ".($nofileid eq "1" ? "checked" : "")." value=nofileid>$text{'edit_Optionsnofileid'}<br>\n"
+	."<input type=checkbox name=misc_options ".($nohex eq "1" ? "checked" : "")." value=nohex>$text{'edit_Optionsnohex'}<br>\n"
+	."<input type=checkbox name=misc_options ".($prodos eq "1" ? "checked" : "")." value=prodos>$text{'edit_Optionsprodos'}<br>\n"
+);
+
 print &ui_table_end();
 
 print &ui_tabs_end_tab('mode', 'advanced');
