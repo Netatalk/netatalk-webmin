@@ -31,7 +31,7 @@ $pername = ();
 $hostname = `hostname`;
 chomp($hostname);
 
-#struct volume_format administers all information of a " line " 
+#struct volume_format administers all information of a " line "
 use Class::Struct;
 	struct  volume_format => {
 		path=>'$',
@@ -303,7 +303,7 @@ sub getDatabase
   	$Database = "";
   	if ($rp = $pername{$var1}){
 		$Database = $rp->options->dbpath;
- 	}	
+ 	}
   	return $Database;
 }
 
@@ -343,7 +343,7 @@ sub getPassword
   	$Password = "";
   	if ($rp = $pername{$var1}){
 		$Password = $rp->options->password;
- 	}	
+ 	}
   	return $Password;
 }
 
@@ -353,7 +353,7 @@ sub getPerm
   	$Perm = "";
   	if ($rp = $pername{$var1}){
 		$Perm = $rp->options->perm;
- 	}	
+ 	}
   	return $Perm;
 }
 
@@ -363,7 +363,7 @@ sub getFPerm
   	$FPerm = "";
   	if ($rp = $pername{$var1}){
 		$FPerm = $rp->options->fperm;
- 	}	
+ 	}
   	return $FPerm;
 }
 
@@ -373,7 +373,7 @@ sub getDPerm
   	$DPerm = "";
   	if ($rp = $pername{$var1}){
 		$DPerm = $rp->options->dperm;
- 	}	
+ 	}
   	return $DPerm;
 }
 
@@ -383,7 +383,7 @@ sub getUmask
   	$Umask = "";
   	if ($rp = $pername{$var1}){
 		$Umask = $rp->options->umask;
- 	}	
+ 	}
   	return $Umask;
 }
 
@@ -495,7 +495,7 @@ sub getGroups
 		if( $glist[$i]->{'gid'}> 99 || $glist[$i]->{'gid'} eq 0){
 	   		$group = $glist[$i]->{'group'};
 	   		push(@rv,$group);
-	   	}	
+	   	}
 	}
 	return @rv;
 }
@@ -518,7 +518,7 @@ sub createNewFileShare
 		}
 		else{
 			showMessage($text{give_correct_path});
-			return 0;	
+			return 0;
 		}
 	}
 
@@ -637,29 +637,28 @@ sub createNewServerLine(){
 	local $illegalChars = ":@\$\"<>\/";
 	local $newString;
 	my ($in) = @_;
-	if($in{localhost_servername}){
+
+	unless($in{servername}){
 		$newString = "- ";
 	}
 	else{
-		if($in{servername}){
-			if($in{servername} =~ /[$illegalChars]/){
-				showMessage("$text{error_illegal_char} $illegalChars");
-				return 0;
-			}
-			$newString = "\"$in{servername}\" ";
+		if($in{servername} =~ /[$illegalChars]/){
+			showMessage("$text{error_illegal_char} $illegalChars");
+			return 0;
 		}
-		else{
-			error($text{'save_newServer_errorMessage'});
-		}
+		$newString = "\"$in{servername}\" ";
 	}
-	if($in{tcpip} eq "-tcp" && $in{ddp} eq "-ddp"){
+	if( $in{transport_tcp} && $in{transport_ddp} ){
 		$newString .= "-transall ";
 	}
-	elsif($in{tcpip} eq "-notcp" && $in{ddp} eq "-noddp"){
-		$newString .= "-notransall ";
+	elsif( $in{transport_tcp} ){
+		$newString .= "-noddp -tcp ";
+	}
+	elsif( $in{transport_ddp} ){
+		$newString .= "-ddp -notcp ";
 	}
 	else{
-		$newString .= "$in{ddp} $in{tcpip} ";
+		$newString .= "-notransall ";
 	}
 	if($in{port}){
 		$newString .= "-port $in{port} ";
@@ -760,7 +759,7 @@ sub readAfpd
 			}
 			push(@afpd_all, @afpd);
 		}
-	}	
+	}
 	close(FH);
 	return @afpd_all;
 }
@@ -915,7 +914,7 @@ sub deleteSpezLine(){
 	rename($temporary, $var1);
 	unlink("$var1.orig") or die "$text{delete_failed}: $var1.orig\n";
 	return 1;
-	
+
 }
 
 #-------------------------------------------------------------------------------

@@ -24,22 +24,17 @@ require 'netatalk2-lib.pl';
 %allServer = getAllAfpd();
 
 local $servername = "";
-$savepasswon = "-savepassword";
-$setpasswon = "-setpassword";
-$iconon = "-icon";
+local $page_title = "";
 
-$uams_guest = "uams_guest.so";
-$uams_clrtxt = "uams_clrtxt.so";
-$uams_randnum = "uams_randnum.so";
-$uams_dhx = "uams_dhx.so";
-$uams_dhx2 = "uams_dhx2.so";
-$uams_gss = "uams_gss.so";
 if ($in{action} =~ /create/) {
-	&ui_print_header(undef, $text{'create_server_header'}, "", "servers", 1);
+	$page_title = $text{'create_server_header'};
 
+  # Netatalk default options defined here
 	$tcpip = "-transall";
-	$savepass = $savepasswon;
-	$uamlist = $uams_dhx2;
+	$savepass = "-savepassword";
+	$setpass = "-nosetpassword";
+	$icon = "-noicon";
+	$uamlist = "uams_dhx2.so";
 }
 elsif ($in{action} =~ /edit/) {
 	if ($in{offset}) {
@@ -48,7 +43,7 @@ elsif ($in{action} =~ /edit/) {
 	else {
 		$offset = 0;
 	}
-	&ui_print_header(undef, $text{'edit_server_header'}, "", "servers", 1);
+	$page_title = $text{'edit_server_header'};
 
 	$servername = $allServer{$offset}[0];
 	$tcpip = $allServer{$offset}[1];
@@ -68,140 +63,90 @@ else {
 	die("Unknown action type. Are you trying something naughty?")
 }
 
+&ui_print_header(undef, $page_title, "", "servers", 1);
+
 print &ui_form_start('server_save_action.cgi', 'POST');
 print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
-	print "<tr>\n";
-	print "<td align=right><b>$text{'create_server_ServerName'}</b></td>\n";
-	print "<td colspan=4>";
-	printf "<input type=radio name=localhost_servername %s value=0>\n",
-		$servername eq "" ? "" : "checked";
-	print "<input size=20 name=servername value=\"$servername\">&nbsp;&nbsp;&nbsp;\n";
-	printf "<input type=radio name=localhost_servername %s value=1>$text{'create_server_localhost'}\n",
-		$servername eq "" ? "checked" : "";
-	print "</td>\n";
-	print "</tr>\n";
-	print "<tr>\n";
-		print "<td align=right><b>$text{'create_server_TCP'}</b></td>";
-		    print "<td>";
-			printf "<input type=radio %s name=tcpip value=-tcp>$text{'global_ON'}",
-				$tcpip =~ /-tcp*|-transall*/ ? "checked" : "";
-			printf "<input type=radio %s name=tcpip value=-notcp>$text{'global_OFF'}",
-				$tcpip =~ /-tcp*|-transall*/ ? "" : "checked";
-			print "</td></tr>";
-		print "<tr><td align=right><b>$text{'create_server_AppleTalk'}</b></td>";
-		print "<td>";
-		printf "<input type=radio name=ddp %s value=-ddp>$text{'global_ON'}",
-				$ddp =~ /-ddp*/ || $tcpip =~ /-transall*/ ? "checked" : "";
-			printf "<input type=radio name=ddp %s value=-noddp>$text{'global_OFF'}",
-				$ddp =~ /-ddp*/ || $tcpip =~ /-transall*/ ? "" : "checked";
-			print"</td>";
-	print "</tr>\n";
-	print "<tr>\n";
-		print "<td align=right><b>$text{'create_server_uams'}</b></td>";
-		    print "<td>";
-			printf "<input type=\"checkbox\" %s name=\"uams\" value=\"$uams_guest\">Guest",
-				$uamlist =~ /$uams_guest*/ ? "checked" : "";
-			printf "<input type=\"checkbox\" %s name=\"uams\" value=\"$uams_clrtxt\">Cleartext",
-				$uamlist =~ /$uams_clrtxt*/ ? "checked" : "";
-			printf "<input type=\"checkbox\" %s name=\"uams\" value=\"$uams_randnum\">Randnum",
-				$uamlist =~ /$uams_randnum*/ ? "checked" : "";
-			printf "<input type=\"checkbox\" %s name=\"uams\" value=\"$uams_dhx\">DHX",
-				$uamlist =~ /$uams_dhx*/ ? "checked" : "";
-			printf "<input type=\"checkbox\" %s name=\"uams\" value=\"$uams_dhx2\">DHX2",
-				$uamlist =~ /$uams_dhx2*/ ? "checked" : "";
-			printf "<input type=\"checkbox\" %s name=\"uams\" value=\"$uams_gss\">Kerberos",
-				$uamlist =~ /$uams_gss*/ ? "checked" : "";
-			print "</td>";
-	print "</tr>\n";
-	print "<tr>\n";
-		print "<td align=right><b>$text{'create_server_Address'}</b></td>";
-		printf "<td><input size=15 maxlength=15 name=address value=\"%s\"></td>",
-				$address =~ /[0-9.]/ ? $address : "";
-	print "</tr>\n";
-	print "<tr>\n";
-		print "<td align=right><b>$text{'create_server_Port'}</b></td>";
-		printf" <td><input type=\"number\" name=\"port\" min=\"0\" max=\"65535\" value=\"%s\"></td>",
-				$port =~ /[0-9]/ ? $port : "";
-	print "</tr>\n";
-	print "<tr>\n";
-		print "<td align=right><b>$text{'create_server_setpass'}</b></td>";
-		printf "<td><input name=setpassword type=radio %s value=-setpassword>$text{'global_ON'}",
-				$setpass =~ /$setpasswon/ ? "checked" : "";
-			printf "<input type=radio %s name=setpassword value=-nosetpassword>$text{'global_OFF'}",
-				$setpass =~ /$setpasswon/ ? "" : "checked";
-		print "</td>";
-	print "</tr>\n";
-	print "<tr>\n";
-		print "<td align=right><b>$text{'create_server_pass'}</b></td>";
-		printf "<td><input type=radio %s name=savepassword value=-savepassword>$text{'global_ON'}",
-				$savepass =~ /$savepasswon*/ ? "checked" : "";
-			printf "<input type=radio %s name=savepassword value=-nosavepassword>$text{'global_OFF'}",
-				$savepass =~ /$savepasswon*/ ? "" : "checked";
-		print "</td>";
-	print "</tr>\n";
-	print "<tr>\n";
-		print "<td align=right><b>$text{'create_server_lgmesg'}</b></td>";
-		print "<td colspan=3><input size=35 name=logmesg value=\"$loginmesg\">";
-		print "</td>";
-	print "</tr>\n";
-	print "<tr>\n";
-		print "<td align=right><b>$text{'create_server_icon'}</b></td>";
-		printf "<td><input type=radio %s name=icon value=-icon>$text{'global_ON'}",
-				$icon =~ /$iconon*/ ? "checked" : "";
-			printf "<input type=radio %s name=icon value=-noicon>$text{'global_OFF'}",
-				$icon =~ /$iconon*/ ? "" : "checked";
-		print "</td>";
-	print "</tr>\n";
-	print "<tr>\n";
-		print "<td align=right><b>$text{'create_server_mimicmodel'}</b></td>";
-		print "<td><input size=35 name=\"mimicmodel\" value=\"$mimicmodel\">";
-		print "<br><i>$text{'create_server_mimicmodel_help'}</i>";
-		print "</td>";
-	print "</tr>\n";
-	print "<tr>\n";
-		print "<td align=right><b>$text{'create_server_setuplog'}</b></td>";
-		print "<td colspan=3><input size=52 name=setuplog value=\"$setuplog\">";
-		print "<br><i>$text{'create_server_setuplog_help'}</i>";
-		print "</td>";
-	print "</tr>\n";
-	print "<tr>\n";
-		print "<td align=right><b>$text{'create_server_maccodepage'}</b></td>";
-		    print "<td><select name=\"maccodepage\">";
-			printf "<option value=\"\">$text{'edit_default'}";
-		    print "</option>\n";
-			printf "<option value=\"MAC_CENTRALEUROPE\" %s>MAC_CENTRALEUROPE",
-				$maccodepage =~ /MAC_CENTRALEUROPE/ ? "selected" : "";
-		    print "</option>\n";
-			printf "<option value=\"MAC_CHINESE_SIMP\" %s>MAC_CHINESE_SIMP",
-				$maccodepage =~ /MAC_CHINESE_SIMP/ ? "selected" : "";
-		    print "</option>\n";
-			printf "<option value=\"MAC_CHINESE_TRAD\" %s>MAC_CHINESE_TRAD",
-				$maccodepage =~ /MAC_CHINESE_TRAD/ ? "selected" : "";
-		    print "</option>\n";
-			printf "<option value=\"MAC_CYRILLIC\" %s>MAC_CYRILLIC",
-				$maccodepage =~ /MAC_CYRILLIC/ ? "selected" : "";
-		    print "</option>\n";
-			printf "<option value=\"MAC_GREEK\" %s>MAC_GREEK",
-				$maccodepage =~ /MAC_GREEK/ ? "selected" : "";
-		    print "</option>\n";
-			printf "<option value=\"MAC_HEBREW\" %s>MAC_HEBREW",
-				$maccodepage =~ /MAC_HEBREW/ ? "selected" : "";
-		    print "</option>\n";
-			printf "<option value=\"MAC_JAPANESE\" %s>MAC_JAPANESE",
-				$maccodepage =~ /MAC_JAPANESE/ ? "selected" : "";
-		    print "</option>\n";
-			printf "<option value=\"MAC_KOREAN\" %s>MAC_KOREAN",
-				$maccodepage =~ /MAC_KOREAN/ ? "selected" : "";
-		    print "</option>\n";
-			printf "<option value=\"MAC_ROMAN\" %s>MAC_ROMAN",
-				$maccodepage =~ /MAC_ROMAN/ ? "selected" : "";
-		    print "</option>\n";
-			printf "<option value=\"MAC_TURKISH\" %s>MAC_TURKISH",
-				$maccodepage =~ /MAC_TURKISH/ ? "selected" : "";
-		    print "</option>\n";
-		    print "</select>\n";
-			print "</td>";
-	print "</tr>\n";
+print &ui_table_row($text{'create_server_ServerName'},
+	&ui_textbox('servername', $servername, 30)
+	." ".$text{'create_server_localhost'}
+);
+print &ui_table_row($text{'create_server_transport'},
+	&ui_checkbox('transport_ddp', 'ddp', 'AppleTalk', $ddp =~ /-ddp*/ || $tcpip =~ /-transall*/ ? 1 : 0)
+	.&ui_checkbox('transport_tcp', 'tcp', 'TCP/IP', $tcpip =~ /-tcp*|-transall*/ ? 1 : 0)
+);
+print &ui_table_row($text{'create_server_uams'},
+	&ui_checkbox('uams', 'uams_dhx2.so', 'DHX2', $uamlist =~ /uams_dhx2.so/ ? 1 : 0)
+	.&ui_checkbox('uams', 'uams_dhx.so', 'DHX', $uamlist =~ /uams_dhx.so/ ? 1 : 0)
+	.&ui_checkbox('uams', 'uams_randnum.so', 'RandNum', $uamlist =~ /uams_randnum.so/ ? 1 : 0)
+	.&ui_checkbox('uams', 'uams_clrtxt.so', 'ClearText', $uamlist =~ /uams_clrtxt.so/ ? 1 : 0)
+	.&ui_checkbox('uams', 'uams_guest.so', 'Guest', $uamlist =~ /uams_guest.so/ ? 1 : 0)
+	.&ui_checkbox('uams', 'uams_gss.so', 'Kerberos', $uamlist =~ /uams_gss.so/ ? 1 : 0)
+);
+print &ui_table_row($text{'create_server_Address'},
+	&ui_textbox('address', $address)
+	." ".$text{'create_server_Address_help'}
+);
+print &ui_table_row($text{'create_server_Port'},
+	'<input type="number" name="port" min="0" max="65535" value="'.$port.'">'
+	." ".$text{'create_server_Port_help'}
+);
+print &ui_table_row($text{'create_server_setpass'},
+	&ui_yesno_radio('setpassword', $setpass, '-setpassword', '-nosetpassword')
+);
+print &ui_table_row($text{'create_server_pass'},
+	&ui_yesno_radio('savepassword', $savepass, '-savepassword', '-nosavepassword')
+);
+print &ui_table_row($text{'create_server_lgmesg'},
+	&ui_textbox('logmesg', $loginmsg, 60)
+);
+print &ui_table_row($text{'create_server_icon'},
+	&ui_yesno_radio('icon', $icon, '-icon', '-noicon')
+);
+print &ui_table_row($text{'create_server_mimicmodel'},
+	&ui_textbox('mimicmodel', $mimicmodel, 40)
+	." ".$text{'create_server_mimicmodel_help'}
+);
+print &ui_table_row($text{'create_server_setuplog'},
+	&ui_textbox('setuplog', $setuplog, 40)
+	." ".$text{'create_server_setuplog_help'}
+);
+print &ui_table_row($text{'create_server_maccodepage'},
+	'<select name="maccodepage">'
+	.'<option value="">'.$text{'edit_default'}.'</option>'
+	.'<option value="MAC_CENTRALEUROPE" '
+	.($maccodepage =~ /MAC_CENTRALEUROPE/ ? 'selected' : '')
+	.'>MAC_CENTRALEUROPE'.'</option>'
+	.'<option value="MAC_CHINESE_SIMP" '
+	.($maccodepage =~ /MAC_CHINESE_SIMP/ ? 'selected' : '')
+	.'>MAC_CHINESE_SIMP'.'</option>'
+	.'<option value="MAC_CHINESE_TRAD" '
+	.($maccodepage =~ /MAC_CHINESE_TRAD/ ? 'selected' : '')
+	.'>MAC_CHINESE_TRAD'.'</option>'
+	.'<option value="MAC_CYRILLIC" '
+	.($maccodepage =~ /MAC_CYRILLIC/ ? 'selected' : '')
+	.'>MAC_CYRILLIC'.'</option>'
+	.'<option value="MAC_GREEK" '
+	.($maccodepage =~ /MAC_GREEK/ ? 'selected' : '')
+	.'>MAC_GREEK'.'</option>'
+	.'<option value="MAC_HEBREW" '
+	.($maccodepage =~ /MAC_HEBREW/ ? 'selected' : '')
+	.'>MAC_HEBREW'.'</option>'
+	.'<option value="MAC_JAPANESE" '
+	.($maccodepage =~ /MAC_JAPANESE/ ? 'selected' : '')
+	.'>MAC_JAPANESE'.'</option>'
+	.'<option value="MAC_KOREAN" '
+	.($maccodepage =~ /MAC_KOREAN/ ? 'selected' : '')
+	.'>MAC_KOREAN'.'</option>'
+	.'<option value="MAC_ROMAN" '
+	.($maccodepage =~ /MAC_ROMAN/ ? 'selected' : '')
+	.'>MAC_ROMAN'.'</option>'
+	.'<option value="MAC_TURKISH" '
+	.($maccodepage =~ /MAC_TURKISH/ ? 'selected' : '')
+	.'>MAC_TURKISH'.'</option>'
+	.'</select>'
+	." ".$text{'create_server_maccodepage_help'}
+);
 
 print &ui_table_end();
 print "<div><i>$text{'create_server_notice'}</i></div>";
