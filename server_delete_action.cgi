@@ -19,8 +19,12 @@ require 'netatalk2-lib.pl';
 
 &ReadParse();
 
-if($in{delete_servername}){
-	deleteSpezLine($config{'afpd_c'}, $in{delete_servername});
+if($in{'delete_servername'}){
+	local $line = getSpezLine($config{'afpd_c'}, $in{'delete_servername'});
+	local $result = deleteSpezLine($config{'afpd_c'}, $line);
+	if ($result == 0) {
+		showMessage($text{'edit_delete_error'})
+	}
 }
 else {
 	die $text{'edit_server_delete_error'};

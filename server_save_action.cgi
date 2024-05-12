@@ -19,16 +19,23 @@ require 'netatalk2-lib.pl';
 
 &ReadParse();
 
-$filetoedit = $config{'afpd_c'};
+local $filetoedit = $config{'afpd_c'};
+local $serverLine = createNewServerLine($in);
+local $totalLines = (getLinesSpezFile($filetoedit));
+local $lineNumber = 1;
 
-if($in{old_servername}) {
-	$lineNumber = (getSpezLine($filetoedit, $in{old_servername}) - 1);
-	deleteSpezLine($filetoedit, $in{old_servername});
+if($in{'old_servername'}) {
+	$lineNumber = getSpezLine($filetoedit, $in{'old_servername'});
+	local $result = deleteSpezLine($filetoedit, $lineNumber);
+	if ($result == 0) {
+		showMessage($text{'edit_delete_error'})
+	}
 } else {
-	$lineNumber = (getLinesSpezFile($filetoedit));
+	$lineNumber = getLinesSpezFile($filetoedit);
 }
 
-local $serverLine = createNewServerLine($in);
-addLineToFile($filetoedit, $serverLine, $lineNumber);
+if ($serverLine ne 0) {
+	addLineToFile($filetoedit, $serverLine, $lineNumber, $totalLines);
+}
 
 redirect("index.cgi");

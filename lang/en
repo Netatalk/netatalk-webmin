@@ -138,6 +138,7 @@ edit_Casefoldxlateupper=Client sees uppercase, server sees lowercase
 
 edit_save=Save
 edit_delete=Delete
+edit_delete_error=Missing parameters for delete operation
 
 edit_server_header=Edit Server Configuration
 edit_server_delete_error=No server to delete

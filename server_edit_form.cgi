@@ -158,7 +158,7 @@ print &ui_form_end([[undef, $text{'edit_save'}]]);
 
 if ($in{action} =~ /edit/) {
 	print &ui_form_start('server_delete_action.cgi', 'POST');
-	printf "<input type=\"hidden\" name=\"delete_servername\" value=\"$servername\">\n",
+	printf "<input type=\"hidden\" name=\"delete_servername\" value=\"%s\">\n",
 		$servername eq "" ? "-" : $servername;
 	print &ui_form_end([[undef, $text{'edit_delete'}, ]]);
 }

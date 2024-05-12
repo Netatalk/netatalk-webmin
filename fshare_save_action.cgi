@@ -18,14 +18,22 @@ require 'netatalk2-lib.pl';
 
 &ReadParse();
 
+local $fileShareLine = createNewFileShare($in);
+local $totalLines = getLinesSpezFile($applevolume_default);
+local $lineNumber = 1;
+
 if ($in{oldpath}) {
-	$lineNumber = (getSpezLine($applevolume_default, $in{oldpath}) - 1);
-	deleteSpezLine($applevolume_default, $in{oldpath});
+	$lineNumber = getSpezLine($applevolume_default, $in{'oldpath'});
+	local $result = deleteSpezLine($applevolume_default, $lineNumber);
+	if ($result == 0) {
+		showMessage($text{'edit_delete_error'})
+	}
 } else {
-	$lineNumber = (getLinesSpezFile($applevolume_default));
+	$lineNumber = getLinesSpezFile($applevolume_default);
 }
 
-local $fileShareLine = createNewFileShare($in);
-addLineToFile($applevolume_default, $fileShareLine, $lineNumber);
+if ($fileShareLine ne 0) {
+	addLineToFile($applevolume_default, $fileShareLine, $lineNumber, $totalLines);
+}
 
 redirect("index.cgi");

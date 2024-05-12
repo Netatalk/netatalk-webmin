@@ -467,7 +467,6 @@ sub getPathOK
 	return $rv;
 }
 
-
 #------------------------------------------------------------------------------
 #list all users with ID >=500
 #------------------------------------------------------------------------------
@@ -706,7 +705,6 @@ sub showMessage
 
 #------------------------------------------------------------------
 #Function reads afpd.conf and stores data for UI display in an array
-#
 #------------------------------------------------------------------
 sub readAfpd
 {
@@ -851,10 +849,11 @@ sub getAllAfpd
 #$var1 File to which the line should be appended
 #$var2 String to be appended
 #$var3 Line number to append string to
+#$var4 Total number of lines in file
 #------------------------------------------------------------------------------
 sub addLineToFile()
 {
-	my ($var1, $var2, $var3) = @_;
+	my ($var1, $var2, $var3, $var4) = @_;
 	local($temporary, $lin);
  	$temporary = "$var1.temp";
 
@@ -864,10 +863,18 @@ sub addLineToFile()
 	open(OLD, "<$var1") || die "$text{file} $var1 $text{not_readable}";
 	open(NEW, ">$temporary") || die "$text{file} $temporary $text{not_readable}";
 
-	while(<OLD>){
-		print NEW $_;
-		if($. == $var3){
-			print NEW "$var2\n";
+	if($var4 < 2) {
+		print NEW "$var2\n";
+	}
+	else {
+		while(my $line = <OLD>) {
+			if($var3 eq 1 && $. eq 1) {
+				print NEW "$var2\n";
+			}
+			print NEW $line;
+			if($. eq ($var3 - 1)){
+				print NEW "$var2\n";
+			}
 		}
 	}
 	close(OLD);
@@ -882,7 +889,7 @@ sub addLineToFile()
 #------------------------------------------------------------------
 #deletes a certain line in a file
 #$var1 =>File
-#$var2 =>Start of the line, which is to be found (e.g. directory)
+#$var2 =>Line number to delete
 #------------------------------------------------------------------
 sub deleteSpezLine(){
 	my ($var1, $var2) = @_;
@@ -893,7 +900,6 @@ sub deleteSpezLine(){
 	if( ! defined $var2){
 		return 0;
 	}
-	$line_number = getSpezLine($var1, $var2);
 	$temporary = "$var1.temp";
  	copy($var1, $temp)
 		or die "$text{copy_failed}: $!";
@@ -902,7 +908,7 @@ sub deleteSpezLine(){
 	open(OLD, "<$var1") || die "$text{file} $var1 $text{not_readable}";
 	open(NEW, ">$temporary") || die "$text{file} $temp $text{not_readable}";
 	while(<OLD>){
-		if($. != $line_number ){
+		if($. != $var2){
 			print NEW $_;
 		}
 	}
@@ -913,7 +919,6 @@ sub deleteSpezLine(){
 	rename($temporary, $var1);
 	unlink("$var1.orig") or die "$text{delete_failed}: $var1.orig\n";
 	return 1;
-
 }
 
 #-------------------------------------------------------------------------------
@@ -935,7 +940,8 @@ sub getSpezLine
 		# Server names may or may not be quoted
  		if($_ =~ /^\"?$escaped_name/ ){
  			$outputli = $counter;
-  		}
+ 			last
+		}
 	}
 	close(OLD);
 	return $outputli;
@@ -950,7 +956,7 @@ sub getSpezLine
 sub getLinesSpezFile() {
 	my ($var1) = @_;
 	local($counting);
-	$counting = 0;
+	$counting = 1;
 	#Test whether the variable has been passed
 	open(FileHandle, "<$var1") || die return 0;
 	while(<FileHandle>){

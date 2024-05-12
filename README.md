@@ -30,14 +30,15 @@ The same thing can be accomplished within the Webmin UI, in the Netatalk module'
 
 # The current level of Netatalk 2 feature support
 - Starting and stopping afpd and all AppleTalk services
-- Interactive editor of all config files
 - UI for all of the AppleVolumes.default options
 - UI for a subset of afpd.conf options
+- Interactive editor of all config files
 - Connected user management
 
 # Known limitations
 - Editing afpd.conf through the form will remove options that are not supported by this module.
-- When multiple shared volumes use the same path, there is confusion. Don't do this.
+- Don't use the same path for multiple shared volumes, or same name for multiple virtual servers.
+  Subsequent operations on those objects will have unintended side effects.
 
 # Authors
 - Matthew Keller
