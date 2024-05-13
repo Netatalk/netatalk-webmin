@@ -29,8 +29,8 @@ index_not_running=Service is not running
 index_start_service=Start Netatalk Service
 index_running_service=Service is running
 index_ever=The afpd program was not found on your system. Maybe Netatalk is not installed, or your <a href='$2'>module configuration</a> is incorrect.
-index_no_file_shares=No shared volumes have been defined; Users can access only their home directories.
-index_server_default_active=Default server configuration active; Create new server to override.
+index_no_file_shares=Create a shared volume to share files.
+index_server_default_active=Default server configuration active as <code>$1</code>.
 
 index_process_control_restart_txt=Restart netatalk services using <code>$1</code>
 index_process_control_start_txt=Start netatalk services using <code>$1</code>

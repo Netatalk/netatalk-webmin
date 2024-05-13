@@ -29,14 +29,14 @@ if (!-x $config{'afpd_d'}) {
 @Shares = open_afile();
 
 # Print AFP volumes
-print "    <h3>$text{index_volumes_title}</h3>\n";
-print "    <table width=\"100%\" border>\n";
-print "    <tr $tb>";
-print "        <td>$text{'index_sharename'}</td>";
-print "        <td>$text{'index_path'}</td>\n";
-print "        <td>$text{'index_options'}</td>\n";
-print "    </tr>\n";
 if(@Shares){
+	print "    <h3>$text{index_volumes_title}</h3>\n";
+	print "    <table width=\"100%\" border>\n";
+	print "    <tr $tb>";
+	print "        <td>$text{'index_sharename'}</td>";
+	print "        <td>$text{'index_path'}</td>\n";
+	print "        <td>$text{'index_options'}</td>\n";
+	print "    </tr>\n";
 	foreach $s (@Shares) {
 		$sharename = getShareName($s);
 		$path = getPath($s);
@@ -49,10 +49,10 @@ if(@Shares){
 			print "</tr>";
 		}
 	}
+	print "</table>\n";
 } else {
-	print "<tr><td><b>$text{'index_no_file_shares'}</b></td></tr>";
+	print "<p><b>$text{'index_no_file_shares'}</b></p>";
 }
-print "</table>\n";
 print ui_buttons_start();
 print ui_buttons_row('fshare_edit_form.cgi?action=create', $text{'index_create_file_share'});
 print ui_buttons_end();
@@ -63,15 +63,15 @@ print &ui_hr();
 print "<h3>$text{'index_servers_title'}</h3>\n";
 
 @Servers = readAfpd();
-print "<table width=100% border>\n";
-print "<tr $tb>";
-print "<td>$text{'index_servername'}</td>";
-print "<td>$text{'index_protocols'}</td>";
-print "<td>$text{'index_auth'}</td>";
-print "<td>$text{'index_port'}</td>";
-print "<td>$text{'index_address'}</td>";
-print "</tr>\n";
 if(@Servers[1] ne ""){
+	print "<table width=100% border>\n";
+	print "<tr $tb>";
+	print "<td>$text{'index_servername'}</td>";
+	print "<td>$text{'index_protocols'}</td>";
+	print "<td>$text{'index_auth'}</td>";
+	print "<td>$text{'index_port'}</td>";
+	print "<td>$text{'index_address'}</td>";
+	print "</tr>\n";
 	print "<tr>";
 	$offset = 0;
 	$servername="servername=";
@@ -97,11 +97,11 @@ if(@Servers[1] ne ""){
 		}
 	}
 	print "</tr>\n";
+	print "</table>\n";
 } else {
 	$hostname = `hostname`;
-	print "<tr><td><b>$text{'index_server_default_active'}</b></td></tr>";
+	print "<p><b>".&text('index_server_default_active', $hostname)."</b></p>";
 }
-print "</table>\n";
 print ui_buttons_start();
 print ui_buttons_row('server_edit_form.cgi?action=create', $text{'index_create_server'});
 print ui_buttons_end();
