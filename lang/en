@@ -1,30 +1,27 @@
-lang=en
-index_root=Webmin Home
-index_title=Netatalk AFP Server
-index_module=Module Index
-servers_title=Virtual Servers
-users_title=Connected Users
-edit_file_share_title=Edit File Share
-
-author=Matthew Keller
-module_author=Matthew Keller
-homepage=netatalk.io
-copyright=see module source
-license=GPLv2
-
-global_ON=ON
-global_OFF=OFF
 global_Delete=Delete
 global_Save=Save
 
-index_interfaces=Edit Interfaces
-index_users=Manage Connected Users
+index_title=Netatalk AFP Server
+index_module=Module Index
 index_sharename=Share Name
-index_edit=Edit Config Files
+index_volumes_title=Shared Volumes
+index_servers_title=Virtual Servers
+index_global=Global Configurations and Options
 index_path=Path
 index_options=Options
-index_secutity=Security
+index_users=Manage Connected Users
+index_edit=Edit Config Files
+index_capabilities=View Server Capabilities
+index_volumes_default=Default Volume Options
 index_create_file_share=Create New File Share
+
+index_servername=Server Name
+index_protocols=Transport Layers
+index_auth=Active Authentication Methods
+index_port=Port
+index_address=IP Address
+index_create_server=Create New Server
+
 index_stop_service=Stop Service
 index_not_running_services=Netatalk services are not running.
 index_running_services=Netatalk services are running.
@@ -32,9 +29,8 @@ index_not_running=Service is not running
 index_start_service=Start Netatalk Service
 index_running_service=Service is running
 index_ever=The afpd program was not found on your system. Maybe Netatalk is not installed, or your <a href='$2'>module configuration</a> is incorrect.
-index_volumes=Shared Volumes
-index_capabilities=View Server Capabilities
 index_no_file_shares=No shared volumes have been defined; Users can access only their home directories.
+index_server_default_active=Default server configuration active; Create new server to override.
 
 index_process_control_restart_txt=Restart netatalk services using <code>$1</code>
 index_process_control_start_txt=Start netatalk services using <code>$1</code>
@@ -43,21 +39,11 @@ index_process_control_restart=Restart Netatalk Services
 index_process_control_start=Start Netatalk Services
 index_process_control_stop=Stop Netatalk Services
 
-index_servername=Server Name
-index_protocols=Transport Layers
-index_auth=Active Authentication Methods
-index_port=Port
-index_address=IP Address
-index_create_server=Create New Server
-index_global=Global Configurations and Options
-
-server_header=Servers
-server_default_active=Default server configuration active; Create new server to override.
-
-index_server=Servers
 init_failed=Command "$1" failed
 
+edit_file_share_title=Edit File Share
 edit_header=Create New File Share
+edit_file_share_default_title=Edit Default File Share Options
 edit_tableheader=Shared Volume Options
 edit_tab_basic=Basic Options
 edit_tab_users=Users & Authentication
@@ -96,7 +82,7 @@ edit_FPerm=Permissions (file)
 edit_DPerm=Permissions (dir)
 edit_Umask=Permissions Mask
 edit_Veto=Vetoed File Names
-edit_Veto_help=Example: veto1/veto2/
+edit_Veto_help=Example: file1/file2/
 edit_VolCharset=Volume Codepage
 edit_VolCharset_help=Default: UTF8
 
@@ -171,7 +157,6 @@ create_server_disabled=Cannot connect
 
 create_server_notice=Note: This is not a comprehensive list of options. Please edit afpd.conf manually for advanced options.
 
-file=file
 not_readable=not readable
 give_correct_path=Please give correct path
 indicate_sharename=Please indicate sharename
@@ -193,6 +178,7 @@ test_config=1
 test_always=0
 test_manual=0
 
+users_title=Connected Users
 users_disconnect_success=User disconnected
 users_disconnect_fail=Could not disconnect user!
 users_connected_users=There are currently $1 user(s) connected.

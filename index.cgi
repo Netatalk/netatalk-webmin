@@ -29,7 +29,7 @@ if (!-x $config{'afpd_d'}) {
 @Shares = open_afile();
 
 # Print AFP volumes
-print "    <h3>$text{index_volumes}</h3>\n";
+print "    <h3>$text{index_volumes_title}</h3>\n";
 print "    <table width=\"100%\" border>\n";
 print "    <tr $tb>";
 print "        <td>$text{'index_sharename'}</td>";
@@ -41,11 +41,13 @@ if(@Shares){
 		$sharename = getShareName($s);
 		$path = getPath($s);
 		$options = getAllOptions($s);
-		print "<tr $cb>\n";
-		print "    <td><a href=\"fshare_edit_form.cgi?shareName=$sharename&path=$path&action=edit\">$sharename</a></td>";
-		print "    <td>$path</td>";
-		print "    <td>$options</td>";
-		print "</tr>";
+		if ($sharename ne ":DEFAULT:") {
+			print "<tr $cb>\n";
+			print "    <td><a href=\"fshare_edit_form.cgi?shareName=$sharename&path=$path&action=edit\">$sharename</a></td>";
+			print "    <td>$path</td>";
+			print "    <td>$options</td>";
+			print "</tr>";
+		}
 	}
 } else {
 	print "<tr><td><b>$text{'index_no_file_shares'}</b></td></tr>";
@@ -58,7 +60,7 @@ print ui_buttons_end();
 print &ui_hr();
 
 # Print Netatalk Server Configurations
-print "<h3>$text{'servers_title'}</h3>\n";
+print "<h3>$text{'index_servers_title'}</h3>\n";
 
 @Servers = readAfpd();
 print "<table width=100% border>\n";
@@ -97,7 +99,7 @@ if(@Servers[1] ne ""){
 	print "</tr>\n";
 } else {
 	$hostname = `hostname`;
-	print "<tr><td><b>$text{'server_default_active'}</b></td></tr>";
+	print "<tr><td><b>$text{'index_server_default_active'}</b></td></tr>";
 }
 print "</table>\n";
 print ui_buttons_start();
@@ -108,9 +110,9 @@ print &ui_hr();
 
 print"<h3>$text{index_global}</h3>\n";
 
-my @server_links = ("show_users.cgi", "edit_configfiles_form.cgi", "server_status.cgi");
-my @server_titles = ($text{'index_users'}, $text{'index_edit'}, "$text{index_capabilities}");
-my @server_icons = ("images/users.gif", "images/edit.gif", "images/server.gif");
+my @server_links = ("fshare_edit_form.cgi?shareName=:DEFAULT:&action=default", "show_users.cgi", "edit_configfiles_form.cgi", "server_status.cgi");
+my @server_titles = ($text{'index_volumes_default'}, $text{'index_users'}, $text{'index_edit'}, "$text{index_capabilities}");
+my @server_icons = ("images/volumes.gif", "images/users.gif", "images/edit.gif", "images/server.gif");
 icons_table(\@server_links, \@server_titles, \@server_icons);
 
 print &ui_hr();

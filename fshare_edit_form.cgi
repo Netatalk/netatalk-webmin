@@ -25,11 +25,16 @@ require 'netatalk2-lib.pl';
 
 &ReadParse();
 
+local $page_title;
+
 if ($in{action} =~ /create/) {
-	ui_print_header(undef, $text{'edit_header'}, "", "shares", 1);
+	$page_title = $text{'edit_header'};
 }
 elsif ($in{action} =~ /edit/) {
-	ui_print_header(undef, $text{'edit_file_share_title'}, "", "shares", 1);
+	$page_title = $text{'edit_file_share_title'};
+}
+elsif ($in{action} =~ /default/) {
+	$page_title = $text{'edit_file_share_default_title'};
 }
 
 open_afile();
@@ -176,30 +181,35 @@ my @tabs = ( [ 'basic', $text{'edit_tab_basic'} ],
              [ 'advanced', $text{'edit_tab_advanced'} ]
             );
 
+ui_print_header(undef, $page_title, "", "shares", 1);
 print &ui_form_start('fshare_save_action.cgi', 'POST');
 
 if ($in{action} =~ /edit/) {
-	print "<input type=\"hidden\" name=\"oldpath\" value=\"$Old_path\">\n";
+	print &ui_hidden('oldpath', $Old_path);
 }
 
 print &ui_tabs_start(\@tabs, 'mode', 'basic');
 print &ui_tabs_start_tab('mode', 'basic');
 
 print &ui_table_start($text{'edit_tableheader'}, 'width="100%"', 2);
-print &ui_table_row($text{'edit_sharename'},
-	&ui_textbox('share', $Old_shareName, 44, undef, undef, 'required')
-);
-print &ui_table_row($text{'edit_sharedvolume'},
-	"<input type=radio name=homes value=0 "
-	.(($Old_path ne "~" && $Old_path ne "~/") ? "checked" : "").">"
-	.$text{'edit_directory'}."<input name=path size=30 value="
-	.(($Old_path ne "~" && $Old_path ne "~/") ? $Old_path: "").">"
-	.&file_chooser_button("path", 1)
-	."<a href=\"/filemin\" target=\"_blank\">".$text{'edit_filemanager_link'}
-	."</a><br><input type=radio name=homes value=1 "
-	.(($Old_path eq "~" || $Old_path eq "~/") ? "checked" : "").">"
-	.$text{'edit_homedirectory'}."<br>"
-);
+
+unless ($in{action} =~ /default/) {
+	print &ui_table_row($text{'edit_sharename'},
+		&ui_textbox('share', $Old_shareName, 44, undef, undef, 'required')
+	);
+	print &ui_table_row($text{'edit_sharedvolume'},
+		"<input type=radio name=homes value=0 "
+		.(($Old_path ne "~" && $Old_path ne "~/") ? "checked" : "").">"
+		.$text{'edit_directory'}."<input name=path size=30 value="
+		.(($Old_path ne "~" && $Old_path ne "~/") ? $Old_path: "").">"
+		.&file_chooser_button("path", 1)
+		."<a href=\"/filemin\" target=\"_blank\">".$text{'edit_filemanager_link'}
+		."</a><br><input type=radio name=homes value=1 "
+		.(($Old_path eq "~" || $Old_path eq "~/") ? "checked" : "").">"
+		.$text{'edit_homedirectory'}."<br>"
+	);
+}
+
 print &ui_table_row($text{'edit_Adouble'},
 	'<select name="adouble_options">'
 	.'<option value="">'.$text{'edit_default'}.'</option>'
@@ -421,11 +431,14 @@ print &ui_table_end();
 print &ui_tabs_end_tab('mode', 'advanced');
 print &ui_tabs_end();
 
+if ($in{action} =~ /default/) {
+	print &ui_hidden('default_options', 1);
+}
 print &ui_form_end([[undef, $text{'edit_save'}]]);
 
 if ($in{action} =~ /edit/) {
 	print &ui_form_start('fshare_delete_action.cgi', 'POST');
-	print "<input type=\"hidden\" name=\"delete_volumepath\" value=\"$Old_path\">\n";
+	print &ui_hidden('delete_volumepath', $Old_path);
 	print &ui_form_end([[undef, $text{'edit_delete'}, ]]);
 }
 

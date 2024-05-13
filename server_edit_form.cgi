@@ -151,15 +151,13 @@ print &ui_table_row($text{'create_server_maccodepage'},
 print &ui_table_end();
 print "<div><i>$text{'create_server_notice'}</i></div>";
 if ($in{action} =~ /edit/) {
-printf "<input type=\"hidden\" name=\"old_servername\" value=\"%s\">\n",
-		$servername eq "" ? "-" : $servername;
+	print &ui_hidden('old_servername', $servername eq "" ? "-" : $servername);
 }
 print &ui_form_end([[undef, $text{'edit_save'}]]);
 
 if ($in{action} =~ /edit/) {
 	print &ui_form_start('server_delete_action.cgi', 'POST');
-	printf "<input type=\"hidden\" name=\"delete_servername\" value=\"%s\">\n",
-		$servername eq "" ? "-" : $servername;
+	print &ui_hidden('delete_servername', $servername eq "" ? "-" : $servername);
 	print &ui_form_end([[undef, $text{'edit_delete'}, ]]);
 }
 

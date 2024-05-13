@@ -79,7 +79,7 @@ sub open_afile
 	local(@rv,$line);
 
 	#File $applevolume_default not readable
-	open(FH,"<$applevolume_default") || die "$text{file} $applevolume_default $text{not_readable}";
+	open(FH,"<$applevolume_default") || die "$applevolume_default $text{not_readable}";
 
 	while(defined($line = <FH>) )
 	{
@@ -92,7 +92,7 @@ sub open_afile
 			redo unless eof(FH);
 		}
 		#read lines which begins with ' ~ ' or ' / '
-		if($line=~/^([\/~]\S*)\s?("([^"]+)")?\s?(\N+)?/ )
+		if($line=~/^([\/~:]\S*)\s?("([^"]+)")?\s?(\N+)?/ )
 		{
 			#create new objects using volume_format and options_format
 			my $options = options_format->new();
@@ -116,7 +116,7 @@ sub open_afile
 			}
 			$volume->name($name);
 			#options read in
-			while ($all_options =~ /(\w+):([\w\d\/\$@,.-:]+)/g)
+			while ($all_options =~ /(\w+):([\w\d\/\$@,\.\-:]+)/g)
 			{
 				if ("adouble" eq $1) {
 					$options->adouble($2);
@@ -451,23 +451,6 @@ sub getAllOptions
 }
 
 #------------------------------------------------------------------------------
-#checked whether indicated path exists
-#------------------------------------------------------------------------------
-sub getPathOK
-{
-	my ($var1) = @_;
-	local($rv);
-	$rv = 0;
-	opendir(DIR,$var1);
-	# Bypass the dir exists check if the path starts at the home dir
-	if(readdir(DIR) || $var1 =~ /^~/){
-		$rv = "1";
-	}
-	closedir(DIR);
-	return $rv;
-}
-
-#------------------------------------------------------------------------------
 #list all users with ID >=500
 #------------------------------------------------------------------------------
 sub getUsers
@@ -508,7 +491,10 @@ sub createNewFileShare
 	my ($in) = @_;
 	#homes or other Path
 	if($in{homes}){
-		$new_line ="~ ";
+		$new_line = "~ ";
+	}
+	elsif($in{default_options}){
+		$new_line = ":DEFAULT: ";
 	}
 	else{
 		$pathli = $in{path};
@@ -525,7 +511,7 @@ sub createNewFileShare
 	if($in{share}){
 		$new_line .= "\"$in{share}\"";
 	}
-	else{
+	elsif (!$in{default_options}){
 		showMessage($text{indicate_sharename});
 		return 0;
 	}
@@ -715,7 +701,7 @@ sub readAfpd
 	);
 	push(@afpd_all, 1);
 	$fileToRead = $config{'afpd_c'};
-	open(FH, "<$fileToRead") || die "$text{file} $fileToRead $text{not_readable}";
+	open(FH, "<$fileToRead") || die "$fileToRead $text{not_readable}";
 	while(<FH>)
 	{
 		#Line with continuation characters read in
@@ -772,7 +758,7 @@ sub getAllAfpd
 	local $index = 0;
 	local $fileToRead = $config{'afpd_c'};
 
-	open(FH, "<$fileToRead") || die "$text{file} $fileToRead $text{not_readable}";
+	open(FH, "<$fileToRead") || die "$fileToRead $text{not_readable}";
 	while(<FH>)
 	{
 		local @afpd = ("") x 13;
@@ -860,8 +846,8 @@ sub addLineToFile()
 	copy($var1, $temporary) or die "$text{copy_failed}: $!";
 
 	lock_file("$temporary");
-	open(OLD, "<$var1") || die "$text{file} $var1 $text{not_readable}";
-	open(NEW, ">$temporary") || die "$text{file} $temporary $text{not_readable}";
+	open(OLD, "<$var1") || die "$var1 $text{not_readable}";
+	open(NEW, ">$temporary") || die "$temporary $text{not_readable}";
 
 	if($var4 < 2) {
 		print NEW "$var2\n";
@@ -905,8 +891,8 @@ sub deleteSpezLine(){
 		or die "$text{copy_failed}: $!";
 
 	lock_file("$temporary");
-	open(OLD, "<$var1") || die "$text{file} $var1 $text{not_readable}";
-	open(NEW, ">$temporary") || die "$text{file} $temp $text{not_readable}";
+	open(OLD, "<$var1") || die "$var1 $text{not_readable}";
+	open(NEW, ">$temporary") || die "$temp $text{not_readable}";
 	while(<OLD>){
 		if($. != $var2){
 			print NEW $_;
@@ -930,11 +916,11 @@ sub deleteSpezLine(){
 sub getSpezLine
 {
 	my ($var1, $var2) = @_;
-	local($counter, $outputli, $escaped_name);
-	$counter = 0;
+	local $counter = 0;
+	local $outputli = 0;
 	# Escape special chars such as the dollar sign
-	$escaped_name = quotemeta($var2);
-	open(OLD, "<$var1") || die "$text{file} $var1 $text{not_readable}";
+	local $escaped_name = quotemeta($var2);
+	open(OLD, "<$var1") || die "$var1 $text{not_readable}";
 	while(<OLD>){
 		$counter++;
 		# Server names may or may not be quoted

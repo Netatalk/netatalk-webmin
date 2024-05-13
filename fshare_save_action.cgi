@@ -32,6 +32,19 @@ if ($in{oldpath}) {
 	$lineNumber = getLinesSpezFile($applevolume_default);
 }
 
+if ($in{default_options}) {
+	$lineNumber = getSpezLine($applevolume_default, ":DEFAULT:");
+	if ($lineNumber) {
+		local $result = deleteSpezLine($applevolume_default, $lineNumber);
+		if ($result == 0) {
+			showMessage($text{'edit_delete_error'})
+		}
+	}
+	else {
+		$lineNumber = 1;
+	}
+}
+
 if ($fileShareLine ne 0) {
 	addLineToFile($applevolume_default, $fileShareLine, $lineNumber, $totalLines);
 }
