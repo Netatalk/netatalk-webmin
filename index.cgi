@@ -31,7 +31,7 @@ if (!-x $config{'afpd_d'}) {
 print "<h3>$text{index_volumes_title}</h3>\n";
 
 # Print AFP volumes
-if (($#Shares > 1) || ($#Shares eq 1 && ! $Shares[0] =~ "^:DEFAULT:")) {
+if ((scalar @Shares > 1) || (scalar @Shares eq 1 && ! $Shares[0] =~ "^:DEFAULT:")) {
 	print &ui_columns_start([
 			$text{'index_sharename'},
 			$text{'index_path'},
