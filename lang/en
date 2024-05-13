@@ -161,6 +161,8 @@ indicate_sharename=Please indicate sharename
 copy_failed=Failed to copy file
 delete_failed=Can't delete file
 error_illegal_char=Name contains illegal characters
+error_dup_path=Path is already in use: $1
+error_dup_name=Name is already in use: $1
 
 help_volume=Volume Config Help
 help_configs=Configurations Help

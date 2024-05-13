@@ -487,6 +487,18 @@ sub createNewFileShare
 {
 	local $new_line;
 	my ($in) = @_;
+	local @volumes = open_afile();
+	foreach $v (@volumes) {
+		if (($in{path} eq getPath($v)) || ($in{homes} && (getPath($v) =~ "^~"))) {
+			showMessage(&text(error_dup_path, getPath($v)));
+			exit;
+		}
+		if ($in{share} eq getShareName($v)) {
+			showMessage(&text(error_dup_name, getShareName($v)));
+			exit;
+		}
+	}
+
 	#homes or other Path
 	if($in{homes}){
 		$new_line = "~ ";
@@ -620,6 +632,13 @@ sub createNewServerLine(){
 	local $illegalChars = ":@\$\"<>\/";
 	local $newString;
 	my ($in) = @_;
+	local %servers = getAllAfpd();
+	foreach my $s (keys %servers) {
+		if ($in{servername} eq $servers{$s}[0]) {
+			showMessage(&text(error_dup_name, $servers{$s}[0]));
+			exit;
+		}
+	}
 
 	unless($in{servername}){
 		$newString = "- ";
