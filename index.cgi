@@ -28,9 +28,10 @@ if (!-x $config{'afpd_d'}) {
 
 @Shares = open_afile();
 
+print "<h3>$text{index_volumes_title}</h3>\n";
+
 # Print AFP volumes
-if(@Shares){
-	print "    <h3>$text{index_volumes_title}</h3>\n";
+if((scalar @Shares > 1) || (scalar @Shares eq 1 && ! $Shares[0] =~ "^:DEFAULT:")){
 	print "    <table width=\"100%\" border>\n";
 	print "    <tr $tb>";
 	print "        <td>$text{'index_sharename'}</td>";
@@ -99,8 +100,7 @@ if(@Servers[1] ne ""){
 	print "</tr>\n";
 	print "</table>\n";
 } else {
-	$hostname = `hostname`;
-	print "<p><b>".&text('index_server_default_active', $hostname)."</b></p>";
+	print "<p><b>".&text('index_server_default_active', &get_system_hostname())."</b></p>";
 }
 print ui_buttons_start();
 print ui_buttons_row('server_edit_form.cgi?action=create', $text{'index_create_server'});

@@ -3,7 +3,7 @@ global_Save=Save
 
 index_title=Netatalk AFP Server
 index_module=Module Index
-index_sharename=Share Name
+index_sharename=Volume Name
 index_volumes_title=Shared Volumes
 index_servers_title=Virtual Servers
 index_global=Global Configurations and Options

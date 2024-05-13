@@ -28,8 +28,6 @@ $applevolume_default = $config{'applevolumedefault_c'};
 $temp = "$applevolume_default.temp";
 
 $pername = ();
-$hostname = `hostname`;
-chomp($hostname);
 
 #struct volume_format administers all information of a " line "
 use Class::Struct;
@@ -707,7 +705,7 @@ sub readAfpd
 		#Line with continuation characters read in
 		if($_=~/(^[\w\d-\"].*)/ ){
 			@afpd = (
-				$hostname,
+				&get_system_hostname(),
 				$text{'create_server_disabled'},
 				$text{'create_server_no_auth'},
 				$text{'create_server_default'},
