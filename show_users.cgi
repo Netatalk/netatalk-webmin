@@ -2,6 +2,7 @@
 #
 # Netatalk Webmin Module
 # Copyright (C) 2013 Ralph Boehme <sloowfranklin@gmail.com>
+# Copyright (C) 2023-4 Daniel Markstedt <daniel@mindani.net>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -39,29 +40,29 @@ for (qx(ps aux)) {
 
 	# Pick only lines that are afpd processes not owned by root
 	if ($columns[10] =~ m/afpd/ && $columns[0] ne "root") {
-		# Columns with index 0 username, 1 PID, and 8 date
+		# Columns with index: 0=username, 1=PID, 8=date
 		push @users, join(":::", $columns[0], $columns[1], $columns[8]);
 	}
 }
 
 print "<p>",&text('users_connected_users', scalar(@users)),"</p>\n";
-print "<table width=\"100%\" border>\n";
-print "<tr $tb>\n";
-print "<td style=\"width: 25%;\"><b>$text{'users_table_user'}</b></td>\n";
-print "<td style=\"width: 25%;\"><b>$text{'users_table_connected'}</b></td>\n";
-print "<td style=\"width: 25%;\"><b>$text{'users_table_pid'}</b></td>\n";
-print "<td style=\"width: 25%;\"><b>$text{'users_table_action'}</b></td></tr>\n";
+print &ui_columns_start([
+		$text{'users_table_user'},
+		$text{'users_table_connected'},
+		$text{'users_table_pid'},
+		$text{'users_table_action'}
+	], undef, 0, undef, undef);
 foreach my $user (sort @users) {
-	#username,PID,date
 	my @line = split(":::", $user);
-	print "<tr $tc><td>$line[0] </td><td>$line[2]</td><td>$line[1]</td><td>";
-	print "<form action=\"show_users.cgi\">\n";
-	print "<input type=hidden name=kill value=\"$line[1]\">\n";
-	print "<input type=submit value=\"$text{'users_button_disconnect'}\">\n";
-	print "</form>\n";
-	print "</td></tr>\n";
+		print &ui_columns_row([
+			$line[0],
+			$line[2],
+			$line[1],
+			&ui_form_start('show_users.cgi', 'POST')
+			.&ui_hidden('kill', $line[1])
+			.&ui_form_end([[undef, $text{'users_button_disconnect'}]])
+	]);
 }
-print "</table>\n";
-print "<br>\n";
+print &ui_columns_end();
 
-ui_print_footer("index.cgi", $text{'edit_return'});
+ui_print_footer("index.cgi", $text{'index_module'});
