@@ -37,8 +37,8 @@ The same thing can be accomplished within the Webmin UI, in the Netatalk module'
 
 # Known limitations
 - Editing afpd.conf through the form will remove options that are not supported by this module.
-- Don't use the same path for multiple shared volumes, or same name for multiple virtual servers.
-  Subsequent operations on those objects will have unintended side effects.
+- All daemons have to be started/stopped in a batch. No support for granular daemon control.
+- atalkd.conf, papd.conf etc. have to be manually managed.
 
 # Authors
 - Matthew Keller
