@@ -519,9 +519,10 @@ print &ui_table_row($text{'edit_global_section_ldap_auth_pw'},
 	&ui_textbox('p_ldap auth pw', $values[0], 40)
 );
 
-@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ldap server', \%in);
-print &ui_table_row($text{'edit_global_section_ldap_server'},
-	&ui_textbox('p_ldap server', $values[0], 40)
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ldap uri', \%in);
+print &ui_table_row($text{'edit_global_section_ldap_uri'},
+	&ui_textbox('p_ldap uri', $values[0], 40)
+	." ".$text{'edit_global_section_ldap_uri_help'}
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'ldap userbase', \%in);
