@@ -692,54 +692,49 @@ sub showMessage
 #------------------------------------------------------------------
 sub readAfpd
 {
-	local(
-		$fileToRead,
-		@afpd,
-		@afpd_all,
-	);
-	push(@afpd_all, 1);
-	$fileToRead = $config{'afpd_c'};
+	local	@afpd_all;
+	local $fileToRead = $config{'afpd_c'};
 	open(FH, "<$fileToRead") || die "$fileToRead $text{not_readable}";
 	while(<FH>)
 	{
 		#Line with continuation characters read in
 		if($_=~/(^[\w\d-\"].*)/ ){
-			@afpd = (
-				&get_system_hostname(),
-				$text{'create_server_disabled'},
-				$text{'create_server_no_auth'},
-				$text{'create_server_default'},
-				$text{'create_server_default'}
+			local %afpd = (
+				servername => &get_system_hostname(),
+				transport => $text{'create_server_disabled'},
+				uams => $text{'create_server_no_auth'},
+				port => $text{'create_server_default'},
+				address => $text{'create_server_default'}
 			);
 
 			if($_ =~ /^(\"[^\"]+\"|[^\s-]+)\s/)  {
 				$1 =~ /^\"*([^\"]+)\"*/;
-				@afpd[0] = $1;
+				$afpd{servername} = $1;
 			}
 
 			if($_ =~ /-transall/ || $_ =~ /-(ddp|tcp)\s+-(ddp|tcp)/ ){
-				@afpd[1] = "$text{'create_server_AppleTalk'}, $text{'create_server_TCP'}";
+				$afpd{transport} = "AppleTalk, TCP/IP";
 			}
 			elsif($_ =~ /-(ddp|notcp)\s+-(notcp|ddp)/ ){
-				@afpd[1] = $text{'create_server_AppleTalk'};
+				$afpd{transport} = "AppleTalk";
 			}
 			elsif($_ =~ /-(noddp|tcp)\s+-(tcp|noddp)/ ){
-				@afpd[1] = $text{'create_server_TCP'};
+				$afpd{transport} = "TCP/IP";
 			}
 			elsif($_ =~ /-notransall/ || $_ =~ /-(noddp|notcp)\s+-(noddp|notcp)/ ){
-				@afpd[1] = "$text{'create_server_disabled'}";
+				$afpd{transport} = "$text{'create_server_disabled'}";
 			}
 
 			if($_ =~ /-uamlist\s([\w\d\._,]+)\s/){
-				@afpd[2] = $1;
+				$afpd{uams} = $1;
 			}
 			if($_ =~ /-port\s([0-9]*)/){
-				@afpd[3] = $1;
+				$afpd{port} = $1;
 			}
 			if($_ =~ /-ipaddr\s([0-9.]*)/){
-				@afpd[4] = $1;
+				$afpd{address} = $1;
 			}
-			push(@afpd_all, @afpd);
+			push @afpd_all, \%afpd;
 		}
 	}
 	close(FH);

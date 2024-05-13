@@ -13,7 +13,7 @@ index_users=Manage Connected Users
 index_edit=Edit Config Files
 index_capabilities=View Server Capabilities
 index_volumes_default=Default Volume Options
-index_create_file_share=Create New File Share
+index_create_file_share=Create New Shared Volume
 
 index_servername=Server Name
 index_protocols=Transport Layers
@@ -134,8 +134,6 @@ create_server_tableheader=Server Options
 create_server_ServerName=Server Name
 create_server_localhost=Leave empty to use name of localhost
 create_server_transport=Transport layers
-create_server_TCP=TCP/IP
-create_server_AppleTalk=AppleTalk
 create_server_uams=Authentication Modules
 create_server_Port=Port
 create_server_Port_help=Default: 548

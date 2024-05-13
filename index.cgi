@@ -31,28 +31,27 @@ if (!-x $config{'afpd_d'}) {
 print "<h3>$text{index_volumes_title}</h3>\n";
 
 # Print AFP volumes
-if((scalar @Shares > 1) || (scalar @Shares eq 1 && ! $Shares[0] =~ "^:DEFAULT:")){
-	print "    <table width=\"100%\" border>\n";
-	print "    <tr $tb>";
-	print "        <td>$text{'index_sharename'}</td>";
-	print "        <td>$text{'index_path'}</td>\n";
-	print "        <td>$text{'index_options'}</td>\n";
-	print "    </tr>\n";
+if (($#Shares > 1) || ($#Shares eq 1 && ! $Shares[0] =~ "^:DEFAULT:")) {
+	print &ui_columns_start([
+			$text{'index_sharename'},
+			$text{'index_path'},
+			$text{'index_options'}
+		], undef, 0, undef, undef);
 	foreach $s (@Shares) {
 		$sharename = getShareName($s);
 		$path = getPath($s);
 		$options = getAllOptions($s);
 		if ($sharename ne ":DEFAULT:") {
-			print "<tr $cb>\n";
-			print "    <td><a href=\"fshare_edit_form.cgi?shareName=$sharename&path=$path&action=edit\">$sharename</a></td>";
-			print "    <td>$path</td>";
-			print "    <td>$options</td>";
-			print "</tr>";
+			print &ui_columns_row([
+				"<a href=\"fshare_edit_form.cgi?shareName=$sharename&path=$path&action=edit\">$sharename</a>",
+				$path,
+				$options
+			]);
 		}
 	}
-	print "</table>\n";
+	print &ui_columns_end();
 } else {
-	print "<p><b>$text{'index_no_file_shares'}</b></p>";
+	print "<p><b>$text{'index_no_file_shares'}</b></p>\n";
 }
 print ui_buttons_start();
 print ui_buttons_row('fshare_edit_form.cgi?action=create', $text{'index_create_file_share'});
@@ -64,41 +63,26 @@ print &ui_hr();
 print "<h3>$text{'index_servers_title'}</h3>\n";
 
 @Servers = readAfpd();
-if(@Servers[1] ne ""){
-	print "<table width=100% border>\n";
-	print "<tr $tb>";
-	print "<td>$text{'index_servername'}</td>";
-	print "<td>$text{'index_protocols'}</td>";
-	print "<td>$text{'index_auth'}</td>";
-	print "<td>$text{'index_port'}</td>";
-	print "<td>$text{'index_address'}</td>";
-	print "</tr>\n";
-	print "<tr>";
-	$offset = 0;
-	$servername="servername=";
-	$tcp="tcpip=";
-	$ddp="ddp=";
-	$port="port=";
-	$address="address=";
-	$offsetStr="offset=";
-	for($i=0;$i<=$#Servers;$i++){
-		if( ($i%5 ==0) && ($i ne 0)){
-			print"<td>$Servers[$i]</td></tr><tr>";
-			$i++;
-			$pointer=$i;
-			$offset++;
-			print"<td><a href=\"server_edit_form.cgi?action=edit&$offsetStr$offset\">$Servers[$i]</a></td>\n";
-		}
-		elsif($i ne 0 && $i >1){
-			print"<td>$Servers[$i]</td>\n";
-		}
-		elsif($i ne 0 && $i eq 1){
-			$pointer=$i;
-			print"<td><a href=\"server_edit_form.cgi?action=edit&$offsetStr$offset\">$Servers[$i]</a></td>\n";
-		}
+if (@Servers) {
+	print &ui_columns_start([
+			$text{'index_servername'},
+			$text{'index_protocols'},
+			$text{'index_auth'},
+			$text{'index_port'},
+			$text{'index_address'}
+		], undef, 0, undef, undef);
+	local $offset = 0;
+	foreach $s (@Servers){
+		print &ui_columns_row([
+			"<a href=\"server_edit_form.cgi?action=edit&offset=$offset\">$s->{servername}</a>",
+			$s->{transport},
+			$s->{uams},
+			$s->{port},
+			$s->{address}
+		]);
+		$offset++;
 	}
-	print "</tr>\n";
-	print "</table>\n";
+	print &ui_columns_end();
 } else {
 	print "<p><b>".&text('index_server_default_active', &get_system_hostname())."</b></p>";
 }
@@ -122,7 +106,7 @@ print &ui_hr();
 my $current_formindex = 0;
 
 # Process control Buttons
-if(&find_byname($config{'afpd_d'})) {
+if (&find_byname($config{'afpd_d'})) {
     print "<h3>$text{'index_running_services'}</h3>\n";
 	print &ui_buttons_start();
 	print &ui_buttons_row('restart.cgi', $text{'index_process_control_restart'}, &text('index_process_control_restart_txt', $config{restart_netatalk}));
