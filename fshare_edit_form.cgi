@@ -220,6 +220,7 @@ print &ui_table_row($text{'edit_Adouble'},
 	.($Ea =~ /v2/ ? 'selected' : '')
 	.'>'.$text{'edit_Adoublev2'}.'</option>'
 	.'</select>'
+	.' '.$text{'edit_Adouble_help'}
 );
 print &ui_table_row($text{'edit_Volsizelimit'},
 	"<input type=\"number\" name=volsizelimit min=\"1\" max=\"99999\" value="
@@ -257,6 +258,7 @@ print &ui_table_row($text{'edit_Ea'},
 	.($Ea =~ /none/ ? 'selected' : '')
 	.'>'.$text{'edit_Eanone'}.'</option>'
 	.'</select>'
+	.' '.$text{'edit_Ea_help'}
 );
 print &ui_table_row($text{'edit_MacCharset'},
 	'<select name="maccharset">'

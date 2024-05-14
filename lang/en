@@ -58,14 +58,16 @@ edit_default=default
 edit_filemanager_link=File Manager (new tab)
 
 edit_Adouble=AppleDouble file meta data format
-edit_Adoublev1=AppleDouble v1
-edit_Adoublev2=AppleDouble v2 (default)
+edit_Adoublev1=v1
+edit_Adoublev2=v2
+edit_Adouble_help=Default: v2
 
 edit_Ea=Extended Attributes
-edit_Eaauto=Try filesystem EA, fallback to AppleDouble (default)
-edit_Easys=Use filesystem EA
-edit_Eaad=Use AppleDouble
+edit_Eaauto=Filesystem EA, fallback to AppleDouble
+edit_Easys=Filesystem EA
+edit_Eaad=AppleDouble
 edit_Eanone=No EA support
+edit_Ea_help=Default: Filesystem EA, fallback to AppleDouble
 
 edit_Volsizelimit=Volume Size Limit (MB)
 edit_AllowedHosts=Allowed Host IPs
