@@ -668,8 +668,18 @@ sub createNewServerLine(){
 	if($in{address}){
 		$newString .= "-ipaddr $in{address} ";
 	}
-	$newString .= "$in{savepassword} ";
-	$newString .= "$in{setpassword} ";
+	if($in{savepassword} eq 'yes'){
+		$newString .= "-savepassword ";
+	}
+	elsif($in{savepassword} eq 'no'){
+		$newString .= "-nosavepassword ";
+	}
+	if($in{setpassword} eq 'yes'){
+		$newString .= "-setpassword ";
+	}
+	elsif($in{setpassword} eq 'no'){
+		$newString .= "-nosetpassword ";
+	}
 	if($in{logmesg}){
 		$newString .= "-loginmesg \"$in{logmesg}\" ";
 	}
@@ -677,7 +687,12 @@ sub createNewServerLine(){
 		$in{uams} =~ s/\x00/\,/g;
 		$newString .= "-uamlist $in{uams} ";
 	}
-	$newString .= "$in{icon} ";
+	if($in{icon} eq 'yes'){
+		$newString .= "-icon ";
+	}
+	elsif($in{icon} eq 'no'){
+		$newString .= "-noicon ";
+	}
 	if($in{mimicmodel}){
 		$newString .= "-mimicmodel \"$in{mimicmodel}\" ";
 	}
@@ -805,22 +820,22 @@ sub getAllAfpd
 				$afpd{loginmesg} = $1;
 			}
 			if($_ =~ /-savepassword/) {
-				$afpd{savepassword} = "-savepassword";
+				$afpd{savepassword} = "yes";
 			} elsif($_ =~ /-nosavepassword/) {
-				$afpd{savepassword} = "-nosavepassword";
+				$afpd{savepassword} = "no";
 			}
 			if($_ =~ /-setpassword/) {
-				$afpd{setpassword} = "-setpassword";
+				$afpd{setpassword} = "yes";
 			} elsif($_ =~ /-nosetpassword/) {
-				$afpd{setpassword} = "-nosetpassword";
+				$afpd{setpassword} = "no";
 			}
 			if($_ =~ /-uamlist\s([\w\d\.,]+)/) {
 				$afpd{uamlist} = $1;
 			}
 			if($_ =~ /-icon/) {
-				$afpd{icon} = "-icon";
+				$afpd{icon} = "yes";
 			} elsif($_ =~ /-noicon/) {
-				$afpd{icon} = "-noicon";
+				$afpd{icon} = "no";
 			}
 			if($_ =~ /-mimicmodel\s\"*([\w\d\,]+)\"*/) {
 				$afpd{mimicmodel} = $1;

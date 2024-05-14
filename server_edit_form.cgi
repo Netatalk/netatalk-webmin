@@ -32,9 +32,6 @@ if ($in{action} =~ /create/) {
   # Netatalk default options defined here
 	$transport = "-transall";
 	$uamlist = "uams_dhx2.so";
-	$savepass = 1;
-	$setpass = 0;
-	$icon = 0;
 }
 elsif ($in{action} =~ /edit/) {
 	if ($in{offset}) {
@@ -91,16 +88,31 @@ print &ui_table_row($text{'create_server_Port'},
 	." ".$text{'create_server_Port_help'}
 );
 print &ui_table_row($text{'create_server_setpass'},
-	&ui_yesno_radio('setpassword', $setpass)
+	&ui_select('setpassword', $setpass, [
+			['', $text{'edit_default'}],
+			['yes', $text{'global_yes'}],
+			['no', $text{'global_no'}]
+		])
+	." ".$text{'create_server_setpass_help'}
 );
 print &ui_table_row($text{'create_server_savepass'},
-	&ui_yesno_radio('savepassword', $savepass)
+	&ui_select('savepassword', $savepass, [
+			['', $text{'edit_default'}],
+			['yes', $text{'global_yes'}],
+			['no', $text{'global_no'}]
+		])
+	." ".$text{'create_server_savepass_help'}
 );
 print &ui_table_row($text{'create_server_lgmesg'},
 	&ui_textbox('logmesg', $loginmsg, 60)
 );
 print &ui_table_row($text{'create_server_icon'},
-	&ui_yesno_radio('icon', $icon)
+	&ui_select('icon', $icon, [
+			['', $text{'edit_default'}],
+			['yes', $text{'global_yes'}],
+			['no', $text{'global_no'}]
+		])
+	." ".$text{'create_server_icon_help'}
 );
 print &ui_table_row($text{'create_server_mimicmodel'},
 	&ui_textbox('mimicmodel', $mimicmodel, 40)
