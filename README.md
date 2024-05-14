@@ -11,6 +11,8 @@ The afpd service needs to be restarted or reloaded for the new settings to take 
 
 If you don't have it installed already, install webmin itself by following the instructions at https://webmin.com/
 
+You will also need Perl, and the Perl CGI module. On Debian, for instance, the CGI module is distributed in a package called "libcgi-pm-perl".
+
 ## From release tarball
 
 1. Download a [stable release tarball](https://github.com/Netatalk/netatalk-webmin/releases)
