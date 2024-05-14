@@ -211,15 +211,11 @@ unless ($in{action} =~ /default/) {
 }
 
 print &ui_table_row($text{'edit_Adouble'},
-	'<select name="adouble_options">'
-	.'<option value="">'.$text{'edit_default'}.'</option>'
-	.'<option value="v1" '
-	.($Ea =~ /v1/ ? 'selected' : '')
-	.'>'.$text{'edit_Adoublev1'}.'</option>'
-	.'<option value="v2" '
-	.($Ea =~ /v2/ ? 'selected' : '')
-	.'>'.$text{'edit_Adoublev2'}.'</option>'
-	.'</select>'
+	&ui_select('adouble_options', $Adouble, [
+			['', $text{'edit_default'}],
+			['v1', $text{'edit_Adoublev1'}],
+			['v2', $text{'edit_Adoublev2'}]
+		])
 	.' '.$text{'edit_Adouble_help'}
 );
 print &ui_table_row($text{'edit_Volsizelimit'},
@@ -243,57 +239,29 @@ print &ui_table_row($text{'edit_DataBase'},
 	&ui_filebox('dbpath', $Database, 30)
 );
 print &ui_table_row($text{'edit_Ea'},
-	'<select name="ea_options">'
-	.'<option value="">'.$text{'edit_default'}.'</option>'
-	.'<option value="auto" '
-	.($Ea =~ /auto/ ? 'selected' : '')
-	.'>'.$text{'edit_Eaauto'}.'</option>'
-	.'<option value="sys" '
-	.($Ea =~ /sys/ ? 'selected' : '')
-	.'>'.$text{'edit_Easys'}.'</option>'
-	.'<option value="ad" '
-	.($Ea =~ /ad/ ? 'selected' : '')
-	.'>'.$text{'edit_Eaad'}.'</option>'
-	.'<option value="none" '
-	.($Ea =~ /none/ ? 'selected' : '')
-	.'>'.$text{'edit_Eanone'}.'</option>'
-	.'</select>'
+	&ui_select('ea_options', $Ea, [
+			['', $text{'edit_default'}],
+			['auto', $text{'edit_Eaauto'}],
+			['sys', $text{'edit_Easys'}],
+			['ad', $text{'edit_Eaad'}],
+			['none', $text{'edit_Eanone'}]
+		])
 	.' '.$text{'edit_Ea_help'}
 );
 print &ui_table_row($text{'edit_MacCharset'},
-	'<select name="maccharset">'
-	.'<option value="">'.$text{'edit_default'}.'</option>'
-	.'<option value="MAC_CENTRALEUROPE" '
-	.($maccodepage =~ /MAC_CENTRALEUROPE/ ? 'selected' : '')
-	.'>MAC_CENTRALEUROPE'.'</option>'
-	.'<option value="MAC_CHINESE_SIMP" '
-	.($maccodepage =~ /MAC_CHINESE_SIMP/ ? 'selected' : '')
-	.'>MAC_CHINESE_SIMP'.'</option>'
-	.'<option value="MAC_CHINESE_TRAD" '
-	.($maccodepage =~ /MAC_CHINESE_TRAD/ ? 'selected' : '')
-	.'>MAC_CHINESE_TRAD'.'</option>'
-	.'<option value="MAC_CYRILLIC" '
-	.($maccodepage =~ /MAC_CYRILLIC/ ? 'selected' : '')
-	.'>MAC_CYRILLIC'.'</option>'
-	.'<option value="MAC_GREEK" '
-	.($maccodepage =~ /MAC_GREEK/ ? 'selected' : '')
-	.'>MAC_GREEK'.'</option>'
-	.'<option value="MAC_HEBREW" '
-	.($maccodepage =~ /MAC_HEBREW/ ? 'selected' : '')
-	.'>MAC_HEBREW'.'</option>'
-	.'<option value="MAC_JAPANESE" '
-	.($maccodepage =~ /MAC_JAPANESE/ ? 'selected' : '')
-	.'>MAC_JAPANESE'.'</option>'
-	.'<option value="MAC_KOREAN" '
-	.($maccodepage =~ /MAC_KOREAN/ ? 'selected' : '')
-	.'>MAC_KOREAN'.'</option>'
-	.'<option value="MAC_ROMAN" '
-	.($maccodepage =~ /MAC_ROMAN/ ? 'selected' : '')
-	.'>MAC_ROMAN'.'</option>'
-	.'<option value="MAC_TURKISH" '
-	.($maccodepage =~ /MAC_TURKISH/ ? 'selected' : '')
-	.'>MAC_TURKISH'.'</option>'
-	.'</select>'
+	&ui_select('maccharset', $MacCharset, [
+			['', $text{'edit_default'}],
+			['MAC_CENTRALEUROPE'],
+			['MAC_CHINESE_SIMP'],
+			['MAC_CHINESE_TRAD'],
+			['MAC_CYRILLIC'],
+			['MAC_GREEK'],
+			['MAC_HEBREW'],
+			['MAC_JAPANESE'],
+			['MAC_KOREAN'],
+			['MAC_ROMAN'],
+			['MAC_TURKISH']
+		])
 	." ".$text{'create_server_maccodepage_help'}
 );
 print &ui_table_row($text{'edit_VolCharset'},
@@ -305,15 +273,13 @@ print &ui_table_row($text{'edit_Veto'},
 	." ".$text{'edit_Veto_help'}
 );
 print &ui_table_row($text{'edit_MisceOptions'},
-	"<input type=checkbox name=misc_options ".($searchdb eq "1" ? "checked" : "")." value=searchdb>$text{'edit_Optionssearchdb'} <br>\n"
-	."<input type=checkbox name=misc_options ".($tm eq "1" ? "checked" : "")." value=tm>$text{'edit_Optionstm'}<br>\n"
-	."<input type=checkbox name=misc_options ".($nonetids eq "1" ? "checked" : "")." value=nonetids>$text{'edit_Optionsnonetids'}<br>\n"
-	."<input type=checkbox name=misc_options ".($limitsize eq "1" ? "checked" : "")." value=limitsize>$text{'edit_Optionslimitsize'}<br>\n"
-	."<input type=checkbox name=misc_options ".($ro eq "1" ? "checked" : "")." value=ro>$text{'edit_Optionsro'}<br>\n"
-	."<input type=checkbox name=misc_options ".($upriv eq "1" ? "checked" : "")." value=upriv>$text{'edit_Optionsupriv'}<br>\n"
-	."<input type=checkbox name=misc_options ".($usedots eq "1" ? "checked" : "")." value=usedots>$text{'edit_Optionsusedots'}<br>\n"
-	."<input type=checkbox name=misc_options ".($invisibledots eq "1" ? "checked" : "")." value=invisibledots>$text{'edit_Optionsinvisibledots'}<br>\n"
-	."<input type=checkbox name=misc_options ".($limitsize eq "1" ? "checked" : "")." value=followsymlinks>$text{'edit_Optionsfollowsymlinks'}<br>\n"
+	&ui_checkbox('misc_options', 'searchdb', $text{'edit_Optionssearchdb'}, $searchdb)
+);
+print &ui_table_row('',
+	&ui_checkbox('misc_options', 'tm', $text{'edit_Optionstm'}, $tm)
+);
+print &ui_table_row('',
+	&ui_checkbox('misc_options', 'limitsize', $text{'edit_Optionslimitsize'}, $limitsize)
 );
 
 print &ui_table_end();
@@ -399,33 +365,61 @@ print &ui_tabs_start_tab('mode', 'advanced');
 print &ui_table_start($text{'edit_tableheader'}, 'width="100%"', 2);
 
 print &ui_table_row($text{'edit_Casefold'},
-	'<select name="casefold_options">'
-	.'<option value="default">'.$text{'edit_Casefolddefault'}.'</option>'
-	.'<option value="tolower" '
-	.($Ea =~ /tolower/ ? 'selected' : '')
-	.'>'.$text{'edit_Casefoldtolower'}.'</option>'
-	.'<option value="toupper" '
-	.($Ea =~ /toupper/ ? 'selected' : '')
-	.'>'.$text{'edit_Casefoldtoupper'}.'</option>'
-	.'<option value="xlatelower" '
-	.($Ea =~ /xlatelower/ ? 'selected' : '')
-	.'>'.$text{'edit_Casefoldxlatelower'}.'</option>'
-	.'<option value="xlateupper" '
-	.($Ea =~ /xlateupper/ ? 'selected' : '')
-	.'>'.$text{'edit_Casefoldxlateupper'}.'</option>'
-	.'</select>'
+	&ui_select('casefold_options', $Casefold, [
+			['', $text{'edit_Casefolddefault'}],
+			['tolower', $text{'edit_Casefoldtolower'}],
+			['toupper', $text{'edit_Casefoldtoupper'}],
+			['xlatelower', $text{'edit_Casefoldxlatelower'}],
+			['xlateupper', $text{'edit_Casefoldxlateupper'}]
+		])
+);
+print &ui_table_row($text{'edit_MisceOptions'},
+	&ui_checkbox('misc_options', 'nonetids', $text{'edit_Optionsnonetids'}, $nonetids)
+);
+print &ui_table_row('',
+	&ui_checkbox('misc_options', 'ro', $text{'edit_Optionsro'}, $ro)
+);
+print &ui_table_row('',
+	&ui_checkbox('misc_options', 'upriv', $text{'edit_Optionsupriv'}, $upriv)
+);
+print &ui_table_row('',
+	&ui_checkbox('misc_options', 'usedots', $text{'edit_Optionsusedots'}, $usedots)
+);
+print &ui_table_row('',
+	&ui_checkbox('misc_options', 'invisibledots', $text{'edit_Optionsinvisibledots'}, $invisibledots)
+);
+print &ui_table_row('',
+	&ui_checkbox('misc_options', 'followsymlinks', $text{'edit_Optionsfollowsymlinks'}, $followsymlinks)
 );
 print &ui_table_row($text{'edit_AdvOptions'},
-	"<input type=checkbox name=misc_options ".($caseinsensitive eq "1" ? "checked" : "")." value=caseinsensitive>$text{'edit_Optionscaseinsensitive'} <br>\n"
-	."<input type=checkbox name=misc_options ".($crlf eq "1" ? "checked" : "")." value=crlf>$text{'edit_Optionscrlf'}<br>\n"
-	."<input type=checkbox name=misc_options ".($illegalseq eq "1" ? "checked" : "")." value=illegalseq>$text{'edit_Optionsillegalseq'}<br>\n"
-	."<input type=checkbox name=misc_options ".($mswindows eq "1" ? "checked" : "")." value=mswindows>$text{'edit_Optionsmswindows'}<br>\n"
-	."<input type=checkbox name=misc_options ".($noadouble eq "1" ? "checked" : "")." value=noadouble>$text{'edit_Optionsnoadouble'}<br>\n"
-	."<input type=checkbox name=misc_options ".($nocnidcache eq "1" ? "checked" : "")." value=nocnidcache>$text{'edit_Optionsnocnidcache'}<br>\n"
-	."<input type=checkbox name=misc_options ".($nodev eq "1" ? "checked" : "")." value=nodev>$text{'edit_Optionsnodev'}<br>\n"
-	."<input type=checkbox name=misc_options ".($nofileid eq "1" ? "checked" : "")." value=nofileid>$text{'edit_Optionsnofileid'}<br>\n"
-	."<input type=checkbox name=misc_options ".($nohex eq "1" ? "checked" : "")." value=nohex>$text{'edit_Optionsnohex'}<br>\n"
-	."<input type=checkbox name=misc_options ".($prodos eq "1" ? "checked" : "")." value=prodos>$text{'edit_Optionsprodos'}<br>\n"
+	&ui_checkbox('misc_options', 'caseinsensitive', $text{'edit_Optionscaseinsensitive'}, $caseinsensitive)
+);
+print &ui_table_row('',
+	&ui_checkbox('misc_options', 'crlf', $text{'edit_Optionscrlf'}, $crlf)
+);
+print &ui_table_row('',
+	&ui_checkbox('misc_options', 'illegalseq', $text{'edit_Optionsillegalseq'}, $illegalseq)
+);
+print &ui_table_row('',
+	&ui_checkbox('misc_options', 'mswindows', $text{'edit_Optionsmswindows'}, $mswindows)
+);
+print &ui_table_row('',
+	&ui_checkbox('misc_options', 'noadouble', $text{'edit_Optionsnoadouble'}, $noadouble)
+);
+print &ui_table_row('',
+	&ui_checkbox('misc_options', 'nocnidcache', $text{'edit_Optionsnocnidcache'}, $nocnidcache)
+);
+print &ui_table_row('',
+	&ui_checkbox('misc_options', 'nodev', $text{'edit_Optionsnodev'}, $nodev)
+);
+print &ui_table_row('',
+	&ui_checkbox('misc_options', 'nofileid', $text{'edit_Optionsnofileid'}, $nofileid)
+);
+print &ui_table_row('',
+	&ui_checkbox('misc_options', 'nohex', $text{'edit_Optionsnohex'}, $nohex)
+);
+print &ui_table_row('',
+	&ui_checkbox('misc_options', 'prodos', $text{'edit_Optionsprodos'}, $prodos)
 );
 
 print &ui_table_end();

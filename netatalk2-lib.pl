@@ -828,7 +828,7 @@ sub getAllAfpd
 			if($_ =~ /-setuplog\s\"(.+)\"/) {
 				$afpd{setuplog} = $1;
 			}
-			if($_ =~ /-maccodepage\s(.+)/) {
+			if($_ =~ /-maccodepage\s([\w_]+)/) {
 				$afpd{maccodepage} = $1;
 			}
 			push @afpd_all, \%afpd;

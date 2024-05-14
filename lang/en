@@ -89,7 +89,7 @@ edit_VolCharset=Volume Codepage
 edit_VolCharset_help=Default: UTF8
 
 edit_MisceOptions=Miscellaneous Options
-edit_AdvOptions=Advanced Options
+edit_AdvOptions=Destructive Options - Use With Caution
 edit_Optionssearchdb=Use fast CNID database namesearch
 edit_Optionstm=Enable Time Machine support
 edit_Optionsinvisibledots=Make dot files invisible

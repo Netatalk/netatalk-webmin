@@ -111,39 +111,19 @@ print &ui_table_row($text{'create_server_setuplog'},
 	." ".$text{'create_server_setuplog_help'}
 );
 print &ui_table_row($text{'create_server_maccodepage'},
-	'<select name="maccodepage">'
-	.'<option value="">'.$text{'edit_default'}.'</option>'
-	.'<option value="MAC_CENTRALEUROPE" '
-	.($maccodepage =~ /MAC_CENTRALEUROPE/ ? 'selected' : '')
-	.'>MAC_CENTRALEUROPE'.'</option>'
-	.'<option value="MAC_CHINESE_SIMP" '
-	.($maccodepage =~ /MAC_CHINESE_SIMP/ ? 'selected' : '')
-	.'>MAC_CHINESE_SIMP'.'</option>'
-	.'<option value="MAC_CHINESE_TRAD" '
-	.($maccodepage =~ /MAC_CHINESE_TRAD/ ? 'selected' : '')
-	.'>MAC_CHINESE_TRAD'.'</option>'
-	.'<option value="MAC_CYRILLIC" '
-	.($maccodepage =~ /MAC_CYRILLIC/ ? 'selected' : '')
-	.'>MAC_CYRILLIC'.'</option>'
-	.'<option value="MAC_GREEK" '
-	.($maccodepage =~ /MAC_GREEK/ ? 'selected' : '')
-	.'>MAC_GREEK'.'</option>'
-	.'<option value="MAC_HEBREW" '
-	.($maccodepage =~ /MAC_HEBREW/ ? 'selected' : '')
-	.'>MAC_HEBREW'.'</option>'
-	.'<option value="MAC_JAPANESE" '
-	.($maccodepage =~ /MAC_JAPANESE/ ? 'selected' : '')
-	.'>MAC_JAPANESE'.'</option>'
-	.'<option value="MAC_KOREAN" '
-	.($maccodepage =~ /MAC_KOREAN/ ? 'selected' : '')
-	.'>MAC_KOREAN'.'</option>'
-	.'<option value="MAC_ROMAN" '
-	.($maccodepage =~ /MAC_ROMAN/ ? 'selected' : '')
-	.'>MAC_ROMAN'.'</option>'
-	.'<option value="MAC_TURKISH" '
-	.($maccodepage =~ /MAC_TURKISH/ ? 'selected' : '')
-	.'>MAC_TURKISH'.'</option>'
-	.'</select>'
+	&ui_select('maccodepage', $maccodepage, [
+			['', $text{'edit_default'}],
+			['MAC_CENTRALEUROPE'],
+			['MAC_CHINESE_SIMP'],
+			['MAC_CHINESE_TRAD'],
+			['MAC_CYRILLIC'],
+			['MAC_GREEK'],
+			['MAC_HEBREW'],
+			['MAC_JAPANESE'],
+			['MAC_KOREAN'],
+			['MAC_ROMAN'],
+			['MAC_TURKISH']
+		])
 	." ".$text{'create_server_maccodepage_help'}
 );
 
