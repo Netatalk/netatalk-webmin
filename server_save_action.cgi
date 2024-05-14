@@ -20,8 +20,7 @@ require 'netatalk2-lib.pl';
 &ReadParse();
 
 local $filetoedit = $config{'afpd_c'};
-local $serverLine = createNewServerLine($in);
-local $totalLines = (getLinesSpezFile($filetoedit));
+local $totalLines = getLinesSpezFile($filetoedit);
 local $lineNumber = 1;
 
 if($in{'old_servername'}) {
@@ -33,6 +32,8 @@ if($in{'old_servername'}) {
 } else {
 	$lineNumber = getLinesSpezFile($filetoedit);
 }
+
+local $serverLine = createNewServerLine($in);
 
 if ($serverLine ne 0) {
 	addLineToFile($filetoedit, $serverLine, $lineNumber, $totalLines);

@@ -633,9 +633,9 @@ sub createNewServerLine(){
 	local $newString;
 	my ($in) = @_;
 	local @servers = getAllAfpd();
-	foreach $s (@servers) {
-		if ($in{servername} eq $servers[$s]{servername}) {
-			showMessage(&text(error_dup_name, $servers[$s]{servername}));
+	foreach my $s (@servers) {
+		if ($in{servername} eq $s->{servername}) {
+			showMessage(&text(error_dup_name, $s->{servername}));
 			exit;
 		}
 	}

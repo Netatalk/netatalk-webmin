@@ -18,7 +18,6 @@ require 'netatalk2-lib.pl';
 
 &ReadParse();
 
-local $fileShareLine = createNewFileShare($in);
 local $totalLines = getLinesSpezFile($applevolume_default);
 local $lineNumber = 1;
 
@@ -44,6 +43,8 @@ if ($in{default_options}) {
 		$lineNumber = 1;
 	}
 }
+
+local $fileShareLine = createNewFileShare($in);
 
 if ($fileShareLine ne 0) {
 	addLineToFile($applevolume_default, $fileShareLine, $lineNumber, $totalLines);
