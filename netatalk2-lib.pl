@@ -632,10 +632,10 @@ sub createNewServerLine(){
 	local $illegalChars = ":@\$\"<>\/";
 	local $newString;
 	my ($in) = @_;
-	local %servers = getAllAfpd();
-	foreach my $s (keys %servers) {
-		if ($in{servername} eq $servers{$s}[0]) {
-			showMessage(&text(error_dup_name, $servers{$s}[0]));
+	local @servers = getAllAfpd();
+	foreach $s (@servers) {
+		if ($in{servername} eq $servers[$s]{servername}) {
+			showMessage(&text(error_dup_name, $servers[$s]{servername}));
 			exit;
 		}
 	}
@@ -766,78 +766,76 @@ sub readAfpd
 #------------------------------------------------------------------
 sub getAllAfpd
 {
-	local %afpd_all;
-	local $index = 0;
+	local @afpd_all;
 	local $fileToRead = $config{'afpd_c'};
 
 	open(FH, "<$fileToRead") || die "$fileToRead $text{not_readable}";
 	while(<FH>)
 	{
-		local @afpd = ("") x 13;
+		local %afpd;
 		#Line with continuation characters read in
 		if($_=~/(^[\w\d-\"].*)/ ){
 			if($_ =~ /^(\"[^\"]+\"|[^\s-]+)\s/) {
 				$1 =~ /^\"*([^\"]+)\"*/;
-				@afpd[0] = $1;
+				$afpd{servername} = $1;
 			}
 			if($_ =~ /-transall/) {
-				@afpd[1] = "-transall";
+				$afpd{transport} = "-transall";
 			} elsif($_ =~ /-notransall/) {
-				@afpd[1] = "-notransall";
+				$afpd{transport} = "-notransall";
 			} else {
 				if($_ =~ /-tcp/) {
-					@afpd[1] = "-tcp";
+					$afpd{transport} = "-tcp";
 				} elsif($_ =~ /-notcp/) {
-					@afpd[1] = "-notcp";
+					$afpd{transport} = "-notcp";
 				}
 				if($_ =~ /-ddp/) {
-					@afpd[2] = "-ddp";
+					$afpd{transport} .= " -ddp";
 				} elsif($_ =~ /-noddp/) {
-					@afpd[2] = "-noddp";
+					$afpd{transport} .= " -noddp";
 				}
 			}
 			if($_ =~ /-port\s([\d]+)/) {
-				@afpd[3] = $1;
+				$afpd{port} = $1;
 			}
 			if($_ =~ /-ipaddr\s(\d+\.\d+\.\d+\.\d+)/) {
-				@afpd[4] = $1;
+				$afpd{ipaddr} = $1;
 			}
 			if($_ =~ /-loginmesg\s"(.*?)"/) {
-				@afpd[5] = $1;
+				$afpd{loginmesg} = $1;
 			}
 			if($_ =~ /-savepassword/) {
-				@afpd[6] = "-savepassword";
+				$afpd{savepassword} = "-savepassword";
 			} elsif($_ =~ /-nosavepassword/) {
-				@afpd[6] = "-nosavepassword";
+				$afpd{savepassword} = "-nosavepassword";
 			}
 			if($_ =~ /-setpassword/) {
-				@afpd[7] = "-setpassword";
+				$afpd{setpassword} = "-setpassword";
 			} elsif($_ =~ /-nosetpassword/) {
-				@afpd[7] = "-nosetpassword";
+				$afpd{setpassword} = "-nosetpassword";
 			}
 			if($_ =~ /-uamlist\s([\w\d\.,]+)/) {
-				@afpd[8] = $1;
+				$afpd{uamlist} = $1;
 			}
 			if($_ =~ /-icon/) {
-				@afpd[9] = "-icon";
+				$afpd{icon} = "-icon";
 			} elsif($_ =~ /-noicon/) {
-				@afpd[9] = "-noicon";
+				$afpd{icon} = "-noicon";
 			}
 			if($_ =~ /-mimicmodel\s\"*([\w\d\,]+)\"*/) {
-				@afpd[10] = $1;
+				$afpd{mimicmodel} = $1;
 			}
 			if($_ =~ /-setuplog\s\"(.+)\"/) {
-				@afpd[11] = $1;
+				$afpd{setuplog} = $1;
 			}
 			if($_ =~ /-maccodepage\s(.+)/) {
-				@afpd[12] = $1;
+				$afpd{maccodepage} = $1;
 			}
-			$afpd_all{$index} = \@afpd;
-			$index++;
+			push @afpd_all, \%afpd;
 		}
 	}
 	close(FH);
-	return %afpd_all;
+	return @afpd_all;
 }
 
 

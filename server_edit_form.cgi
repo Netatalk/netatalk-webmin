@@ -21,7 +21,7 @@ require 'netatalk2-lib.pl';
 
 &ReadParse();
 
-%allServer = getAllAfpd();
+@allServer = getAllAfpd();
 
 local $servername = "";
 local $page_title = "";
@@ -30,7 +30,7 @@ if ($in{action} =~ /create/) {
 	$page_title = $text{'create_server_header'};
 
   # Netatalk default options defined here
-	$tcpip = "-transall";
+	$transport = "-transall";
 	$savepass = "-savepassword";
 	$setpass = "-nosetpassword";
 	$icon = "-noicon";
@@ -45,19 +45,18 @@ elsif ($in{action} =~ /edit/) {
 	}
 	$page_title = $text{'edit_server_header'};
 
-	$servername = $allServer{$offset}[0];
-	$tcpip = $allServer{$offset}[1];
-	$ddp = $allServer{$offset}[2];
-	$port = $allServer{$offset}[3];
-	$address = $allServer{$offset}[4];
-	$loginmsg = $allServer{$offset}[5];
-	$savepass = $allServer{$offset}[6];
-	$setpass = $allServer{$offset}[7];
-	$uamlist = $allServer{$offset}[8];
-	$icon = $allServer{$offset}[9];
-	$mimicmodel = $allServer{$offset}[10];
-	$setuplog = $allServer{$offset}[11];
-	$maccodepage = $allServer{$offset}[12];
+	$servername = $allServer[$offset]{servername};
+	$transport = $allServer[$offset]{transport};
+	$port = $allServer[$offset]{port};
+	$address = $allServer[$offset]{ipaddr};
+	$loginmsg = $allServer[$offset]{loginmsg};
+	$savepass = $allServer[$offset]{savepassword};
+	$setpass = $allServer[$offset]{setpassword};
+	$uamlist = $allServer[$offset]{uamlist};
+	$icon = $allServer[$offset]{icon};
+	$mimicmodel = $allServer[$offset]{mimicmodel};
+	$setuplog = $allServer[$offset]{setuplog};
+	$maccodepage = $allServer[$offset]{maccodepage};
 }
 else {
 	die("Unknown action type. Are you trying something naughty?")
@@ -72,8 +71,8 @@ print &ui_table_row($text{'create_server_ServerName'},
 	." ".$text{'create_server_localhost'}
 );
 print &ui_table_row($text{'create_server_transport'},
-	&ui_checkbox('transport_ddp', 'ddp', 'AppleTalk', $ddp =~ /-ddp*/ || $tcpip =~ /-transall*/ ? 1 : 0)
-	.&ui_checkbox('transport_tcp', 'tcp', 'TCP/IP', $tcpip =~ /-tcp*|-transall*/ ? 1 : 0)
+	&ui_checkbox('transport_ddp', 'ddp', 'AppleTalk', $transport =~ /-transall*|-ddp*/ ? 1 : 0)
+	.&ui_checkbox('transport_tcp', 'tcp', 'TCP/IP', $transport =~ /-transall*|-tcp*/ ? 1 : 0)
 );
 print &ui_table_row($text{'create_server_uams'},
 	&ui_checkbox('uams', 'uams_dhx2.so', 'DHX2', $uamlist =~ /uams_dhx2.so/ ? 1 : 0)
