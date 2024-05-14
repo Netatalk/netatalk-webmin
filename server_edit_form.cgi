@@ -31,10 +31,10 @@ if ($in{action} =~ /create/) {
 
   # Netatalk default options defined here
 	$transport = "-transall";
-	$savepass = "-savepassword";
-	$setpass = "-nosetpassword";
-	$icon = "-noicon";
 	$uamlist = "uams_dhx2.so";
+	$savepass = 1;
+	$setpass = 0;
+	$icon = 0;
 }
 elsif ($in{action} =~ /edit/) {
 	if ($in{offset}) {
@@ -91,16 +91,16 @@ print &ui_table_row($text{'create_server_Port'},
 	." ".$text{'create_server_Port_help'}
 );
 print &ui_table_row($text{'create_server_setpass'},
-	&ui_yesno_radio('setpassword', $setpass, '-setpassword', '-nosetpassword')
+	&ui_yesno_radio('setpassword', $setpass)
 );
-print &ui_table_row($text{'create_server_pass'},
-	&ui_yesno_radio('savepassword', $savepass, '-savepassword', '-nosavepassword')
+print &ui_table_row($text{'create_server_savepass'},
+	&ui_yesno_radio('savepassword', $savepass)
 );
 print &ui_table_row($text{'create_server_lgmesg'},
 	&ui_textbox('logmesg', $loginmsg, 60)
 );
 print &ui_table_row($text{'create_server_icon'},
-	&ui_yesno_radio('icon', $icon, '-icon', '-noicon')
+	&ui_yesno_radio('icon', $icon)
 );
 print &ui_table_row($text{'create_server_mimicmodel'},
 	&ui_textbox('mimicmodel', $mimicmodel, 40)
