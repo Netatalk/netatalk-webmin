@@ -43,21 +43,23 @@ index_process_control_stop=Stop Netatalk Services
 
 init_failed=Command "$1" failed
 
+edit_tab_basic=Basic Options
+edit_tab_users=Users & Authentication
+edit_tab_transport=Transport Options
+edit_tab_misc=Miscellaneous Options
+edit_tab_advanced=Advanced Options
+edit_directory=Directory
+edit_default=default
+edit_filemanager_link=File Manager (new tab)
+
 edit_file_share_title=Edit File Share
 edit_header=Create New File Share
 edit_file_share_default_title=Edit Default File Share Options
 edit_tableheader=Shared Volume Options
-edit_tab_basic=Basic Options
-edit_tab_users=Users & Authentication
-edit_tab_advanced=Advanced Options
 edit_sharename=Share Name
 edit_sharedvolume=Shared Volume
 edit_volume_delete_error=No volume with that path to delete
-
 edit_homedirectory=Home Directories
-edit_directory=Directory
-edit_default=default
-edit_filemanager_link=File Manager (new tab)
 
 edit_Adouble=AppleDouble file meta data format
 edit_Adoublev1=v1

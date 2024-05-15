@@ -63,7 +63,17 @@ else {
 	die("Unknown action type. Are you trying something naughty?")
 }
 
+my @tabs = ( [ 'basic', $text{'edit_tab_basic'} ],
+             [ 'users', $text{'edit_tab_users'} ],
+             [ 'transport', $text{'edit_tab_transport'} ],
+             [ 'misc', $text{'edit_tab_misc'} ],
+             [ 'advanced', $text{'edit_tab_advanced'} ]
+            );
+
 &ui_print_header(undef, $page_title, "", "servers", 1);
+
+print &ui_tabs_start(\@tabs, 'mode', 'basic');
+print &ui_tabs_start_tab('mode', 'basic');
 
 print &ui_form_start('server_save_action.cgi', 'POST');
 print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
@@ -143,10 +153,10 @@ print &ui_table_row($text{'create_server_maccodepage'},
 	." ".$text{'create_server_maccodepage_help'}
 );
 print &ui_table_row($text{'create_server_defaultvol'},
-	&ui_filebox('defaultvol', $defaultvol, 30)
+	&ui_filebox('defaultvol', $defaultvol, 40)
 );
 print &ui_table_row($text{'create_server_systemvol'},
-	&ui_filebox('systemvol', $systemvol, 30)
+	&ui_filebox('systemvol', $systemvol, 40)
 );
 print &ui_table_row($text{'create_server_uservol'},
 	&ui_select('uservol', $uservol, [
@@ -164,6 +174,33 @@ print &ui_table_row($text{'create_server_uservolfirst'},
 );
 
 print &ui_table_end();
+
+print &ui_tabs_end_tab('mode', 'basic');
+print &ui_tabs_start_tab('mode', 'users');
+
+print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
+print &ui_table_end();
+
+print &ui_tabs_end_tab('mode', 'users');
+print &ui_tabs_start_tab('mode', 'transport');
+
+print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
+print &ui_table_end();
+
+print &ui_tabs_end_tab('mode', 'transport');
+print &ui_tabs_start_tab('mode', 'misc');
+
+print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
+print &ui_table_end();
+
+print &ui_tabs_end_tab('mode', 'misc');
+print &ui_tabs_start_tab('mode', 'advanced');
+
+print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
+print &ui_table_end();
+
+print &ui_tabs_end_tab('mode', 'advanced');
+
 print "<div><i>$text{'create_server_notice'}</i></div>";
 if ($in{action} =~ /edit/) {
 	print &ui_hidden('old_servername', $servername eq "" ? "-" : $servername);
