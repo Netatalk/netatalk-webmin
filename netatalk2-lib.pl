@@ -864,10 +864,10 @@ sub getAllAfpd
 			if($_ =~ /-maccodepage\s([\w_]+)/) {
 				$afpd{maccodepage} = $1;
 			}
-			if($_ =~ /-defaultvol\s(/[^\s*])/) {
+			if($_ =~ /-defaultvol\s(/([^\s*])/) {
 				$afpd{defaultvol} = $1;
 			}
-			if($_ =~ /-systemvol\s(/[^\s*])/) {
+			if($_ =~ /-systemvol\s(/([^\s*])/) {
 				$afpd{systemvol} = $1;
 			}
 			if($_ =~ /-uservol/) {
