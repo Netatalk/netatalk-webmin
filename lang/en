@@ -162,6 +162,13 @@ create_server_defaultvol=Path to AppleVolumes.default file
 create_server_systemvol=Path to AppleVolumes.system file
 create_server_uservol=Allow user AppleVolumes files
 create_server_uservolfirst=Read user AppleVolumes files first
+create_server_uampath=Location of UAM libraries
+create_server_k5keytab=Kerberos keytab
+create_server_k5service=Kerberos service
+create_server_k5realm=Kerberos realm
+create_server_ntdomain=Windows NT domain
+create_server_ntseparator=Windows NT separator
+create_server_adminauthuser=Admin authentication user
 
 create_server_default=Default
 create_server_no_auth=Cannot authenticate
