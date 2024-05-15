@@ -867,7 +867,7 @@ sub getAllAfpd
 			if($_ =~ /-defaultvol\s(\/[^\s]*)/) {
 				$afpd{defaultvol} = $1;
 			}
-			if($_ =~ /-systemvol\s(/[^\s]*)/) {
+			if($_ =~ /-systemvol\s(\/[^\s]*)/) {
 				$afpd{systemvol} = $1;
 			}
 			if($_ =~ /-uservol/) {
