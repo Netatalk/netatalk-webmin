@@ -156,6 +156,11 @@ create_server_setuplog=Logging
 create_server_setuplog_help=example: default log_maxdebug /var/log/afpd.log
 create_server_maccodepage=Mac Client Codepage
 create_server_maccodepage_help=default: MAC_ROMAN
+create_server_defaultvol=Path to AppleVolumes.default file
+create_server_systemvol=Path to AppleVolumes.system file
+create_server_uservol=Allow user AppleVolumes files
+create_server_uservolfirst=Read user AppleVolumes files first
+
 create_server_default=Default
 create_server_no_auth=Cannot authenticate
 create_server_disabled=Cannot connect

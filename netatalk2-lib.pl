@@ -702,6 +702,24 @@ sub createNewServerLine(){
 	if($in{maccodepage}){
 		$newString .= "-maccodepage $in{maccodepage} ";
 	}
+	if($in{defaultvol}){
+		$newString .= "-defaultvol $in{defaultvol} ";
+	}
+	if($in{systemvol}){
+		$newString .= "-systemvol $in{systemvol} ";
+	}
+	if($in{uservol} eq 'yes'){
+		$newString .= "-uservol ";
+	}
+	elsif($in{uservol} eq 'no'){
+		$newString .= "-nouservol ";
+	}
+	if($in{uservolfirst} eq 'yes'){
+		$newString .= "-uservolfirst ";
+	}
+	elsif($in{uservolfirst} eq 'no'){
+		$newString .= "-nouservolfirst ";
+	}
 
 	return $newString;
 }
@@ -845,6 +863,22 @@ sub getAllAfpd
 			}
 			if($_ =~ /-maccodepage\s([\w_]+)/) {
 				$afpd{maccodepage} = $1;
+			}
+			if($_ =~ /-defaultvol\s(/[^\s*])/) {
+				$afpd{defaultvol} = $1;
+			}
+			if($_ =~ /-systemvol\s(/[^\s*])/) {
+				$afpd{systemvol} = $1;
+			}
+			if($_ =~ /-uservol/) {
+				$afpd{uservol} = "yes";
+			} elsif($_ =~ /-nouservol/) {
+				$afpd{uservol} = "no";
+			}
+			if($_ =~ /-uservolfirst/) {
+				$afpd{uservolfirst} = "yes";
+			} elsif($_ =~ /-uservolfirst/) {
+				$afpd{uservolfirst} = "no";
 			}
 			push @afpd_all, \%afpd;
 		}

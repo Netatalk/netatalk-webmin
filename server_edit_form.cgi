@@ -54,6 +54,10 @@ elsif ($in{action} =~ /edit/) {
 	$mimicmodel = $allServer[$offset]{mimicmodel};
 	$setuplog = $allServer[$offset]{setuplog};
 	$maccodepage = $allServer[$offset]{maccodepage};
+	$defaultvol = $allServer[$offset]{defaultvol};
+	$systemvol = $allServer[$offset]{systemvol};
+	$uservol = $allServer[$offset]{uservol};
+	$uservolfirst = $allServer[$offset]{uservolfirst};
 }
 else {
 	die("Unknown action type. Are you trying something naughty?")
@@ -137,6 +141,26 @@ print &ui_table_row($text{'create_server_maccodepage'},
 			['MAC_TURKISH']
 		])
 	." ".$text{'create_server_maccodepage_help'}
+);
+print &ui_table_row($text{'create_server_defaultvol'},
+	&ui_filebox('defaultvol', $defaultvol, 30)
+);
+print &ui_table_row($text{'create_server_systemvol'},
+	&ui_filebox('systemvol', $systemvol, 30)
+);
+print &ui_table_row($text{'create_server_uservol'},
+	&ui_select('uservol', $uservol, [
+			['', $text{'edit_default'}],
+			['yes', $text{'global_yes'}],
+			['no', $text{'global_no'}]
+		])
+);
+print &ui_table_row($text{'create_server_uservolfirst'},
+	&ui_select('uservolfirst', $uservolfirst, [
+			['', $text{'edit_default'}],
+			['yes', $text{'global_yes'}],
+			['no', $text{'global_no'}]
+		])
 );
 
 print &ui_table_end();
