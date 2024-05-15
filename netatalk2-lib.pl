@@ -720,6 +720,27 @@ sub createNewServerLine(){
 	elsif($in{uservolfirst} eq 'no'){
 		$newString .= "-nouservolfirst ";
 	}
+	if($in{uampath}){
+		$newString .= "-uampath $in{uampath} ";
+	}
+	if($in{k5keytab}){
+		$newString .= "-k5keytab $in{k5keytab} ";
+	}
+	if($in{k5service}){
+		$newString .= "-k5service $in{k5service} ";
+	}
+	if($in{k5realm}){
+		$newString .= "-k5realm $in{k5realm} ";
+	}
+	if($in{ntdomain}){
+		$newString .= "-ntdomain $in{ntdomain} ";
+	}
+	if($in{ntseparator}){
+		$newString .= "-ntseparator $in{ntseparator} ";
+	}
+	if($in{adminauthuser}){
+		$newString .= "-adminauthuser $in{adminauthuser} ";
+	}
 
 	return $newString;
 }
@@ -879,6 +900,27 @@ sub getAllAfpd
 				$afpd{uservolfirst} = "yes";
 			} elsif($_ =~ /-uservolfirst/) {
 				$afpd{uservolfirst} = "no";
+			}
+			if($_ =~ /-uampath\s(\/[^\s]*)/) {
+				$afpd{uampath} = $1;
+			}
+			if($_ =~ /-k5keytab\s(\/[^\s]*)/) {
+				$afpd{k5keytab} = $1;
+			}
+			if($_ =~ /-k5service\s([^\s]+)/) {
+				$afpd{k5service} = $1;
+			}
+			if($_ =~ /-k5realm\s([^\s]+)/) {
+				$afpd{k5realm} = $1;
+			}
+			if($_ =~ /-ntdomain\s([^\s]+)/) {
+				$afpd{ntdomain} = $1;
+			}
+			if($_ =~ /-ntseparator\s([^\s]+)/) {
+				$afpd{ntseparator} = $1;
+			}
+			if($_ =~ /-adminauthuser\s([^\s]+)/) {
+				$afpd{adminauthuser} = $1;
 			}
 			push @afpd_all, \%afpd;
 		}

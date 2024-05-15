@@ -58,6 +58,13 @@ elsif ($in{action} =~ /edit/) {
 	$systemvol = $allServer[$offset]{systemvol};
 	$uservol = $allServer[$offset]{uservol};
 	$uservolfirst = $allServer[$offset]{uservolfirst};
+	$uampath = $allServer[$offset]{uampath};
+	$k5keytab = $allServer[$offset]{k5keytab};
+	$k5service = $allServer[$offset]{k5service};
+	$k5realm = $allServer[$offset]{k5realm};
+	$ntdomain = $allServer[$offset]{ntdomain};
+	$ntseparator = $allServer[$offset]{ntseparator};
+	$adminauthuser = $allServer[$offset]{adminauthuser};
 }
 else {
 	die("Unknown action type. Are you trying something naughty?")
@@ -92,14 +99,6 @@ print &ui_table_row($text{'create_server_uams'},
 	.&ui_checkbox('uams', 'uams_clrtxt.so', 'ClearText', $uamlist =~ /uams_clrtxt.so/ ? 1 : 0)
 	.&ui_checkbox('uams', 'uams_guest.so', 'Guest', $uamlist =~ /uams_guest.so/ ? 1 : 0)
 	.&ui_checkbox('uams', 'uams_gss.so', 'Kerberos', $uamlist =~ /uams_gss.so/ ? 1 : 0)
-);
-print &ui_table_row($text{'create_server_Address'},
-	&ui_textbox('address', $address)
-	." ".$text{'create_server_Address_help'}
-);
-print &ui_table_row($text{'create_server_Port'},
-	'<input type="number" name="port" min="0" max="65535" value="'.$port.'">'
-	." ".$text{'create_server_Port_help'}
 );
 print &ui_table_row($text{'create_server_setpass'},
 	&ui_select('setpassword', $setpass, [
@@ -179,12 +178,41 @@ print &ui_tabs_end_tab('mode', 'basic');
 print &ui_tabs_start_tab('mode', 'users');
 
 print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
+print &ui_table_row($text{'create_server_uampath'},
+	&ui_filebox('uampath', $uampath, 40)
+);
+print &ui_table_row($text{'create_server_k5keytab'},
+	&ui_filebox('k5keytab', $k5keytab, 40)
+);
+print &ui_table_row($text{'create_server_k5service'},
+	&ui_textbox('k5service', $k5service, 20)
+);
+print &ui_table_row($text{'create_server_k5realm'},
+	&ui_textbox('k5realm', $k5realm, 20)
+);
+print &ui_table_row($text{'create_server_ntdomain'},
+	&ui_textbox('ntdomain', $ntdomain, 20)
+);
+print &ui_table_row($text{'create_server_ntseparator'},
+	&ui_textbox('ntseparator', $ntseparator, 20)
+);
+print &ui_table_row($text{'create_server_adminauthuser'},
+	&ui_user_textbox('adminauthuser', $adminauthuser, 20)
+);
 print &ui_table_end();
 
 print &ui_tabs_end_tab('mode', 'users');
 print &ui_tabs_start_tab('mode', 'transport');
 
 print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
+print &ui_table_row($text{'create_server_Address'},
+	&ui_textbox('address', $address)
+	." ".$text{'create_server_Address_help'}
+);
+print &ui_table_row($text{'create_server_Port'},
+	'<input type="number" name="port" min="0" max="65535" value="'.$port.'">'
+	." ".$text{'create_server_Port_help'}
+);
 print &ui_table_end();
 
 print &ui_tabs_end_tab('mode', 'transport');
