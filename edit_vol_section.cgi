@@ -122,12 +122,25 @@ if($subject eq 'volume') {
 
 if($subject eq 'homes') {
 	print &ui_hidden('name', 'Homes');
-	print &ui_table_row($text{'edit_vol_section_home_name'}, &ui_textbox('p_home name', (get_parameter_of_section($afpconfRef, $sectionRef, 'home name', \%in))[0], 40));
-	print &ui_table_row($text{'edit_vol_section_basedir_regex'}, &ui_textbox('p_basedir regex', (get_parameter_of_section($afpconfRef, $sectionRef, 'basedir regex', \%in))[0], 40, undef, undef, "required"));
-	print &ui_table_row($text{'edit_vol_section_home_path'}, &ui_textbox('p_path', (get_parameter_of_section($afpconfRef, $sectionRef, 'path', \%in))[0], 40));
+	print &ui_table_row(
+		$text{'edit_vol_section_home_name'},
+		&ui_textbox('p_home name', (get_parameter_of_section($afpconfRef, $sectionRef, 'home name', \%in))[0], 40)
+		." ".$text{edit_vol_section_basedir_regex_help}
+	);
+	print &ui_table_row(
+		$text{'edit_vol_section_basedir_regex'},
+		&ui_textbox('p_basedir regex', (get_parameter_of_section($afpconfRef, $sectionRef, 'basedir regex', \%in))[0], 40, undef, undef, "required")
+	);
+	print &ui_table_row(
+		$text{'edit_vol_section_home_path'},
+		&ui_textbox('p_path', (get_parameter_of_section($afpconfRef, $sectionRef, 'path', \%in))[0], 40)
+	);
 }
 else {
-	print &ui_table_row($text{'edit_vol_section_name'}, &ui_textbox('name', exists $in{name} ? $in{name} : ($sectionRef ? $$sectionRef{name} : ''), 40, undef, undef, "required"));
+	print &ui_table_row(
+		$text{'edit_vol_section_name'},
+		&ui_textbox('name', exists $in{name} ? $in{name} : ($sectionRef ? $$sectionRef{name} : ''), 40, undef, undef, "required")
+	);
 }
 
 if($subject eq 'volume') {
@@ -138,7 +151,10 @@ if($subject eq 'volume') {
 }
 
 if($subject ne 'homes') {
-	print &ui_table_row($text{'edit_vol_section_time_machine'}, &build_select($afpconfRef, $sectionRef, \%in, 'time machine', $text{'edit_undefined'}, 'yes', 'yes', 'no', 'no'));
+	print &ui_table_row(
+		$text{'edit_vol_section_time_machine'},
+		&build_select($afpconfRef, $sectionRef, \%in, 'time machine', $text{'edit_undefined'}, 'yes', 'yes', 'no', 'no')
+	);
 
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'vol size limit', \%in);
 	print &ui_table_row($text{'edit_vol_section_vol_size_limit'},

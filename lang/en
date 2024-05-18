@@ -72,6 +72,7 @@ edit_vol_section_path=Path
 edit_vol_section_path_note=Open the File Manager in a new tab
 edit_vol_section_home_name=Home name
 edit_vol_section_basedir_regex=Base directory
+edit_vol_section_basedir_regex_help=Example: /home
 edit_vol_section_home_path=Relative path
 edit_vol_section_ea=Extended attribute format (resource forks)
 edit_vol_section_ea_sys=use filesystem meta data
