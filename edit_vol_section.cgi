@@ -125,11 +125,11 @@ if($subject eq 'homes') {
 	print &ui_table_row(
 		$text{'edit_vol_section_home_name'},
 		&ui_textbox('p_home name', (get_parameter_of_section($afpconfRef, $sectionRef, 'home name', \%in))[0], 40)
-		." ".$text{edit_vol_section_basedir_regex_help}
 	);
 	print &ui_table_row(
 		$text{'edit_vol_section_basedir_regex'},
 		&ui_textbox('p_basedir regex', (get_parameter_of_section($afpconfRef, $sectionRef, 'basedir regex', \%in))[0], 40, undef, undef, "required")
+		." ".$text{edit_vol_section_basedir_regex_help}
 	);
 	print &ui_table_row(
 		$text{'edit_vol_section_home_path'},
