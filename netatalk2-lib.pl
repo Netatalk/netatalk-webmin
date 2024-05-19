@@ -446,37 +446,6 @@ sub getAllOptions
   	return $AllOptions;
 }
 
-#------------------------------------------------------------------------------
-#list all users with ID >=500
-#------------------------------------------------------------------------------
-sub getUsers
-{
-    	local(@rv);
-    	@ulist  = foreign_call("useradmin","list_users");
-    	for($i=0; $i<@ulist; $i++){
-    		if( $ulist[$i]->{'uid'}> 499 || $ulist[$i]->{'uid'} eq 0){
-    			$user= $ulist[$i]->{'user'};
-    			push(@rv,$user);
-    		}
-     	}
-     	return @rv;
-}
-
-#------------------------------------------------------------------------------
-#list all groups with ID >=100 and root gid == 0
-#------------------------------------------------------------------------------
-sub getGroups
-{
-	local(@rv);
-	@glist = foreign_call("useradmin","list_groups");
-	for($i=0; $i<@glist; $i++){
-		if( $glist[$i]->{'gid'}> 99 || $glist[$i]->{'gid'} eq 0){
-	   		$group = $glist[$i]->{'group'};
-	   		push(@rv,$group);
-	   	}
-	}
-	return @rv;
-}
 
 #------------------------------------------------------------------------------
 #writes new file share by generating new lines
