@@ -31,7 +31,7 @@ if ($in{action} =~ /create/) {
 
   # Netatalk default options defined here
 	$transport = "-transall";
-	$uamlist = "uams_dhx2.so";
+	$uamlist = "uams_dhx.so,uams_dhx2.so";
 }
 elsif ($in{action} =~ /edit/) {
 	if ($in{offset}) {
@@ -66,6 +66,11 @@ elsif ($in{action} =~ /edit/) {
 	$ntdomain = $allServer[$offset]{ntdomain};
 	$ntseparator = $allServer[$offset]{ntseparator};
 	$adminauthuser = $allServer[$offset]{adminauthuser};
+	$passwdfile = $allServer[$offset]{passwdfile};
+	$advertise_ssh = $allServer[$offset]{advertise_ssh};
+	$proxy = $allServer[$offset]{proxy};
+	$zeroconf = $allServer[$offset]{zeroconf};
+	$slp = $allServer[$offset]{slp};
 }
 else {
 	die("Unknown action type. Are you trying something naughty?")
@@ -183,6 +188,9 @@ print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
 print &ui_table_row($text{'create_server_uampath'},
 	&ui_filebox('uampath', $uampath, 40)
 );
+print &ui_table_row($text{'create_server_passwdfile'},
+	&ui_filebox('passwdfile', $passwdfile, 40)
+);
 print &ui_table_row($text{'create_server_k5keytab'},
 	&ui_filebox('k5keytab', $k5keytab, 40)
 );
@@ -214,6 +222,41 @@ print &ui_table_row($text{'create_server_Address'},
 print &ui_table_row($text{'create_server_Port'},
 	'<input type="number" name="port" min="0" max="65535" value="'.$port.'">'
 	." ".$text{'create_server_Port_help'}
+);
+print &ui_table_row($text{'create_server_ddpaddr'},
+	&ui_textbox('ddpaddr', $ddpaddr)
+);
+print &ui_table_row($text{'create_server_fqdn'},
+	&ui_textbox('fqdn', $fqdn)
+);
+print &ui_table_row($text{'create_server_hostname'},
+	&ui_textbox('hostname', $hostname)
+);
+print &ui_table_row($text{'create_server_server_quantum'},
+	&ui_textbox('server_quantum', $server_quantum)
+	." ".$text{'create_server_server_quantum_help'}
+);
+print &ui_table_row($text{'create_server_dsireadbuf'},
+	&ui_textbox('dsireadbuf', $dsireadbuf)
+	." ".$text{'create_server_dsireadbuf_help'}
+);
+print &ui_table_row($text{'create_server_tcprcvbuf'},
+	&ui_textbox('tcprcvbuf', $tcprcvbuf)
+);
+print &ui_table_row($text{'create_server_tcpsndbuf'},
+	&ui_textbox('tcpsndbuf', $tcpsndbuf)
+);
+print &ui_table_row($text{'edit_MisceOptions'},
+	&ui_checkbox('advertise_ssh', 1, $text{'create_server_advertise_ssh'}, $advertise_ssh)
+);
+print &ui_table_row('',
+	&ui_checkbox('proxy', 1, $text{'create_server_proxy'}, $proxy)
+);
+print &ui_table_row('',
+	&ui_checkbox('zeroconf', 1, $text{'create_server_zeroconf'}, $zeroconf)
+);
+print &ui_table_row('',
+	&ui_checkbox('slp', 1, $text{'create_server_slp'}, $slp)
 );
 print &ui_table_end();
 

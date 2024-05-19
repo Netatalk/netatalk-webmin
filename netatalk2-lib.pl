@@ -744,6 +744,21 @@ sub createNewServerLine(){
 	if($in{adminauthuser}){
 		$newString .= "-adminauthuser $in{adminauthuser} ";
 	}
+	if($in{passwdfile}){
+		$newString .= "-passwdfile $in{passwdfile} ";
+	}
+	if($in{advertise_ssh}){
+		$newString .= "-advertise_ssh ";
+	}
+	if($in{proxy}){
+		$newString .= "-proxy ";
+	}
+	if($in{zeroconf} == 0){
+		$newString .= "-nozeroconf ";
+	}
+	if($in{slp}){
+		$newString .= "-slp ";
+	}
 
 	return $newString;
 }
@@ -927,6 +942,23 @@ sub getAllAfpd
 			}
 			if($_ =~ /-adminauthuser\s([^\s]+)/) {
 				$afpd{adminauthuser} = $1;
+			}
+			if($_ =~ /-passwdfile\s(\/[^\s]*)/) {
+				$afpd{passwdfile} = $1;
+			}
+			if($_ =~ /-advertise_ssh/) {
+				$afpd{advertise_ssh} = 1;
+			}
+			if($_ =~ /-proxy/) {
+				$afpd{proxy} = 1;
+			}
+			if($_ =~ /-nozeroconf/) {
+				$afpd{zeroconf} = 0;
+			} else {
+				$afpd{zeroconf} = 1;
+			}
+			if($_ =~ /-slp/) {
+				$afpd{slp} = 1;
 			}
 			push @afpd_all, \%afpd;
 		}
