@@ -37,7 +37,7 @@ elsif ($in{action} =~ /default/) {
 	$page_title = $text{'edit_file_share_default_title'};
 }
 
-open_afile();
+getAppleVolumes();
 
 if($in{shareName}){
 	$Old_shareName = $in{shareName};

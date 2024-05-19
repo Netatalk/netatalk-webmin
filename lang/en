@@ -19,9 +19,10 @@ index_create_file_share=Create New Shared Volume
 
 index_servername=Server Name
 index_protocols=Transport Layers
-index_auth=Active Authentication Methods
-index_port=Port
+index_auth=User Authentication Methods
+index_port=AFP Port
 index_address=IP Address
+index_maccodepage=Mac Codepage
 index_create_server=Create New Server
 
 index_stop_service=Stop Service
@@ -179,12 +180,6 @@ create_server_dsireadbuf=Size of DSI readhead buffer (scale factor)
 create_server_dsireadbuf_help=default: 12
 create_server_tcprcvbuf=TCP receive buffer
 create_server_tcpsndbuf=TCP send buffer
-
-create_server_default=Default
-create_server_no_auth=Cannot authenticate
-create_server_disabled=Cannot connect
-
-create_server_notice=Note: This is not a comprehensive list of options. Please edit afpd.conf manually for advanced options.
 
 not_readable=not readable
 give_correct_path=Please give correct path

@@ -36,7 +36,7 @@ if ($in{action} =~ /create/) {
 	$uamlist = "uams_dhx2.so";
 }
 elsif ($in{action} =~ /edit/) {
-	@allServer = getAllAfpd();
+	@allServer = getAfpdServers();
 	$page_title = $text{'edit_server_header'};
 
 	$servername = $allServer[$in{offset}]{servername};
@@ -71,12 +71,12 @@ print &ui_table_row($text{'create_server_transport'},
 	.&ui_checkbox('transport_tcp', 'tcp', 'TCP/IP', $transport =~ /-transall*|-tcp*/ ? 1 : 0)
 );
 print &ui_table_row($text{'create_server_uams'},
-	&ui_checkbox('uams', 'uams_dhx2.so', 'DHX2', $uamlist =~ /uams_dhx2.so/ ? 1 : 0)
-	.&ui_checkbox('uams', 'uams_dhx.so', 'DHX', $uamlist =~ /uams_dhx.so/ ? 1 : 0)
-	.&ui_checkbox('uams', 'uams_randnum.so', 'RandNum', $uamlist =~ /uams_randnum.so/ ? 1 : 0)
-	.&ui_checkbox('uams', 'uams_clrtxt.so', 'ClearText', $uamlist =~ /uams_clrtxt.so/ ? 1 : 0)
-	.&ui_checkbox('uams', 'uams_guest.so', 'Guest', $uamlist =~ /uams_guest.so/ ? 1 : 0)
-	.&ui_checkbox('uams', 'uams_gss.so', 'Kerberos', $uamlist =~ /uams_gss.so/ ? 1 : 0)
+	&ui_checkbox('uamlist', 'uams_dhx2.so', 'DHX2', $uamlist =~ /uams_dhx2.so/ ? 1 : 0)
+	.&ui_checkbox('uamlist', 'uams_dhx.so', 'DHX', $uamlist =~ /uams_dhx.so/ ? 1 : 0)
+	.&ui_checkbox('uamlist', 'uams_randnum.so', 'RandNum', $uamlist =~ /uams_randnum.so/ ? 1 : 0)
+	.&ui_checkbox('uamlist', 'uams_clrtxt.so', 'ClearText', $uamlist =~ /uams_clrtxt.so/ ? 1 : 0)
+	.&ui_checkbox('uamlist', 'uams_guest.so', 'Guest', $uamlist =~ /uams_guest.so/ ? 1 : 0)
+	.&ui_checkbox('uamlist', 'uams_gss.so', 'Kerberos', $uamlist =~ /uams_gss.so/ ? 1 : 0)
 );
 print &ui_table_row($text{'create_server_setpass'},
 	&ui_select('setpassword', @allServer ? $allServer[$in{offset}]{setpassword} : '', [
@@ -187,7 +187,7 @@ print &ui_tabs_start_tab('mode', 'transport');
 
 print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
 print &ui_table_row($text{'create_server_Address'},
-	&ui_textbox('address', $address)
+	&ui_textbox('address', @allServer ? $allServer[$in{offset}]{ipaddr} : '')
 	." ".$text{'create_server_Address_help'}
 );
 print &ui_table_row($text{'create_server_Port'},

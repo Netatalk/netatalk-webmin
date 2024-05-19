@@ -69,9 +69,9 @@ foreign_require("useradmin", "user-lib.pl");
 
 
 #-------------------------------------------------------------------------------------
-#reads the file AppleVolumes.default and continues with it
+#reads the file AppleVolumes.default and returns an array with the contents
 #-------------------------------------------------------------------------------------
-sub open_afile
+sub getAppleVolumes
 {
 	local(@rv,$line);
 
@@ -486,7 +486,7 @@ sub createNewFileShare
 {
 	local $new_line;
 	my ($in) = @_;
-	local @volumes = open_afile();
+	local @volumes = getAppleVolumes();
 	foreach $v (@volumes) {
 		if (($in{path} eq getPath($v)) || ($in{homes} && (getPath($v) =~ "^~"))) {
 			showMessage(&text(error_dup_path, getPath($v)));
@@ -631,7 +631,7 @@ sub createNewServerLine(){
 	local $illegalChars = ":@\$\"<>\/";
 	local $newString;
 	my ($in) = @_;
-	local @servers = getAllAfpd();
+	local @servers = getAfpdServers();
 	foreach my $s (@servers) {
 		if ($in{servername} eq $s->{servername}) {
 			showMessage(&text(error_dup_name, $s->{servername}));
@@ -665,7 +665,7 @@ sub createNewServerLine(){
 		$newString .= "-port $in{port} ";
 	}
 	if($in{address}){
-		$newString .= "-ipaddr $in{address} ";
+		$newString .= "-ipaddr $in{ipaddr} ";
 	}
 	if($in{savepassword} eq 'yes'){
 		$newString .= "-savepassword ";
@@ -682,9 +682,9 @@ sub createNewServerLine(){
 	if($in{loginmesg}){
 		$newString .= "-loginmesg \"$in{loginmesg}\" ";
 	}
-	if($in{uams}){
-		$in{uams} =~ s/\x00/\,/g;
-		$newString .= "-uamlist $in{uams} ";
+	if($in{uamlist}){
+		$in{uamlist} =~ s/\x00/\,/g;
+		$newString .= "-uamlist $in{uamlist} ";
 	}
 	if($in{icon} eq 'yes'){
 		$newString .= "-icon ";
@@ -785,64 +785,9 @@ sub createNewServerLine(){
 
 
 #------------------------------------------------------------------
-#Function reads afpd.conf and stores data for UI display in an array
-#------------------------------------------------------------------
-sub readAfpd
-{
-	local	@afpd_all;
-	local $fileToRead = $config{'afpd_c'};
-	open(FH, "<$fileToRead") || die "$fileToRead $text{not_readable}";
-	while(<FH>)
-	{
-		#Line with continuation characters read in
-		if($_=~/(^[\w\d-\"].*)/ ){
-			local %afpd = (
-				servername => &get_system_hostname(),
-				transport => $text{'create_server_disabled'},
-				uams => $text{'create_server_no_auth'},
-				port => $text{'create_server_default'},
-				address => $text{'create_server_default'}
-			);
-
-			if($_ =~ /^(\"[^\"]+\"|[^\s-]+)\s/)  {
-				$1 =~ /^\"*([^\"]+)\"*/;
-				$afpd{servername} = $1;
-			}
-
-			if($_ =~ /-transall/ || $_ =~ /-(ddp|tcp)\s+-(ddp|tcp)/ ){
-				$afpd{transport} = "AppleTalk, TCP/IP";
-			}
-			elsif($_ =~ /-(ddp|notcp)\s+-(notcp|ddp)/ ){
-				$afpd{transport} = "AppleTalk";
-			}
-			elsif($_ =~ /-(noddp|tcp)\s+-(tcp|noddp)/ ){
-				$afpd{transport} = "TCP/IP";
-			}
-			elsif($_ =~ /-notransall/ || $_ =~ /-(noddp|notcp)\s+-(noddp|notcp)/ ){
-				$afpd{transport} = "$text{'create_server_disabled'}";
-			}
-
-			if($_ =~ /-uamlist\s([\w\d\._,]+)\s/){
-				$afpd{uams} = $1;
-			}
-			if($_ =~ /-port\s([0-9]*)/){
-				$afpd{port} = $1;
-			}
-			if($_ =~ /-ipaddr\s([0-9.]*)/){
-				$afpd{address} = $1;
-			}
-			push @afpd_all, \%afpd;
-		}
-	}
-	close(FH);
-	return @afpd_all;
-}
-
-
-#------------------------------------------------------------------
 #Function reads afpd.conf and stores data for editing in an array
 #------------------------------------------------------------------
-sub getAllAfpd
+sub getAfpdServers
 {
 	local @afpd_all;
 	local $fileToRead = $config{'afpd_c'};
