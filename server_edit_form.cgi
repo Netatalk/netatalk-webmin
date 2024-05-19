@@ -54,6 +54,7 @@ elsif ($in{action} =~ /edit/) {
 	$mimicmodel = $allServer[$offset]{mimicmodel};
 	$setuplog = $allServer[$offset]{setuplog};
 	$maccodepage = $allServer[$offset]{maccodepage};
+	$unixcodepage = $allServer[$offset]{unixcodepage};
 	$defaultvol = $allServer[$offset]{defaultvol};
 	$systemvol = $allServer[$offset]{systemvol};
 	$uservol = $allServer[$offset]{uservol};
@@ -146,6 +147,10 @@ print &ui_table_row($text{'create_server_maccodepage'},
 			['MAC_ROMAN'],
 			['MAC_TURKISH']
 		])
+);
+print &ui_table_row($text{'create_server_unixcodepage'},
+	&ui_textbox('unixcodepage', $setuplog, 20)
+	." ".$text{'create_server_unixcodepage_help'}
 );
 print &ui_table_row($text{'create_server_defaultvol'},
 	&ui_filebox('defaultvol', $defaultvol, 40)

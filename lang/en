@@ -85,7 +85,7 @@ edit_Perm=Permissions (file and dir)
 edit_FPerm=Permissions (file)
 edit_DPerm=Permissions (dir)
 edit_Umask=Permissions Mask
-edit_Veto=Vetoed File Names (slash separated list)
+edit_Veto=Vetoed File Names (slash-separated list)
 edit_Veto_help=example: file1/file2/
 edit_VolCharset=Volume Codepage
 edit_VolCharset_help=default: UTF8
@@ -163,6 +163,8 @@ create_server_k5realm=Kerberos realm
 create_server_ntdomain=Windows NT domain
 create_server_ntseparator=Windows NT separator
 create_server_adminauthuser=Admin authentication user
+create_server_unixcodepage=Unix Codepage
+create_server_unixcodepage_help=default: LOCALE of system
 
 create_server_default=Default
 create_server_no_auth=Cannot authenticate

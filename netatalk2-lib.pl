@@ -702,6 +702,9 @@ sub createNewServerLine(){
 	if($in{maccodepage}){
 		$newString .= "-maccodepage $in{maccodepage} ";
 	}
+	if($in{unixcodepage}){
+		$newString .= "-unixcodepage $in{unixcodepage} ";
+	}
 	if($in{defaultvol}){
 		$newString .= "-defaultvol $in{defaultvol} ";
 	}
@@ -884,6 +887,9 @@ sub getAllAfpd
 			}
 			if($_ =~ /-maccodepage\s([\w_]+)/) {
 				$afpd{maccodepage} = $1;
+			}
+			if($_ =~ /-unixcodepage\s([\w\d-]+)/) {
+				$afpd{unixcodepage} = $1;
 			}
 			if($_ =~ /-defaultvol\s(\/[^\s]*)/) {
 				$afpd{defaultvol} = $1;
