@@ -33,7 +33,7 @@ if ($in{action} =~ /create/) {
 
   # Netatalk default options defined here
 	$transport = "-transall";
-	$uamlist = "uams_dhx2.so";
+	$uamlist = "uams_dhx.so,uams_dhx2.so";
 }
 elsif ($in{action} =~ /edit/) {
 	@allServer = getAfpdServers();
