@@ -888,7 +888,7 @@ sub getAllAfpd
 			if($_ =~ /-maccodepage\s([\w_]+)/) {
 				$afpd{maccodepage} = $1;
 			}
-			if($_ =~ /-unixcodepage\s([\w\d-]+)/) {
+			if($_ =~ /-unixcodepage\s([^\s]+)/) {
 				$afpd{unixcodepage} = $1;
 			}
 			if($_ =~ /-defaultvol\s(\/[^\s]*)/) {

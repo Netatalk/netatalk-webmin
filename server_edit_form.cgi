@@ -80,10 +80,11 @@ my @tabs = ( [ 'basic', $text{'edit_tab_basic'} ],
 
 &ui_print_header(undef, $page_title, "", "servers", 1);
 
+print &ui_form_start('server_save_action.cgi', 'POST');
+
 print &ui_tabs_start(\@tabs, 'mode', 'basic');
 print &ui_tabs_start_tab('mode', 'basic');
 
-print &ui_form_start('server_save_action.cgi', 'POST');
 print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
 print &ui_table_row($text{'create_server_ServerName'},
 	&ui_textbox('servername', $servername, 30)
@@ -149,7 +150,7 @@ print &ui_table_row($text{'create_server_maccodepage'},
 		])
 );
 print &ui_table_row($text{'create_server_unixcodepage'},
-	&ui_textbox('unixcodepage', $setuplog, 20)
+	&ui_textbox('unixcodepage', $unixcodepage, 20)
 	." ".$text{'create_server_unixcodepage_help'}
 );
 print &ui_table_row($text{'create_server_defaultvol'},
@@ -229,8 +230,8 @@ print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
 print &ui_table_end();
 
 print &ui_tabs_end_tab('mode', 'advanced');
+print &ui_tabs_end();
 
-print "<div><i>$text{'create_server_notice'}</i></div>";
 if ($in{action} =~ /edit/) {
 	print &ui_hidden('old_servername', $servername eq "" ? "-" : $servername);
 }
