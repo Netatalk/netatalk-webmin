@@ -175,6 +175,13 @@ print &ui_table_row($text{'create_server_ntseparator'},
 print &ui_table_row($text{'create_server_adminauthuser'},
 	&ui_user_textbox('adminauthuser', @allServer ? $allServer[$in{offset}]{adminauthuser} : '', 20)
 );
+print &ui_table_row($text{'create_server_admingroup'},
+	&ui_group_textbox('admingroup', @allServer ? $allServer[$in{offset}]{admingroup} : '')
+);
+print &ui_table_row($text{'create_server_guestname'},
+	&ui_user_textbox('guestname', @allServer ? $allServer[$in{offset}]{guestname} : '')
+	." ".$text{'create_server_guestname_help'}
+);
 print &ui_table_end();
 
 print &ui_tabs_end_tab('mode', 'users');
@@ -252,9 +259,6 @@ print &ui_tabs_start_tab('mode', 'advanced');
 
 print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
 
-print &ui_table_row($text{'create_server_admingroup'},
-	&ui_group_textbox('admingroup', @allServer ? $allServer[$in{offset}]{admingroup} : '')
-);
 print &ui_table_row($text{'create_server_authprintdir'},
 	&ui_filebox('authprintdir', @allServer ? $allServer[$in{offset}]{authprintdir} : '', 40)
 );
@@ -287,10 +291,6 @@ print &ui_table_row($text{'create_server_fceholdfmod'},
 		'<input type="number" name="fceholdfmod" min="0" max="" value="'
 		.(@allServer ? $allServer[$in{offset}]{fceholdfmod} : '').'">'
 		." ".$text{'create_server_fceholdfmod_help'}
-);
-print &ui_table_row($text{'create_server_guestname'},
-	&ui_user_textbox('guestname', @allServer ? $allServer[$in{offset}]{guestname} : '')
-	." ".$text{'create_server_guestname_help'}
 );
 print &ui_table_row($text{'create_server_sleep'},
 		'<input type="number" name="sleep" min="0" max="" value="'
