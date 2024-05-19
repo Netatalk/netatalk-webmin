@@ -634,7 +634,7 @@ sub createNewServerLine(){
 	local @servers = getAfpdServers();
 	foreach my $s (@servers) {
 		if ($in{servername} eq $s->{servername}) {
-			showMessage(&text(error_dup_name, $s->{servername}));
+			showMessage(&text(error_dup_name, $s->{servername} ? $s->{servername} : &get_system_hostname()));
 			exit;
 		}
 	}
@@ -697,6 +697,9 @@ sub createNewServerLine(){
 	}
 	if($in{setuplog}){
 		$newString .= "-setuplog \"$in{setuplog}\" ";
+	}
+	if($in{unsetuplog}){
+		$newString .= "-unsetuplog \"$in{unsetuplog}\" ";
 	}
 	if($in{maccodepage}){
 		$newString .= "-maccodepage $in{maccodepage} ";
@@ -779,6 +782,57 @@ sub createNewServerLine(){
 	if($in{tcpsndbuf}){
 		$newString .= "-tcpsndbuf $in{tcpsndbuf} ";
 	}
+	if($in{closevol}){
+		$newString .= "-closevol ";
+	}
+	if($in{keepsessions}){
+		$newString .= "-keepsessions ";
+	}
+	if($in{noacl2maccess}){
+		$newString .= "-noacl2maccess ";
+	}
+	if($in{admingroup}){
+		$newString .= "-admingroup $in{admingroup} ";
+	}
+	if($in{authprintdir}){
+		$newString .= "-authprintdir $in{authprintdir} ";
+	}
+	if($in{cnidserver}){
+		$newString .= "-cnidserver $in{cnidserver} ";
+	}
+	if($in{dircachesize}){
+		$newString .= "-dircachesize $in{dircachesize} ";
+	}
+	if($in{fcelistener}){
+		$newString .= "-fcelistener $in{fcelistener} ";
+	}
+	if($in{fceevents}){
+		$newString .= "-fceevents $in{fceevents} ";
+	}
+	if($in{fcecoalesce}){
+		$newString .= "-fcecoalesce $in{fcecoalesce} ";
+	}
+	if($in{fceholdfmod}){
+		$newString .= "-fceholdfmod $in{fceholdfmod} ";
+	}
+	if($in{guestname}){
+		$newString .= "-guestname \"$in{guestname}\" ";
+	}
+	if($in{sleep}){
+		$newString .= "-sleep $in{sleep} ";
+	}
+	if($in{signature}){
+		$newString .= "-signature $in{signature} ";
+	}
+	if($in{volnamelen}){
+		$newString .= "-volnamelen $in{volnamelen} ";
+	}
+	if($in{tickleval}){
+		$newString .= "-tickleval $in{tickleval} ";
+	}
+	if($in{timeout}){
+		$newString .= "-timeout $in{timeout} ";
+	}
 
 	return $newString;
 }
@@ -848,8 +902,11 @@ sub getAfpdServers
 			if($_ =~ /-mimicmodel\s\"*([\w\d\,]+)\"*/) {
 				$afpd{mimicmodel} = $1;
 			}
-			if($_ =~ /-setuplog\s\"(.+)\"/) {
+			if($_ =~ /-setuplog\s\"([^\"]+)\"/) {
 				$afpd{setuplog} = $1;
+			}
+			if($_ =~ /-unsetuplog\s\"([^\"]+)\"/) {
+				$afpd{unsetuplog} = $1;
 			}
 			if($_ =~ /-maccodepage\s([\w_]+)/) {
 				$afpd{maccodepage} = $1;
@@ -929,6 +986,57 @@ sub getAfpdServers
 			}
 			if($_ =~ /-tcpsndbuf\s([^\s]+)/) {
 				$afpd{tcpsndbuf} = $1;
+			}
+			if($_ =~ /-closevol/) {
+				$afpd{closevol} = 1;
+			}
+			if($_ =~ /-keepsessions/) {
+				$afpd{keepsessions} = 1;
+			}
+			if($_ =~ /-noacl2maccess/) {
+				$afpd{noacl2maccess} = 1;
+			}
+			if($_ =~ /-admingroup\s([^\s]+)/) {
+				$afpd{admingroup} = $1;
+			}
+			if($_ =~ /-authprintdir\s([^\s]+)/) {
+				$afpd{authprintdir} = $1;
+			}
+			if($_ =~ /-cnidserver\s([^\s]+)/) {
+				$afpd{cnidserver} = $1;
+			}
+			if($_ =~ /-dircachesize\s([^\s]+)/) {
+				$afpd{dircachesize} = $1;
+			}
+			if($_ =~ /-fcelistener\s([^\s]+)/) {
+				$afpd{fcelistener} = $1;
+			}
+			if($_ =~ /-fceevents\s([^\s]+)/) {
+				$afpd{fceevents} = $1;
+			}
+			if($_ =~ /-fcecoalesce\s([^\s]+)/) {
+				$afpd{fcecoalesce} = $1;
+			}
+			if($_ =~ /-fceholdfmod\s([^\s]+)/) {
+				$afpd{fceholdfmod} = $1;
+			}
+			if($_ =~ /-guestname\s\"(.+)\"/) {
+				$afpd{guestname} = $1;
+			}
+			if($_ =~ /-sleep\s([^\s]+)/) {
+				$afpd{sleep} = $1;
+			}
+			if($_ =~ /-signature\s([^\s]+)/) {
+				$afpd{signature} = $1;
+			}
+			if($_ =~ /-volnamelen\s([^\s]+)/) {
+				$afpd{volnamelen} = $1;
+			}
+			if($_ =~ /-tickleval\s([^\s]+)/) {
+				$afpd{tickleval} = $1;
+			}
+			if($_ =~ /-timeout\s([^\s]+)/) {
+				$afpd{timeout} = $1;
 			}
 			push @afpd_all, \%afpd;
 		}

@@ -50,7 +50,6 @@ else {
 my @tabs = ( [ 'basic', $text{'edit_tab_basic'} ],
              [ 'users', $text{'edit_tab_users'} ],
              [ 'transport', $text{'edit_tab_transport'} ],
-             [ 'misc', $text{'edit_tab_misc'} ],
              [ 'advanced', $text{'edit_tab_advanced'} ]
             );
 
@@ -92,9 +91,6 @@ print &ui_table_row($text{'create_server_savepass'},
 			['no', $text{'global_no'}]
 		])
 );
-print &ui_table_row($text{'create_server_loginmesg'},
-	&ui_textbox('loginmesg', @allServer ? $allServer[$in{offset}]{loginmesg} : '', 60)
-);
 print &ui_table_row($text{'create_server_icon'},
 	&ui_select('icon', @allServer ? $allServer[$in{offset}]{icon} : '', [
 			['', &text('edit_default', 'no')],
@@ -106,9 +102,8 @@ print &ui_table_row($text{'create_server_mimicmodel'},
 	&ui_textbox('mimicmodel', @allServer ? $allServer[$in{offset}]{mimicmodel} : '', 40)
 	." ".$text{'create_server_mimicmodel_help'}
 );
-print &ui_table_row($text{'create_server_setuplog'},
-	&ui_textbox('setuplog', @allServer ? $allServer[$in{offset}]{setuplog} : '', 40)
-	." ".$text{'create_server_setuplog_help'}
+print &ui_table_row($text{'create_server_loginmesg'},
+	&ui_textbox('loginmesg', @allServer ? $allServer[$in{offset}]{loginmesg} : '', 60)
 );
 print &ui_table_row($text{'create_server_maccodepage'},
 	&ui_select('maccodepage', @allServer ? $allServer[$in{offset}]{maccodepage} : '', [
@@ -219,29 +214,138 @@ print &ui_table_row($text{'create_server_tcpsndbuf'},
 	&ui_textbox('tcpsndbuf', @allServer ? $allServer[$in{offset}]{tcpsndbuf} : '')
 );
 print &ui_table_row($text{'edit_MisceOptions'},
-	&ui_checkbox('advertise_ssh', 1, $text{'create_server_advertise_ssh'}, @allServer ? $allServer[$in{offset}]{advertise_ssh} : 0)
+	&ui_checkbox(
+		'advertise_ssh',
+		1,
+		$text{'create_server_advertise_ssh'},
+		@allServer ? $allServer[$in{offset}]{advertise_ssh} : 0
+	)
 );
 print &ui_table_row('',
-	&ui_checkbox('proxy', 1, $text{'create_server_proxy'}, @allServer ? $allServer[$in{offset}]{proxy} : 0)
+	&ui_checkbox(
+		'proxy',
+		1,
+		$text{'create_server_proxy'},
+		@allServer ? $allServer[$in{offset}]{proxy} : 0
+	)
 );
 print &ui_table_row('',
-	&ui_checkbox('nozeroconf', 1, $text{'create_server_nozeroconf'}, @allServer ? $allServer[$in{offset}]{nozeroconf} : 0)
+	&ui_checkbox(
+		'nozeroconf',
+		1,
+		$text{'create_server_nozeroconf'},
+		@allServer ? $allServer[$in{offset}]{nozeroconf} : 0
+	)
 );
 print &ui_table_row('',
-	&ui_checkbox('slp', 1, $text{'create_server_slp'}, @allServer ? $allServer[$in{offset}]{slp} : 0)
+	&ui_checkbox(
+		'slp',
+		1,
+		$text{'create_server_slp'},
+		@allServer ? $allServer[$in{offset}]{slp} : 0
+	)
 );
 print &ui_table_end();
 
 print &ui_tabs_end_tab('mode', 'transport');
-print &ui_tabs_start_tab('mode', 'misc');
-
-print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
-print &ui_table_end();
-
-print &ui_tabs_end_tab('mode', 'misc');
 print &ui_tabs_start_tab('mode', 'advanced');
 
 print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
+
+print &ui_table_row($text{'create_server_admingroup'},
+	&ui_group_textbox('admingroup', @allServer ? $allServer[$in{offset}]{admingroup} : '')
+);
+print &ui_table_row($text{'create_server_authprintdir'},
+	&ui_filebox('authprintdir', @allServer ? $allServer[$in{offset}]{authprintdir} : '', 40)
+);
+print &ui_table_row($text{'create_server_cnidserver'},
+	&ui_textbox('cnidserver', @allServer ? $allServer[$in{offset}]{cnidserver} : '')
+	." ".$text{'create_server_cnidserver_help'}
+);
+print &ui_table_row($text{'create_server_dircachesize'},
+		'<input type="number" name="dircachesize" min="0" max="131072" value="'
+		.(@allServer ? $allServer[$in{offset}]{dircachesize} : '').'">'
+		." ".$text{'create_server_dircachesize_help'}
+);
+print &ui_table_row($text{'create_server_fcelistener'},
+	&ui_textbox('fcelistener', @allServer ? $allServer[$in{offset}]{fcelistener} : '')
+	." ".$text{'create_server_fcelistener_help'}
+);
+print &ui_table_row($text{'create_server_fceevents'},
+	&ui_textbox('fceevents', @allServer ? $allServer[$in{offset}]{fceevents} : '')
+	." ".$text{'create_server_fceevents_help'}
+);
+print &ui_table_row($text{'create_server_fcecoalesce'},
+	&ui_select('fcecoalesce', @allServer ? $allServer[$in{offset}]{fcecoalesce} : '', [
+			['', ''],
+			['all'],
+			['delete'],
+			['create']
+		])
+);
+print &ui_table_row($text{'create_server_fceholdfmod'},
+		'<input type="number" name="fceholdfmod" min="0" max="" value="'
+		.(@allServer ? $allServer[$in{offset}]{fceholdfmod} : '').'">'
+		." ".$text{'create_server_fceholdfmod_help'}
+);
+print &ui_table_row($text{'create_server_guestname'},
+	&ui_user_textbox('guestname', @allServer ? $allServer[$in{offset}]{guestname} : '')
+	." ".$text{'create_server_guestname_help'}
+);
+print &ui_table_row($text{'create_server_sleep'},
+		'<input type="number" name="sleep" min="0" max="" value="'
+		.(@allServer ? $allServer[$in{offset}]{sleep} : '').'">'
+		." ".$text{'create_server_sleep_help'}
+);
+print &ui_table_row($text{'create_server_signature'},
+	&ui_textbox('signature', @allServer ? $allServer[$in{offset}]{signature} : '', undef, undef, 16)
+);
+print &ui_table_row($text{'create_server_volnamelen'},
+		'<input type="number" name="volnamelen" min="0" max="" value="'
+		.(@allServer ? $allServer[$in{offset}]{volnamelen} : '').'">'
+);
+print &ui_table_row($text{'create_server_setuplog'},
+	&ui_textbox('setuplog', @allServer ? $allServer[$in{offset}]{setuplog} : '', 40)
+	." ".$text{'create_server_setuplog_help'}
+);
+print &ui_table_row($text{'create_server_unsetuplog'},
+	&ui_textbox('unsetuplog', @allServer ? $allServer[$in{offset}]{unsetuplog} : '', 40)
+	." ".$text{'create_server_unsetuplog_help'}
+);
+print &ui_table_row($text{'create_server_tickleval'},
+		'<input type="number" name="tickleval" min="0" max="" value="'
+		.(@allServer ? $allServer[$in{offset}]{tickleval} : '').'">'
+		." ".$text{'create_server_tickleval_help'}
+);
+print &ui_table_row($text{'create_server_timeout'},
+		'<input type="number" name="timeout" min="0" max="" value="'
+		.(@allServer ? $allServer[$in{offset}]{timeout} : '').'">'
+		." ".$text{'create_server_timeout_help'}
+);
+print &ui_table_row($text{'edit_MisceOptions'},
+	&ui_checkbox(
+		'closevol',
+		1,
+		$text{'create_server_closevol'},
+		@allServer ? $allServer[$in{offset}]{closevol} : 0
+	)
+);
+print &ui_table_row('',
+	&ui_checkbox(
+		'keepsessions',
+		1,
+		$text{'create_server_keepsessions'},
+		@allServer ? $allServer[$in{offset}]{keepsessions} : 0
+	)
+);
+print &ui_table_row('',
+	&ui_checkbox(
+		'noacl2maccess',
+		1,
+		$text{'create_server_noacl2maccess'},
+		@allServer ? $allServer[$in{offset}]{noacl2maccess} : 0
+	)
+);
 print &ui_table_end();
 
 print &ui_tabs_end_tab('mode', 'advanced');
