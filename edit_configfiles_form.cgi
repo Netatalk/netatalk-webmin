@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # Form for editing netatalk configuration files directly
-# 
+#
 #    Netatalk Webmin Module
 #    Copyright (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
 #	 Some code (C) 2011 by Steffan Cline <steffan@hldns.com>
@@ -23,10 +23,8 @@ require 'netatalk2-lib.pl';
 ui_print_header(undef, $text{'manual_configs'}, "", "configs", 1);
 
 @files = (
-	$config{'afpd_c'},
 	$config{'afpdldap_c'},
 	$config{'atalk_c'},
-	$config{'applevolumedefault_c'},
 	$config{'applevolumesystem_c'},
 	$config{'netatalk_c'},
 	$config{'papd_c'},
