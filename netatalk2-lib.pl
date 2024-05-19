@@ -753,7 +753,7 @@ sub createNewServerLine(){
 	if($in{proxy}){
 		$newString .= "-proxy ";
 	}
-	if($in{zeroconf} == 0){
+	if($in{nozeroconf}){
 		$newString .= "-nozeroconf ";
 	}
 	if($in{slp}){
@@ -953,9 +953,7 @@ sub getAllAfpd
 				$afpd{proxy} = 1;
 			}
 			if($_ =~ /-nozeroconf/) {
-				$afpd{zeroconf} = 0;
-			} else {
-				$afpd{zeroconf} = 1;
+				$afpd{nozeroconf} = 1;
 			}
 			if($_ =~ /-slp/) {
 				$afpd{slp} = 1;

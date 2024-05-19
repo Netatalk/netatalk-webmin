@@ -21,17 +21,19 @@ require 'netatalk2-lib.pl';
 
 &ReadParse();
 
-local @allServer = getAllAfpd();
+local @allServer;
 
 local $servername = "";
 local $page_title = "";
+local $transport = "";
+local $uamlist = "";
 
 if ($in{action} =~ /create/) {
 	$page_title = $text{'create_server_header'};
 
   # Netatalk default options defined here
 	$transport = "-transall";
-	$uamlist = "uams_dhx.so,uams_dhx2.so";
+	$uamlist = "uams_dhx2.so";
 }
 elsif ($in{action} =~ /edit/) {
 	@allServer = getAllAfpd();
@@ -39,33 +41,7 @@ elsif ($in{action} =~ /edit/) {
 
 	$servername = $allServer[$in{offset}]{servername};
 	$transport = $allServer[$in{offset}]{transport};
-	$port = $allServer[$in{offset}]{port};
-	$address = $allServer[$in{offset}]{ipaddr};
-	$loginmesg = $allServer[$in{offset}]{loginmesg};
-	$savepass = $allServer[$in{offset}]{savepassword};
-	$setpass = $allServer[$in{offset}]{setpassword};
 	$uamlist = $allServer[$in{offset}]{uamlist};
-	$icon = $allServer[$in{offset}]{icon};
-	$mimicmodel = $allServer[$in{offset}]{mimicmodel};
-	$setuplog = $allServer[$in{offset}]{setuplog};
-	$maccodepage = $allServer[$in{offset}]{maccodepage};
-	$unixcodepage = $allServer[$in{offset}]{unixcodepage};
-	$defaultvol = $allServer[$in{offset}]{defaultvol};
-	$systemvol = $allServer[$in{offset}]{systemvol};
-	$uservol = $allServer[$in{offset}]{uservol};
-	$uservolfirst = $allServer[$in{offset}]{uservolfirst};
-	$uampath = $allServer[$in{offset}]{uampath};
-	$k5keytab = $allServer[$in{offset}]{k5keytab};
-	$k5service = $allServer[$in{offset}]{k5service};
-	$k5realm = $allServer[$in{offset}]{k5realm};
-	$ntdomain = $allServer[$in{offset}]{ntdomain};
-	$ntseparator = $allServer[$in{offset}]{ntseparator};
-	$adminauthuser = $allServer[$in{offset}]{adminauthuser};
-	$passwdfile = $allServer[$in{offset}]{passwdfile};
-	$advertise_ssh = $allServer[$in{offset}]{advertise_ssh};
-	$proxy = $allServer[$in{offset}]{proxy};
-	$zeroconf = $allServer[$in{offset}]{zeroconf};
-	$slp = $allServer[$in{offset}]{slp};
 }
 else {
 	die("Unknown action type. Are you trying something naughty?")
@@ -103,39 +79,39 @@ print &ui_table_row($text{'create_server_uams'},
 	.&ui_checkbox('uams', 'uams_gss.so', 'Kerberos', $uamlist =~ /uams_gss.so/ ? 1 : 0)
 );
 print &ui_table_row($text{'create_server_setpass'},
-	&ui_select('setpassword', $setpass, [
+	&ui_select('setpassword', @allServer ? $allServer[$in{offset}]{setpassword} : '', [
 			['', &text('edit_default', 'no')],
 			['yes', $text{'global_yes'}],
 			['no', $text{'global_no'}]
 		])
 );
 print &ui_table_row($text{'create_server_savepass'},
-	&ui_select('savepassword', $savepass, [
+	&ui_select('savepassword', @allServer ? $allServer[$in{offset}]{savepassword} : '', [
 			['', &text('edit_default', 'yes')],
 			['yes', $text{'global_yes'}],
 			['no', $text{'global_no'}]
 		])
 );
 print &ui_table_row($text{'create_server_loginmesg'},
-	&ui_textbox('loginmesg', $loginmesg, 60)
+	&ui_textbox('loginmesg', @allServer ? $allServer[$in{offset}]{loginmesg} : '', 60)
 );
 print &ui_table_row($text{'create_server_icon'},
-	&ui_select('icon', $icon, [
+	&ui_select('icon', @allServer ? $allServer[$in{offset}]{icon} : '', [
 			['', &text('edit_default', 'no')],
 			['yes', $text{'global_yes'}],
 			['no', $text{'global_no'}]
 		])
 );
 print &ui_table_row($text{'create_server_mimicmodel'},
-	&ui_textbox('mimicmodel', $mimicmodel, 40)
+	&ui_textbox('mimicmodel', @allServer ? $allServer[$in{offset}]{mimicmodel} : '', 40)
 	." ".$text{'create_server_mimicmodel_help'}
 );
 print &ui_table_row($text{'create_server_setuplog'},
-	&ui_textbox('setuplog', $setuplog, 40)
+	&ui_textbox('setuplog', @allServer ? $allServer[$in{offset}]{setuplog} : '', 40)
 	." ".$text{'create_server_setuplog_help'}
 );
 print &ui_table_row($text{'create_server_maccodepage'},
-	&ui_select('maccodepage', $maccodepage, [
+	&ui_select('maccodepage', @allServer ? $allServer[$in{offset}]{maccodepage} : '', [
 			['', &text('edit_default', 'MAC_ROMAN')],
 			['MAC_CENTRALEUROPE'],
 			['MAC_CHINESE_SIMP'],
@@ -150,24 +126,24 @@ print &ui_table_row($text{'create_server_maccodepage'},
 		])
 );
 print &ui_table_row($text{'create_server_unixcodepage'},
-	&ui_textbox('unixcodepage', $unixcodepage, 20)
+	&ui_textbox('unixcodepage', @allServer ? $allServer[$in{offset}]{unixcodepage} : '', 20)
 	." ".$text{'create_server_unixcodepage_help'}
 );
 print &ui_table_row($text{'create_server_defaultvol'},
-	&ui_filebox('defaultvol', $defaultvol, 40)
+	&ui_filebox('defaultvol', @allServer ? $allServer[$in{offset}]{defaultvol} : '', 40)
 );
 print &ui_table_row($text{'create_server_systemvol'},
-	&ui_filebox('systemvol', $systemvol, 40)
+	&ui_filebox('systemvol', @allServer ? $allServer[$in{offset}]{systemvol} : '', 40)
 );
 print &ui_table_row($text{'create_server_uservol'},
-	&ui_select('uservol', $uservol, [
+	&ui_select('uservol', @allServer ? $allServer[$in{offset}]{uservol} : '', [
 			['', &text('edit_default', 'yes')],
 			['yes', $text{'global_yes'}],
 			['no', $text{'global_no'}]
 		])
 );
 print &ui_table_row($text{'create_server_uservolfirst'},
-	&ui_select('uservolfirst', $uservolfirst, [
+	&ui_select('uservolfirst', @allServer ? $allServer[$in{offset}]{uservolfirst} : '', [
 			['', &text('edit_default', 'no')],
 			['yes', $text{'global_yes'}],
 			['no', $text{'global_no'}]
@@ -181,28 +157,28 @@ print &ui_tabs_start_tab('mode', 'users');
 
 print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
 print &ui_table_row($text{'create_server_uampath'},
-	&ui_filebox('uampath', $uampath, 40)
+	&ui_filebox('uampath', @allServer ? $allServer[$in{offset}]{uampath} : '', 40)
 );
 print &ui_table_row($text{'create_server_passwdfile'},
-	&ui_filebox('passwdfile', $passwdfile, 40)
+	&ui_filebox('passwdfile', @allServer ? $allServer[$in{offset}]{passwdfile} : '', 40)
 );
 print &ui_table_row($text{'create_server_k5keytab'},
-	&ui_filebox('k5keytab', $k5keytab, 40)
+	&ui_filebox('k5keytab', @allServer ? $allServer[$in{offset}]{k5keytab} : '', 40)
 );
 print &ui_table_row($text{'create_server_k5service'},
-	&ui_textbox('k5service', $k5service, 20)
+	&ui_textbox('k5service', @allServer ? $allServer[$in{offset}]{k5service} : '', 20)
 );
 print &ui_table_row($text{'create_server_k5realm'},
-	&ui_textbox('k5realm', $k5realm, 20)
+	&ui_textbox('k5realm', @allServer ? $allServer[$in{offset}]{k5realm} : '', 20)
 );
 print &ui_table_row($text{'create_server_ntdomain'},
-	&ui_textbox('ntdomain', $ntdomain, 20)
+	&ui_textbox('ntdomain', @allServer ? $allServer[$in{offset}]{ntdomain} : '', 20)
 );
 print &ui_table_row($text{'create_server_ntseparator'},
-	&ui_textbox('ntseparator', $ntseparator, 20)
+	&ui_textbox('ntseparator', @allServer ? $allServer[$in{offset}]{ntseparator} : '', 20)
 );
 print &ui_table_row($text{'create_server_adminauthuser'},
-	&ui_user_textbox('adminauthuser', $adminauthuser, 20)
+	&ui_user_textbox('adminauthuser', @allServer ? $allServer[$in{offset}]{adminauthuser} : '', 20)
 );
 print &ui_table_end();
 
@@ -215,43 +191,44 @@ print &ui_table_row($text{'create_server_Address'},
 	." ".$text{'create_server_Address_help'}
 );
 print &ui_table_row($text{'create_server_Port'},
-	'<input type="number" name="port" min="0" max="65535" value="'.$port.'">'
+	'<input type="number" name="port" min="0" max="65535" value="'
+	.(@allServer ? $allServer[$in{offset}]{port} : '').'">'
 	." ".$text{'create_server_Port_help'}
 );
 print &ui_table_row($text{'create_server_ddpaddr'},
-	&ui_textbox('ddpaddr', $ddpaddr)
+	&ui_textbox('ddpaddr', @allServer ? $allServer[$in{offset}]{ddpaddr} : '')
 );
 print &ui_table_row($text{'create_server_fqdn'},
-	&ui_textbox('fqdn', $fqdn)
+	&ui_textbox('fqdn', @allServer ? $allServer[$in{offset}]{fqdn} : '')
 );
 print &ui_table_row($text{'create_server_hostname'},
-	&ui_textbox('hostname', $hostname)
+	&ui_textbox('hostname', @allServer ? $allServer[$in{offset}]{hostname} : '')
 );
 print &ui_table_row($text{'create_server_server_quantum'},
-	&ui_textbox('server_quantum', $server_quantum)
+	&ui_textbox('server_quantum', @allServer ? $allServer[$in{offset}]{server_quantum} : '')
 	." ".$text{'create_server_server_quantum_help'}
 );
 print &ui_table_row($text{'create_server_dsireadbuf'},
-	&ui_textbox('dsireadbuf', $dsireadbuf)
+	&ui_textbox('dsireadbuf', @allServer ? $allServer[$in{offset}]{dsireadbuf} : '')
 	." ".$text{'create_server_dsireadbuf_help'}
 );
 print &ui_table_row($text{'create_server_tcprcvbuf'},
-	&ui_textbox('tcprcvbuf', $tcprcvbuf)
+	&ui_textbox('tcprcvbuf', @allServer ? $allServer[$in{offset}]{tcprcvbuf} : '')
 );
 print &ui_table_row($text{'create_server_tcpsndbuf'},
-	&ui_textbox('tcpsndbuf', $tcpsndbuf)
+	&ui_textbox('tcpsndbuf', @allServer ? $allServer[$in{offset}]{tcpsndbuf} : '')
 );
 print &ui_table_row($text{'edit_MisceOptions'},
-	&ui_checkbox('advertise_ssh', 1, $text{'create_server_advertise_ssh'}, $advertise_ssh)
+	&ui_checkbox('advertise_ssh', 1, $text{'create_server_advertise_ssh'}, @allServer ? $allServer[$in{offset}]{advertise_ssh} : 0)
 );
 print &ui_table_row('',
-	&ui_checkbox('proxy', 1, $text{'create_server_proxy'}, $proxy)
+	&ui_checkbox('proxy', 1, $text{'create_server_proxy'}, @allServer ? $allServer[$in{offset}]{proxy} : 0)
 );
 print &ui_table_row('',
-	&ui_checkbox('zeroconf', 1, $text{'create_server_zeroconf'}, $zeroconf)
+	&ui_checkbox('nozeroconf', 1, $text{'create_server_nozeroconf'}, @allServer ? $allServer[$in{offset}]{nozeroconf} : 0)
 );
 print &ui_table_row('',
-	&ui_checkbox('slp', 1, $text{'create_server_slp'}, $slp)
+	&ui_checkbox('slp', 1, $text{'create_server_slp'}, @allServer ? $allServer[$in{offset}]{slp} : 0)
 );
 print &ui_table_end();
 
