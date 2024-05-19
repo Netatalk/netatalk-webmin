@@ -14,8 +14,9 @@ index_options=Options
 index_users=Manage Connected Users
 index_edit=Edit Other Config Files
 index_capabilities=View Server Capabilities
-index_volumes_default=Default Volume Options
+index_volumes_default=Edit Default Volume Options
 index_create_file_share=Create New Shared Volume
+index_edit_ldap=Edit LDAP Options
 
 index_servername=Server Name
 index_protocols=Transport Layers
@@ -207,6 +208,20 @@ create_server_tickleval=Tickle timeout (seconds)
 create_server_tickleval_help=default: 30
 create_server_timeout=Connection timeout duration (number of tickles)
 create_server_timeout_help=default: 4
+
+edit_ldap_table_heading=LDAP Authentication Options
+edit_ldap_uri=Server URI
+edit_ldap_uri_help=example: ldap://somehost:1234/
+edit_ldap_auth_method=Authentication method
+edit_ldap_auth_dn=Simple bind distinguished name
+edit_ldap_auth_pw=Simple bind password
+edit_ldap_userbase=User container distinguished name
+edit_ldap_userscope=User search scope
+edit_ldap_groupbase=Group container distinguished name
+edit_ldap_groupscope=Group search scope
+edit_ldap_uuid_attr=Attribute with UUIDs
+edit_ldap_name_attr=Attribute with user short names
+edit_ldap_group_attr=Attribute with group short names
 
 not_readable=not readable
 give_correct_path=Please give correct path

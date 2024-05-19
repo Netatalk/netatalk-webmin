@@ -23,7 +23,6 @@ require 'netatalk2-lib.pl';
 ui_print_header(undef, $text{'manual_configs'}, "", "configs", 1);
 
 @files = (
-	$config{'afpdldap_c'},
 	$config{'atalk_c'},
 	$config{'applevolumesystem_c'},
 	$config{'netatalk_c'},

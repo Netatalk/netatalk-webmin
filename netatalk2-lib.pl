@@ -922,6 +922,24 @@ sub getAfpdServers
 }
 
 
+#------------------------------------------------------------------
+#Parses afp_ldap.conf and stores data structures in an array
+#------------------------------------------------------------------
+sub getAfpdLdap
+{
+	local %afpldap;
+	local $fileToRead = $config{'afpdldap_c'};
+
+	open(FH, "<$fileToRead") || die "$fileToRead $text{not_readable}";
+	while(<FH>)
+	{
+		$afpldap{$1} = $2 if ($_=~ /(^ldap_[\w_]+)\s*=\s*([^\s]*)$/ );
+	}
+	close(FH);
+	return %afpldap;
+}
+
+
 #------------------------------------------------------------------------------
 #Function appends a new line to file
 #
@@ -998,6 +1016,39 @@ sub deleteSpezLine(){
 	rename($temporary, $var1);
 	unlink("$var1.orig") or die "$text{delete_failed}: $var1.orig\n";
 	return 1;
+}
+
+
+#------------------------------------------------------------------------------
+#Rewrite a file from scratch
+#
+#$var1 File to which should be rewritten
+#$var2 Array of strings to be written to the file
+#------------------------------------------------------------------------------
+sub rewriteFile()
+{
+	my ($var1, @var2) = @_;
+	local($temporary, $lin);
+ 	$temporary = "$var1.temp";
+
+	die("No data to write to file.") if (scalar $var2 > 1);
+
+	copy($var1, $temporary) or die "$text{copy_failed}: $!";
+
+	lock_file("$temporary");
+	open(OLD, "<$var1") || die "$var1 $text{not_readable}";
+	open(NEW, ">$temporary") || die "$temporary $text{not_readable}";
+
+	foreach $lin (@var2) {
+		print NEW "$lin\n";
+	}
+
+	close(OLD);
+	close(NEW);
+	unlock_file("$temporary");
+	rename($var1, "$var1.orig");
+	rename($temporary, $var1);
+	unlink("$var1.orig") or die "$text{delete_failed}: $var1.orig\n";
 }
 
 #-------------------------------------------------------------------------------

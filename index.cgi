@@ -107,9 +107,9 @@ print &ui_hr();
 
 print"<h3>$text{index_global}</h3>\n";
 
-my @server_links = ("fshare_edit_form.cgi?shareName=:DEFAULT:&action=default", "show_users.cgi", "edit_configfiles_form.cgi", "server_status.cgi");
-my @server_titles = ($text{'index_volumes_default'}, $text{'index_users'}, $text{'index_edit'}, "$text{index_capabilities}");
-my @server_icons = ("images/volumes.gif", "images/users.gif", "images/edit.gif", "images/server.gif");
+my @server_links = ("fshare_edit_form.cgi?shareName=:DEFAULT:&action=default", "ldap_edit_form.cgi", "show_users.cgi", "edit_configfiles_form.cgi", "server_status.cgi");
+my @server_titles = ($text{'index_volumes_default'}, $text{'index_edit_ldap'}, $text{'index_users'}, $text{'index_edit'}, "$text{index_capabilities}");
+my @server_icons = ("images/volumes.gif", "images/root.gif", "images/users.gif", "images/edit.gif", "images/server.gif");
 icons_table(\@server_links, \@server_titles, \@server_icons);
 
 print &ui_hr();
