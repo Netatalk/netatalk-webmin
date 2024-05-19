@@ -32,13 +32,12 @@ The same thing can be accomplished within the Webmin UI, in the Netatalk module'
 
 # The current level of Netatalk 2 feature support
 - Starting and stopping afpd and all AppleTalk services
-- UI for all of the AppleVolumes.default options
-- UI for a subset of afpd.conf options
-- Interactive editor of all config files
+- UI for all AppleVolumes.default options
+- UI for all afpd.conf options
+- Interactive editor of all other config files
 - Connected user management
 
 # Known limitations
-- Editing afpd.conf through the form will remove options that are not supported by this module.
 - All daemons have to be started/stopped in a batch. No support for granular daemon control.
 - atalkd.conf, papd.conf etc. have to be manually managed.
 
