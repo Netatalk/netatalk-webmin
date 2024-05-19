@@ -106,7 +106,7 @@ print &ui_table_row($text{'edit_global_section_log_file'},
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'log level', \%in);
 print &ui_table_row($text{'edit_global_section_log_level'},
 	&ui_textbox('p_log level', $values[0], 30)
-	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'zeroconf', \%in);
@@ -168,7 +168,7 @@ print &ui_table_row($text{'edit_global_section_mac_charset'},
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'unix charset', \%in);
 print &ui_table_row($text{'edit_global_section_unix_charset'},
 	&ui_textbox('p_unix charset', $values[0], 10)
-	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'vol charset', \%in);
@@ -267,7 +267,7 @@ print &ui_table_row($text{'edit_global_section_set_password'},
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'passwd file', \%in);
 print &ui_table_row($text{'edit_global_section_passwd_file'},
 	&ui_filebox('p_passwd file', $values[0])
-	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'passwd minlen', \%in);
@@ -290,7 +290,7 @@ print &ui_table_row($text{'edit_global_section_advertise_ssh'},
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'afp interfaces', \%in);
 print &ui_table_row($text{'edit_global_section_afp_interfaces'},
 	&ui_textbox('p_afp interfaces', $values[0], 40)
-	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'afp listen', \%in);
@@ -302,19 +302,19 @@ print &ui_table_row($text{'edit_global_section_afp_listen'},
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'afp port', \%in);
 print &ui_table_row($text{'edit_global_section_afp_port'},
 	&ui_textbox('p_afp port', $values[0], 5)
-	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'disconnect time', \%in);
 print &ui_table_row($text{'edit_global_section_disconnect_time'},
 	"<input name='p_disconnect time' type='number' value='".$values[0]."'>"
-	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'dsireadbuf', \%in);
 print &ui_table_row($text{'edit_global_section_dsireadbuf'},
 	"<input name='p_dsireadbuf' type='number' value='".$values[0]."'>"
-	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'fqdn', \%in);
@@ -325,19 +325,19 @@ print &ui_table_row($text{edit_global_section_fqdn},
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'max connections', \%in);
 print &ui_table_row($text{'edit_global_section_max_connections'},
 	"<input name='p_max connections' type='number' value='".$values[0]."'>"
-	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'server quantum', \%in);
 print &ui_table_row($text{'edit_global_section_server_quantum'},
 	"<input name='p_server quantum' type='number' value='".$values[0]."'>"
-	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'sleep time', \%in);
 print &ui_table_row($text{'edit_global_section_sleep_time'},
 	"<input name='p_sleep time' type='number' value='".$values[0]."'>"
-	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'tcprcvbuf', \%in);
@@ -358,7 +358,7 @@ print &ui_table_row($text{'edit_global_section_recvfile'},
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'splice size', \%in);
 print &ui_table_row($text{'edit_global_section_splice_size'},
 	"<input name='p_splice size' type='number' value='".$values[0]."'>"
-	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'use sendfile', \%in);
@@ -390,7 +390,7 @@ print &ui_table_row($text{'edit_global_section_dbus_daemon'},
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'dircachesize', \%in);
 print &ui_table_row($text{'edit_global_section_dircachesize'},
 	"<input name='p_dircachesize' type='number' value='".$values[0]."'>"
-	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'extmap file', \%in);
@@ -407,7 +407,7 @@ print &ui_table_row($text{'edit_global_section_force_xattr_with_sticky_bit'},
 print &ui_table_row($text{'edit_global_section_guest_account'},
 	&ui_textbox('p_guest account', $values[0], 20)
 	.&user_chooser_button('guest account')
-	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'ignored attributes', \%in);
@@ -460,7 +460,7 @@ print &ui_table_row($text{'edit_global_section_veto_message'},
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'volnamelen', \%in);
 print &ui_table_row($text{'edit_global_section_volnamelen'},
 	"<input name='p_volnamelen' type='number' value='".$values[0]."'>"
-	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
 );
 
 print &ui_table_end();
@@ -472,13 +472,13 @@ print &ui_table_start($text{'edit_global_section_title_table'}, 'width="100%"', 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'vol dbpath', \%in);
 print &ui_table_row($text{'edit_global_section_vol_dbpath'},
 	&ui_filebox('p_vol_dbpath', $values[0], 40, undef, undef, undef, 1)
-	.($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')
+	.($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'cnid listen', \%in);
 print &ui_table_row($text{'edit_global_section_cnid_listen'},
 	&ui_textbox('p_cnid listen', $values[0], 40)
-	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'vol dbnest', \%in);
@@ -613,7 +613,7 @@ print &ui_table_start($text{'edit_global_section_title_table'}, 'width="100%"', 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'fce listener', \%in);
 print &ui_table_row($text{'edit_global_section_fce_listener'},
 	&ui_textbox('p_fce listener', $values[0], 40)
-	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'fce version', \%in);
@@ -634,13 +634,13 @@ print &ui_table_row($text{'edit_global_section_fce_coalesce'},
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'fce holdfmod', \%in);
 print &ui_table_row($text{'edit_global_section_fce_holdfmod'},
 	"<input name='p_fce holdfmod' type='number' value='".$values[0]."'>"
-	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'fce ignore names', \%in);
 print &ui_table_row($text{'edit_global_section_fce_ignore_names'},
 	&ui_textbox('p_fce ignore names', $values[0], 40)
-	." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'fce ignore directories', \%in);

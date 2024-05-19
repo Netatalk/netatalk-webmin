@@ -165,7 +165,7 @@ if($subject ne 'homes') {
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'password', \%in);
 	print &ui_table_row($text{'edit_vol_section_password'},
 		&ui_textbox('p_password', $values[0], 10, undef, 8)
-		.($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')
+		.($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')
 	);
 }
 
@@ -209,13 +209,13 @@ print &ui_table_row($text{'edit_vol_section_rwlist'}, &build_user_group_selectio
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'hosts allow', \%in);
 print &ui_table_row($text{'edit_vol_section_hosts_allow'},
 	&ui_textbox('p_hosts allow', $values[0], 120)
-	.($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')
+	.($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'hosts deny', \%in);
 print &ui_table_row($text{'edit_vol_section_hosts_deny'},
 	&ui_textbox('p_hosts deny', $values[0], 120)
-	.($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')
+	.($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')
 );
 
 print &ui_table_end();
@@ -233,7 +233,7 @@ if($subject ne 'homes') {
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'vol dbpath', \%in);
 	print &ui_table_row($text{'edit_global_section_vol_dbpath'},
 		&ui_filebox('p_vol_dbpath', $values[0], 40, undef, undef, undef, 1)
-		.($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')
+		.($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')
 	);
 
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'cnid server', \%in);
