@@ -25,7 +25,6 @@ use CGI qw/:standard/;
 init_config();
 
 $applevolume_default = $config{'applevolumedefault_c'};
-$temp = "$applevolume_default.temp";
 
 $pername = ();
 
@@ -759,22 +758,29 @@ sub createNewServerLine(){
 	if($in{slp}){
 		$newString .= "-slp ";
 	}
+	if($in{ddpaddr}){
+		$newString .= "-ddpaddr $in{ddpaddr} ";
+	}
+	if($in{fqdn}){
+		$newString .= "-fqdn $in{fqdn} ";
+	}
+	if($in{hostname}){
+		$newString .= "-hostname $in{hostname} ";
+	}
+	if($in{server_quantum}){
+		$newString .= "-server_quantum $in{server_quantum} ";
+	}
+	if($in{dsireadbuf}){
+		$newString .= "-dsireadbuf $in{dsireadbuf} ";
+	}
+	if($in{tcprcvbuf}){
+		$newString .= "-tcprcvbuf $in{tcprcvbuf} ";
+	}
+	if($in{tcpsndbuf}){
+		$newString .= "-tcpsndbuf $in{tcpsndbuf} ";
+	}
 
 	return $newString;
-}
-
-
-#------------------------------------------------------------------
-#Page, which displays input error
-#
-#$var1 Info-Text
-#------------------------------------------------------------------
-sub showMessage
-{
-	my ($var1) = @_;
-	ui_print_header(undef, Warning, "", "configs", 1);
-	print "<h2>**** $var1 ****</h2>\n";
-	ui_print_footer("index.cgi", $text{'index_module'});
 }
 
 
@@ -958,6 +964,27 @@ sub getAllAfpd
 			if($_ =~ /-slp/) {
 				$afpd{slp} = 1;
 			}
+			if($_ =~ /-ddpaddr\s([^\s]+)/) {
+				$afpd{ddpaddr} = $1;
+			}
+			if($_ =~ /-fqdn\s([^\s]+)/) {
+				$afpd{fqdn} = $1;
+			}
+			if($_ =~ /-hostname\s([^\s]+)/) {
+				$afpd{hostname} = $1;
+			}
+			if($_ =~ /-server_quantum\s([^\s]+)/) {
+				$afpd{server_quantum} = $1;
+			}
+			if($_ =~ /-dsireadbuf\s([^\s]+)/) {
+				$afpd{dsireadbuf} = $1;
+			}
+			if($_ =~ /-tcprcvbuf\s([^\s]+)/) {
+				$afpd{tcprcvbuf} = $1;
+			}
+			if($_ =~ /-tcpsndbuf\s([^\s]+)/) {
+				$afpd{tcpsndbuf} = $1;
+			}
 			push @afpd_all, \%afpd;
 		}
 	}
@@ -1024,12 +1051,12 @@ sub deleteSpezLine(){
 		return 0;
 	}
 	$temporary = "$var1.temp";
- 	copy($var1, $temp)
+ 	copy($var1, $temporary)
 		or die "$text{copy_failed}: $!";
 
 	lock_file("$temporary");
 	open(OLD, "<$var1") || die "$var1 $text{not_readable}";
-	open(NEW, ">$temporary") || die "$temp $text{not_readable}";
+	open(NEW, ">$temporary") || die "$temporary $text{not_readable}";
 	while(<OLD>){
 		if($. != $var2){
 			print NEW $_;
@@ -1094,4 +1121,18 @@ sub version() {
 	$version =~ m/(afpd \S+) /;
 
 	return $1;
+}
+
+
+#------------------------------------------------------------------
+#Page, which displays input error
+#
+#$var1 Info-Text
+#------------------------------------------------------------------
+sub showMessage
+{
+	my ($var1) = @_;
+	ui_print_header(undef, Warning, "", "configs", 1);
+	print "<h2>**** $var1 ****</h2>\n";
+	ui_print_footer("index.cgi", $text{'index_module'});
 }
