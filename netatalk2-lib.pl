@@ -629,12 +629,6 @@ sub createNewServerLine(){
 	else{
 		$newString .= "-notransall ";
 	}
-	if($in{port}){
-		$newString .= "-port $in{port} ";
-	}
-	if($in{address}){
-		$newString .= "-ipaddr $in{ipaddr} ";
-	}
 	if($in{savepassword} eq 'yes'){
 		$newString .= "-savepassword ";
 	}
@@ -647,9 +641,6 @@ sub createNewServerLine(){
 	elsif($in{setpassword} eq 'no'){
 		$newString .= "-nosetpassword ";
 	}
-	if($in{loginmesg}){
-		$newString .= "-loginmesg \"$in{loginmesg}\" ";
-	}
 	if($in{uamlist}){
 		$in{uamlist} =~ s/\x00/\,/g;
 		$newString .= "-uamlist $in{uamlist} ";
@@ -659,27 +650,6 @@ sub createNewServerLine(){
 	}
 	elsif($in{icon} eq 'no'){
 		$newString .= "-noicon ";
-	}
-	if($in{mimicmodel}){
-		$newString .= "-mimicmodel \"$in{mimicmodel}\" ";
-	}
-	if($in{setuplog}){
-		$newString .= "-setuplog \"$in{setuplog}\" ";
-	}
-	if($in{unsetuplog}){
-		$newString .= "-unsetuplog \"$in{unsetuplog}\" ";
-	}
-	if($in{maccodepage}){
-		$newString .= "-maccodepage $in{maccodepage} ";
-	}
-	if($in{unixcodepage}){
-		$newString .= "-unixcodepage $in{unixcodepage} ";
-	}
-	if($in{defaultvol}){
-		$newString .= "-defaultvol $in{defaultvol} ";
-	}
-	if($in{systemvol}){
-		$newString .= "-systemvol $in{systemvol} ";
 	}
 	if($in{uservol} eq 'yes'){
 		$newString .= "-uservol ";
@@ -693,114 +663,52 @@ sub createNewServerLine(){
 	elsif($in{uservolfirst} eq 'no'){
 		$newString .= "-nouservolfirst ";
 	}
-	if($in{uampath}){
-		$newString .= "-uampath $in{uampath} ";
-	}
-	if($in{k5keytab}){
-		$newString .= "-k5keytab $in{k5keytab} ";
-	}
-	if($in{k5service}){
-		$newString .= "-k5service $in{k5service} ";
-	}
-	if($in{k5realm}){
-		$newString .= "-k5realm $in{k5realm} ";
-	}
-	if($in{ntdomain}){
-		$newString .= "-ntdomain $in{ntdomain} ";
-	}
-	if($in{ntseparator}){
-		$newString .= "-ntseparator $in{ntseparator} ";
-	}
-	if($in{adminauthuser}){
-		$newString .= "-adminauthuser $in{adminauthuser} ";
-	}
-	if($in{passwdfile}){
-		$newString .= "-passwdfile $in{passwdfile} ";
-	}
-	if($in{advertise_ssh}){
-		$newString .= "-advertise_ssh ";
-	}
-	if($in{proxy}){
-		$newString .= "-proxy ";
-	}
-	if($in{nozeroconf}){
-		$newString .= "-nozeroconf ";
-	}
-	if($in{slp}){
-		$newString .= "-slp ";
-	}
-	if($in{ddpaddr}){
-		$newString .= "-ddpaddr $in{ddpaddr} ";
-	}
-	if($in{fqdn}){
-		$newString .= "-fqdn $in{fqdn} ";
-	}
-	if($in{hostname}){
-		$newString .= "-hostname $in{hostname} ";
-	}
-	if($in{server_quantum}){
-		$newString .= "-server_quantum $in{server_quantum} ";
-	}
-	if($in{dsireadbuf}){
-		$newString .= "-dsireadbuf $in{dsireadbuf} ";
-	}
-	if($in{tcprcvbuf}){
-		$newString .= "-tcprcvbuf $in{tcprcvbuf} ";
-	}
-	if($in{tcpsndbuf}){
-		$newString .= "-tcpsndbuf $in{tcpsndbuf} ";
-	}
-	if($in{closevol}){
-		$newString .= "-closevol ";
-	}
-	if($in{keepsessions}){
-		$newString .= "-keepsessions ";
-	}
-	if($in{noacl2maccess}){
-		$newString .= "-noacl2maccess ";
-	}
-	if($in{admingroup}){
-		$newString .= "-admingroup $in{admingroup} ";
-	}
-	if($in{authprintdir}){
-		$newString .= "-authprintdir $in{authprintdir} ";
-	}
-	if($in{cnidserver}){
-		$newString .= "-cnidserver $in{cnidserver} ";
-	}
-	if($in{dircachesize}){
-		$newString .= "-dircachesize $in{dircachesize} ";
-	}
-	if($in{fcelistener}){
-		$newString .= "-fcelistener $in{fcelistener} ";
-	}
-	if($in{fceevents}){
-		$newString .= "-fceevents $in{fceevents} ";
-	}
-	if($in{fcecoalesce}){
-		$newString .= "-fcecoalesce $in{fcecoalesce} ";
-	}
-	if($in{fceholdfmod}){
-		$newString .= "-fceholdfmod $in{fceholdfmod} ";
-	}
-	if($in{guestname}){
-		$newString .= "-guestname \"$in{guestname}\" ";
-	}
-	if($in{sleep}){
-		$newString .= "-sleep $in{sleep} ";
-	}
-	if($in{signature}){
-		$newString .= "-signature $in{signature} ";
-	}
-	if($in{volnamelen}){
-		$newString .= "-volnamelen $in{volnamelen} ";
-	}
-	if($in{tickleval}){
-		$newString .= "-tickleval $in{tickleval} ";
-	}
-	if($in{timeout}){
-		$newString .= "-timeout $in{timeout} ";
-	}
+	$newString .= "-loginmesg \"$in{loginmesg}\" " if $in{loginmesg};
+	$newString .= "-mimicmodel \"$in{mimicmodel}\" " if $in{mimicmodel};
+	$newString .= "-setuplog \"$in{setuplog}\" " if $in{setuplog};
+	$newString .= "-unsetuplog \"$in{unsetuplog}\" " if $in{unsetuplog};
+	$newString .= "-maccodepage $in{maccodepage} " if $in{maccodepage};
+	$newString .= "-unixcodepage $in{unixcodepage} " if $in{unixcodepage};
+	$newString .= "-defaultvol $in{defaultvol} " if $in{defaultvol};
+	$newString .= "-systemvol $in{systemvol} " if $in{systemvol};
+	$newString .= "-uampath $in{uampath} " if $in{uampath};
+	$newString .= "-k5keytab $in{k5keytab} " if $in{k5keytab};
+	$newString .= "-k5service $in{k5service} " if $in{k5service};
+	$newString .= "-k5realm $in{k5realm} " if $in{k5realm};
+	$newString .= "-ntdomain $in{ntdomain} " if $in{ntdomain};
+	$newString .= "-ntseparator $in{ntseparator} " if $in{ntseparator};
+	$newString .= "-adminauthuser $in{adminauthuser} " if $in{adminauthuser};
+	$newString .= "-passwdfile $in{passwdfile} " if $in{passwdfile};
+	$newString .= "-advertise_ssh " if $in{advertise_ssh};
+	$newString .= "-proxy " if $in{proxy};
+	$newString .= "-nozeroconf " if $in{nozeroconf};
+	$newString .= "-slp " if $in{slp};
+	$newString .= "-port $in{port} " if $in{port};
+	$newString .= "-ipaddr $in{ipaddr} " if $in{ipaddr};
+	$newString .= "-ddpaddr $in{ddpaddr} " if $in{ddpaddr};
+	$newString .= "-fqdn $in{fqdn} " if $in{fqdn};
+	$newString .= "-hostname $in{hostname} " if $in{hostname};
+	$newString .= "-server_quantum $in{server_quantum} " if $in{server_quantum};
+	$newString .= "-dsireadbuf $in{dsireadbuf} " if $in{dsireadbuf};
+	$newString .= "-tcprcvbuf $in{tcprcvbuf} " if $in{tcprcvbuf};
+	$newString .= "-tcpsndbuf $in{tcpsndbuf} " if $in{tcpsndbuf};
+	$newString .= "-closevol " if $in{closevol};
+	$newString .= "-keepsessions " if $in{keepsessions};
+	$newString .= "-noacl2maccess " if $in{noacl2maccess};
+	$newString .= "-admingroup $in{admingroup} " if $in{admingroup};
+	$newString .= "-authprintdir $in{authprintdir} " if $in{authprintdir};
+	$newString .= "-cnidserver $in{cnidserver} " if $in{cnidserver};
+	$newString .= "-dircachesize $in{dircachesize} " if $in{dircachesize};
+	$newString .= "-fcelistener $in{fcelistener} " if $in{fcelistener};
+	$newString .= "-fceevents $in{fceevents} " if $in{fceevents};
+	$newString .= "-fcecoalesce $in{fcecoalesce} " if $in{fcecoalesce};
+	$newString .= "-fceholdfmod $in{fceholdfmod} " if $in{fceholdfmod};
+	$newString .= "-guestname \"$in{guestname}\" " if $in{guestname};
+	$newString .= "-sleep $in{sleep} " if $in{sleep};
+	$newString .= "-signature $in{signature} " if $in{signature};
+	$newString .= "-volnamelen $in{volnamelen} " if $in{volnamelen};
+	$newString .= "-tickleval $in{tickleval} " if $in{tickleval};
+	$newString .= "-timeout $in{timeout} " if $in{timeout};
 
 	return $newString;
 }

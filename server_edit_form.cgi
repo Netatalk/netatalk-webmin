@@ -182,7 +182,7 @@ print &ui_tabs_start_tab('mode', 'transport');
 
 print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
 print &ui_table_row($text{'create_server_Address'},
-	&ui_textbox('address', @allServer ? $allServer[$in{offset}]{ipaddr} : '')
+	&ui_textbox('ipaddr', @allServer ? $allServer[$in{offset}]{ipaddr} : '')
 	." ".$text{'create_server_Address_help'}
 );
 print &ui_table_row($text{'create_server_Port'},
