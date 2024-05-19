@@ -257,9 +257,32 @@ if($subject ne 'homes') {
 	);
 
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'mac charset', \%in);
-	print &ui_table_row($text{'edit_global_section_mac_charset'},
-		&ui_textbox('p_mac charset', $values[0], 10)
-		." ".($values[2] ? html_escape($values[1])." (".html_escape($values[2]).")" : '')."\n"
+	print &ui_table_row($text{'edit_global_section_mac_charset'},	&build_select(
+			$afpconfRef,
+			$sectionRef,
+			\%in,
+			'mac charset',
+			$text{'edit_undefined'},
+			'MAC_CENTRALEUROPE',
+			'MAC_CENTRALEUROPE',
+			'MAC_CHINESE_SIMP',
+			'MAC_CHINESE_SIMP',
+			'MAC_CHINESE_TRAD',
+			'MAC_CHINESE_TRAD',
+			'MAC_CYRILLIC',
+			'MAC_CYRILLIC',
+			'MAC_GREEK',
+			'MAC_GREEK',
+			'MAC_HEBREW',
+			'MAC_HEBREW',
+			'MAC_JAPANESE',
+			'MAC_JAPANESE',
+			'MAC_KOREAN',
+			'MAC_KOREAN',
+			'MAC_ROMAN',
+			'MAC_ROMAN',
+			'MAC_TURKISH',
+			'MAC_TURKISH')
 	);
 
 	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'vol charset', \%in);
