@@ -24,8 +24,6 @@ use File::Copy;
 use CGI qw/:standard/;
 init_config();
 
-$applevolume_default = $config{'applevolumedefault_c'};
-
 $pername = ();
 
 #struct volume_format administers all information of a " line "
@@ -73,7 +71,8 @@ foreign_require("useradmin", "user-lib.pl");
 #-------------------------------------------------------------------------------------
 sub getAppleVolumes
 {
-	local(@rv,$line);
+	local(@rv, $line);
+	local $applevolume_default = $config{'applevolumedefault_c'};
 
 	#File $applevolume_default not readable
 	open(FH,"<$applevolume_default") || die "$applevolume_default $text{not_readable}";

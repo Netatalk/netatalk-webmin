@@ -18,6 +18,7 @@ require 'netatalk2-lib.pl';
 
 &ReadParse();
 
+local $applevolume_default = $config{'applevolumedefault_c'};
 local $totalLines = getLinesSpezFile($applevolume_default);
 local $lineNumber = 1;
 

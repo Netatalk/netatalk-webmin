@@ -18,6 +18,8 @@ require './netatalk2-lib.pl';
 
 &ReadParse();
 
+local $applevolume_default = $config{'applevolumedefault_c'};
+
 if($in{'delete_volumepath'}){
 	local $line = getSpezLine($applevolume_default, $in{'delete_volumepath'});
 	local $result = deleteSpezLine($applevolume_default, $line);
