@@ -25,7 +25,6 @@ use CGI qw/:standard/;
 init_config();
 
 $applevolume_default = $config{'applevolumedefault_c'};
-$temp = "$applevolume_default.temp";
 
 $pername = ();
 
@@ -70,9 +69,9 @@ foreign_require("useradmin", "user-lib.pl");
 
 
 #-------------------------------------------------------------------------------------
-#reads the file AppleVolumes.default and continues with it
+#reads the file AppleVolumes.default and returns an array with the contents
 #-------------------------------------------------------------------------------------
-sub open_afile
+sub getAppleVolumes
 {
 	local(@rv,$line);
 
@@ -487,7 +486,7 @@ sub createNewFileShare
 {
 	local $new_line;
 	my ($in) = @_;
-	local @volumes = open_afile();
+	local @volumes = getAppleVolumes();
 	foreach $v (@volumes) {
 		if (($in{path} eq getPath($v)) || ($in{homes} && (getPath($v) =~ "^~"))) {
 			showMessage(&text(error_dup_path, getPath($v)));
@@ -632,10 +631,10 @@ sub createNewServerLine(){
 	local $illegalChars = ":@\$\"<>\/";
 	local $newString;
 	my ($in) = @_;
-	local @servers = getAllAfpd();
+	local @servers = getAfpdServers();
 	foreach my $s (@servers) {
 		if ($in{servername} eq $s->{servername}) {
-			showMessage(&text(error_dup_name, $s->{servername}));
+			showMessage(&text(error_dup_name, $s->{servername} ? $s->{servername} : &get_system_hostname()));
 			exit;
 		}
 	}
@@ -666,26 +665,173 @@ sub createNewServerLine(){
 		$newString .= "-port $in{port} ";
 	}
 	if($in{address}){
-		$newString .= "-ipaddr $in{address} ";
+		$newString .= "-ipaddr $in{ipaddr} ";
 	}
-	$newString .= "$in{savepassword} ";
-	$newString .= "$in{setpassword} ";
-	if($in{logmesg}){
-		$newString .= "-loginmesg \"$in{logmesg}\" ";
+	if($in{savepassword} eq 'yes'){
+		$newString .= "-savepassword ";
 	}
-	if($in{uams}){
-		$in{uams} =~ s/\x00/\,/g;
-		$newString .= "-uamlist $in{uams} ";
+	elsif($in{savepassword} eq 'no'){
+		$newString .= "-nosavepassword ";
 	}
-	$newString .= "$in{icon} ";
+	if($in{setpassword} eq 'yes'){
+		$newString .= "-setpassword ";
+	}
+	elsif($in{setpassword} eq 'no'){
+		$newString .= "-nosetpassword ";
+	}
+	if($in{loginmesg}){
+		$newString .= "-loginmesg \"$in{loginmesg}\" ";
+	}
+	if($in{uamlist}){
+		$in{uamlist} =~ s/\x00/\,/g;
+		$newString .= "-uamlist $in{uamlist} ";
+	}
+	if($in{icon} eq 'yes'){
+		$newString .= "-icon ";
+	}
+	elsif($in{icon} eq 'no'){
+		$newString .= "-noicon ";
+	}
 	if($in{mimicmodel}){
 		$newString .= "-mimicmodel \"$in{mimicmodel}\" ";
 	}
 	if($in{setuplog}){
 		$newString .= "-setuplog \"$in{setuplog}\" ";
 	}
+	if($in{unsetuplog}){
+		$newString .= "-unsetuplog \"$in{unsetuplog}\" ";
+	}
 	if($in{maccodepage}){
 		$newString .= "-maccodepage $in{maccodepage} ";
+	}
+	if($in{unixcodepage}){
+		$newString .= "-unixcodepage $in{unixcodepage} ";
+	}
+	if($in{defaultvol}){
+		$newString .= "-defaultvol $in{defaultvol} ";
+	}
+	if($in{systemvol}){
+		$newString .= "-systemvol $in{systemvol} ";
+	}
+	if($in{uservol} eq 'yes'){
+		$newString .= "-uservol ";
+	}
+	elsif($in{uservol} eq 'no'){
+		$newString .= "-nouservol ";
+	}
+	if($in{uservolfirst} eq 'yes'){
+		$newString .= "-uservolfirst ";
+	}
+	elsif($in{uservolfirst} eq 'no'){
+		$newString .= "-nouservolfirst ";
+	}
+	if($in{uampath}){
+		$newString .= "-uampath $in{uampath} ";
+	}
+	if($in{k5keytab}){
+		$newString .= "-k5keytab $in{k5keytab} ";
+	}
+	if($in{k5service}){
+		$newString .= "-k5service $in{k5service} ";
+	}
+	if($in{k5realm}){
+		$newString .= "-k5realm $in{k5realm} ";
+	}
+	if($in{ntdomain}){
+		$newString .= "-ntdomain $in{ntdomain} ";
+	}
+	if($in{ntseparator}){
+		$newString .= "-ntseparator $in{ntseparator} ";
+	}
+	if($in{adminauthuser}){
+		$newString .= "-adminauthuser $in{adminauthuser} ";
+	}
+	if($in{passwdfile}){
+		$newString .= "-passwdfile $in{passwdfile} ";
+	}
+	if($in{advertise_ssh}){
+		$newString .= "-advertise_ssh ";
+	}
+	if($in{proxy}){
+		$newString .= "-proxy ";
+	}
+	if($in{nozeroconf}){
+		$newString .= "-nozeroconf ";
+	}
+	if($in{slp}){
+		$newString .= "-slp ";
+	}
+	if($in{ddpaddr}){
+		$newString .= "-ddpaddr $in{ddpaddr} ";
+	}
+	if($in{fqdn}){
+		$newString .= "-fqdn $in{fqdn} ";
+	}
+	if($in{hostname}){
+		$newString .= "-hostname $in{hostname} ";
+	}
+	if($in{server_quantum}){
+		$newString .= "-server_quantum $in{server_quantum} ";
+	}
+	if($in{dsireadbuf}){
+		$newString .= "-dsireadbuf $in{dsireadbuf} ";
+	}
+	if($in{tcprcvbuf}){
+		$newString .= "-tcprcvbuf $in{tcprcvbuf} ";
+	}
+	if($in{tcpsndbuf}){
+		$newString .= "-tcpsndbuf $in{tcpsndbuf} ";
+	}
+	if($in{closevol}){
+		$newString .= "-closevol ";
+	}
+	if($in{keepsessions}){
+		$newString .= "-keepsessions ";
+	}
+	if($in{noacl2maccess}){
+		$newString .= "-noacl2maccess ";
+	}
+	if($in{admingroup}){
+		$newString .= "-admingroup $in{admingroup} ";
+	}
+	if($in{authprintdir}){
+		$newString .= "-authprintdir $in{authprintdir} ";
+	}
+	if($in{cnidserver}){
+		$newString .= "-cnidserver $in{cnidserver} ";
+	}
+	if($in{dircachesize}){
+		$newString .= "-dircachesize $in{dircachesize} ";
+	}
+	if($in{fcelistener}){
+		$newString .= "-fcelistener $in{fcelistener} ";
+	}
+	if($in{fceevents}){
+		$newString .= "-fceevents $in{fceevents} ";
+	}
+	if($in{fcecoalesce}){
+		$newString .= "-fcecoalesce $in{fcecoalesce} ";
+	}
+	if($in{fceholdfmod}){
+		$newString .= "-fceholdfmod $in{fceholdfmod} ";
+	}
+	if($in{guestname}){
+		$newString .= "-guestname \"$in{guestname}\" ";
+	}
+	if($in{sleep}){
+		$newString .= "-sleep $in{sleep} ";
+	}
+	if($in{signature}){
+		$newString .= "-signature $in{signature} ";
+	}
+	if($in{volnamelen}){
+		$newString .= "-volnamelen $in{volnamelen} ";
+	}
+	if($in{tickleval}){
+		$newString .= "-tickleval $in{tickleval} ";
+	}
+	if($in{timeout}){
+		$newString .= "-timeout $in{timeout} ";
 	}
 
 	return $newString;
@@ -693,78 +839,9 @@ sub createNewServerLine(){
 
 
 #------------------------------------------------------------------
-#Page, which displays input error
-#
-#$var1 Info-Text
-#------------------------------------------------------------------
-sub showMessage
-{
-	my ($var1) = @_;
-	ui_print_header(undef, Warning, "", "configs", 1);
-	print "<h2>**** $var1 ****</h2>\n";
-	ui_print_footer("index.cgi", $text{'index_module'});
-}
-
-
-#------------------------------------------------------------------
-#Function reads afpd.conf and stores data for UI display in an array
-#------------------------------------------------------------------
-sub readAfpd
-{
-	local	@afpd_all;
-	local $fileToRead = $config{'afpd_c'};
-	open(FH, "<$fileToRead") || die "$fileToRead $text{not_readable}";
-	while(<FH>)
-	{
-		#Line with continuation characters read in
-		if($_=~/(^[\w\d-\"].*)/ ){
-			local %afpd = (
-				servername => &get_system_hostname(),
-				transport => $text{'create_server_disabled'},
-				uams => $text{'create_server_no_auth'},
-				port => $text{'create_server_default'},
-				address => $text{'create_server_default'}
-			);
-
-			if($_ =~ /^(\"[^\"]+\"|[^\s-]+)\s/)  {
-				$1 =~ /^\"*([^\"]+)\"*/;
-				$afpd{servername} = $1;
-			}
-
-			if($_ =~ /-transall/ || $_ =~ /-(ddp|tcp)\s+-(ddp|tcp)/ ){
-				$afpd{transport} = "AppleTalk, TCP/IP";
-			}
-			elsif($_ =~ /-(ddp|notcp)\s+-(notcp|ddp)/ ){
-				$afpd{transport} = "AppleTalk";
-			}
-			elsif($_ =~ /-(noddp|tcp)\s+-(tcp|noddp)/ ){
-				$afpd{transport} = "TCP/IP";
-			}
-			elsif($_ =~ /-notransall/ || $_ =~ /-(noddp|notcp)\s+-(noddp|notcp)/ ){
-				$afpd{transport} = "$text{'create_server_disabled'}";
-			}
-
-			if($_ =~ /-uamlist\s([\w\d\._,]+)\s/){
-				$afpd{uams} = $1;
-			}
-			if($_ =~ /-port\s([0-9]*)/){
-				$afpd{port} = $1;
-			}
-			if($_ =~ /-ipaddr\s([0-9.]*)/){
-				$afpd{address} = $1;
-			}
-			push @afpd_all, \%afpd;
-		}
-	}
-	close(FH);
-	return @afpd_all;
-}
-
-
-#------------------------------------------------------------------
 #Function reads afpd.conf and stores data for editing in an array
 #------------------------------------------------------------------
-sub getAllAfpd
+sub getAfpdServers
 {
 	local @afpd_all;
 	local $fileToRead = $config{'afpd_c'};
@@ -805,31 +882,161 @@ sub getAllAfpd
 				$afpd{loginmesg} = $1;
 			}
 			if($_ =~ /-savepassword/) {
-				$afpd{savepassword} = "-savepassword";
+				$afpd{savepassword} = "yes";
 			} elsif($_ =~ /-nosavepassword/) {
-				$afpd{savepassword} = "-nosavepassword";
+				$afpd{savepassword} = "no";
 			}
 			if($_ =~ /-setpassword/) {
-				$afpd{setpassword} = "-setpassword";
+				$afpd{setpassword} = "yes";
 			} elsif($_ =~ /-nosetpassword/) {
-				$afpd{setpassword} = "-nosetpassword";
+				$afpd{setpassword} = "no";
 			}
 			if($_ =~ /-uamlist\s([\w\d\.,]+)/) {
 				$afpd{uamlist} = $1;
 			}
 			if($_ =~ /-icon/) {
-				$afpd{icon} = "-icon";
+				$afpd{icon} = "yes";
 			} elsif($_ =~ /-noicon/) {
-				$afpd{icon} = "-noicon";
+				$afpd{icon} = "no";
 			}
 			if($_ =~ /-mimicmodel\s\"*([\w\d\,]+)\"*/) {
 				$afpd{mimicmodel} = $1;
 			}
-			if($_ =~ /-setuplog\s\"(.+)\"/) {
+			if($_ =~ /-setuplog\s\"([^\"]+)\"/) {
 				$afpd{setuplog} = $1;
+			}
+			if($_ =~ /-unsetuplog\s\"([^\"]+)\"/) {
+				$afpd{unsetuplog} = $1;
 			}
 			if($_ =~ /-maccodepage\s([\w_]+)/) {
 				$afpd{maccodepage} = $1;
+			}
+			if($_ =~ /-unixcodepage\s([^\s]+)/) {
+				$afpd{unixcodepage} = $1;
+			}
+			if($_ =~ /-defaultvol\s(\/[^\s]*)/) {
+				$afpd{defaultvol} = $1;
+			}
+			if($_ =~ /-systemvol\s(\/[^\s]*)/) {
+				$afpd{systemvol} = $1;
+			}
+			if($_ =~ /-uservol/) {
+				$afpd{uservol} = "yes";
+			} elsif($_ =~ /-nouservol/) {
+				$afpd{uservol} = "no";
+			}
+			if($_ =~ /-uservolfirst/) {
+				$afpd{uservolfirst} = "yes";
+			} elsif($_ =~ /-uservolfirst/) {
+				$afpd{uservolfirst} = "no";
+			}
+			if($_ =~ /-uampath\s(\/[^\s]*)/) {
+				$afpd{uampath} = $1;
+			}
+			if($_ =~ /-k5keytab\s(\/[^\s]*)/) {
+				$afpd{k5keytab} = $1;
+			}
+			if($_ =~ /-k5service\s([^\s]+)/) {
+				$afpd{k5service} = $1;
+			}
+			if($_ =~ /-k5realm\s([^\s]+)/) {
+				$afpd{k5realm} = $1;
+			}
+			if($_ =~ /-ntdomain\s([^\s]+)/) {
+				$afpd{ntdomain} = $1;
+			}
+			if($_ =~ /-ntseparator\s([^\s]+)/) {
+				$afpd{ntseparator} = $1;
+			}
+			if($_ =~ /-adminauthuser\s([^\s]+)/) {
+				$afpd{adminauthuser} = $1;
+			}
+			if($_ =~ /-passwdfile\s(\/[^\s]*)/) {
+				$afpd{passwdfile} = $1;
+			}
+			if($_ =~ /-advertise_ssh/) {
+				$afpd{advertise_ssh} = 1;
+			}
+			if($_ =~ /-proxy/) {
+				$afpd{proxy} = 1;
+			}
+			if($_ =~ /-nozeroconf/) {
+				$afpd{nozeroconf} = 1;
+			}
+			if($_ =~ /-slp/) {
+				$afpd{slp} = 1;
+			}
+			if($_ =~ /-ddpaddr\s([^\s]+)/) {
+				$afpd{ddpaddr} = $1;
+			}
+			if($_ =~ /-fqdn\s([^\s]+)/) {
+				$afpd{fqdn} = $1;
+			}
+			if($_ =~ /-hostname\s([^\s]+)/) {
+				$afpd{hostname} = $1;
+			}
+			if($_ =~ /-server_quantum\s([^\s]+)/) {
+				$afpd{server_quantum} = $1;
+			}
+			if($_ =~ /-dsireadbuf\s([^\s]+)/) {
+				$afpd{dsireadbuf} = $1;
+			}
+			if($_ =~ /-tcprcvbuf\s([^\s]+)/) {
+				$afpd{tcprcvbuf} = $1;
+			}
+			if($_ =~ /-tcpsndbuf\s([^\s]+)/) {
+				$afpd{tcpsndbuf} = $1;
+			}
+			if($_ =~ /-closevol/) {
+				$afpd{closevol} = 1;
+			}
+			if($_ =~ /-keepsessions/) {
+				$afpd{keepsessions} = 1;
+			}
+			if($_ =~ /-noacl2maccess/) {
+				$afpd{noacl2maccess} = 1;
+			}
+			if($_ =~ /-admingroup\s([^\s]+)/) {
+				$afpd{admingroup} = $1;
+			}
+			if($_ =~ /-authprintdir\s([^\s]+)/) {
+				$afpd{authprintdir} = $1;
+			}
+			if($_ =~ /-cnidserver\s([^\s]+)/) {
+				$afpd{cnidserver} = $1;
+			}
+			if($_ =~ /-dircachesize\s([^\s]+)/) {
+				$afpd{dircachesize} = $1;
+			}
+			if($_ =~ /-fcelistener\s([^\s]+)/) {
+				$afpd{fcelistener} = $1;
+			}
+			if($_ =~ /-fceevents\s([^\s]+)/) {
+				$afpd{fceevents} = $1;
+			}
+			if($_ =~ /-fcecoalesce\s([^\s]+)/) {
+				$afpd{fcecoalesce} = $1;
+			}
+			if($_ =~ /-fceholdfmod\s([^\s]+)/) {
+				$afpd{fceholdfmod} = $1;
+			}
+			if($_ =~ /-guestname\s\"(.+)\"/) {
+				$afpd{guestname} = $1;
+			}
+			if($_ =~ /-sleep\s([^\s]+)/) {
+				$afpd{sleep} = $1;
+			}
+			if($_ =~ /-signature\s([^\s]+)/) {
+				$afpd{signature} = $1;
+			}
+			if($_ =~ /-volnamelen\s([^\s]+)/) {
+				$afpd{volnamelen} = $1;
+			}
+			if($_ =~ /-tickleval\s([^\s]+)/) {
+				$afpd{tickleval} = $1;
+			}
+			if($_ =~ /-timeout\s([^\s]+)/) {
+				$afpd{timeout} = $1;
 			}
 			push @afpd_all, \%afpd;
 		}
@@ -897,12 +1104,12 @@ sub deleteSpezLine(){
 		return 0;
 	}
 	$temporary = "$var1.temp";
- 	copy($var1, $temp)
+ 	copy($var1, $temporary)
 		or die "$text{copy_failed}: $!";
 
 	lock_file("$temporary");
 	open(OLD, "<$var1") || die "$var1 $text{not_readable}";
-	open(NEW, ">$temporary") || die "$temp $text{not_readable}";
+	open(NEW, ">$temporary") || die "$temporary $text{not_readable}";
 	while(<OLD>){
 		if($. != $var2){
 			print NEW $_;
@@ -967,4 +1174,18 @@ sub version() {
 	$version =~ m/(afpd \S+) /;
 
 	return $1;
+}
+
+
+#------------------------------------------------------------------
+#Page, which displays input error
+#
+#$var1 Info-Text
+#------------------------------------------------------------------
+sub showMessage
+{
+	my ($var1) = @_;
+	ui_print_header(undef, Warning, "", "configs", 1);
+	print "<h2>**** $var1 ****</h2>\n";
+	ui_print_footer("index.cgi", $text{'index_module'});
 }

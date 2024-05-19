@@ -37,7 +37,7 @@ elsif ($in{action} =~ /default/) {
 	$page_title = $text{'edit_file_share_default_title'};
 }
 
-open_afile();
+getAppleVolumes();
 
 if($in{shareName}){
 	$Old_shareName = $in{shareName};
@@ -212,11 +212,10 @@ unless ($in{action} =~ /default/) {
 
 print &ui_table_row($text{'edit_Adouble'},
 	&ui_select('adouble_options', $Adouble, [
-			['', $text{'edit_default'}],
+			['', &text('edit_default', 'v2')],
 			['v1', $text{'edit_Adoublev1'}],
 			['v2', $text{'edit_Adoublev2'}]
 		])
-	.' '.$text{'edit_Adouble_help'}
 );
 print &ui_table_row($text{'edit_Volsizelimit'},
 	"<input type=\"number\" name=volsizelimit min=\"1\" max=\"99999\" value="
@@ -240,17 +239,16 @@ print &ui_table_row($text{'edit_DataBase'},
 );
 print &ui_table_row($text{'edit_Ea'},
 	&ui_select('ea_options', $Ea, [
-			['', $text{'edit_default'}],
+			['', &text('edit_default', 'autodetect')],
 			['auto', $text{'edit_Eaauto'}],
 			['sys', $text{'edit_Easys'}],
 			['ad', $text{'edit_Eaad'}],
 			['none', $text{'edit_Eanone'}]
 		])
-	.' '.$text{'edit_Ea_help'}
 );
 print &ui_table_row($text{'edit_MacCharset'},
 	&ui_select('maccharset', $MacCharset, [
-			['', $text{'edit_default'}],
+			['', &text('edit_default', 'MAC_ROMAN')],
 			['MAC_CENTRALEUROPE'],
 			['MAC_CHINESE_SIMP'],
 			['MAC_CHINESE_TRAD'],
@@ -262,7 +260,6 @@ print &ui_table_row($text{'edit_MacCharset'},
 			['MAC_ROMAN'],
 			['MAC_TURKISH']
 		])
-	." ".$text{'create_server_maccodepage_help'}
 );
 print &ui_table_row($text{'edit_VolCharset'},
 	&ui_textbox('volcharset', $VolCharset, 20)

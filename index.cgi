@@ -26,7 +26,8 @@ if (!-x $config{'afpd_d'}) {
 	exit;
 }
 
-@Shares = open_afile();
+@Shares = getAppleVolumes();
+@Servers = getAfpdServers();
 
 print "<h3>$text{index_volumes_title}</h3>\n";
 
@@ -62,23 +63,35 @@ print &ui_hr();
 # Print Netatalk Server Configurations
 print "<h3>$text{'index_servers_title'}</h3>\n";
 
-@Servers = readAfpd();
 if (@Servers) {
 	print &ui_columns_start([
 			$text{'index_servername'},
 			$text{'index_protocols'},
 			$text{'index_auth'},
 			$text{'index_port'},
-			$text{'index_address'}
+			$text{'index_address'},
+			$text{'index_maccodepage'}
 		], undef, 0, undef, undef);
 	local $offset = 0;
 	foreach $s (@Servers){
+		local $t = "";
+		if($s->{transport} =~ /-transall/ || $s->{transport} =~ /-(ddp|tcp)\s+-(ddp|tcp)/ ){
+			$t = "AppleTalk, TCP/IP";
+		}
+		elsif($s->{transport} =~ /-(ddp|notcp)\s+-(notcp|ddp)/ ){
+			$t = "AppleTalk";
+		}
+		elsif($s->{transport} =~ /-(noddp|tcp)\s+-(tcp|noddp)/ ){
+			$t = "TCP/IP";
+		}
 		print &ui_columns_row([
-			"<a href=\"server_edit_form.cgi?action=edit&offset=$offset\">$s->{servername}</a>",
-			$s->{transport},
-			$s->{uams},
+			"<a href=\"server_edit_form.cgi?action=edit&offset=".$offset."\">"
+			.($s->{servername} ? $s->{servername} : &get_system_hostname())."</a>",
+			$t,
+			$s->{uamlist},
 			$s->{port},
-			$s->{address}
+			$s->{ipaddr},
+			$s->{maccodepage}
 		]);
 		$offset++;
 	}
