@@ -21,7 +21,7 @@ require 'netatalk2-lib.pl';
 
 &ReadParse();
 
-@allServer = getAllAfpd();
+local @allServer = getAllAfpd();
 
 local $servername = "";
 local $page_title = "";
@@ -34,43 +34,38 @@ if ($in{action} =~ /create/) {
 	$uamlist = "uams_dhx.so,uams_dhx2.so";
 }
 elsif ($in{action} =~ /edit/) {
-	if ($in{offset}) {
-		$offset = $in{offset};
-	}
-	else {
-		$offset = 0;
-	}
+	@allServer = getAllAfpd();
 	$page_title = $text{'edit_server_header'};
 
-	$servername = $allServer[$offset]{servername};
-	$transport = $allServer[$offset]{transport};
-	$port = $allServer[$offset]{port};
-	$address = $allServer[$offset]{ipaddr};
-	$loginmsg = $allServer[$offset]{loginmsg};
-	$savepass = $allServer[$offset]{savepassword};
-	$setpass = $allServer[$offset]{setpassword};
-	$uamlist = $allServer[$offset]{uamlist};
-	$icon = $allServer[$offset]{icon};
-	$mimicmodel = $allServer[$offset]{mimicmodel};
-	$setuplog = $allServer[$offset]{setuplog};
-	$maccodepage = $allServer[$offset]{maccodepage};
-	$unixcodepage = $allServer[$offset]{unixcodepage};
-	$defaultvol = $allServer[$offset]{defaultvol};
-	$systemvol = $allServer[$offset]{systemvol};
-	$uservol = $allServer[$offset]{uservol};
-	$uservolfirst = $allServer[$offset]{uservolfirst};
-	$uampath = $allServer[$offset]{uampath};
-	$k5keytab = $allServer[$offset]{k5keytab};
-	$k5service = $allServer[$offset]{k5service};
-	$k5realm = $allServer[$offset]{k5realm};
-	$ntdomain = $allServer[$offset]{ntdomain};
-	$ntseparator = $allServer[$offset]{ntseparator};
-	$adminauthuser = $allServer[$offset]{adminauthuser};
-	$passwdfile = $allServer[$offset]{passwdfile};
-	$advertise_ssh = $allServer[$offset]{advertise_ssh};
-	$proxy = $allServer[$offset]{proxy};
-	$zeroconf = $allServer[$offset]{zeroconf};
-	$slp = $allServer[$offset]{slp};
+	$servername = $allServer[$in{offset}]{servername};
+	$transport = $allServer[$in{offset}]{transport};
+	$port = $allServer[$in{offset}]{port};
+	$address = $allServer[$in{offset}]{ipaddr};
+	$loginmesg = $allServer[$in{offset}]{loginmesg};
+	$savepass = $allServer[$in{offset}]{savepassword};
+	$setpass = $allServer[$in{offset}]{setpassword};
+	$uamlist = $allServer[$in{offset}]{uamlist};
+	$icon = $allServer[$in{offset}]{icon};
+	$mimicmodel = $allServer[$in{offset}]{mimicmodel};
+	$setuplog = $allServer[$in{offset}]{setuplog};
+	$maccodepage = $allServer[$in{offset}]{maccodepage};
+	$unixcodepage = $allServer[$in{offset}]{unixcodepage};
+	$defaultvol = $allServer[$in{offset}]{defaultvol};
+	$systemvol = $allServer[$in{offset}]{systemvol};
+	$uservol = $allServer[$in{offset}]{uservol};
+	$uservolfirst = $allServer[$in{offset}]{uservolfirst};
+	$uampath = $allServer[$in{offset}]{uampath};
+	$k5keytab = $allServer[$in{offset}]{k5keytab};
+	$k5service = $allServer[$in{offset}]{k5service};
+	$k5realm = $allServer[$in{offset}]{k5realm};
+	$ntdomain = $allServer[$in{offset}]{ntdomain};
+	$ntseparator = $allServer[$in{offset}]{ntseparator};
+	$adminauthuser = $allServer[$in{offset}]{adminauthuser};
+	$passwdfile = $allServer[$in{offset}]{passwdfile};
+	$advertise_ssh = $allServer[$in{offset}]{advertise_ssh};
+	$proxy = $allServer[$in{offset}]{proxy};
+	$zeroconf = $allServer[$in{offset}]{zeroconf};
+	$slp = $allServer[$in{offset}]{slp};
 }
 else {
 	die("Unknown action type. Are you trying something naughty?")
@@ -121,8 +116,8 @@ print &ui_table_row($text{'create_server_savepass'},
 			['no', $text{'global_no'}]
 		])
 );
-print &ui_table_row($text{'create_server_lgmesg'},
-	&ui_textbox('logmesg', $loginmsg, 60)
+print &ui_table_row($text{'create_server_loginmesg'},
+	&ui_textbox('loginmesg', $loginmesg, 60)
 );
 print &ui_table_row($text{'create_server_icon'},
 	&ui_select('icon', $icon, [

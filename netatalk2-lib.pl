@@ -680,8 +680,8 @@ sub createNewServerLine(){
 	elsif($in{setpassword} eq 'no'){
 		$newString .= "-nosetpassword ";
 	}
-	if($in{logmesg}){
-		$newString .= "-loginmesg \"$in{logmesg}\" ";
+	if($in{loginmesg}){
+		$newString .= "-loginmesg \"$in{loginmesg}\" ";
 	}
 	if($in{uams}){
 		$in{uams} =~ s/\x00/\,/g;
