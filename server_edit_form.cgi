@@ -102,30 +102,27 @@ print &ui_table_row($text{'create_server_uams'},
 );
 print &ui_table_row($text{'create_server_setpass'},
 	&ui_select('setpassword', $setpass, [
-			['', $text{'edit_default'}],
+			['', &text('edit_default', 'no')],
 			['yes', $text{'global_yes'}],
 			['no', $text{'global_no'}]
 		])
-	." ".$text{'create_server_setpass_help'}
 );
 print &ui_table_row($text{'create_server_savepass'},
 	&ui_select('savepassword', $savepass, [
-			['', $text{'edit_default'}],
+			['', &text('edit_default', 'yes')],
 			['yes', $text{'global_yes'}],
 			['no', $text{'global_no'}]
 		])
-	." ".$text{'create_server_savepass_help'}
 );
 print &ui_table_row($text{'create_server_lgmesg'},
 	&ui_textbox('logmesg', $loginmsg, 60)
 );
 print &ui_table_row($text{'create_server_icon'},
 	&ui_select('icon', $icon, [
-			['', $text{'edit_default'}],
+			['', &text('edit_default', 'no')],
 			['yes', $text{'global_yes'}],
 			['no', $text{'global_no'}]
 		])
-	." ".$text{'create_server_icon_help'}
 );
 print &ui_table_row($text{'create_server_mimicmodel'},
 	&ui_textbox('mimicmodel', $mimicmodel, 40)
@@ -137,7 +134,7 @@ print &ui_table_row($text{'create_server_setuplog'},
 );
 print &ui_table_row($text{'create_server_maccodepage'},
 	&ui_select('maccodepage', $maccodepage, [
-			['', $text{'edit_default'}],
+			['', &text('edit_default', 'MAC_ROMAN')],
 			['MAC_CENTRALEUROPE'],
 			['MAC_CHINESE_SIMP'],
 			['MAC_CHINESE_TRAD'],
@@ -149,7 +146,6 @@ print &ui_table_row($text{'create_server_maccodepage'},
 			['MAC_ROMAN'],
 			['MAC_TURKISH']
 		])
-	." ".$text{'create_server_maccodepage_help'}
 );
 print &ui_table_row($text{'create_server_defaultvol'},
 	&ui_filebox('defaultvol', $defaultvol, 40)
@@ -159,14 +155,14 @@ print &ui_table_row($text{'create_server_systemvol'},
 );
 print &ui_table_row($text{'create_server_uservol'},
 	&ui_select('uservol', $uservol, [
-			['', $text{'edit_default'}],
+			['', &text('edit_default', 'yes')],
 			['yes', $text{'global_yes'}],
 			['no', $text{'global_no'}]
 		])
 );
 print &ui_table_row($text{'create_server_uservolfirst'},
 	&ui_select('uservolfirst', $uservolfirst, [
-			['', $text{'edit_default'}],
+			['', &text('edit_default', 'no')],
 			['yes', $text{'global_yes'}],
 			['no', $text{'global_no'}]
 		])
