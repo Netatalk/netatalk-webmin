@@ -55,7 +55,7 @@ my @tabs = ( [ 'basic', $text{'edit_tab_basic'} ],
 
 &ui_print_header(undef, $page_title, "", "servers", 1);
 
-print &ui_form_start('server_save_action.cgi', 'POST');
+print &ui_form_start('save_servers.cgi', 'POST');
 
 print &ui_tabs_start(\@tabs, 'mode', 'basic');
 print &ui_tabs_start_tab('mode', 'basic');
@@ -355,11 +355,5 @@ if ($in{action} =~ /edit/) {
 	print &ui_hidden('old_servername', $servername eq "" ? "-" : $servername);
 }
 print &ui_form_end([[undef, $text{'edit_save'}]]);
-
-if ($in{action} =~ /edit/) {
-	print &ui_form_start('server_delete_action.cgi', 'POST');
-	print &ui_hidden('delete_servername', $servername eq "" ? "-" : $servername);
-	print &ui_form_end([[undef, $text{'edit_delete'}, ]]);
-}
 
 &ui_print_footer("index.cgi", $text{'index_module'});

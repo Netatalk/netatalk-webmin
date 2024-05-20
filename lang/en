@@ -15,7 +15,10 @@ index_users=Manage Connected Users
 index_edit=Edit Other Config Files
 index_capabilities=View Server Capabilities
 index_volumes_default=Edit Default Volume Options
-index_create_file_share=Create New Shared Volume
+index_create_file_share=Create new volume
+index_delete_file_share=Delete selected volumes
+index_create_server=Create new server
+index_delete_server=Delete selected servers
 index_edit_ldap=Edit LDAP Options
 
 index_servername=Server Name
@@ -24,7 +27,6 @@ index_auth=User Authentication Methods
 index_port=AFP Port
 index_address=IP Address
 index_maccodepage=Mac Codepage
-index_create_server=Create New Server
 
 index_stop_service=Stop Service
 index_not_running_services=Netatalk services are not running.
@@ -228,6 +230,7 @@ give_correct_path=Please give correct path
 indicate_sharename=Please indicate sharename
 copy_failed=Failed to copy file
 delete_failed=Can't delete file
+error_title=Error
 error_illegal_char=Name contains illegal characters
 error_dup_path=Path is already in use: $1
 error_dup_name=Name is already in use: $1

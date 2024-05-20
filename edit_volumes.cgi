@@ -182,7 +182,7 @@ my @tabs = ( [ 'basic', $text{'edit_tab_basic'} ],
             );
 
 ui_print_header(undef, $page_title, "", "shares", 1);
-print &ui_form_start('fshare_save_action.cgi', 'POST');
+print &ui_form_start('save_volumes.cgi', 'POST');
 
 if ($in{action} =~ /edit/) {
 	print &ui_hidden('oldpath', $Old_path);
@@ -428,11 +428,5 @@ if ($in{action} =~ /default/) {
 	print &ui_hidden('default_options', 1);
 }
 print &ui_form_end([[undef, $text{'edit_save'}]]);
-
-if ($in{action} =~ /edit/) {
-	print &ui_form_start('fshare_delete_action.cgi', 'POST');
-	print &ui_hidden('delete_volumepath', $Old_path);
-	print &ui_form_end([[undef, $text{'edit_delete'}, ]]);
-}
 
 &ui_print_footer("index.cgi", $text{'index_module'});

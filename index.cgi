@@ -28,12 +28,20 @@ if (!-x $config{'afpd_d'}) {
 
 @Shares = getAppleVolumes();
 @Servers = getAfpdServers();
+local $current_formindex = 0;
 
 print "<h3>$text{index_volumes_title}</h3>\n";
+my @volume_links = ( "<a href=\"edit_volumes.cgi?action=create\">$text{'index_create_file_share'}</a>" );
 
 # Print AFP volumes
 if ((scalar @Shares > 1) || (scalar @Shares eq 1 && ! $Shares[0] =~ "^:DEFAULT:")) {
+	unshift @volume_links, (
+		&select_all_link('section_index', $current_formindex),
+		&select_invert_link('section_index', $current_formindex)
+	);
+	print &ui_form_start('delete_volumes.cgi', 'POST', undef, "id='volumes'");
 	print &ui_columns_start([
+			'',
 			$text{'index_sharename'},
 			$text{'index_path'},
 			$text{'index_options'}
@@ -43,28 +51,36 @@ if ((scalar @Shares > 1) || (scalar @Shares eq 1 && ! $Shares[0] =~ "^:DEFAULT:"
 		$path = getPath($s);
 		$options = getAllOptions($s);
 		if ($sharename ne ":DEFAULT:") {
-			print &ui_columns_row([
-				"<a href=\"fshare_edit_form.cgi?shareName=$sharename&path=$path&action=edit\">$sharename</a>",
+			print &ui_checked_columns_row([
+				"<a href=\"edit_volumes.cgi?shareName=$sharename&path=$path&action=edit\">$sharename</a>",
 				$path,
 				$options
-			]);
+			], [ "width='20'" ], 'section_index', $path);
 		}
 	}
 	print &ui_columns_end();
+	print &ui_form_end([[undef, $text{'index_delete_file_share'}, 0, undef]]);
+	print &ui_links_row(\@volume_links);
+	$current_formindex += 1;
 } else {
 	print "<p><b>$text{'index_no_file_shares'}</b></p>\n";
+	print &ui_links_row(\@volume_links);
 }
-print ui_buttons_start();
-print ui_buttons_row('fshare_edit_form.cgi?action=create', $text{'index_create_file_share'});
-print ui_buttons_end();
 
 print &ui_hr();
 
 # Print Netatalk Server Configurations
 print "<h3>$text{'index_servers_title'}</h3>\n";
+my @server_links = ( "<a href=\"edit_servers.cgi?action=create\">$text{'index_create_server'}</a>" );
 
 if (@Servers) {
+	unshift @server_links, (
+		&select_all_link('section_index', $current_formindex),
+		&select_invert_link('section_index', $current_formindex)
+	);
+	print &ui_form_start('delete_servers.cgi', 'POST', undef, "id='servers'");
 	print &ui_columns_start([
+			'',
 			$text{'index_servername'},
 			$text{'index_protocols'},
 			$text{'index_auth'},
@@ -84,30 +100,31 @@ if (@Servers) {
 		elsif($s->{transport} =~ /-(noddp|tcp)\s+-(tcp|noddp)/ ){
 			$t = "TCP/IP";
 		}
-		print &ui_columns_row([
-			"<a href=\"server_edit_form.cgi?action=edit&offset=".$offset."\">"
+		print &ui_checked_columns_row([
+			"<a href=\"edit_servers.cgi?action=edit&offset=".$offset."\">"
 			.($s->{servername} ? $s->{servername} : &get_system_hostname())."</a>",
 			$t,
 			$s->{uamlist},
 			$s->{port},
 			$s->{ipaddr},
 			$s->{maccodepage}
-		]);
+		], [ "width='20'" ], 'section_index', $s->{servername} eq "" ? "-" : $s->{servername});
 		$offset++;
 	}
 	print &ui_columns_end();
+	print &ui_form_end([[undef, $text{'index_delete_server'}, 0, undef]]);
+	print &ui_links_row(\@server_links);
+	$current_formindex += 1;
 } else {
 	print "<p><b>".&text('index_server_default_active', &get_system_hostname())."</b></p>";
+	print &ui_links_row(\@server_links);
 }
-print ui_buttons_start();
-print ui_buttons_row('server_edit_form.cgi?action=create', $text{'index_create_server'});
-print ui_buttons_end();
 
 print &ui_hr();
 
 print"<h3>$text{index_global}</h3>\n";
 
-my @server_links = ("fshare_edit_form.cgi?shareName=:DEFAULT:&action=default", "ldap_edit_form.cgi", "show_users.cgi", "edit_configfiles_form.cgi", "server_status.cgi");
+my @server_links = ("edit_volumes.cgi?shareName=:DEFAULT:&action=default", "edit_ldap.cgi", "show_users.cgi", "edit_configfiles.cgi", "server_status.cgi");
 my @server_titles = ($text{'index_volumes_default'}, $text{'index_edit_ldap'}, $text{'index_users'}, $text{'index_edit'}, "$text{index_capabilities}");
 my @server_icons = ("images/volumes.gif", "images/root.gif", "images/users.gif", "images/edit.gif", "images/server.gif");
 icons_table(\@server_links, \@server_titles, \@server_icons);

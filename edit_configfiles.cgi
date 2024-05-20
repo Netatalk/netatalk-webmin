@@ -31,7 +31,7 @@ ui_print_header(undef, $text{'manual_configs'}, "", "configs", 1);
 );
 $in{'file'} = $files[0] if (!$in{'file'});
 
-print qq|<form action="edit_configfiles_form.cgi">\n|;
+print qq|<form action="save_configfiles.cgi">\n|;
 print qq|<input type="submit" value="$text{'manual_file'}">\n|;
 print qq|<select name="file">\n|;
 foreach $f (@files) {
