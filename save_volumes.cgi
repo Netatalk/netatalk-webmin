@@ -19,13 +19,13 @@ require 'netatalk2-lib.pl';
 
 &ReadParse();
 
-local $applevolume_default = $config{'applevolumedefault_c'};
-local $totalLines = getLinesSpezFile($applevolume_default);
-local $lineNumber = 1;
+my $applevolume_default = $config{'applevolumedefault_c'};
+my $totalLines = getLinesSpezFile($applevolume_default);
+my $lineNumber = 1;
 
 if ($in{oldpath}) {
 	$lineNumber = getSpezLine($applevolume_default, $in{'oldpath'});
-	local $result = deleteSpezLine($applevolume_default, $lineNumber);
+	my $result = deleteSpezLine($applevolume_default, $lineNumber);
 	if ($result == 0) {
 		showMessage($text{'edit_delete_error'})
 	}
@@ -36,7 +36,7 @@ if ($in{oldpath}) {
 if ($in{default_options}) {
 	$lineNumber = getSpezLine($applevolume_default, ":DEFAULT:");
 	if ($lineNumber) {
-		local $result = deleteSpezLine($applevolume_default, $lineNumber);
+		my $result = deleteSpezLine($applevolume_default, $lineNumber);
 		if ($result == 0) {
 			showMessage($text{'edit_delete_error'})
 		}
@@ -46,7 +46,7 @@ if ($in{default_options}) {
 	}
 }
 
-local $fileShareLine = createNewFileShare($in);
+my $fileShareLine = createNewFileShare($in);
 
 if ($fileShareLine ne 0) {
 	addLineToFile($applevolume_default, $fileShareLine, $lineNumber, $totalLines);

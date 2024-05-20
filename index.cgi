@@ -1,8 +1,9 @@
 #!/usr/bin/perl
 #
 #    Netatalk Webmin Module
-#    Copyright (C) 2000 by Matthew Keller <kellermg@potsdam.edu>
-#    Copyright (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
+#    Copyright (C) 2000 Matthew Keller <kellermg@potsdam.edu>
+#    Copyright (C) 2000 Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
+#    Copyright (C) 2013 Ralph Boehme <sloowfranklin@gmail.com>
 #    Copyright (C) 2023-4 Daniel Markstedt <daniel@mindani.net>
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -26,15 +27,31 @@ if (!-x $config{'afpd_d'}) {
 	exit;
 }
 
-@Shares = getAppleVolumes();
-@Servers = getAfpdServers();
-local $current_formindex = 0;
+my @Shares = getAppleVolumes();
+my @Servers = getAfpdServers();
+my @shares_to_list;
+my $home_found;
+my $current_formindex = 0;
+
+foreach $s (@Shares) {
+	$path = getPath($s);
+	if (getPath($s) =~ /^~/) {
+		if ($home_found) {
+			showMessage($text{error_dup_home});
+			exit;
+		}
+		$home_found = $s;
+	}
+	elsif (getShareName($s) ne ":DEFAULT:") {
+		push (@shares_to_list, $s);
+	}
+}
 
 print "<h3>$text{index_volumes_title}</h3>\n";
 my @volume_links = ( "<a href=\"edit_volumes.cgi?action=create\">$text{'index_create_file_share'}</a>" );
 
 # Print AFP volumes
-if ((scalar @Shares > 1) || (scalar @Shares eq 1 && ! $Shares[0] =~ "^:DEFAULT:")) {
+if (@shares_to_list) {
 	unshift @volume_links, (
 		&select_all_link('section_index', $current_formindex),
 		&select_invert_link('section_index', $current_formindex)
@@ -46,17 +63,16 @@ if ((scalar @Shares > 1) || (scalar @Shares eq 1 && ! $Shares[0] =~ "^:DEFAULT:"
 			$text{'index_path'},
 			$text{'index_options'}
 		], undef, 0, undef, undef);
-	foreach $s (@Shares) {
-		$sharename = getShareName($s);
-		$path = getPath($s);
-		$options = getAllOptions($s);
-		if ($sharename ne ":DEFAULT:") {
-			print &ui_checked_columns_row([
-				"<a href=\"edit_volumes.cgi?shareName=$sharename&path=$path&action=edit\">$sharename</a>",
-				$path,
-				$options
-			], [ "width='20'" ], 'section_index', $path);
-		}
+	foreach $s (@shares_to_list) {
+		my $sharename = getShareName($s);
+		my $path = getPath($s);
+		my $options = getAllOptions($s);
+		print &ui_checked_columns_row([
+			'<a href="edit_volumes.cgi?shareName='.html_escape($sharename)
+			.'&path='.$path.'&action=edit">'.html_escape($sharename).'</a>',
+			$path,
+			$options ne '' ? $options : $text{'index_value_not_set'}
+		], [ "width='20'" ], 'section_index', $path);
 	}
 	print &ui_columns_end();
 	print &ui_form_end([[undef, $text{'index_delete_file_share'}, 0, undef]]);
@@ -67,6 +83,36 @@ if ((scalar @Shares > 1) || (scalar @Shares eq 1 && ! $Shares[0] =~ "^:DEFAULT:"
 	print &ui_links_row(\@volume_links);
 }
 
+print &ui_hr();
+
+# Homes
+print "<h3>$text{index_homes}</h3>\n";
+if($home_found) {
+	my $sharename = getShareName($home_found);
+	my $path = getPath($home_found);
+	my $options = getAllOptions($home_found);
+	my $subpath;
+
+	$subpath = $1 if ($path =~ /^~\/*([^\/]+.*)/);
+
+	print &ui_form_start('delete_volumes.cgi?homepath='.html_escape($path), 'post', undef, "id='homes'");
+	print &ui_columns_start( [
+	  $text{'edit_homename'},
+		$text{'index_col_title_home_path'},
+		$text{'index_options'},
+	] );
+	print &ui_columns_row( [
+  	$sharename ne '' ? '<a href="edit_volumes.cgi?shareName='.html_escape($sharename)
+	  .'&path='.html_escape($path).'&action=homes">'.html_escape($sharename).'</a>' : $text{'index_value_not_set'},
+		$subpath ne '' ? html_escape($subpath) : $text{'index_value_not_set'},
+		$options ne '' ? html_escape($options) : $text{'index_value_not_set'},
+	] );
+	print &ui_columns_end();
+	print &ui_form_end([[undef, $text{'index_delete_homes_button_title'}, 0, undef]]);
+} else {
+	print "<p><b>$text{'index_no_homes'}</b></p>\n";
+	print &ui_links_row( ["<a href=\"edit_volumes.cgi?action=new_homes\">$text{'index_create_homes_link_name'}</a>"] );
+}
 print &ui_hr();
 
 # Print Netatalk Server Configurations
@@ -103,11 +149,11 @@ if (@Servers) {
 		print &ui_checked_columns_row([
 			"<a href=\"edit_servers.cgi?action=edit&offset=".$offset."\">"
 			.($s->{servername} ? $s->{servername} : &get_system_hostname())."</a>",
-			$t,
-			$s->{uamlist},
-			$s->{port},
-			$s->{ipaddr},
-			$s->{maccodepage}
+			$t ne '' ? $t : $text{'index_value_not_set'},
+			$s->{uamlist} ne '' ? $s->{uamlist} : $text{'index_value_not_set'},
+			$s->{port} ne '' ? $s->{port} : $text{'index_value_not_set'},
+			$s->{ipaddr} ne '' ? $s->{ipaddr} : $text{'index_value_not_set'},
+			$s->{maccodepage} ne '' ? $s->{maccodepage} : $text{'index_value_not_set'}
 		], [ "width='20'" ], 'section_index', $s->{servername} eq "" ? "-" : $s->{servername});
 		$offset++;
 	}

@@ -22,8 +22,16 @@ eval {
 	&ReadParse();
 
 	my $filetoedit = $config{'afpd_c'};
-	my @servers = split(/\0/, $in{'section_index'});
+	my @servers;
 	my @lines;
+
+	if ($in{'section_index'}) {
+		@servers = split(/\0/, $in{'section_index'});
+	}
+	else {
+		showMessage($text{'edit_delete_nothing'});
+		exit;
+	}
 
 	foreach my $s (@servers) {
 		unshift (@lines, getSpezLine($filetoedit, $s));
