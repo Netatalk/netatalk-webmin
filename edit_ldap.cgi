@@ -25,7 +25,7 @@ local %ldap = getAfpdLdap();
 
 &ui_print_header(undef, $text{'index_edit_ldap'}, "", "ldap", 1);
 
-print &ui_form_start('ldap_save_action.cgi', 'POST');
+print &ui_form_start('save_ldap.cgi', 'POST');
 
 print &ui_table_start($text{'edit_ldap_table_heading'}, 'width="100%"', 2);
 print &ui_table_row($text{'edit_ldap_uri'},
