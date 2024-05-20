@@ -25,21 +25,6 @@ require 'netatalk2-lib.pl';
 
 &ReadParse();
 
-local $page_title;
-
-if ($in{action} =~ /create/) {
-	$page_title = $text{'edit_header'};
-}
-elsif ($in{action} =~ /edit/) {
-	$page_title = $text{'edit_file_share_title'};
-}
-elsif ($in{action} =~ /home/) {
-	$page_title = $text{'edit_file_share_home_title'};
-}
-elsif ($in{action} =~ /default/) {
-	$page_title = $text{'edit_file_share_default_title'};
-}
-
 getAppleVolumes();
 
 if($in{shareName}){
@@ -184,7 +169,19 @@ my @tabs = ( [ 'basic', $text{'edit_tab_basic'} ],
              [ 'advanced', $text{'edit_tab_advanced'} ]
             );
 
-ui_print_header(undef, $page_title, "", "shares", 1);
+if ($in{action} =~ /create/) {
+	&ui_print_header(undef, $text{'edit_header'}, "", "shares", 1);
+}
+elsif ($in{action} =~ /edit/) {
+	&ui_print_header(undef, $text{'edit_file_share_title'}, "", "shares", 1);
+}
+elsif ($in{action} =~ /home/) {
+	&ui_print_header(undef, $text{'edit_file_share_home_title'}, "", "shares_home", 1);
+}
+elsif ($in{action} =~ /default/) {
+	&ui_print_header(undef, $text{'edit_file_share_default_title'}, "", "shares_default", 1);
+}
+
 print &ui_form_start('save_volumes.cgi', 'POST');
 
 if ($in{action} =~ /edit|homes/) {
