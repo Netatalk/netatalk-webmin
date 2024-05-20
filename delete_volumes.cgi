@@ -22,8 +22,19 @@ eval {
 	&ReadParse();
 
 	my $applevolume_default = $config{'applevolumedefault_c'};
-	my @paths = split(/\0/, $in{'section_index'});
+	my @paths;
 	my @lines;
+
+	if ($in{homepath}) {
+		@paths = ( $in{homepath} );
+	}
+	elsif ($in{'section_index'}) {
+		@paths = split(/\0/, $in{'section_index'});
+	}
+	else {
+		showMessage($text{'edit_delete_nothing'});
+		exit;
+	}
 
 	foreach my $p (@paths) {
 			unshift (@lines, getSpezLine($applevolume_default, $p));
@@ -32,7 +43,7 @@ eval {
 	foreach my $l (@lines){
 		my $result = deleteSpezLine($applevolume_default, $l);
 		if ($result == 0) {
-			die($text{'edit_delete_error'})
+			die($text{'edit_delete_error'});
 		}
 	}
 

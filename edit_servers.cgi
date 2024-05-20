@@ -152,7 +152,7 @@ print &ui_tabs_start_tab('mode', 'users');
 
 print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
 print &ui_table_row($text{'create_server_uampath'},
-	&ui_filebox('uampath', @allServer ? $allServer[$in{offset}]{uampath} : '', 40)
+	&ui_filebox('uampath', @allServer ? $allServer[$in{offset}]{uampath} : '', 40, undef, undef, 1)
 );
 print &ui_table_row($text{'create_server_passwdfile'},
 	&ui_filebox('passwdfile', @allServer ? $allServer[$in{offset}]{passwdfile} : '', 40)
@@ -260,7 +260,7 @@ print &ui_tabs_start_tab('mode', 'advanced');
 print &ui_table_start($text{'create_server_tableheader'}, 'width="100%"', 2);
 
 print &ui_table_row($text{'create_server_authprintdir'},
-	&ui_filebox('authprintdir', @allServer ? $allServer[$in{offset}]{authprintdir} : '', 40)
+	&ui_filebox('authprintdir', @allServer ? $allServer[$in{offset}]{authprintdir} : '', 40, undef, undef, 1)
 );
 print &ui_table_row($text{'create_server_cnidserver'},
 	&ui_textbox('cnidserver', @allServer ? $allServer[$in{offset}]{cnidserver} : '')

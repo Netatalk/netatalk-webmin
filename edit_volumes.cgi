@@ -33,6 +33,9 @@ if ($in{action} =~ /create/) {
 elsif ($in{action} =~ /edit/) {
 	$page_title = $text{'edit_file_share_title'};
 }
+elsif ($in{action} =~ /home/) {
+	$page_title = $text{'edit_file_share_home_title'};
+}
 elsif ($in{action} =~ /default/) {
 	$page_title = $text{'edit_file_share_default_title'};
 }
@@ -184,7 +187,7 @@ my @tabs = ( [ 'basic', $text{'edit_tab_basic'} ],
 ui_print_header(undef, $page_title, "", "shares", 1);
 print &ui_form_start('save_volumes.cgi', 'POST');
 
-if ($in{action} =~ /edit/) {
+if ($in{action} =~ /edit|homes/) {
 	print &ui_hidden('oldpath', $Old_path);
 }
 
@@ -193,20 +196,22 @@ print &ui_tabs_start_tab('mode', 'basic');
 
 print &ui_table_start($text{'edit_tableheader'}, 'width="100%"', 2);
 
-unless ($in{action} =~ /default/) {
+if ($in{action} =~ /homes/) {
+	$subpath = $1 if ($Old_path =~ /^~\/*([^\/]+.*)/);
+	print &ui_hidden('ishome', 1);
+	print &ui_table_row($text{'edit_homename'},
+		&ui_textbox('sharename', $Old_shareName, 44, undef, undef, 'required')
+	);
+	print &ui_table_row($text{'index_col_title_home_path'},
+		&ui_textbox('homepath', $subpath, 44)
+	);
+}
+elsif ($in{action} =~ /create|edit/) {
 	print &ui_table_row($text{'edit_sharename'},
-		&ui_textbox('share', $Old_shareName, 44, undef, undef, 'required')
+		&ui_textbox('sharename', $Old_shareName, 44, undef, undef, 'required')
 	);
 	print &ui_table_row($text{'edit_sharedvolume'},
-		"<input type=radio name=homes value=0 "
-		.(($Old_path ne "~" && $Old_path ne "~/") ? "checked" : "").">"
-		.$text{'edit_directory'}."<input name=path size=30 value="
-		.(($Old_path ne "~" && $Old_path ne "~/") ? $Old_path: "").">"
-		.&file_chooser_button("path", 1)
-		."<a href=\"/filemin\" target=\"_blank\">".$text{'edit_filemanager_link'}
-		."</a><br><input type=radio name=homes value=1 "
-		.(($Old_path eq "~" || $Old_path eq "~/") ? "checked" : "").">"
-		.$text{'edit_homedirectory'}."<br>"
+		&ui_filebox('path', $Old_path, 44, undef, undef, 'required', 1)
 	);
 }
 
@@ -235,7 +240,7 @@ print &ui_table_row($text{'edit_CnidServer'},
 	&ui_textbox('cnidserver', $CnidServer, 20)
 );
 print &ui_table_row($text{'edit_DataBase'},
-	&ui_filebox('dbpath', $Database, 30)
+	&ui_filebox('dbpath', $Database, 30, undef, undef, undef, 1)
 );
 print &ui_table_row($text{'edit_Ea'},
 	&ui_select('ea_options', $Ea, [

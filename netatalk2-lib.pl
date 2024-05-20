@@ -452,23 +452,28 @@ sub getAllOptions
 #------------------------------------------------------------------------------
 sub createNewFileShare
 {
-	local $new_line;
+	my $new_line;
 	my ($in) = @_;
-	local @volumes = getAppleVolumes();
+	my @volumes = getAppleVolumes();
+
+	if ($in{path} =~ /^[^\/]/) {
+  	showMessage(&text(error_illegal_path, $in{path}));
+		exit;
+	}
+
 	foreach $v (@volumes) {
-		if (($in{path} eq getPath($v)) || ($in{homes} && (getPath($v) =~ "^~"))) {
+		if ($in{path} eq getPath($v)) {
 			showMessage(&text(error_dup_path, getPath($v)));
 			exit;
 		}
-		if ($in{share} eq getShareName($v)) {
+		if ($in{sharename} eq getShareName($v)) {
 			showMessage(&text(error_dup_name, getShareName($v)));
 			exit;
 		}
 	}
 
-	#homes or other Path
-	if($in{homes}){
-		$new_line = "~ ";
+	if($in{ishome}){
+		$new_line = "~/".($in{homepath} ? $in{homepath} : '')." ";
 	}
 	elsif($in{default_options}){
 		$new_line = ":DEFAULT: ";
@@ -484,16 +489,14 @@ sub createNewFileShare
 		}
 	}
 
-	#share name is captured
-	if($in{share}){
-		$new_line .= "\"$in{share}\"";
+	if($in{sharename}){
+		$new_line .= "\"$in{sharename}\"";
 	}
 	elsif (!$in{default_options}){
 		showMessage($text{indicate_sharename});
 		return 0;
 	}
 
-	#options read in
 	$new_line .= " volsizelimit:$in{volsizelimit}" if $in{volsizelimit};
 	$new_line .= " allowed_hosts:$in{allowed_hosts}" if $in{allowed_hosts};
 	$new_line .= " denied_hosts:$in{denied_hosts}" if $in{denied_hosts};
