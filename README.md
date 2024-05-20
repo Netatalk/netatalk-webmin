@@ -1,4 +1,5 @@
 # netatalk-webmin
+
 The official Webmin module for managing Netatalk 2.x.
 
 <img src="https://netatalk.io/gfx/webmin2_1.png" alt="Webmin Module screenshot" width="75%" height="auto">
@@ -26,26 +27,32 @@ You will also need Perl, and the Perl CGI module. On Debian, for instance, the C
 1. Run `sudo make install` (tested on Debian and Fedora)
 
 # Configuration
+
 You may need to adjust the paths to the netatalk binaries and config files, as well as init commands, by editing the `config` file.
 
 The same thing can be accomplished within the Webmin UI, in the Netatalk module's Module config.
 
 # The current level of Netatalk 2 feature support
+
 - Starting and stopping afpd and all AppleTalk services
 - UI for all AppleVolumes.default options
 - UI for all afpd.conf options
-- Interactive editor of all other config files
+- UI for all afp_ldap.conf options
+- Web editor of all other config files
 - Connected user management
 
 # Known limitations
+
 - All daemons have to be started/stopped in a batch. No support for granular daemon control.
-- atalkd.conf, papd.conf etc. have to be manually managed.
+- atalkd.conf, papd.conf etc. have to be managed through the web editor.
 
 # Authors
+
 - Matthew Keller
 - Frank Lahm and the Netatalk Team, January 2010
 - Steffan Cline, January 2011
 - Daniel Markstedt, September 2023
 
 # See Also
+
 - https://netatalk.io/docs/Webmin-Module
