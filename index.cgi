@@ -34,15 +34,14 @@ my $home_found;
 my $current_formindex = 0;
 
 foreach $s (@Shares) {
-	$path = getPath($s);
-	if (getPath($s) =~ /^~/) {
+	if ($s{path} =~ /^~/) {
 		if ($home_found) {
 			showMessage($text{error_dup_home});
 			exit;
 		}
 		$home_found = $s;
 	}
-	elsif (getShareName($s) ne ":DEFAULT:") {
+	elsif ($s{name} ne ":DEFAULT:") {
 		push (@shares_to_list, $s);
 	}
 }
@@ -52,6 +51,7 @@ my @volume_links = ( "<a href=\"edit_volumes.cgi?action=create\">$text{'index_cr
 
 # Print AFP volumes
 if (@shares_to_list) {
+  my $i = 0;
 	unshift @volume_links, (
 		&select_all_link('section_index', $current_formindex),
 		&select_invert_link('section_index', $current_formindex)
@@ -64,15 +64,15 @@ if (@shares_to_list) {
 			$text{'index_options'}
 		], undef, 0, undef, undef);
 	foreach $s (@shares_to_list) {
-		my $sharename = getShareName($s);
-		my $path = getPath($s);
-		my $options = getAllOptions($s);
+		my $sharename = $s{name};
+		my $path = $s{path};
+		my $options = $s{all_options};
 		print &ui_checked_columns_row([
-			'<a href="edit_volumes.cgi?shareName='.html_escape($sharename)
-			.'&path='.$path.'&action=edit">'.html_escape($sharename).'</a>',
+			'<a href="edit_volumes.cgi?index='.$i.'&action=edit">'.html_escape($sharename).'</a>',
 			$path,
 			$options ne '' ? $options : $text{'index_value_not_set'}
 		], [ "width='20'" ], 'section_index', $path);
+		$i++;
 	}
 	print &ui_columns_end();
 	print &ui_form_end([[undef, $text{'index_delete_file_share'}, 0, undef]]);
@@ -88,9 +88,9 @@ print &ui_hr();
 # Homes
 print "<h3>$text{index_homes}</h3>\n";
 if($home_found) {
-	my $sharename = getShareName($home_found);
-	my $path = getPath($home_found);
-	my $options = getAllOptions($home_found);
+	my $sharename = $home_found{name};
+	my $path = $home_found{path};
+	my $options = $home_found{all_options};
 	my $subpath;
 
 	$subpath = $1 if ($path =~ /^~\/*([^\/]+.*)/);
@@ -134,7 +134,7 @@ if (@Servers) {
 			$text{'index_address'},
 			$text{'index_maccodepage'}
 		], undef, 0, undef, undef);
-	local $offset = 0;
+	my $offset = 0;
 	foreach $s (@Servers){
 		local $t = "";
 		if($s->{transport} =~ /-transall/ || $s->{transport} =~ /-(ddp|tcp)\s+-(ddp|tcp)/ ){

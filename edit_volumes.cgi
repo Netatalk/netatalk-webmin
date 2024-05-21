@@ -25,27 +25,27 @@ require 'netatalk2-lib.pl';
 
 &ReadParse();
 
-getAppleVolumes();
+my @volumes = getAppleVolumes();
+my %v = %{ $volumes[$in{i}] };
 
-if($in{shareName}){
-	$Old_shareName = $in{shareName};
+if($in{name}){
+	$Old_shareName = $in{name};
 }
 if($in{path}){
-	$Old_path = $in{path};
+	$Old_path = $v{path};
 }
 
-$Options = getAllOptions($Old_shareName);
-$Adouble = getAdouble($Old_shareName);
-$Volsizelimit = getVolsizelimit($Old_shareName);
-$AllowedHosts = getAllowedHosts($Old_shareName);
-$DeniedHosts = getDeniedHosts($Old_shareName);
-$CnidScheme = getCnidScheme($Old_shareName);
-$CnidServer = getCnidServer($Old_shareName);
-$Database = getDatabase($Old_shareName);
-$Ea = getEa($Old_shareName);
-$MacCharset = getMacCharset($Old_shareName);
+$Adouble = $v{adouble};
+$Volsizelimit = $v{volsizelimit};
+$AllowedHosts = $v{allowed_hosts};
+$DeniedHosts = $v{denied_hosts};
+$CnidScheme = $v{cnidscheme};
+$CnidServer = $v{cnidserver};
+$Database = $v{dbpath};
+$Ea = $v{ea};
+$MacCharset = $v{maccharset};
 
-$Allow = getAllow($Old_shareName);
+$Allow = $v{options}{allow};
 while( $Allow =~ /([A-Za-z0-9@\$]+)/g) {
 	if($1 =~ /^([@].*)/){
 		if($1 =~ /([A-Za-z0-9\$]+)/){
@@ -57,7 +57,7 @@ while( $Allow =~ /([A-Za-z0-9@\$]+)/g) {
 	}
 
 }
-$Deny = getDeny($Old_shareName);
+$Deny = $v{options}{deny};
 while( $Deny =~ /([A-Za-z0-9@\$]+)/g) {
         if($1 =~ /^([@].*)/){
                 if($1 =~ /([A-Za-z0-9\$]+)/){
@@ -129,13 +129,13 @@ while( $Options =~ /\b([A-Za-z]+)\b/g) {
 	}
 }
 
-$Password = getPassword($Old_shareName);
-$Perm = getPerm($Old_shareName);
-$FPerm = getFPerm($Old_shareName);
-$DPerm = getDPerm($Old_shareName);
-$Umask = getUmask($Old_shareName);
+$Password = $v{password};
+$Perm = $v{perm};
+$FPerm = $v{fperm};
+$DPerm = $v{dperm};
+$Umask = $v{umask};
 
-$Rolist = getRolist($Old_shareName);
+$Rolist = $v{rolist};
 while( $Rolist =~ /([A-Za-z0-9@\$]+)/g) {
         if($1 =~ /^([@].*)/){
                 if($1 =~ /([A-Za-z0-9\$]+)/){
@@ -147,7 +147,7 @@ while( $Rolist =~ /([A-Za-z0-9@\$]+)/g) {
         }
 
 }
-$Rwlist = getRwlist($Old_shareName);
+$Rwlist = $v{rwlist};
 while( $Rwlist =~ /([A-Za-z0-9@\$]+)/g) {
         if($1 =~ /^([@].*)/){
                 if($1 =~ /([A-Za-z0-9\$]+)/){
@@ -160,9 +160,9 @@ while( $Rwlist =~ /([A-Za-z0-9@\$]+)/g) {
 
 }
 
-$Veto = getVeto($Old_shareName);
-$VolCharset = getVolCharset($Old_shareName);
-$Casefold = getCasefold($Old_shareName);
+$Veto = $v{veto};
+$VolCharset = $v{volcharset};
+$Casefold = $v{casefold};
 
 my @tabs = ( [ 'basic', $text{'edit_tab_basic'} ],
              [ 'users', $text{'edit_tab_users'} ],

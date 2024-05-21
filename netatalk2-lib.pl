@@ -72,32 +72,31 @@ foreign_require("useradmin", "user-lib.pl");
 sub getAppleVolumes
 {
 	local(@rv, $line);
-	local $applevolume_default = $config{'applevolumedefault_c'};
+	my $applevolume_default = $config{'applevolumedefault_c'};
 
 	#File $applevolume_default not readable
 	open(FH,"<$applevolume_default") || die "$applevolume_default $text{not_readable}";
 
 	while(defined($line = <FH>) )
 	{
-		local($longName);
 		#Line with continuation characters read in
 		chomp $line;
-		if($line =~ s/\\$//  )
+		if($line =~ s/\\$// )
 		{
 			$line .=<FH>;
 			redo unless eof(FH);
 		}
-		#read lines which begins with ' ~ ' or ' / '
+		#read lines which begins with ' ~ ', ' / ' or ' : '
 		if($line=~/^([\/~:]\S*)\s?("([^"]+)")?\s?(\N+)?/ )
 		{
 			#create new objects using volume_format and options_format
-			my $options = options_format->new();
-			my $volume = volume_format->new(options => $options);
-			$path = $1;
-			$name = $3;
-			$all_options = $4;
-			$volume->path($path);
-			$volume->all_options($all_options);
+			my %options;
+			my %volume;
+			my $path = $1;
+			my $name = $3;
+			my $all_options = $4;
+			my $volume{path} = $path;
+			my $volume{all_options} = $all_options;
 
 			if($name eq "")
 			{
@@ -110,80 +109,80 @@ sub getAppleVolumes
 					$name = $path;
 				}
 			}
-			$volume->name($name);
+			$volume{name} = $name;
 			#options read in
 			while ($all_options =~ /(\w+):([\w\d\/\$@,\.\-:]+)/g)
 			{
 				if ("adouble" eq $1) {
-					$options->adouble($2);
+					$options{adouble} = $2;
 				}
 				elsif ("volsizelimit" eq $1) {
-					$options->volsizelimit($2);
+					$options{volsizelimit} = $2;
 				}
 				elsif("allow" eq $1){
-					$options->allow($2);
+					$options{allow} = $2;
 				}
 				elsif("allowed_hosts" eq $1){
-					$options->allowed_hosts($2);
+					$options{allowed_hosts} = $2;
 				}
 				elsif("deny" eq $1){
-					$options->deny($2);
+					$options{deny} = $2;
 				}
 				elsif("denied_hosts" eq $1){
-					$options->denied_hosts($2);
+					$options{denied_hosts} = $2;
 				}
 				elsif("cnidscheme" eq $1){
-					$options->cnidscheme($2);
+					$options{cnidscheme} = $2;
 				}
 				elsif("cnidserver" eq $1){
-					$options->cnidserver($2);
+					$options{cnidserver} = $2;
 				}
 				elsif("dbpath" eq $1){
-					$options->dbpath($2);
+					$options{dbpath} = $2;
 				}
 				elsif("ea" eq $1){
-					$options->ea($2);
+					$options{ea} = $2;
 				}
 				elsif("maccharset" eq $1){
-					$options->maccharset($2);
+					$options{maccharset} = $2;
 				}
 				elsif("options" eq $1){
-					$options->options($2);
+					$options{options} = $2;
 				}
 				elsif("password" eq $1){
-					$options->password($2);
+					$options{password} = $2;
 				}
 				elsif("perm" eq $1){
-					$options->perm($2);
+					$options{perm} = $2;
 				}
 				elsif("fperm" eq $1){
-					$options->fperm($2);
+					$options{fperm} = $2;
 				}
 				elsif("dperm" eq $1){
-					$options->dperm($2);
+					$options{dperm} = $2;
 				}
 				elsif("umask" eq $1){
-					$options->umask($2);
+					$options{umask} = $2;
 				}
 				elsif("rolist" eq $1){
-					$options->rolist($2);
+					$options{rolist} = $2;
 				}
 				elsif("rwlist" eq $1){
-					$options->rwlist($2);
+					$options{rwlist} = $2;
 				}
 				elsif("veto" eq $1){
-					$options->veto($2);
+					$options{veto} = $2;
 				}
 				elsif("volcharset" eq $1){
-					$options->volcharset($2);
+					$options{volcharset} = $2;
 				}
 				elsif("casefold" eq $1){
-					$options->casefold($2);
+					$options{casefold} = $2;
 				}
 			}
 			#write available options in $volume
-			push(@rv,$name);
-			$pername{$volume->name} = $volume;
+      $volume{options} = %options;
+			push(@rv, %volume);
 		}
 	}
 	close(FH);
@@ -722,13 +721,13 @@ sub createNewServerLine(){
 #------------------------------------------------------------------
 sub getAfpdServers
 {
-	local @afpd_all;
-	local $fileToRead = $config{'afpd_c'};
+	my @afpd_all;
+	my $fileToRead = $config{'afpd_c'};
 
 	open(FH, "<$fileToRead") || die "$fileToRead $text{not_readable}";
 	while(<FH>)
 	{
-		local %afpd;
+		my %afpd;
 		#Line with continuation characters read in
 		if($_=~/(^[\w\d-\"].*)/ ){
 			if($_ =~ /^(\"[^\"]+\"|[^\s-]+)\s/) {
