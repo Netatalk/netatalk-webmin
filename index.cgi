@@ -83,9 +83,9 @@ if (@shares_to_list) {
 			$text{'index_options'}
 		], undef, 0, undef, undef);
 	foreach $s (@shares_to_list) {
-		my $sharename = $s->{name};
-		my $path = $s->{path};
-		my $options = $s->{all_options};
+		my $sharename = $s{name};
+		my $path = $s{path};
+		my $options = $s{all_options};
 		print &ui_checked_columns_row([
 			'<a href="edit_volumes.cgi?index='.$s{i}.'&action=edit">'.html_escape($sharename).'</a>',
 			$path,
@@ -188,7 +188,7 @@ print &ui_hr();
 
 print"<h3>$text{index_global}</h3>\n";
 
-my @server_links = ("edit_volumes.cgi?index=".($default_found->{i} ? $default_found->{i} : "" )."&action=default", "edit_ldap.cgi", "show_users.cgi", "edit_configfiles.cgi", "server_status.cgi");
+my @server_links = ("edit_volumes.cgi?index=".($default_found{i} ? $default_found{i} : "" )."&action=default", "edit_ldap.cgi", "show_users.cgi", "edit_configfiles.cgi", "server_status.cgi");
 my @server_titles = ($text{'index_volumes_default'}, $text{'index_edit_ldap'}, $text{'index_users'}, $text{'index_edit'}, "$text{index_capabilities}");
 my @server_icons = ("images/volumes.gif", "images/root.gif", "images/users.gif", "images/edit.gif", "images/server.gif");
 icons_table(\@server_links, \@server_titles, \@server_icons);
