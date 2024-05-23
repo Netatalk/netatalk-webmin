@@ -39,7 +39,7 @@ my $current_formindex = 0;
 
 # since we need to separate HOMES, DEFAULT, and regular volumes,
 # we are keeping a running index when iterating over available volumes.
-my $volumeindex = 0;
+local $volumeindex = 0;
 
 foreach $s (@Shares) {
 	print $volumeindex;
@@ -48,7 +48,7 @@ foreach $s (@Shares) {
 			showMessage($text{error_dup_home});
 			exit;
 		}
-		$home_found = \$s;
+		$home_found = $s;
 		$home_found{i} = $volumeindex;
 	}
 	elsif ($s->{name} eq ":DEFAULT:") {
@@ -56,12 +56,12 @@ foreach $s (@Shares) {
 			showMessage($text{error_dup_default});
 			exit;
 		}
-		$default_found = \$s;
+		$default_found = $s;
 		$default_found{i} = $volumeindex;
 	}
 	else {
 		$s{i} = $volumeindex;
-		push (@shares_to_list, \$s);
+		push (@shares_to_list, $s);
 	}
 	$volumeindex += 1;
 }
@@ -83,9 +83,9 @@ if (@shares_to_list) {
 			$text{'index_options'}
 		], undef, 0, undef, undef);
 	foreach $s (@shares_to_list) {
-		my $sharename = $s{name};
-		my $path = $s{path};
-		my $options = $s{all_options};
+		my $sharename = $s->{name};
+		my $path = $s->{path};
+		my $options = $s->{all_options};
 		print &ui_checked_columns_row([
 			'<a href="edit_volumes.cgi?index='.$s{i}.'&action=edit">'.html_escape($sharename).'</a>',
 			$path,
@@ -188,7 +188,7 @@ print &ui_hr();
 
 print"<h3>$text{index_global}</h3>\n";
 
-my @server_links = ("edit_volumes.cgi?index=".($default_found{i} ? $default_found{i} : "" )."&action=default", "edit_ldap.cgi", "show_users.cgi", "edit_configfiles.cgi", "server_status.cgi");
+my @server_links = ("edit_volumes.cgi?index=".($default_found->{i} ? $default_found->{i} : "" )."&action=default", "edit_ldap.cgi", "show_users.cgi", "edit_configfiles.cgi", "server_status.cgi");
 my @server_titles = ($text{'index_volumes_default'}, $text{'index_edit_ldap'}, $text{'index_users'}, $text{'index_edit'}, "$text{index_capabilities}");
 my @server_icons = ("images/volumes.gif", "images/root.gif", "images/users.gif", "images/edit.gif", "images/server.gif");
 icons_table(\@server_links, \@server_titles, \@server_icons);
