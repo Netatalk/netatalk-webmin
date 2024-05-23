@@ -34,14 +34,14 @@ my $home_found;
 my $current_formindex = 0;
 
 foreach $s (@Shares) {
-	if ($s{path} =~ /^~/) {
+	if ($s->{path} =~ /^~/) {
 		if ($home_found) {
 			showMessage($text{error_dup_home});
 			exit;
 		}
 		$home_found = $s;
 	}
-	elsif ($s{name} ne ":DEFAULT:") {
+	elsif ($s->{name} ne ":DEFAULT:") {
 		push (@shares_to_list, $s);
 	}
 }
