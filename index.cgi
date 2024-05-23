@@ -31,7 +31,15 @@ my @Shares = getAppleVolumes();
 my @Servers = getAfpdServers();
 my @shares_to_list;
 my $home_found;
+my $default_found;
+
+# since we are using a different number of forms, depending on the status of the service,
+# we are keeping a running index while outputting the forms
 my $current_formindex = 0;
+
+# since we need to separate HOMES, DEFAULT, and regular volumes,
+# we are keeping a running index when iterating over available volumes.
+my $volumeindex = 0;
 
 foreach $s (@Shares) {
 	if ($s->{path} =~ /^~/) {
@@ -40,10 +48,21 @@ foreach $s (@Shares) {
 			exit;
 		}
 		$home_found = $s;
+		$home_found{i} = $volumeindex;
 	}
-	elsif ($s->{name} ne ":DEFAULT:") {
+	elsif ($s->{name} eq ":DEFAULT:") {
+		if ($default_found) {
+			showMessage($text{error_dup_default});
+			exit;
+		}
+		$default_found = $s;
+		$default_found{i} = $volumeindex;
+	}
+	else {
+		$s{i} = $volumeindex;
 		push (@shares_to_list, $s);
 	}
+	$volumeindex += 1;
 }
 
 print "<h3>$text{index_volumes_title}</h3>\n";
@@ -51,7 +70,6 @@ my @volume_links = ( "<a href=\"edit_volumes.cgi?action=create\">$text{'index_cr
 
 # Print AFP volumes
 if (@shares_to_list) {
-  my $i = 0;
 	unshift @volume_links, (
 		&select_all_link('section_index', $current_formindex),
 		&select_invert_link('section_index', $current_formindex)
@@ -68,11 +86,10 @@ if (@shares_to_list) {
 		my $path = $s->{path};
 		my $options = $s->{all_options};
 		print &ui_checked_columns_row([
-			'<a href="edit_volumes.cgi?index='.$i.'&action=edit">'.html_escape($sharename).'</a>',
+			'<a href="edit_volumes.cgi?index='.$s->{i}.'&action=edit">'.html_escape($sharename).'</a>',
 			$path,
 			$options ne '' ? $options : $text{'index_value_not_set'}
 		], [ "width='20'" ], 'section_index', $path);
-		$i += 1;
 	}
 	print &ui_columns_end();
 	print &ui_form_end([[undef, $text{'index_delete_file_share'}, 0, undef]]);
@@ -170,16 +187,12 @@ print &ui_hr();
 
 print"<h3>$text{index_global}</h3>\n";
 
-my @server_links = ("edit_volumes.cgi?shareName=:DEFAULT:&action=default", "edit_ldap.cgi", "show_users.cgi", "edit_configfiles.cgi", "server_status.cgi");
+my @server_links = ("edit_volumes.cgi?index=".($default_found->{i} ? $default_found->{i} : "" )."&action=default", "edit_ldap.cgi", "show_users.cgi", "edit_configfiles.cgi", "server_status.cgi");
 my @server_titles = ($text{'index_volumes_default'}, $text{'index_edit_ldap'}, $text{'index_users'}, $text{'index_edit'}, "$text{index_capabilities}");
 my @server_icons = ("images/volumes.gif", "images/root.gif", "images/users.gif", "images/edit.gif", "images/server.gif");
 icons_table(\@server_links, \@server_titles, \@server_icons);
 
 print &ui_hr();
-
-# since we are using a different number of forms, depending on the status of the service,
-# we are keeping a running index while outputting the forms
-my $current_formindex = 0;
 
 # Process control Buttons
 if (&find_byname($config{'afpd_d'})) {

@@ -244,6 +244,7 @@ error_illegal_char=Name contains illegal characters
 error_dup_path=Path is already in use: $1
 error_dup_name=Name is already in use: $1
 error_dup_home=Only one shared home dir allowed. Edit the AppleVolumes config file and try again.
+error_dup_default=Only one DEFAULT section allowed. Edit the AppleVolumes config file and try again.
 
 help_volume=Volume Config Help
 help_configs=Configurations Help
