@@ -39,7 +39,7 @@ my $current_formindex = 0;
 
 # since we need to separate HOMES, DEFAULT, and regular volumes,
 # we are keeping a running index when iterating over available volumes.
-local $volumeindex = 0;
+my $volumeindex = 0;
 
 foreach $s (@Shares) {
 	print $volumeindex;
@@ -49,7 +49,7 @@ foreach $s (@Shares) {
 			exit;
 		}
 		$home_found = $s;
-		$home_found{i} = $volumeindex;
+		$home_found{i} = scalar $volumeindex;
 	}
 	elsif ($s->{name} eq ":DEFAULT:") {
 		if ($default_found) {
@@ -57,10 +57,10 @@ foreach $s (@Shares) {
 			exit;
 		}
 		$default_found = $s;
-		$default_found{i} = $volumeindex;
+		$default_found{i} = scalar $volumeindex;
 	}
 	else {
-		$s{i} = $volumeindex;
+		$s{i} = scalar $volumeindex;
 		push (@shares_to_list, $s);
 	}
 	$volumeindex += 1;
