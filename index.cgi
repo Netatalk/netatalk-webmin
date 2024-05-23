@@ -42,12 +42,13 @@ my $current_formindex = 0;
 my $volumeindex = 0;
 
 foreach $s (@Shares) {
+	print $volumeindex;
 	if ($s->{path} =~ /^~/) {
 		if ($home_found) {
 			showMessage($text{error_dup_home});
 			exit;
 		}
-		$home_found = $s;
+		$home_found = \$s;
 		$home_found{i} = $volumeindex;
 	}
 	elsif ($s->{name} eq ":DEFAULT:") {
@@ -55,12 +56,12 @@ foreach $s (@Shares) {
 			showMessage($text{error_dup_default});
 			exit;
 		}
-		$default_found = $s;
+		$default_found = \$s;
 		$default_found{i} = $volumeindex;
 	}
 	else {
 		$s{i} = $volumeindex;
-		push (@shares_to_list, $s);
+		push (@shares_to_list, \$s);
 	}
 	$volumeindex += 1;
 }
@@ -86,7 +87,7 @@ if (@shares_to_list) {
 		my $path = $s->{path};
 		my $options = $s->{all_options};
 		print &ui_checked_columns_row([
-			'<a href="edit_volumes.cgi?index='.$s->{i}.'&action=edit">'.html_escape($sharename).'</a>',
+			'<a href="edit_volumes.cgi?index='.$s{i}.'&action=edit">'.html_escape($sharename).'</a>',
 			$path,
 			$options ne '' ? $options : $text{'index_value_not_set'}
 		], [ "width='20'" ], 'section_index', $path);
