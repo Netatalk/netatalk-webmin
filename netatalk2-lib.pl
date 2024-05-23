@@ -22,45 +22,7 @@ BEGIN { push(@INC, ".."); };
 use WebminCore;
 use File::Copy;
 use CGI qw/:standard/;
-init_config();
-
-$pername = ();
-
-#struct volume_format administers all information of a " line "
-use Class::Struct;
-	struct  volume_format => {
-		path=>'$',
-		name=>'$',
-		all_options=>'$',
-		options=>'options_format',
-	};
-
-	struct  options_format => {
-		adouble=>'$',
-		volsizelimit=>'$',
-		allow=>'$',
-		deny=>'$',
-		allowed_hosts=>'$',
-		denied_hosts=>'$',
-		cnidscheme=>'$',
-		dbpath=>'$',
-		cnidserver=>'$',
-		ea=>'$',
-		maccharset=>'$',
-		options=>'$',
-		password=>'$',
-		perm=>'$',
-		fperm=>'$',
-		dperm=>'$',
-		umask=>'$',
-		rolist=>'$',
-		rwlist=>'$',
-		veto=>'$',
-		volcharset=>'$',
-		casefold=>'$',
-	};
-
-$|=1;
+&init_config();
 
 # required in order to list users
 foreign_require("useradmin", "user-lib.pl");
@@ -79,7 +41,6 @@ sub getAppleVolumes
 
 	while(defined($line = <FH>) )
 	{
-		#Line with continuation characters read in
 		chomp $line;
 		if($line =~ s/\\$// )
 		{
@@ -89,14 +50,11 @@ sub getAppleVolumes
 		#read lines which begins with ' ~ ', ' / ' or ' : '
 		if($line=~/^([\/~:]\S*)\s?("([^"]+)")?\s?(\N+)?/ )
 		{
-			#create new objects using volume_format and options_format
-			my %options;
-			my %volume;
 			my $path = $1;
 			my $name = $3;
 			my $all_options = $4;
-			my $volume{path} = $path;
-			my $volume{all_options} = $all_options;
+			my %options;
+			my %volume = (path => $path, all_options => $all_options);
 
 			if($name eq "")
 			{
@@ -110,7 +68,7 @@ sub getAppleVolumes
 				}
 			}
 			$volume{name} = $name;
-			#options read in
+
 			while ($all_options =~ /(\w+):([\w\d\/\$@,\.\-:]+)/g)
 			{
 				if ("adouble" eq $1) {
@@ -181,268 +139,12 @@ sub getAppleVolumes
 				}
 			}
 			#write available options in $volume
-      $volume{options} = %options;
-			push(@rv, %volume);
+      $volume{options} = \%options;
+			push(@rv, \%volume);
 		}
 	}
 	close(FH);
 	return @rv;
-}
-
-#------------------------------------------------------------------------------
-#Getter subroutines for volume_format object members
-#------------------------------------------------------------------------------
-sub getShareName
-{
-	my ($var1) = @_;
-	$shareName = 1;
-	if ($rp = $pername{$var1}){
-		$shareName = $rp->name;
-	}
-	return $shareName;
-}
-
-sub getPath
-{
-	my ($var1) = @_;
-	$path = 0;
-	if ($rp = $pername{$var1}){
-		$path = $rp->path;
-	}
-	return $path;
-}
-
-sub getAdouble
-{
-  	my ($var1) = @_;
-  	$adouble = "";
-  	if ($rp = $pername{$var1}){
-		$adouble = $rp->options->adouble;
- 	}
-  	return $adouble;
-}
-
-sub getVolsizelimit
-{
-  	my ($var1) = @_;
-  	$volsizelimit = "";
-  	if ($rp = $pername{$var1}){
-		$volsizelimit = $rp->options->volsizelimit;
- 	}
-  	return $volsizelimit;
-}
-
-sub getAllow
-{
-  	my ($var1) = @_;
-  	$Access = "";
-  	if ($rp = $pername{$var1}){
-		$Access = $rp->options->allow;
- 	}
-  	return $Access;
-}
-
-sub getDeny
-{
-        my ($var1) = @_;
-        $Access = "";
-        if ($rp = $pername{$var1}){
-                $Access = $rp->options->deny;
-        }
-        return $Access;
-}
-
-sub getAllowedHosts
-{
-  	my ($var1) = @_;
-  	$AllowedHosts = "";
-  	if ($rp = $pername{$var1}){
-		$AllowedHosts = $rp->options->allowed_hosts;
- 	}
-  	return $AllowedHosts;
-}
-
-sub getDeniedHosts
-{
-        my ($var1) = @_;
-        $DeniedHosts = "";
-        if ($rp = $pername{$var1}){
-                $DeniedHosts = $rp->options->denied_hosts;
-        }
-        return $DeniedHosts;
-}
-
-sub getCnidScheme
-{
-        my ($var1) = @_;
-        $CnidScheme = "";
-        if ($rp = $pername{$var1}){
-                $CnidScheme = $rp->options->cnidscheme;
-        }
-        return $CnidScheme;
-}
-
-sub getCnidServer
-{
-        my ($var1) = @_;
-        $CnidServer = "";
-        if ($rp = $pername{$var1}){
-                $CnidServer = $rp->options->cnidserver;
-        }
-        return $CnidServer;
-}
-
-sub getDatabase
-{
-  	my ($var1) = @_;
-  	$Database = "";
-  	if ($rp = $pername{$var1}){
-		$Database = $rp->options->dbpath;
- 	}
-  	return $Database;
-}
-
-sub getEa
-{
-        my ($var1) = @_;
-        $Ea = "";
-        if ($rp = $pername{$var1}){
-                $Ea = $rp->options->ea;
-        }
-        return $Ea;
-}
-
-sub getMacCharset
-{
-        my ($var1) = @_;
-        $MacCharset = "";
-        if ($rp = $pername{$var1}){
-                $MacCharset = $rp->options->maccharset;
-        }
-        return $MacCharset;
-}
-
-sub getOptions
-{
-  	my ($var1) = @_;
-  	$Options = "";
-  	if ($rp = $pername{$var1}){
-		$Options = $rp->options->options;
- 	}
-  	return $Options;
-}
-
-sub getPassword
-{
-  	my ($var1) = @_;
-  	$Password = "";
-  	if ($rp = $pername{$var1}){
-		$Password = $rp->options->password;
- 	}
-  	return $Password;
-}
-
-sub getPerm
-{
-  	my ($var1) = @_;
-  	$Perm = "";
-  	if ($rp = $pername{$var1}){
-		$Perm = $rp->options->perm;
- 	}
-  	return $Perm;
-}
-
-sub getFPerm
-{
-  	my ($var1) = @_;
-  	$FPerm = "";
-  	if ($rp = $pername{$var1}){
-		$FPerm = $rp->options->fperm;
- 	}
-  	return $FPerm;
-}
-
-sub getDPerm
-{
-  	my ($var1) = @_;
-  	$DPerm = "";
-  	if ($rp = $pername{$var1}){
-		$DPerm = $rp->options->dperm;
- 	}
-  	return $DPerm;
-}
-
-sub getUmask
-{
-  	my ($var1) = @_;
-  	$Umask = "";
-  	if ($rp = $pername{$var1}){
-		$Umask = $rp->options->umask;
- 	}
-  	return $Umask;
-}
-
-sub getRolist
-{
-        my ($var1) = @_;
-        $Access = "";
-        if ($rp = $pername{$var1}){
-                $Access = $rp->options->rolist;
-        }
-        return $Access;
-}
-
-sub getRwlist
-{
-        my ($var1) = @_;
-        $Access = "";
-        if ($rp = $pername{$var1}){
-                $Access = $rp->options->rwlist;
-        }
-        return $Access;
-}
-
-sub getVeto
-{
-        my ($var1) = @_;
-        $Veto = "";
-        if ($rp = $pername{$var1}){
-                $Veto = $rp->options->veto;
-        }
-        return $Veto;
-}
-
-sub getVolCharset
-{
-        my ($var1) = @_;
-        $VolCharset = "";
-        if ($rp = $pername{$var1}){
-                $VolCharset = $rp->options->volcharset;
-        }
-        return $VolCharset;
-}
-
-sub getCasefold
-{
-  	my ($var1) = @_;
-  	$casefold = "";
-  	if ($rp = $pername{$var1}){
-		$casefold = $rp->options->casefold;
- 	}
-  	return $casefold;
-}
-
-#------------------------------------------------------------------------------
-#Special getter for a string of all options, to be printed in the UI
-#------------------------------------------------------------------------------
-sub getAllOptions
-{
-  	my ($var1) = @_;
-  	$AllOptions ="";
-  	if ($rp = $pername{$var1}){
-		$AllOptions = $rp->all_options;
- 	}
-  	return $AllOptions;
 }
 
 
@@ -461,12 +163,12 @@ sub createNewFileShare
 	}
 
 	foreach $v (@volumes) {
-		if ($in{path} eq getPath($v)) {
-			showMessage(&text(error_dup_path, getPath($v)));
+		if ($in{path} eq $v->{path}) {
+			showMessage(&text(error_dup_path, $v->{path}));
 			exit;
 		}
-		if ($in{sharename} eq getShareName($v)) {
-			showMessage(&text(error_dup_name, getShareName($v)));
+		if ($in{sharename} eq $v->{name}) {
+			showMessage(&text(error_dup_name, $v->{name}));
 			exit;
 		}
 	}
@@ -478,9 +180,8 @@ sub createNewFileShare
 		$new_line = ":DEFAULT: ";
 	}
 	else{
-		$pathli = $in{path};
-		if($pathli){
-			$new_line = "$pathli ";
+		if($in{path}){
+			$new_line = "$in{path} ";
 		}
 		else{
 			showMessage($text{give_correct_path});
@@ -488,10 +189,10 @@ sub createNewFileShare
 		}
 	}
 
-	if($in{sharename}){
+	if($in{sharename}) {
 		$new_line .= "\"$in{sharename}\"";
 	}
-	elsif (!$in{default_options}){
+	elsif (!$in{default_options}) {
 		showMessage($text{indicate_sharename});
 		return 0;
 	}
@@ -511,22 +212,22 @@ sub createNewFileShare
 	$new_line .= " veto:$in{veto}" if $in{veto};
 	$new_line .= " volcharset:$in{volcharset}" if $in{volcharset};
 
-	if($in{adouble_options} && $in{adouble_options} ne "default"){
+	if($in{adouble_options} && $in{adouble_options} ne "default") {
 		$new_line .= " adouble:$in{adouble_options}";
 	}
 	if($in{ea_options} && $in{ea_options} ne "default"){
 		$new_line .= " ea:$in{ea_options}";
 	}
-	if($in{casefold_options} && $in{casefold_options} ne "default"){
+	if($in{casefold_options} && $in{casefold_options} ne "default") {
 		$new_line .= " casefold:$in{casefold_options}";
 	}
 
-	if($in{allow_users} || $in{allow_groups} ){
+	if($in{allow_users} || $in{allow_groups} ) {
 		$new_line .= " allow:";
 		if($in{allow_users}){
 		    $new_line .= join(',', split(/\s+/, $in{allow_users}));
 		}
-		if($in{allow_users} && $in{allow_groups} ){
+		if($in{allow_users} && $in{allow_groups} ) {
 			$new_line .= ",@";
 		} elsif($in{allow_groups}) {
 			$new_line .= "@";
@@ -535,12 +236,12 @@ sub createNewFileShare
 			$new_line .= join(',@', split(/\s+/, $in{allow_groups}));
 		}
 	}
-	if($in{deny_users} || $in{deny_groups} ){
+	if($in{deny_users} || $in{deny_groups} ) {
 		$new_line .= " deny:";
 		if($in{deny_users}){
 			$new_line .= join(',', split(/\s+/, $in{deny_users}));
 		}
-		if($in{deny_users} && $in{deny_groups} ){
+		if($in{deny_users} && $in{deny_groups} ) {
 			$new_line .= ",@";
 		} elsif($in{deny_groups}) {
 			$new_line .= "@";
@@ -550,21 +251,21 @@ sub createNewFileShare
 		}
         }
 
-	if($in{misc_options}){
+	if($in{misc_options}) {
 		$new_line .= " options:";
-		foreach $name(param(misc_options)){
+		foreach my $name(param(misc_options)) {
 			@values = param(misc_options);
 			$input_misc = join(',', @values);
 		}
 		$new_line .= $input_misc;
 	}
 
-        if($in{rolist_users} || $in{rolist_groups} ){
+        if($in{rolist_users} || $in{rolist_groups} ) {
                 $new_line .= " rolist:";
                 if($in{rolist_users}){
                     $new_line .= join(',', split(/\s+/, $in{rolist_users}));
                 }
-                if($in{rolist_users} && $in{rolist_groups} ){
+                if($in{rolist_users} && $in{rolist_groups} ) {
                         $new_line .= ",@";
                 } elsif($in{rolist_groups}) {
                         $new_line .= "@";
@@ -574,12 +275,12 @@ sub createNewFileShare
                 }
         }
 
-        if($in{rwlist_users} || $in{rwlist_groups} ){
+        if($in{rwlist_users} || $in{rwlist_groups} ) {
                 $new_line .= " rwlist:";
                 if($in{rwlist_users}){
                     $new_line .= join(',', split(/\s+/, $in{rwlist_users}));
                 }
-                if($in{rwlist_users} && $in{rwlist_groups} ){
+                if($in{rwlist_users} && $in{rwlist_groups} ) {
                         $new_line .= ",@";
                 } elsif($in{rwlist_groups}) {
                         $new_line .= "@";
