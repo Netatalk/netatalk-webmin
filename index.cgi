@@ -64,15 +64,15 @@ if (@shares_to_list) {
 			$text{'index_options'}
 		], undef, 0, undef, undef);
 	foreach $s (@shares_to_list) {
-		my $sharename = $s{name};
-		my $path = $s{path};
-		my $options = $s{all_options};
+		my $sharename = $s->{name};
+		my $path = $s->{path};
+		my $options = $s->{all_options};
 		print &ui_checked_columns_row([
 			'<a href="edit_volumes.cgi?index='.$i.'&action=edit">'.html_escape($sharename).'</a>',
 			$path,
 			$options ne '' ? $options : $text{'index_value_not_set'}
 		], [ "width='20'" ], 'section_index', $path);
-		$i++;
+		$i += 1;
 	}
 	print &ui_columns_end();
 	print &ui_form_end([[undef, $text{'index_delete_file_share'}, 0, undef]]);
