@@ -140,7 +140,7 @@ sub getAppleVolumes
 			}
 			#write available options in $volume
       $volume{options} = \%options;
-			push(@rv, \%volume);
+			push(@rv, %volume);
 		}
 	}
 	close(FH);
