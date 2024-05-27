@@ -20,7 +20,13 @@ require 'netatalk2-lib.pl';
 
 &ReadParseMime();
 
-@files = ($config{'afpd_c'},$config{'afpdldap_c'},$config{'atalk_c'},$config{'applevolumedefault_c'},$config{'applevolumesystem_c'},$config{'netatalk_c'},$config{'papd_c'},$config{'pam_c'});
+@files = (
+	$config{'atalk_c'},
+	$config{'applevolumesystem_c'},
+	$config{'netatalk_c'},
+	$config{'papd_c'},
+	$config{'pam_c'}
+);
 &indexof($in{'file'}, @files) >= 0 || die $in{'file'};
 
 $temp = &transname();
