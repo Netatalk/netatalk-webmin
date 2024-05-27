@@ -38,7 +38,7 @@ if($@) {
 	exit;
 }
 
-# Volumes	
+# Volumes
 print "<h3>$text{index_volumes}</h3>\n";
 print "<p>\n";
 my @volume_links = ( "<a href=\"edit_vol_section.cgi?action=new_volume\">$text{'index_create_volume_link_name'}</a>" );
@@ -57,11 +57,12 @@ if(@{$$afpconf{volumeSections}}) {
 		], undef, 0, undef, undef
 	);
 	foreach $volumeSection (@{$$afpconf{volumeSections}}) {
-		print &ui_checked_columns_row( [
+		print &ui_columns_row( [
+				&ui_checkbox('section_index', $$volumeSection{'index'}),
 				"<a href=\"edit_vol_section.cgi?action=edit_volume&index=$$volumeSection{'index'}\"><b>$$volumeSection{name}</b></a>",
 				$$volumeSection{parameters}{'path'}{value},
 				$$volumeSection{parameters}{'vol preset'}{value}
-		], [ "width='20'" ], 'section_index', $$volumeSection{'index'});
+		], [ "width='20'" ]);
 	}
 	print &ui_columns_end();
 	print &ui_form_end([[undef, $text{'index_delete_volumes_button_title'}, 0, undef]]);
@@ -74,7 +75,7 @@ if(@{$$afpconf{volumeSections}}) {
 }
 print &ui_hr();
 
-# Volume presets	
+# Volume presets
 print "<p>\n";
 print "<h3>$text{index_volume_presets}</h3>\n";
 print "<p>\n";
@@ -94,10 +95,11 @@ if(@{$$afpconf{volumePresetSections}}) {
 		], undef, 0, undef, undef
 	);
 	foreach $volumeSection (@{$$afpconf{volumePresetSections}}) {
-		print &ui_checked_columns_row( [
+		print &ui_columns_row( [
+				&ui_checkbox('section_index', $$volumeSection{'index'}),
 				"<a href=\"edit_vol_section.cgi?action=edit_volume_preset&index=$$volumeSection{'index'}\"><b>$$volumeSection{name}</b></a>",
 				defined $$volumeSection{presetUsedBySectionNames} ? join("<br>", @{$$volumeSection{presetUsedBySectionNames}}) : ""
-		], [ "width='20'" ], 'section_index', $$volumeSection{'index'});
+		], [ "width='20'" ]);
 	}
 	print &ui_columns_end();
 	print &ui_form_end([[undef, $text{'index_delete_volume_presets_button_title'}, 0, undef]]);
@@ -110,7 +112,7 @@ if(@{$$afpconf{volumePresetSections}}) {
 }
 print &ui_hr();
 
-# Homes	
+# Homes
 print "<p>\n";
 print "<h3>$text{index_homes}</h3>\n";
 print "<p>\n";
@@ -131,7 +133,7 @@ if($$afpconf{sectionsByName}{'Homes'}) {
 		$path[0] ne '' ? html_escape($path[0]) : $text{'index_value_not_set'},
 		$home_name[0] ne '' ? html_escape($home_name[0]) : $text{'index_value_not_set'},
 	] );
-	print &ui_columns_end();	
+	print &ui_columns_end();
 	print &ui_form_end([[undef, $text{'index_delete_homes_button_title'}, 0, undef]]);
 } else {
 	print "<b>$text{'index_no_homes'}</b>\n";
