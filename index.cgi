@@ -67,12 +67,13 @@ if (@shares_to_list) {
 		my $sharename = getShareName($s);
 		my $path = getPath($s);
 		my $options = getAllOptions($s);
-		print &ui_checked_columns_row([
+		print &ui_columns_row([
+			&ui_checkbox('section_index', $path),
 			'<a href="edit_volumes.cgi?shareName='.html_escape($sharename)
 			.'&path='.$path.'&action=edit">'.html_escape($sharename).'</a>',
 			$path,
 			$options ne '' ? $options : $text{'index_value_not_set'}
-		], [ "width='20'" ], 'section_index', $path);
+		], [ "width='20'" ]);
 	}
 	print &ui_columns_end();
 	print &ui_form_end([[undef, $text{'index_delete_file_share'}, 0, undef]]);
@@ -109,6 +110,7 @@ if($home_found) {
 	] );
 	print &ui_columns_end();
 	print &ui_form_end([[undef, $text{'index_delete_homes_button_title'}, 0, undef]]);
+	$current_formindex += 1;
 } else {
 	print "<p><b>$text{'index_no_homes'}</b></p>\n";
 	print &ui_links_row( ["<a href=\"edit_volumes.cgi?action=new_homes\">$text{'index_create_homes_link_name'}</a>"] );
@@ -146,7 +148,8 @@ if (@Servers) {
 		elsif($s->{transport} =~ /-(noddp|tcp)\s+-(tcp|noddp)/ ){
 			$t = "TCP/IP";
 		}
-		print &ui_checked_columns_row([
+		print &ui_columns_row([
+			&ui_checkbox('section_index', $s->{servername} eq "" ? "-" : $s->{servername}),
 			"<a href=\"edit_servers.cgi?action=edit&offset=".$offset."\">"
 			.($s->{servername} ? $s->{servername} : &get_system_hostname())."</a>",
 			$t ne '' ? $t : $text{'index_value_not_set'},
@@ -154,7 +157,7 @@ if (@Servers) {
 			$s->{port} ne '' ? $s->{port} : $text{'index_value_not_set'},
 			$s->{ipaddr} ne '' ? $s->{ipaddr} : $text{'index_value_not_set'},
 			$s->{maccodepage} ne '' ? $s->{maccodepage} : $text{'index_value_not_set'}
-		], [ "width='20'" ], 'section_index', $s->{servername} eq "" ? "-" : $s->{servername});
+		], [ "width='20'" ]);
 		$offset++;
 	}
 	print &ui_columns_end();
