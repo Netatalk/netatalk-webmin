@@ -31,6 +31,9 @@ my @Shares = getAppleVolumes();
 my @Servers = getAfpdServers();
 my @shares_to_list;
 my $home_found;
+
+# since we are using a different number of forms, depending on the status of the service,
+# we are keeping a running index while outputting the forms
 my $current_formindex = 0;
 
 foreach $s (@Shares) {
@@ -198,36 +201,85 @@ icons_table(\@server_links, \@server_titles, \@server_icons);
 
 print &ui_hr();
 
-# since we are using a different number of forms, depending on the status of the service,
-# we are keeping a running index while outputting the forms
-my $current_formindex = 0;
-
 # Process control Buttons
 if (&find_byname($config{'afpd_d'})) {
-    print "<h3>$text{'index_running_services'}</h3>\n";
+	print "<h3>$text{'index_running_services'}</h3>\n";
 	print &ui_buttons_start();
 	print &ui_buttons_row(
-		'restart.cgi',
-		$text{'index_process_control_restart'},
-		&text('index_process_control_restart_txt', $config{restart_netatalk})
+		'control.cgi?action=restart&daemon=netatalk',
+		$text{'running_restart'},
+		$text{'index_process_control_restart'}
 	);
 	print &ui_buttons_row(
-		'stop.cgi',
-		$text{'index_process_control_stop'},
-		&text('index_process_control_stop_txt', $config{stop_netatalk})
+		'control.cgi?action=stop&daemon=netatalk',
+		$text{'running_stop'},
+		$text{'index_process_control_stop'}
 	);
 	print &ui_buttons_end();
 	$current_formindex += 2;
 } else {
-    print "<h3>$text{'index_not_running_services'}</h3>\n";
+	print "<h3>$text{'index_not_running_services'}</h3>\n";
 	print &ui_buttons_start();
 	print &ui_buttons_row(
-		'start.cgi',
-		$text{'index_process_control_start'},
-		&text('index_process_control_start_txt', $config{start_netatalk})
+		'control.cgi?action=start&daemon=netatalk',
+		$text{'running_start'},
+		$text{'index_process_control_start'}
 	);
 	print &ui_buttons_end();
 	$current_formindex += 1;
+}
+
+# Show process control buttons for AppleTalk services
+# only if atalkd init commands are defined.
+# This allows for a clean UI on platforms that has a single init script
+# such as OpenRC (Gentoo, Alpine, etc.) or Solaris.
+if ($config{'start_atalkd'} && $config{'stop_atalkd'} && $config{'restart_atalkd'}) {
+
+	my @daemons = (
+		{atalkd => 'AppleTalk network manager'},
+		{papd => 'Print server'},
+		{timelord => 'Time server'},
+		{a2boot => 'Apple II netboot server'}
+	);
+
+	print "<h3>$text{'index_appletalk_services'}</h3>\n";
+	print "<p>$text{'index_appletalk_services_notice'}</p>";
+
+	foreach my $daemon (@daemons) {
+		foreach my $d (keys %$daemon) {
+		if (-x $config{$d.'_d'}) {
+			if (&find_byname($config{$d.'_d'})) {
+				print "<h3>".&text('index_running_service', $daemon->{$d})."</h3>\n";
+				print &ui_buttons_start();
+				print &ui_buttons_row(
+					'control.cgi?action=restart&daemon='.$d,
+					&text('running_restart_daemon', $daemon->{$d}),
+					&text('index_process_control_restart_daemon', $d)
+				);
+				print &ui_buttons_row(
+					'control.cgi?action=stop&daemon='.$d,
+					&text('running_stop_daemon', $daemon->{$d}),
+					&text('index_process_control_stop_daemon', $d)
+				);
+				print &ui_buttons_end();
+				$current_formindex += 2;
+			} else {
+				print "<h3>".&text('index_not_running', $daemon->{$d})."</h3>\n";
+				print &ui_buttons_start();
+				print &ui_buttons_row(
+					'control.cgi?action=start&daemon='.$d,
+					&text('running_start_daemon', $daemon->{$d}),
+					&text('index_process_control_start_daemon', $d)
+				);
+				print &ui_buttons_end();
+				$current_formindex += 1;
+			}
+		}
+		else {
+			print "<p>".&text('index_daemon_not_found', $d)."</p>";
+		}
+	}
+	}
 }
 
 ### END of index.cgi ###.

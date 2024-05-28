@@ -34,22 +34,30 @@ index_port=AFP Port
 index_address=IP Address
 index_maccodepage=Mac Codepage
 
-index_stop_service=Stop Service
-index_not_running_services=Netatalk services are not running.
-index_running_services=Netatalk services are running.
-index_not_running=Service is not running
-index_start_service=Start Netatalk Service
-index_running_service=Service is running
+index_not_running_services=Netatalk AFP file server is not running
+index_running_services=Netatalk AFP file server is running
+index_not_running=<strong>$1</strong> is not running
+index_running_service=<strong>$1</strong> is running
 index_ever=The afpd program was not found on your system. Maybe Netatalk is not installed, or your <a href='$2'>module configuration</a> is incorrect.
 index_no_file_shares=Create a shared volume to share files.
 index_server_default_active=Default server configuration active as <code>$1</code>.
 
-index_process_control_restart_txt=Restart netatalk services using <code>$1</code>
-index_process_control_start_txt=Start netatalk services using <code>$1</code>
-index_process_control_stop_txt=Stop netatalk services using <code>$1</code>
-index_process_control_restart=Restart Netatalk Services
-index_process_control_start=Start Netatalk Services
-index_process_control_stop=Stop Netatalk Services
+index_appletalk_services=AppleTalk services
+index_appletalk_services_notice=<em>Note:</em> Start <strong>AppleTalk network manager</strong> first if you want other services available over AppleTalk, including the AFP file server.
+index_daemon_not_found=<code>$1</code> not found. Have you configured the daemon path correctly?
+index_process_control_restart=Restart the file server for new configurations to take effect
+index_process_control_start=Start the file server to share volumes over AFP
+index_process_control_stop=Stopping the file server will disconnect all connected users
+index_process_control_restart_daemon=Restarts the <code>$1</code> daemon
+index_process_control_start_daemon=Starts the <code>$1</code> daemon
+index_process_control_stop_daemon=Stops the <code>$1</code> daemon
+
+running_restart=Restart AFP file server
+running_start=Start AFP file server
+running_stop=Stop AFP file server
+running_restart_daemon=Restart $1
+running_start_daemon=Start $1
+running_stop_daemon=Stop $1
 
 init_failed=Command "$1" failed
 
