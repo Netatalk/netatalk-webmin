@@ -36,13 +36,18 @@ The same thing can be accomplished within the Webmin UI, in the Netatalk module'
 
 - Starting and stopping afpd and all AppleTalk services
 - UI for all AppleVolumes.default options
+  - Separate UI for ~ home dirs
+  - Separate UI for :DEFAULT: options
 - UI for all afpd.conf options
 - UI for all afp_ldap.conf options
-- Web editor of all other config files
+- Web editor for all other config files
 - Connected user management
+- Server status page (output of asip-status)
 
 # Known limitations
 
+- Only one defined home dir (any path starting with ~ ) is allowed
+  - If you want to share specific subdirs in a home dir to everyone, please use the absolute paths
 - All daemons have to be started/stopped in a batch. No support for granular daemon control.
 - atalkd.conf, papd.conf etc. have to be managed through the web editor.
 
