@@ -1,10 +1,11 @@
 #!/usr/bin/perl
-# Attempt to start the netatalk processes
+# Control the netatalk processes
 
 #    Netatalk Webmin Module
-#    Copyright (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
-#    Some code (C) 2000 by Matthew Keller <kellermg@potsdam.edu>
-#	 Some code (C) 2011 by Steffan Cline <steffan@hldns.com>
+#    Copyright (C) 2000 Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
+#    Copyright (C) 2000 Matthew Keller <kellermg@potsdam.edu>
+#    Copyright (C) 2011 Steffan Cline <steffan@hldns.com>
+#    Copyright (C) 2024 Daniel Markstedt <daniel@mindani.net>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -18,7 +19,12 @@
 
 require 'netatalk2-lib.pl';
 
-$rv = system("$config{'start_netatalk'} </dev/null");
-if ($rv) { die &text('init_failed', $config{'start_netatalk'}); }
+&ReadParse();
+
+my $daemon = $in{'daemon'};
+my $action = $in{'action'};
+my $command = $config{$action.'_'.$daemon};
+my $rv = system($command.' </dev/null');
+if ($rv) { die &text('init_failed', $command); }
 
 redirect("index.cgi");
