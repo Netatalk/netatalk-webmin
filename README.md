@@ -24,7 +24,7 @@ You will also need Perl, and the Perl CGI module. On Debian, for instance, the C
 ## From source
 
 1. Generate a module tarball with `make dist`
-1. Run `sudo make install` (tested on Debian and Fedora)
+1. Run `sudo make install` (works for Debian, Fedora, and Solaris)
 
 # Configuration
 
