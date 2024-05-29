@@ -5,6 +5,8 @@
 * new and improved helptext for options
 * fixed bug that caused pages to partially load
   when following links in tables with checkboxes
+* correct styling for the Stop button
+  in the Authentic theme
 * better looking table on user management page
 * added a make install target for Solaris
 

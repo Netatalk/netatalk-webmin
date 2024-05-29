@@ -161,14 +161,26 @@ my $current_formindex = 0;
 if(&find_byname($config{'netatalk_d'})) {
     print "<h3>$text{'index_running_services'}</h3>\n";
 	print &ui_buttons_start();
-	print &ui_buttons_row('restart.cgi', $text{'index_process_control_restart'}, &text('index_process_control_restart_txt', $config{restart_netatalk}));
-	print &ui_buttons_row('stop.cgi', $text{'index_process_control_stop'}, &text('index_process_control_stop_txt', $config{stop_netatalk}));
+	print &ui_buttons_row(
+		'restart.cgi',
+		$text{'running_restart'},
+		&text('index_process_control_restart_txt', $config{restart_netatalk})
+	);
+	print &ui_buttons_row(
+		'stop.cgi',
+		$text{'running_stop'},
+		&text('index_process_control_stop_txt', $config{stop_netatalk})
+	);
 	print &ui_buttons_end();
 	$current_formindex += 2;
 } else {
     print "<h3>$text{'index_not_running_services'}</h3>\n";
 	print &ui_buttons_start();
-	print &ui_buttons_row('start.cgi', $text{'index_process_control_start'}, &text('index_process_control_start_txt', $config{start_netatalk}));
+	print &ui_buttons_row(
+		'start.cgi',
+		$text{'running_start'},
+		&text('index_process_control_start_txt', $config{start_netatalk})
+	);
 	print &ui_buttons_end();
 	$current_formindex += 1;
 }
