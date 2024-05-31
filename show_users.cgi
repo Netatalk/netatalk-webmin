@@ -65,4 +65,4 @@ foreach my $user (sort @users) {
 }
 print &ui_columns_end();
 
-ui_print_footer("index.cgi", $text{'index_module'});
+ui_print_footer("index.cgi", $text{'edit_return'});
