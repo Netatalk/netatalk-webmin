@@ -52,6 +52,7 @@ our %netatalkParameterDefaults = (
 	'invisible dots'			=> 'no',
 	'ldap uuid encoding'		=> 'string',
 	'log level'					=> 'default:note',
+	'log microseconds'	=> 'yes',
 	'mac charset'				=> 'MAC_ROMAN',
 	'map acls'					=> 'none',
 	'max connections'			=> '200',

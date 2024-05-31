@@ -1,6 +1,8 @@
 1.1;
 * companion release for netatalk 3.2.0
 * support for the new "ldap uri" option
+* support for the new "log microseconds" option
+* support for the new "fce sendwait" option
 * turned "mac charset" option into a select dropdown
 * new and improved helptext for options
 * fixed bug that caused pages to partially load

@@ -415,6 +415,11 @@ print &ui_table_row($text{'edit_global_section_ignored_attributes'},
 	&build_select($afpconfRef, $sectionRef, \%in, 'ignored attributes', $text{'edit_undefined'}, 'all', 'all', 'nowrite', 'nowrite', 'nodelete', 'nodelete', 'norename', 'norename')
 );
 
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'log microseconds', \%in);
+print &ui_table_row($text{'edit_global_section_log_microseconds'},
+	&build_select($afpconfRef, $sectionRef, \%in, 'log microseconds', $text{'edit_undefined'}, 'yes', 'yes', 'no', 'no')
+);
+
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'signature', \%in);
 print &ui_table_row($text{'edit_global_section_signature'},
 	&ui_textbox('p_signature', $values[0], 20, undef, 16)
@@ -635,6 +640,11 @@ print &ui_table_row($text{'edit_global_section_fce_coalesce'},
 print &ui_table_row($text{'edit_global_section_fce_holdfmod'},
 	"<input name='p_fce holdfmod' type='number' value='".$values[0]."'>"
 	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
+);
+
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'fce sendwait', \%in);
+print &ui_table_row($text{'edit_global_section_fce_sendwait'},
+	"<input name='p_fce sendwait' type='number' min='0' max='999' value='".$values[0]."'>"
 );
 
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'fce ignore names', \%in);

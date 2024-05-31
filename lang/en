@@ -137,6 +137,7 @@ edit_global_section_fqdn=Fully-qualified domain name
 edit_global_section_log_file=Log file
 edit_global_section_log_file_default=Leave empty to log through syslog daemon
 edit_global_section_log_level=Log level
+edit_global_section_log_microseconds=Log microsecond timestamps
 edit_global_section_zeroconf=Enable service discovery (Zeroconf)
 edit_global_section_zeroconf_name=Server name (Zeroconf)
 edit_global_section_spotlight=Enable Spotlight
@@ -229,6 +230,7 @@ edit_global_section_fce_holdfmod=FCE file modification event hold (seconds)
 edit_global_section_fce_ignore_names=FCE ignore files (slash-separated list)
 edit_global_section_fce_ignore_directories=FCE ignore directories (comma-separated list)
 edit_global_section_fce_notify_script=FCE notify script
+edit_global_section_fce_sendwait=FCE event send wait (milliseconds)
 
 edit_users=Users
 edit_groups=Groups
