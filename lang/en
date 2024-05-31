@@ -47,7 +47,7 @@ index_value_not_set=<i>not set</i>
 
 index_icon_text_server=Server Options
 index_icon_text_users=Manage Connected Users
-index_icon_text_capabilities=Show Server Capabilities
+index_icon_text_capabilities=Show Server Status
 
 edit_return=index page
 
@@ -264,6 +264,6 @@ users_table_pid=PID
 users_table_action=Action
 users_button_disconnect=Disconnect
 
-server_status_title=Server Capabilities
+server_status_title=Server Status
 server_status_message=The local AFP-over-TCP server reports the following capabilities
 server_status_error=No response from the AFP server. Is netatalk running?
