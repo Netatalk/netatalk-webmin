@@ -5,6 +5,7 @@
 * support for the new "fce sendwait" option
 * turned "mac charset" option into a select dropdown
 * new and improved helptext for options
+* removed superfluous button sets on index page
 * fixed bug that caused pages to partially load
   when following links in tables with checkboxes
 * correct styling for the Stop button
