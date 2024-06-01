@@ -45,7 +45,7 @@ index_col_title_home_path=Relative path in home
 index_col_title_home_name=Home volume name
 index_value_not_set=<i>not set</i>
 
-index_icon_text_server=Server Options
+index_icon_text_server=Edit Server Options
 index_icon_text_users=Manage Connected Users
 index_icon_text_capabilities=Show Server Status
 

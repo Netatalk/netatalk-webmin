@@ -40,14 +40,12 @@ if($@) {
 
 # Volumes
 print "<h3>$text{index_volumes}</h3>\n";
-print "<p>\n";
 my @volume_links = ( "<a href=\"edit_vol_section.cgi?action=new_volume\">$text{'index_create_volume_link_name'}</a>" );
 if(@{$$afpconf{volumeSections}}) {
 	unshift @volume_links, (
 		&select_all_link('section_index', $current_formindex),
 		&select_invert_link('section_index', $current_formindex)
 	) if(@{$$afpconf{volumeSections}} > 1);
-	print &ui_links_row(\@volume_links);
 	print &ui_form_start('delete_sections.cgi', 'post', undef, "id='volumes'");
 	print &ui_columns_start( [
 			'',
@@ -76,9 +74,7 @@ if(@{$$afpconf{volumeSections}}) {
 print &ui_hr();
 
 # Volume presets
-print "<p>\n";
 print "<h3>$text{index_volume_presets}</h3>\n";
-print "<p>\n";
 my @volume_preset_links = ( "<a href=\"edit_vol_section.cgi?action=new_volume_preset\">$text{'index_create_volume_preset_link_name'}</a>" );
 if(@{$$afpconf{volumePresetSections}}) {
 	# for an explanation of the following links, see above
@@ -86,7 +82,6 @@ if(@{$$afpconf{volumePresetSections}}) {
 		&select_all_link('section_index', $current_formindex),
 		&select_invert_link('section_index', $current_formindex)
 	) if(@{$$afpconf{volumePresetSections}} > 1);
-	print &ui_links_row(\@volume_preset_links);
 	print &ui_form_start('delete_sections.cgi', 'post', undef, "id='volume_presets'");
 	print &ui_columns_start( [
 			'',
@@ -113,9 +108,7 @@ if(@{$$afpconf{volumePresetSections}}) {
 print &ui_hr();
 
 # Homes
-print "<p>\n";
 print "<h3>$text{index_homes}</h3>\n";
-print "<p>\n";
 if($$afpconf{sectionsByName}{'Homes'}) {
 	print &ui_form_start('delete_sections.cgi', 'post', undef, "id='homes'");
 	print &ui_columns_start( [
@@ -142,9 +135,7 @@ if($$afpconf{sectionsByName}{'Homes'}) {
 }
 print &ui_hr();
 
-print"<p>\n";
 print"<h3>$text{index_global}</h3>\n";
-print"<p>\n";
 
 my @links = ("edit_global_section.cgi", "show_users.cgi", "server_status.cgi");
 my @titles = ($text{'index_icon_text_server'}, $text{'index_icon_text_users'}, "$text{index_icon_text_capabilities}");
