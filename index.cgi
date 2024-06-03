@@ -191,11 +191,11 @@ my @server_titles = (
 	$text{'index_capabilities'}
 );
 my @server_icons = (
-	"images/volumes.gif",
+	"images/server.gif",
 	"images/root.gif",
 	"images/users.gif",
 	"images/edit.gif",
-	"images/server.gif"
+	"images/inspect.gif"
 );
 icons_table(\@server_links, \@server_titles, \@server_icons);
 
