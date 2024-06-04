@@ -4,7 +4,7 @@ global_yes=yes
 global_no=no
 
 index_title=Netatalk AFP Server
-index_module=Module Index
+index_module=index page
 index_sharename=Volume Name
 index_volumes_title=Shared Volumes
 index_servers_title=Virtual Servers
@@ -61,10 +61,10 @@ running_stop_daemon=Stop $1
 
 init_failed=Command "$1" failed
 
-edit_tab_basic=Basic Options
-edit_tab_users=User & Authentication Options
-edit_tab_transport=Transport Options
-edit_tab_advanced=Advanced Options
+edit_tab_basic=Basic
+edit_tab_users=User & Authentication
+edit_tab_transport=Transport
+edit_tab_advanced=Advanced
 edit_directory=Directory
 edit_default=$1 (default)
 edit_filemanager_link=File Manager (new tab)
