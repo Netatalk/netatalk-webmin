@@ -1115,7 +1115,15 @@ sub version() {
 sub showMessage
 {
 	my ($var1) = @_;
-	ui_print_header(undef, Warning, "", "configs", 1);
-	print "<h2>**** $var1 ****</h2>\n";
-	ui_print_footer("index.cgi", $text{'index_module'});
+	&ui_print_header(undef, $text{'error_title'}, "", "configs", 1);
+	print "<p>$var1</p>\n";
+	&ui_print_footer("index.cgi", $text{'index_module'});
+}
+
+sub showMessageEdit
+{
+	my ($var1) = @_;
+	&ui_print_header(undef, $text{'error_title'}, "", "configs", 1);
+	print "<p>$var1</p>\n";
+	&ui_print_footer("edit_configfiles_form.cgi", $text{'index_edit'});
 }

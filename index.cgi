@@ -19,13 +19,6 @@
 #    This module inherited from the Webmin Module Template 0.79.1
 
 require 'netatalk2-lib.pl';
-ui_print_header(version(), $text{'index_title'}, "", "configs", 1, 1);
-
-if (!-x $config{'afpd_d'}) {
-	print &text('index_ever',"<tt> $config{'netatalk2'}</tt>", "/config.cgi?$module_name");
-	ui_print_footer("/", $text{'index'});
-	exit;
-}
 
 my @Shares = getAppleVolumes();
 my @Servers = getAfpdServers();
@@ -40,7 +33,7 @@ foreach $s (@Shares) {
 	$path = getPath($s);
 	if (getPath($s) =~ /^~/) {
 		if ($home_found) {
-			showMessage($text{error_dup_home});
+			showMessageEdit($text{error_dup_home});
 			exit;
 		}
 		$home_found = $s;
@@ -48,6 +41,14 @@ foreach $s (@Shares) {
 	elsif (getShareName($s) ne ":DEFAULT:") {
 		push (@shares_to_list, $s);
 	}
+}
+
+&ui_print_header(version(), $text{'index_title'}, "", "configs", 1, 1);
+
+if (!-x $config{'afpd_d'}) {
+	print &text('index_ever', "/config.cgi?$module_name");
+	&ui_print_footer("/", $text{'index'});
+	exit;
 }
 
 print "<h3>$text{index_volumes_title}</h3>\n";

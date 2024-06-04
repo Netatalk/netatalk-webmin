@@ -38,7 +38,7 @@ index_not_running_services=Netatalk AFP file server is not running
 index_running_services=Netatalk AFP file server is running
 index_not_running=<strong>$1</strong> is not running
 index_running_service=<strong>$1</strong> is running
-index_ever=The afpd program was not found on your system. Maybe Netatalk is not installed, or your <a href='$2'>module configuration</a> is incorrect.
+index_ever=The afpd daemon was not found on your system. Maybe Netatalk is not installed, or your <a href='$1'>module configuration</a> is incorrect.
 index_no_file_shares=Create a shared volume to share files.
 index_server_default_active=Default server configuration active as <code>$1</code>.
 
@@ -251,8 +251,8 @@ error_illegal_path=Shared volume path has to start at the root: $1
 error_illegal_char=Name contains illegal characters
 error_dup_path=Path is already in use: $1
 error_dup_name=Name is already in use: $1
-error_dup_home=Only one shared home dir allowed. Edit the AppleVolumes config file and try again.
 
+error_dup_home=Only one shared home dir pattern (path starting with ~) allowed. Use absolute paths if you want to share multiple subdirs of a particular home dir.
 help_volume=Volume Config Help
 help_configs=Configurations Help
 
