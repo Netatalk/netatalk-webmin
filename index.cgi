@@ -192,7 +192,7 @@ my @server_titles = (
 );
 my @server_icons = (
 	"images/server.gif",
-	"images/root.gif",
+	"images/keys.gif",
 	"images/users.gif",
 	"images/edit.gif",
 	"images/inspect.gif"
