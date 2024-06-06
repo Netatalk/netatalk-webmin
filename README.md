@@ -32,6 +32,10 @@ You may need to adjust the paths to the netatalk binaries and config files, as w
 
 The same thing can be accomplished within the Webmin UI, in the Netatalk module's Module config.
 
+By default, each deamon is controlled by separate controls, e.g. with systemctl commands.
+If you want to control all daemons with one set of buttons, for instance via OpenRC,
+simply do not define the 'atalkd' init commands.
+
 # The current level of Netatalk 2 feature support
 
 - Starting and stopping afpd and all AppleTalk services
@@ -40,16 +44,14 @@ The same thing can be accomplished within the Webmin UI, in the Netatalk module'
   - Separate UI for :DEFAULT: options
 - UI for all afpd.conf options
 - UI for all afp_ldap.conf options
-- Web editor for all other config files
+- Web editor for all config files
 - Connected user management
 - Server status page (output of asip-status)
 
 # Known limitations
 
-- Only one defined home dir (any path starting with ~ ) is allowed
-  - If you want to share specific subdirs in a home dir to everyone, please use the absolute paths
-- All daemons have to be started/stopped in a batch. No support for granular daemon control.
-- atalkd.conf, papd.conf etc. have to be managed through the web editor.
+- Only one defined home dir (any path starting with ~ ) is allowed.  If you want to share specific subdirs in a home dir to everyone, please use absolute paths.
+- atalkd.conf, papd.conf and netatalk.conf have to be managed through the web editor.
 
 # Authors
 
