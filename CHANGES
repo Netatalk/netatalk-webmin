@@ -1,3 +1,18 @@
+2.0:
+* Updated for Netatalk 2.4.0
+* Support for all server options (afpd.conf)
+* Support for all volume options (AppleVolumes.default)
+* Support for :DEFAULT: volume options
+* Support for LDAP settings (afp_ldap.conf)
+* Servers and volumes can be deleted in batch
+* Restore DHX as a default UAM
+* Dedicated form for home volumes
+* Allow only one active home volume configuration at a time
+* Prevent duplicated name or path assignments
+* Control all AppleTalk daemons individually
+* bugfix: Correct styling for the Stop Netatalk button (Authentic theme)
+* bugfix: Allow editing config files with < 3 lines
+
 1.3:
 * bugfix: Editing an existing home dir share retains current name
 * bugfix: Properly editing a server with both transport layers activated
