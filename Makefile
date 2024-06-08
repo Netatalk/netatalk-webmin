@@ -17,9 +17,11 @@ FILES = \
 	module.info \
 	netatalk2-lib.pl \
 	*.cgi \
-	help/** \
-	images/** \
-	lang/**
+	help/*.html \
+	images/LICENSE \
+	images/*.gif \
+	lang/de \
+	lang/en
 
 all: netatalk2-wbm.tgz
 
