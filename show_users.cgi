@@ -2,11 +2,8 @@
 # Show users with an active afpd session
 #
 #    Netatalk Webmin Module
-#    Copyright (C) 2000 by Matthew Keller <kellermg@potsdam.edu>
-#    Portion of code contributed from somebody-- I can't find the e-mail
-#      referencing who it was though. *sigh*
-#    Copyright (C) 2023-4 by Daniel Markstedt <daniel@mindani.net>
-#    Complete rewrite in 2023-4.
+#    Copyright (C) 2013 Ralph Boehme <sloowfranklin@gmail.com>
+#    Copyright (C) 2023-4 Daniel Markstedt <daniel@mindani.net>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -21,13 +18,12 @@
 
 require 'netatalk2-lib.pl';
 
-ui_print_header(undef, $text{'users_title'}, "", "configs", 1);
+&ui_print_header(undef, $text{'users_title'}, "", "configs", 1);
 
 &ReadParse();
 
 if($in{kill}) {
-	$in{kill} =~ s/\D//gi;
-	if(kill(15,$in{kill})) {
+	if (kill('TERM', $in{kill})) {
 		print "<h4>$text{'users_disconnect_success'}</h4>\n";
 	} else {
 		print "<h4>$text{'users_disconnect_fail'}</h4>\n";
@@ -66,4 +62,4 @@ foreach my $user (sort @users) {
 }
 print &ui_columns_end();
 
-ui_print_footer("index.cgi", $text{'index_module'});
+&ui_print_footer("index.cgi", $text{'index_module'});
