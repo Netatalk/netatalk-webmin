@@ -2,9 +2,9 @@
 # Action for saving a netatalk configuration file
 #
 #    Netatalk Webmin Module
-#    Copyright (C) 2000 by Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
-#	 Some code (C) 2011 by Steffan Cline <steffan@hldns.com>
-#	 Some code based on proftpd admin pages
+#    Copyright (C) 2000 Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
+#    Copyright (C) 2011 Steffan Cline <steffan@hldns.com>
+#    Some code based on proftpd admin pages
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
