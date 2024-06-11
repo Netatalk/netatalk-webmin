@@ -10,6 +10,7 @@
 * Allow only one active home volume configuration at a time
 * Prevent duplicated name or path assignments
 * Control all AppleTalk daemons individually
+* Add make install target for Solaris
 * bugfix: Correct styling for the Stop Netatalk button (Authentic theme)
 * bugfix: Allow editing config files with < 3 lines
 
