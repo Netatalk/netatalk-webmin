@@ -24,12 +24,13 @@ ui_print_header(undef, $text{'manual_configs'}, "", "configs", 1);
 
 @files = (
 	$config{'afpd_c'},
-	$config{'atalk_c'},
+	$config{'afpdldap_c'},
 	$config{'applevolumedefault_c'},
 	$config{'applevolumesystem_c'},
+	$config{'atalk_c'},
 	$config{'netatalk_c'},
-	$config{'papd_c'},
 	$config{'pam_c'}
+	$config{'papd_c'},
 );
 $in{'file'} = $files[0] if (!$in{'file'});
 
