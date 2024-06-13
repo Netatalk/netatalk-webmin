@@ -80,8 +80,8 @@ if (@shares_to_list) {
 		], [ "width='20'" ]);
 	}
 	print &ui_columns_end();
-	print &ui_form_end([[undef, $text{'index_delete_file_share'}, 0, undef]]);
 	print &ui_links_row(\@volume_links);
+	print &ui_form_end([[undef, $text{'index_delete_file_share'}, 0, undef]]);
 	$current_formindex += 1;
 } else {
 	print "<p><b>$text{'index_no_file_shares'}</b></p>\n";
@@ -165,8 +165,8 @@ if (@Servers) {
 		$offset++;
 	}
 	print &ui_columns_end();
-	print &ui_form_end([[undef, $text{'index_delete_server'}, 0, undef]]);
 	print &ui_links_row(\@server_links);
+	print &ui_form_end([[undef, $text{'index_delete_server'}, 0, undef]]);
 	$current_formindex += 1;
 } else {
 	print "<p><b>".&text('index_server_default_active', &get_system_hostname())."</b></p>";
