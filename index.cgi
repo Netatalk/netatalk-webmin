@@ -63,8 +63,8 @@ if(@{$$afpconf{volumeSections}}) {
 		], [ "width='20'" ]);
 	}
 	print &ui_columns_end();
-	print &ui_form_end([[undef, $text{'index_delete_volumes_button_title'}, 0, undef]]);
 	print &ui_links_row(\@volume_links);
+	print &ui_form_end([[undef, $text{'index_delete_volumes_button_title'}, 0, undef]]);
 	$current_formindex += 1;
 } else {
 	print "<b>$text{'index_no_volumes'}</b>\n";
@@ -97,8 +97,8 @@ if(@{$$afpconf{volumePresetSections}}) {
 		], [ "width='20'" ]);
 	}
 	print &ui_columns_end();
-	print &ui_form_end([[undef, $text{'index_delete_volume_presets_button_title'}, 0, undef]]);
 	print &ui_links_row(\@volume_preset_links);
+	print &ui_form_end([[undef, $text{'index_delete_volume_presets_button_title'}, 0, undef]]);
 	$current_formindex += 1;
 } else {
 	print "<b>$text{'index_no_volume_presets'}</b>\n";
