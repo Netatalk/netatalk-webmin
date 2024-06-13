@@ -230,6 +230,8 @@ if (&find_byname($config{'afpd_d'})) {
 	$current_formindex += 1;
 }
 
+print &ui_hr();
+
 # Show process control buttons for AppleTalk services
 # only if atalkd init commands are defined.
 # This allows for a clean UI on platforms that has a single init script
