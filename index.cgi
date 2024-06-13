@@ -181,7 +181,7 @@ my @server_links = (
 	"edit_volumes.cgi?shareName=:DEFAULT:&action=default",
 	"edit_ldap.cgi",
 	"show_users.cgi",
-	"edit_configfiles_form.cgi",
+	"allmanual_form.cgi",
 	"server_status.cgi"
 );
 my @server_titles = (

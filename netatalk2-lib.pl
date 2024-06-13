@@ -1125,5 +1125,20 @@ sub showMessageEdit
 	my ($var1) = @_;
 	&ui_print_header(undef, $text{'error_title'}, "", "configs", 1);
 	print "<p>$var1</p>\n";
-	&ui_print_footer("edit_configfiles_form.cgi", $text{'index_edit'});
+	&ui_print_footer("allmanual_form.cgi", $text{'index_edit'});
+}
+
+sub getConfig
+{
+	my @files = (
+		$config{'afpd_c'},
+		$config{'afpdldap_c'},
+		$config{'applevolumedefault_c'},
+		$config{'applevolumesystem_c'},
+		$config{'atalk_c'},
+		$config{'papd_c'},
+		$config{'netatalk_c'},
+		$config{'pam_c'}
+	);
+	return @files;
 }
