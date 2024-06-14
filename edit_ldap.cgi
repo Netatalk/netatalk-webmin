@@ -1,10 +1,7 @@
 #!/usr/bin/perl
-# Display a form for editing an existing file share
+# Display a form for editing LDAP settings
 
-#
 #    Netatalk Webmin Module
-#    Copyright (C) 2000 Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
-#    Copyright (C) 2000 Matthew Keller <kellermg@potsdam.edu>
 #    Copyright (C) 2024 Daniel Markstedt <daniel@mindani.net>
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -21,7 +18,7 @@ require 'netatalk2-lib.pl';
 
 &ReadParse();
 
-local %ldap = getAfpdLdap();
+my %ldap = getAfpdLdap();
 
 &ui_print_header(undef, $text{'index_edit_ldap'}, "", "ldap", 1);
 
