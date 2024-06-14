@@ -71,15 +71,14 @@ foreign_require("useradmin", "user-lib.pl");
 #-------------------------------------------------------------------------------------
 sub getAppleVolumes
 {
-	local(@rv, $line);
-	local $applevolume_default = $config{'applevolumedefault_c'};
+	my (@rv, $line);
+	my $applevolume_default = $config{'applevolumedefault_c'};
 
 	#File $applevolume_default not readable
 	open(FH,"<$applevolume_default") || die "$applevolume_default $text{not_readable}";
 
 	while(defined($line = <FH>) )
 	{
-		local($longName);
 		#Line with continuation characters read in
 		chomp $line;
 		if($line =~ s/\\$//  )
@@ -439,7 +438,7 @@ sub getCasefold
 sub getAllOptions
 {
   	my ($var1) = @_;
-  	$AllOptions ="";
+  	$AllOptions = "";
   	if ($rp = $pername{$var1}){
 		$AllOptions = $rp->all_options;
  	}
@@ -453,7 +452,7 @@ sub getAllOptions
 sub createNewFileShare
 {
 	my $new_line;
-	my ($in) = @_;
+	my $in = @_;
 	my @volumes = getAppleVolumes();
 
 	if ($in{path} =~ /^[^\/]/) {
@@ -599,10 +598,10 @@ sub createNewFileShare
 # in afpd.conf
 #-----------------------------------------------------------------------------
 sub createNewServerLine(){
-	local $illegalChars = ":@\$\"<>\/";
-	local $newString;
-	my ($in) = @_;
-	local @servers = getAfpdServers();
+	my $illegalChars = ":@\$\"<>\/";
+	my $newString;
+	my $in = @_;
+	my @servers = getAfpdServers();
 	foreach my $s (@servers) {
 		if ($in{servername} eq $s->{servername}) {
 			showMessage(&text(error_dup_name, $s->{servername} ? $s->{servername} : &get_system_hostname()));
@@ -723,7 +722,7 @@ sub createNewServerLine(){
 #-----------------------------------------------------------------------------
 sub createNewAtalkLine(){
 	my $newString = "";
-	my ($in) = @_;
+	my $in = @_;
 
 	$newString .= $in{atalk_iface}." " if $in{atalk_iface};
 	$newString .= $in{atalk_routing}." " if $in{atalk_routing};
@@ -741,15 +740,15 @@ sub createNewAtalkLine(){
 #------------------------------------------------------------------
 sub getAfpdServers
 {
-	local @afpd_all;
-	local $fileToRead = $config{'afpd_c'};
+	my @afpd_all;
+	my $fileToRead = $config{'afpd_c'};
 
 	open(FH, "<$fileToRead") || die "$fileToRead $text{not_readable}";
 	while(<FH>)
 	{
-		local %afpd;
+		my %afpd;
 		#Line with continuation characters read in
-		if($_=~/(^[\w\d-\"].*)/ ){
+		if($_ =~ /(^[\w\d-\"].*)/ ){
 			if($_ =~ /^(\"[^\"]+\"|[^\s-]+)\s/) {
 				$1 =~ /^\"*([^\"]+)\"*/;
 				$afpd{servername} = $1;
@@ -949,8 +948,8 @@ sub getAfpdServers
 #------------------------------------------------------------------
 sub getAfpdLdap
 {
-	local %afpldap;
-	local $fileToRead = $config{'afpdldap_c'};
+	my %afpldap;
+	my $fileToRead = $config{'afpdldap_c'};
 
 	open(FH, "<$fileToRead") || die "$fileToRead $text{not_readable}";
 	while(<FH>)
@@ -972,7 +971,7 @@ sub getAtalkIfs
 	open(FH, "<$fileToRead") || die "$fileToRead $text{not_readable}";
 	while(<FH>)
 	{
-		local %atalk;
+		my %atalk;
 		if($_ =~ /(^[\w\d].*)/ ){
 			if($_ =~ /^([\w\d]+)\s/) {
 				$atalk{atalk_iface} = $1;
@@ -1017,7 +1016,7 @@ sub getAtalkIfs
 sub addLineToFile()
 {
 	my ($var1, $var2, $var3, $var4) = @_;
-	local($temporary, $lin);
+	my ($temporary, $lin);
  	$temporary = "$var1.temp";
 
 	copy($var1, $temporary) or die "$text{copy_failed}: $!";
@@ -1056,7 +1055,7 @@ sub addLineToFile()
 #------------------------------------------------------------------
 sub deleteSpezLine(){
 	my ($var1, $var2) = @_;
-	local($temporary);
+	my $temporary;
 	if( ! defined $var1){
 		return 0;
 	}
@@ -1094,7 +1093,7 @@ sub deleteSpezLine(){
 sub rewriteFile()
 {
 	my ($var1, @var2) = @_;
-	local($temporary, $lin);
+	my ($temporary, $lin);
  	$temporary = "$var1.temp";
 
 	die("No data to write to file.") if (scalar $var2 > 1);
@@ -1126,10 +1125,10 @@ sub rewriteFile()
 sub getSpezLine
 {
 	my ($var1, $var2) = @_;
-	local $counter = 0;
-	local $outputli = 0;
+	my $counter = 0;
+	my $outputli = 0;
 	# Escape special chars such as the dollar sign
-	local $escaped_name = quotemeta($var2);
+	my $escaped_name = quotemeta($var2);
 	open(OLD, "<$var1") || die "$var1 $text{not_readable}";
 	while(<OLD>){
 		$counter++;
@@ -1151,8 +1150,7 @@ sub getSpezLine
 #-------------------------------------------------------------------------------
 sub getLinesSpezFile() {
 	my ($var1) = @_;
-	local($counting);
-	$counting = 1;
+	my $counting = 1;
 	#Test whether the variable has been passed
 	open(FileHandle, "<$var1") || die return 0;
 	while(<FileHandle>){

@@ -27,7 +27,7 @@ my $home_found;
 
 # since we are using a different number of forms, depending on the status of the service,
 # we are keeping a running index while outputting the forms
-my $current_formindex = 0;
+my $current_formindex = 1;
 
 foreach $s (@Shares) {
 	$path = getPath($s);
@@ -140,9 +140,9 @@ if (@Servers) {
 			$text{'index_address'},
 			$text{'index_maccodepage'}
 		], undef, 0, undef, undef);
-	local $offset = 0;
+	my $index = 0;
 	foreach $s (@Servers){
-		local $t = "";
+		my $t = "";
 		if($s->{transport} =~ /-transall/ || $s->{transport} =~ /-(ddp|tcp)\s+-(ddp|tcp)/ ){
 			$t = "AppleTalk, TCP/IP";
 		}
@@ -154,7 +154,7 @@ if (@Servers) {
 		}
 		print &ui_columns_row([
 			&ui_checkbox('section_index', $s->{servername} eq "" ? "-" : $s->{servername}),
-			"<a href=\"edit_servers.cgi?action=edit&offset=".$offset."\">"
+			"<a href=\"edit_servers.cgi?action=edit&index=".$index."\">"
 			.($s->{servername} ? $s->{servername} : &get_system_hostname())."</a>",
 			$t ne '' ? $t : $text{'index_value_not_set'},
 			$s->{uamlist} ne '' ? $s->{uamlist} : $text{'index_value_not_set'},
@@ -162,7 +162,7 @@ if (@Servers) {
 			$s->{ipaddr} ne '' ? $s->{ipaddr} : $text{'index_value_not_set'},
 			$s->{maccodepage} ne '' ? $s->{maccodepage} : $text{'index_value_not_set'}
 		], [ "width='20'" ]);
-		$offset++;
+		$index++;
 	}
 	print &ui_columns_end();
 	print &ui_links_row(\@server_links);
@@ -253,38 +253,38 @@ if ($config{'start_atalkd'} && $config{'stop_atalkd'} && $config{'restart_atalkd
 
 	foreach my $daemon (@daemons) {
 		foreach my $d (keys %$daemon) {
-		if (-x $config{$d.'_d'}) {
-			if (&find_byname($config{$d.'_d'})) {
-				print "<h3>".&text('index_running_service', $daemon->{$d})."</h3>\n";
-				print &ui_buttons_start();
-				print &ui_buttons_row(
-					'control.cgi?action=restart&daemon='.$d,
-					&text('running_restart_daemon', $daemon->{$d}),
-					&text('index_process_control_restart_daemon', $d)
-				);
-				print &ui_buttons_row(
-					'control.cgi?action=stop&daemon='.$d,
-					&text('running_stop_daemon', $daemon->{$d}),
-					&text('index_process_control_stop_daemon', $d)
-				);
-				print &ui_buttons_end();
-				$current_formindex += 2;
-			} else {
-				print "<h3>".&text('index_not_running', $daemon->{$d})."</h3>\n";
-				print &ui_buttons_start();
-				print &ui_buttons_row(
-					'control.cgi?action=start&daemon='.$d,
-					&text('running_start_daemon', $daemon->{$d}),
-					&text('index_process_control_start_daemon', $d)
-				);
-				print &ui_buttons_end();
-				$current_formindex += 1;
+			if (-x $config{$d.'_d'}) {
+				if (&find_byname($config{$d.'_d'})) {
+					print "<h3>".&text('index_running_service', $daemon->{$d})."</h3>\n";
+					print &ui_buttons_start();
+					print &ui_buttons_row(
+						'control.cgi?action=restart&daemon='.$d,
+						&text('running_restart_daemon', $daemon->{$d}),
+						&text('index_process_control_restart_daemon', $d)
+					);
+					print &ui_buttons_row(
+						'control.cgi?action=stop&daemon='.$d,
+						&text('running_stop_daemon', $daemon->{$d}),
+						&text('index_process_control_stop_daemon', $d)
+					);
+					print &ui_buttons_end();
+					$current_formindex += 2;
+				} else {
+					print "<h3>".&text('index_not_running', $daemon->{$d})."</h3>\n";
+					print &ui_buttons_start();
+					print &ui_buttons_row(
+						'control.cgi?action=start&daemon='.$d,
+						&text('running_start_daemon', $daemon->{$d}),
+						&text('index_process_control_start_daemon', $d)
+					);
+					print &ui_buttons_end();
+					$current_formindex += 1;
+				}
+			}
+			else {
+				print "<p>".&text('index_daemon_not_found', $d)."</p>";
 			}
 		}
-		else {
-			print "<p>".&text('index_daemon_not_found', $d)."</p>";
-		}
-	}
 	}
 }
 

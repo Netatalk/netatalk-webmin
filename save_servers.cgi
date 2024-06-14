@@ -20,13 +20,13 @@ require 'netatalk2-lib.pl';
 
 &ReadParse();
 
-local $filetoedit = $config{'afpd_c'};
-local $totalLines = getLinesSpezFile($filetoedit);
-local $lineNumber = 1;
+my $filetoedit = $config{'afpd_c'};
+my $totalLines = getLinesSpezFile($filetoedit);
+my $lineNumber = 1;
 
 if($in{'old_servername'}) {
 	$lineNumber = getSpezLine($filetoedit, $in{'old_servername'});
-	local $result = deleteSpezLine($filetoedit, $lineNumber);
+	my $result = deleteSpezLine($filetoedit, $lineNumber);
 	if ($result == 0) {
 		showMessage($text{'edit_delete_error'})
 	}
@@ -34,7 +34,7 @@ if($in{'old_servername'}) {
 	$lineNumber = getLinesSpezFile($filetoedit);
 }
 
-local $serverLine = createNewServerLine($in);
+my $serverLine = createNewServerLine($in);
 
 if ($serverLine ne 0) {
 	addLineToFile($filetoedit, $serverLine, $lineNumber, $totalLines);
