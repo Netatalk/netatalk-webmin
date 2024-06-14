@@ -717,6 +717,25 @@ sub createNewServerLine(){
 }
 
 
+#-----------------------------------------------------------------------------
+# Creates new line with entry for an AppleTalk interface
+# in atalkd.conf
+#-----------------------------------------------------------------------------
+sub createNewAtalkLine(){
+	my $newString = "";
+	my ($in) = @_;
+
+	$newString .= $in{atalk_iface}." " if $in{atalk_iface};
+	$newString .= $in{atalk_routing}." " if $in{atalk_routing};
+	$newString .= "-phase ".$in{atalk_phase}." " if $in{atalk_phase};
+	$newString .= "-net ".$in{atalk_net}." " if $in{atalk_net};
+	$newString .= "-addr ".$in{atalk_addr}." " if $in{atalk_addr};
+	$newString .= "-zone \"".$in{atalk_zone}."\" " if $in{atalk_zone};
+	$newString .= "-noallmulti " if $in{atalk_noallmulti};
+
+	return $newString;
+}
+
 #------------------------------------------------------------------
 #Function reads afpd.conf and stores data for editing in an array
 #------------------------------------------------------------------
@@ -942,6 +961,50 @@ sub getAfpdLdap
 	return %afpldap;
 }
 
+#------------------------------------------------------------------
+#Parses atalkd.conf and stores data for editing in an array
+#------------------------------------------------------------------
+sub getAtalkIfs
+{
+	my @atalk_all;
+	my $fileToRead = $config{'atalk_c'};
+
+	open(FH, "<$fileToRead") || die "$fileToRead $text{not_readable}";
+	while(<FH>)
+	{
+		local %atalk;
+		if($_ =~ /(^[\w\d].*)/ ){
+			if($_ =~ /^([\w\d]+)\s/) {
+				$atalk{atalk_iface} = $1;
+			}
+			if($_ =~ /-addr\s(\S+)/) {
+				$atalk{atalk_addr} = $1;
+			}
+			if($_ =~ /-net\s(\S+)/) {
+				$atalk{atalk_net} = $1;
+			}
+			if($_ =~ /-phase\s(\S+)/) {
+				$atalk{atalk_phase} = $1;
+			}
+			if($_ =~ /-zone\s\"([^\"]+)\"/) {
+				$atalk{atalk_zone} = $1;
+			}
+			if($_ =~ /-noallmulti/) {
+				$atalk{atalk_noallmulti} = 1;
+			}
+			if($_ =~ /-dontroute/) {
+				$atalk{atalk_routing} = "-dontroute";
+			} elsif($_ =~ /-route/) {
+				$atalk{atalk_routing} = "-route";
+			} elsif($_ =~ /-seed/) {
+				$atalk{atalk_routing} = "-seed";
+			}
+			push @atalk_all, \%atalk;
+		}
+	}
+	close(FH);
+	return @atalk_all;
+}
 
 #------------------------------------------------------------------------------
 #Function appends a new line to file
