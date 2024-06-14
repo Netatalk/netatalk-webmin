@@ -20,8 +20,8 @@ require 'netatalk2-lib.pl';
 
 &ReadParse();
 
-local $filetoedit = $config{'afpdldap_c'};
-local @lines;
+my $filetoedit = $config{'afpdldap_c'};
+my @lines;
 foreach my $key (keys %in) {
 	push(@lines, $key." = ".%in{$key}) if %in{$key};
 }
