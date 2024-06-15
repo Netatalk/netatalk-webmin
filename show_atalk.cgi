@@ -22,6 +22,7 @@ my @atalk_ifs = getAtalkIfs();
 
 &ui_print_header(undef, $text{'show_atalk_title'}, "", "atalk", 1);
 print "<h3>$text{index_show_atalk_title}</h3>\n";
+print "<p>$text{'show_atalk_notice'}</p>";
 my @atalk_links = ( "<a href=\"edit_atalk.cgi?action=create\">$text{'index_create_atalk'}</a>" );
 
 if (@atalk_ifs) {

@@ -251,6 +251,7 @@ edit_ldap_name_attr=Attribute with user short names
 edit_ldap_group_attr=Attribute with group short names
 
 show_atalk_title=AppleTalk Interfaces
+show_atalk_notice=<em>Note:</em> When <code>atalkd</code> starts up, it attempts to autodetect available interfaces and may rewrite these settings.
 show_atalk_iface=Interface
 show_atalk_addr=Address
 show_atalk_net=Net range
