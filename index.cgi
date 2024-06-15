@@ -245,10 +245,10 @@ print &ui_hr();
 if ($config{'start_atalkd'} && $config{'stop_atalkd'} && $config{'restart_atalkd'}) {
 
 	my @daemons = (
-		{atalkd => 'AppleTalk network manager'},
-		{papd => 'Print server'},
-		{timelord => 'Time server'},
-		{a2boot => 'Apple II netboot server'}
+		{atalkd => $text{index_process_atalkd}},
+		{papd => $text{index_process_papd}},
+		{timelord => $text{index_process_timelord}},
+		{a2boot => $text{index_process_a2boot}}
 	);
 
 	print "<h3>$text{'index_appletalk_services'}</h3>\n";
