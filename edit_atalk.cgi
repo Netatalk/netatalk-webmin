@@ -40,7 +40,7 @@ print &ui_table_start($text{'edit_atalk_table_heading'}, 'width="100%"', 2);
 
 print &ui_table_row($text{'edit_atalk_iface'},
 	&ui_textbox('atalk_iface', @atalk ? $atalk[$in{index}]{atalk_iface} : '', undef, undef, undef, 'required')
-	." ".$text{'edit_atalk_iface_help'}
+	."<br /><a href=\"/net/list_ifcs.cgi\" target=\"_blank\">$text{'edit_atalk_iface_help'}</a>"
 );
 print &ui_table_row($text{'edit_atalk_addr'},
 	&ui_textbox('atalk_addr', @atalk ? $atalk[$in{index}]{atalk_addr} : '')
