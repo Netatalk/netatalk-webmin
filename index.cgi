@@ -181,6 +181,7 @@ my @server_links = (
 	"edit_volumes.cgi?shareName=:DEFAULT:&action=default",
 	"edit_ldap.cgi",
 	"show_atalk.cgi",
+	"edit_print.cgi",
 	"show_users.cgi",
 	"allmanual_form.cgi",
 	"server_status.cgi"
@@ -189,6 +190,7 @@ my @server_titles = (
 	$text{'index_volumes_default'},
 	$text{'index_edit_ldap'},
 	$text{'index_atalk'},
+	$text{'index_print'},
 	$text{'index_users'},
 	$text{'index_edit'},
 	$text{'index_capabilities'}
@@ -197,6 +199,7 @@ my @server_icons = (
 	"images/server.gif",
 	"images/keys.gif",
 	"images/ifcs.gif",
+	"images/printer.gif",
 	"images/users.gif",
 	"images/edit.gif",
 	"images/inspect.gif"

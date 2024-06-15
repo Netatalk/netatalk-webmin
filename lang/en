@@ -12,6 +12,7 @@ index_global=Global Configurations and Options
 index_path=Path
 index_options=Options
 index_users=Manage Connected Users
+index_print=Manage Print Server
 index_edit=Edit Config Files
 index_capabilities=View Server Status
 index_volumes_default=Edit Default Server Options
@@ -28,6 +29,7 @@ index_delete_server=Delete selected servers
 index_edit_ldap=Edit LDAP Options
 index_atalk=Manage AppleTalk Interfaces
 index_edit_atalk=Edit AppleTalk Interfaces
+index_edit_print=Edit print server configuration
 
 index_servername=Server Name
 index_protocols=Transport Layers
