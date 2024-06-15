@@ -76,7 +76,7 @@ edit_tab_transport=Transport
 edit_tab_advanced=Advanced
 edit_directory=Directory
 edit_default=$1 (default)
-edit_filemanager_link=File Manager (new tab)
+edit_filemanager_link=Open the File Manager in a new tab
 
 edit_file_share_title=Edit Shared Volumes
 edit_header=Create New Shared Volume
@@ -85,7 +85,7 @@ edit_file_share_home_title=Home Volume Options
 edit_tableheader=Shared Volume Options
 edit_sharename=Volume Name
 edit_homename=Home Volume Name
-edit_sharedvolume=Shared Volume
+edit_sharedvolume=Path
 edit_volume_delete_error=No volume with that path to delete
 
 edit_Adouble=AppleDouble file meta data format

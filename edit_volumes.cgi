@@ -201,6 +201,7 @@ if ($in{action} =~ /homes/) {
 	);
 	print &ui_table_row($text{'index_col_title_home_path'},
 		&ui_textbox('homepath', $subpath, 44)
+		."<br /><a href=\"/filemin\" target=\"_blank\">$text{'edit_filemanager_link'}</a>"
 	);
 }
 elsif ($in{action} =~ /create|edit/) {
@@ -209,6 +210,7 @@ elsif ($in{action} =~ /create|edit/) {
 	);
 	print &ui_table_row($text{'edit_sharedvolume'},
 		&ui_filebox('path', $Old_path, 44, undef, undef, 'required', 1)
+		."<br /><a href=\"/filemin\" target=\"_blank\">$text{'edit_filemanager_link'}</a>"
 	);
 }
 
