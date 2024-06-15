@@ -53,6 +53,7 @@ simply do not define the 'atalkd' init commands.
 
 - Only one defined home dir (any path starting with ~ ) is allowed.  If you want to share specific subdirs in a home dir to everyone, please use absolute paths.
 - The netatalk.conf file for legacy init systems has to be managed through the web editor.
+- Only one AppleTalk zone per network interface is supported.  This is because the UI is not able to distinguish between multiple AppleTalk zones on the same interface.
 
 # Authors
 
