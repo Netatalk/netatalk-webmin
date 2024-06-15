@@ -2,16 +2,19 @@
 * Updated for Netatalk 2.4.0
 * Support for all server options (afpd.conf)
 * Support for all volume options (AppleVolumes.default)
-* Support for :DEFAULT: volume options
+  * Support for :DEFAULT: volume options
+  * Dedicated form for home volumes
 * Support for LDAP settings (afp_ldap.conf)
-* Servers and volumes can be deleted in batch
+* Support for AppleTalk settings (atalkd.conf)
+* Support for Print Server settings (papd.conf)
+* Rework index page to enable server and volume batch actions
 * Restore DHX as a default UAM
-* Dedicated form for home volumes
 * Allow only one active home volume configuration at a time
 * Prevent duplicated name or path assignments
+* Update config file editor to latest version from proftpd module
 * Control all AppleTalk daemons individually
 * Add make install target for Solaris
-* bugfix: Correct styling for the Stop Netatalk button (Authentic theme)
+* bugfix: Correct styling for the stop process button (Authentic theme)
 * bugfix: Allow editing config files with < 3 lines
 
 1.3:

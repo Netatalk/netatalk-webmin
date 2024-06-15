@@ -24,6 +24,13 @@ Code Cleanup and Compatibility Fixes: Steffan Cline <steffan@hldns.com>
   ~ Addition of manually edit pages
   ~ Removal of network interfaces since no configs exist
 
-Compatibility with Netatalk 2 and Webmin 2: Daniel Markstedt <daniel@mindani.net>
+Rebuilt for Netatalk 2 and Webmin 2: Daniel Markstedt <daniel@mindani.net>
+  ~ Reworked UI to mimic the Netatalk 3 module by Ralph Boehme
+  ~ Implemented all afpd.conf and AppleVolumes options
+  ~ Introduced UI for afp_ldap.conf
+  ~ Introduced UI for atalkd.conf
+  ~ Introduced UI for papd.conf
+  ~ Use Webmin 2's ui_lib to build web forms and tables, instead of raw html
+  ~ Refactored codebase to eliminate functional redundancy
 
 M@
