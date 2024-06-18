@@ -274,13 +274,11 @@ edit_atalk_addr_help=example: 77.7
 edit_atalk_net=AppleTalk net range
 edit_atalk_net_help=example: 9461-9471
 edit_atalk_routing=AppleTalk routing
-edit_atalk_routing_dontroute=disabled
-edit_atalk_routing_route=single interface
-edit_atalk_routing_seed=multiple interfaces
+edit_atalk_routing_dontroute=disabled (dontroute)
+edit_atalk_routing_route=single interface (route)
+edit_atalk_routing_seed=multiple interfaces (seed)
 edit_atalk_phase=AppleTalk phase
 edit_atalk_zone=AppleTalk zone
-edit_atalk_compat=Compatibility
-edit_atalk_noallmulti=Enable multicast on Linux
 
 not_readable=not readable
 give_correct_path=Please give correct path

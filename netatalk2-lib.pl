@@ -730,7 +730,6 @@ sub createNewAtalkLine(){
 	$newString .= "-net ".$in{atalk_net}." " if $in{atalk_net};
 	$newString .= "-addr ".$in{atalk_addr}." " if $in{atalk_addr};
 	$newString .= "-zone \"".$in{atalk_zone}."\" " if $in{atalk_zone};
-	$newString .= "-noallmulti " if $in{atalk_noallmulti};
 
 	return $newString;
 }
@@ -987,9 +986,6 @@ sub getAtalkIfs
 			}
 			if($_ =~ /-zone\s\"([^\"]+)\"/) {
 				$atalk{atalk_zone} = $1;
-			}
-			if($_ =~ /-noallmulti/) {
-				$atalk{atalk_noallmulti} = 1;
 			}
 			if($_ =~ /-dontroute/) {
 				$atalk{atalk_routing} = "-dontroute";

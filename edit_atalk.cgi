@@ -68,14 +68,6 @@ print &ui_table_row($text{'edit_atalk_phase'},
 print &ui_table_row($text{'edit_atalk_zone'},
 	&ui_textbox('atalk_zone', @atalk ? $atalk[$in{index}]{atalk_zone} : '')
 );
-print &ui_table_row($text{'edit_atalk_compat'},
-	&ui_checkbox(
-		'atalk_noallmulti',
-		1,
-		$text{'edit_atalk_noallmulti'},
-		@atalk ? $atalk[$in{index}]{atalk_noallmulti} : 0
-	)
-);
 print &ui_table_end();
 
 if ($in{action} =~ /edit/) {
