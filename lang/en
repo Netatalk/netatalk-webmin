@@ -261,7 +261,7 @@ show_atalk_zone=Zone
 
 index_delete_atalk_ifs=Delete selected interfaces
 index_no_atalk_ifs=No AppleTalk interfaces configured
-index_show_atalk_title=Manage AppleTalk interfaces
+index_show_atalk_title=Manage AppleTalk network interfaces
 index_create_atalk=Create new interface
 
 edit_atalk_title=Edit AppleTalk Interface
