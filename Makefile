@@ -23,12 +23,6 @@ FILES = \
 
 all: netatalk-wbm.tgz
 
-dist: netatalk-wbm.tgz
-
-localdist: netatalk-local-wbm.tgz
-
-optdist: netatalk-opt-wbm.tgz
-
 install:
 	@${WEBMIN_DIR}/install-module.pl netatalk-wbm-${VERSION}.tgz
 
@@ -42,25 +36,5 @@ netatalk-wbm.tgz: $(FILES)
 	@mkdir netatalk
 	@tar cf - $(FILES) | tar xf - -C netatalk
 	@tar cf - netatalk | gzip > netatalk-wbm-${VERSION}.tgz
-	@rm -rf netatalk
-	@echo Done.
-
-netatalk-local-wbm.tgz: $(FILES)
-	@echo "Creating Netatalk Webmin Module archive for distribution \"netatalk-local-wbm-${VERSION}.tgz\" ..."
-	@-rm -rf netatalk
-	@mkdir netatalk
-	@tar cf - $(FILES) | tar xf - -C netatalk
-	@cp config-usr-local-netatalk netatalk/config
-	@tar cf - netatalk | gzip > netatalk-local-wbm-${VERSION}.tgz
-	@rm -rf netatalk
-	@echo Done.
-
-netatalk-opt-wbm.tgz: $(FILES)
-	@echo "Creating Netatalk Webmin Module archive for distribution: \"netatalk-opt-wbm-${VERSION}.tgz\" ..."
-	@-rm -rf netatalk
-	@mkdir netatalk
-	@tar cf - $(FILES) | tar xf - -C netatalk
-	@cp config-opt-netatalk netatalk/config
-	@tar cf - netatalk | gzip > netatalk-opt-wbm-${VERSION}.tgz
 	@rm -rf netatalk
 	@echo Done.

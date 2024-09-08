@@ -119,6 +119,11 @@ print &ui_table_row($text{'edit_global_section_zeroconf_name'},
 	&ui_textbox('p_zeroconf_name', $values[0], 30)
 );
 
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'appletalk', \%in);
+print &ui_table_row($text{'edit_global_section_appletalk'},
+	&build_select($afpconfRef, $sectionRef, \%in, 'appletalk', $text{'edit_undefined'}, 'yes', 'yes', 'no', 'no')
+);
+
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'spotlight', \%in);
 print &ui_table_row($text{'edit_global_section_spotlight'},
 	&build_select($afpconfRef, $sectionRef, \%in, 'spotlight', $text{'edit_undefined'}, 'yes', 'yes', 'no', 'no')

@@ -1,6 +1,8 @@
 #!/usr/bin/perl
 #
 # Netatalk Webmin Module
+# Copyright (C) 2000 Matthew Keller <kellermg@potsdam.edu>
+# Copyright (C) 2000 Sven Mosimann/EcoLogic <sven.mosimann@ecologic.ch>
 # Copyright (C) 2013 Ralph Boehme <sloowfranklin@gmail.com>
 # Copyright (C) 2023-4 Daniel Markstedt <daniel@mindani.net>
 #
@@ -21,6 +23,7 @@
 
 BEGIN { push(@INC, ".."); };
 use WebminCore;
+use File::Copy;
 &init_config();
 
 our %netatalkParameterDefaults = (
@@ -30,6 +33,7 @@ our %netatalkParameterDefaults = (
 	'afp read locks'			=> 'no',
 	'afpstats'					=> 'no',
 	'appledouble'				=> 'ea',
+	'appletalk'				=> 'no',
 	'case sensitive'			=> 'yes',
 	'chmod request'				=> 'preserve',
 	'close vol'					=> 'no',
@@ -50,6 +54,7 @@ our %netatalkParameterDefaults = (
 	'force xattr with sticky bit'	=> 'no',
 	'guest account'				=> 'nobody',
 	'invisible dots'			=> 'no',
+	'legacy volume size'		=> 'no',
 	'ldap uuid encoding'		=> 'string',
 	'log level'					=> 'default:note',
 	'log microseconds'	=> 'yes',
@@ -59,6 +64,7 @@ our %netatalkParameterDefaults = (
 	'network ids'				=> 'no',
 	'passwd file'				=> '/etc/afppasswd',
 	'preexec close'				=> 'no',
+	'prodos'				=> 'no',
 	'recvfile'					=> 'no',
 	'read only'					=> 'no',
 	'root preexec close'		=> 'no',
@@ -516,4 +522,197 @@ sub build_user_group_selection {
 	$result .= "</table>\n";
 
 	return $result;
+}
+
+#-------------------------------------------------------------------------------
+#Returns the number of lines of a file
+#
+#$var1 is the file
+#-------------------------------------------------------------------------------
+sub getLinesSpezFile() {
+	my ($var1) = @_;
+	my $counting = 1;
+	#Test whether the variable has been passed
+	open(FileHandle, "<$var1") || die return 0;
+	while(<FileHandle>){
+		$counting++;
+	}
+	close(FileHandle);
+	return $counting;
+}
+
+#-------------------------------------------------------------------------------
+#Returns the the line number where a specific string was found
+#
+#$var1 is the file
+#$var2 is the line to match
+#-------------------------------------------------------------------------------
+sub getSpezLine
+{
+	my ($var1, $var2) = @_;
+	my $counter = 0;
+	my $outputli = 0;
+	# Escape special chars such as the dollar sign
+	my $escaped_name = quotemeta($var2);
+	open(OLD, "<$var1") || die "$var1 $text{not_readable}";
+	while(<OLD>){
+		$counter++;
+		# Server names may or may not be quoted
+ 		if($_ =~ /^\"?$escaped_name/ ){
+ 			$outputli = $counter;
+ 			last
+		}
+	}
+	close(OLD);
+	return $outputli;
+}
+
+#------------------------------------------------------------------------------
+#Function appends a new line to file
+#
+#$var1 File to which the line should be appended
+#$var2 String to be appended
+#$var3 Line number to append string to
+#$var4 Total number of lines in file
+#------------------------------------------------------------------------------
+sub addLineToFile()
+{
+	my ($var1, $var2, $var3, $var4) = @_;
+	my ($temporary, $lin);
+ 	$temporary = "$var1.temp";
+
+	copy($var1, $temporary) or die "$text{copy_failed}: $!";
+
+	lock_file("$temporary");
+	open(OLD, "<$var1") || die "$var1 $text{not_readable}";
+	open(NEW, ">$temporary") || die "$temporary $text{not_readable}";
+
+	if($var4 < 2) {
+		print NEW "$var2\n";
+	}
+	else {
+		while(my $line = <OLD>) {
+			if($var3 eq 1 && $. eq 1) {
+				print NEW "$var2\n";
+			}
+			print NEW $line;
+			if($. eq ($var3 - 1)){
+				print NEW "$var2\n";
+			}
+		}
+	}
+	close(OLD);
+	close(NEW);
+	unlock_file("$temporary");
+	rename($var1, "$var1.orig");
+	rename($temporary, $var1);
+	unlink("$var1.orig") or die "$text{delete_failed}: $var1.orig\n";
+}
+
+#------------------------------------------------------------------
+#deletes a certain line in a file
+#$var1 =>File
+#$var2 =>Line number to delete
+#------------------------------------------------------------------
+sub deleteSpezLine(){
+	my ($var1, $var2) = @_;
+	my $temporary;
+	if( ! defined $var1){
+		return 0;
+	}
+	if( ! defined $var2){
+		return 0;
+	}
+	$temporary = "$var1.temp";
+ 	copy($var1, $temporary)
+		or die "$text{copy_failed}: $!";
+
+	lock_file("$temporary");
+	open(OLD, "<$var1") || die "$var1 $text{not_readable}";
+	open(NEW, ">$temporary") || die "$temporary $text{not_readable}";
+	while(<OLD>){
+		if($. != $var2){
+			print NEW $_;
+		}
+	}
+	close(OLD);
+	close(NEW);
+	unlock_file("$temporary");
+	rename($var1, "$var1.orig");
+	rename($temporary, $var1);
+	unlink("$var1.orig") or die "$text{delete_failed}: $var1.orig\n";
+	return 1;
+}
+
+#-----------------------------------------------------------------------------
+# Creates new line with entry for an AppleTalk interface
+# in atalkd.conf
+#-----------------------------------------------------------------------------
+sub createNewAtalkLine(){
+	my $newString = "";
+	my $in = @_;
+
+	$newString .= $in{atalk_iface}." " if $in{atalk_iface};
+	$newString .= $in{atalk_routing}." " if $in{atalk_routing};
+	$newString .= "-phase ".$in{atalk_phase}." " if $in{atalk_phase};
+	$newString .= "-net ".$in{atalk_net}." " if $in{atalk_net};
+	$newString .= "-addr ".$in{atalk_addr}." " if $in{atalk_addr};
+	$newString .= "-zone \"".$in{atalk_zone}."\" " if $in{atalk_zone};
+
+	return $newString;
+}
+
+#------------------------------------------------------------------
+#Parses atalkd.conf and stores data for editing in an array
+#------------------------------------------------------------------
+sub getAtalkIfs
+{
+	my @atalk_all;
+	my $fileToRead = $config{'atalk_c'};
+
+	open(FH, "<$fileToRead") || die "$fileToRead $text{not_readable}";
+	while(<FH>)
+	{
+		my %atalk;
+		if($_ =~ /(^[\w\d].*)/ ){
+			if($_ =~ /^([\w\d]+)\s/) {
+				$atalk{atalk_iface} = $1;
+			}
+			if($_ =~ /-addr\s(\S+)/) {
+				$atalk{atalk_addr} = $1;
+			}
+			if($_ =~ /-net\s(\S+)/) {
+				$atalk{atalk_net} = $1;
+			}
+			if($_ =~ /-phase\s(\S+)/) {
+				$atalk{atalk_phase} = $1;
+			}
+			if($_ =~ /-zone\s\"([^\"]+)\"/) {
+				$atalk{atalk_zone} = $1;
+			}
+			if($_ =~ /-dontroute/) {
+				$atalk{atalk_routing} = "-dontroute";
+			} elsif($_ =~ /-route/) {
+				$atalk{atalk_routing} = "-route";
+			} elsif($_ =~ /-seed/) {
+				$atalk{atalk_routing} = "-seed";
+			}
+			push @atalk_all, \%atalk;
+		}
+	}
+	close(FH);
+	return @atalk_all;
+}
+
+#------------------------------------------------------------------
+#Page, which displays input error
+#
+#$var1 Info-Text
+#------------------------------------------------------------------
+sub showMessage
+{
+	my ($var1) = @_;
+	&ui_print_header(undef, $text{'error_title'}, "", "configs", 1);
+	print "<p>$var1</p>\n";
+	&ui_print_footer("index.cgi", $text{'index_module'});
 }
