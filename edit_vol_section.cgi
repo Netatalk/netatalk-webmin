@@ -27,7 +27,7 @@
 
 # all inputs for netatalk configuration parameters follow the naming convention "p_"+parameter name to keep the save_vol_section.cgi simple
 
-require 'netatalk3-lib.pl';
+require 'netatalk-lib.pl';
 
 my $subject; # what it is, we are going to edit: volume | volume_preset | homes
 my $pageTitle = $text{'errmsg_title'};

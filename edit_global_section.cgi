@@ -22,7 +22,7 @@
 # all inputs for netatalk configuration parameters follow the naming
 # convention "p_"+parameter name to keep the save_global_section.cgi simple
 
-require 'netatalk3-lib.pl';
+require 'netatalk-lib.pl';
 
 my $afpconfRef;
 my $sectionRef;

@@ -1,4 +1,4 @@
-name=Netatalk 3 Manager
+name=Netatalk Manager
 depends=0.81
 category=servers
 os_support=macos solaris *-linux freebsd openbsd netbsd

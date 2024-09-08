@@ -19,7 +19,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 
-require 'netatalk3-lib.pl';
+require 'netatalk-lib.pl';
 
 ui_print_header(undef, $text{users_title}, "", "configs", 1, 1);
 

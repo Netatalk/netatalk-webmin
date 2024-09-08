@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 
-require 'netatalk3-lib.pl';
+require 'netatalk-lib.pl';
 
 $rv = system("$config{stop_netatalk} </dev/null");
 if ($rv){ &error(&text('stop_1', $rv)); }

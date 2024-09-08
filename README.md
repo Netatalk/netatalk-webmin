@@ -16,7 +16,7 @@ If you don't have it installed already, install webmin itself by following the i
 
 1. Download a [stable release tarball](https://github.com/Netatalk/netatalk-webmin/releases)
 1. Multiple methods to install the module:
-   * From the dir where webmin is installed, run `./install-module.pl /path/to/netatalk3-wbm.tgz`
+   * From the dir where webmin is installed, run `./install-module.pl /path/to/netatalk-wbm.tgz`
    * From within the Webmin UI: Configuration -> Modules -> From local file
 
 ## From source

@@ -18,49 +18,49 @@ FILES = \
 	README.md \
 	config* \
 	module.info \
-	netatalk3-lib.pl \
+	netatalk-lib.pl \
 	*.cgi
 
-all: netatalk3-wbm.tgz
+all: netatalk-wbm.tgz
 
-dist: netatalk3-wbm.tgz
+dist: netatalk-wbm.tgz
 
-localdist: netatalk3-local-wbm.tgz
+localdist: netatalk-local-wbm.tgz
 
-optdist: netatalk3-opt-wbm.tgz
+optdist: netatalk-opt-wbm.tgz
 
 install:
-	@${WEBMIN_DIR}/install-module.pl netatalk3-wbm-${VERSION}.tgz
+	@${WEBMIN_DIR}/install-module.pl netatalk-wbm-${VERSION}.tgz
 
 clean:
 	-rm -f netatalk*.tgz
-	-rm -rf netatalk3
+	-rm -rf netatalk
 
-netatalk3-wbm.tgz: $(FILES)
-	@echo "Creating Netatalk Webmin Module archive for distribution: \"netatalk3-wbm-${VERSION}.tgz\" ..."
-	@-rm -rf netatalk3
-	@mkdir netatalk3
-	@tar cf - $(FILES) | tar xf - -C netatalk3
-	@tar cf - netatalk3 | gzip > netatalk3-wbm-${VERSION}.tgz
-	@rm -rf netatalk3
+netatalk-wbm.tgz: $(FILES)
+	@echo "Creating Netatalk Webmin Module archive for distribution: \"netatalk-wbm-${VERSION}.tgz\" ..."
+	@-rm -rf netatalk
+	@mkdir netatalk
+	@tar cf - $(FILES) | tar xf - -C netatalk
+	@tar cf - netatalk | gzip > netatalk-wbm-${VERSION}.tgz
+	@rm -rf netatalk
 	@echo Done.
 
-netatalk3-local-wbm.tgz: $(FILES)
-	@echo "Creating Netatalk Webmin Module archive for distribution \"netatalk3-local-wbm-${VERSION}.tgz\" ..."
-	@-rm -rf netatalk3
-	@mkdir netatalk3
-	@tar cf - $(FILES) | tar xf - -C netatalk3
-	@cp config-usr-local-netatalk netatalk3/config
-	@tar cf - netatalk3 | gzip > netatalk3-local-wbm-${VERSION}.tgz
-	@rm -rf netatalk3
+netatalk-local-wbm.tgz: $(FILES)
+	@echo "Creating Netatalk Webmin Module archive for distribution \"netatalk-local-wbm-${VERSION}.tgz\" ..."
+	@-rm -rf netatalk
+	@mkdir netatalk
+	@tar cf - $(FILES) | tar xf - -C netatalk
+	@cp config-usr-local-netatalk netatalk/config
+	@tar cf - netatalk | gzip > netatalk-local-wbm-${VERSION}.tgz
+	@rm -rf netatalk
 	@echo Done.
 
-netatalk3-opt-wbm.tgz: $(FILES)
-	@echo "Creating Netatalk Webmin Module archive for distribution: \"netatalk3-opt-wbm-${VERSION}.tgz\" ..."
-	@-rm -rf netatalk3
-	@mkdir netatalk3
-	@tar cf - $(FILES) | tar xf - -C netatalk3
-	@cp config-opt-netatalk netatalk3/config
-	@tar cf - netatalk3 | gzip > netatalk3-opt-wbm-${VERSION}.tgz
-	@rm -rf netatalk3
+netatalk-opt-wbm.tgz: $(FILES)
+	@echo "Creating Netatalk Webmin Module archive for distribution: \"netatalk-opt-wbm-${VERSION}.tgz\" ..."
+	@-rm -rf netatalk
+	@mkdir netatalk
+	@tar cf - $(FILES) | tar xf - -C netatalk
+	@cp config-opt-netatalk netatalk/config
+	@tar cf - netatalk | gzip > netatalk-opt-wbm-${VERSION}.tgz
+	@rm -rf netatalk
 	@echo Done.
