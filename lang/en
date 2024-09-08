@@ -12,13 +12,38 @@ afpconf_err_no_section=Non empty line '$1' without a section header in line $2.
 errmsg_parameter_error=Parameter error: Illegal value for parameter '$1'.
 errmsg_title=Error
 
-index_process_control_restart_txt=Restart netatalk services using <code>$1</code>
-index_process_control_start_txt=Start netatalk services using <code>$1</code>
-index_process_control_stop_txt=Stop netatalk services using <code>$1</code>
+index_root=Webmin Home
+index_title=Netatalk AFP Server
+index_version=Version $1
+index_ever=The $1 program was not found on your system. Either Netatalk is not installed, or your <a href='$2'> module configuration</a> is incorrect.
 
-running_restart=Restart Netatalk Services
-running_start=Start Netatalk Services
-running_stop=Stop Netatalk Services
+restart_failed=Restart failed
+start_1=$1 failed
+stop_1=$1 failed
+
+delete_failed=Could not delete file
+not_valid_path=Not Valid Path
+no_path=No Path
+
+index_filesharing_services=File Sharing Services
+index_appletalk_services=AppleTalk Services
+index_appletalk_services_notice=<em>Note:</em> Start <strong>AppleTalk Network Manager</strong> first if you want the other services made available over AppleTalk, including the AFP File Server.
+index_daemon_not_found=<code>$1</code> not found. Have you configured the daemon path correctly?
+index_process_control_restart_daemon=Restarts the <code>$1</code> daemon
+index_process_control_start_daemon=Starts the <code>$1</code> daemon
+index_process_control_stop_daemon=Stops the <code>$1</code> daemon
+
+index_process_atalkd=AppleTalk Network Manager
+index_process_papd=Print Server
+index_process_timelord=Time Server
+index_process_a2boot=Apple II Netboot Server
+
+running_restart=Restart AFP File Server
+running_start=Start AFP File Server
+running_stop=Stop AFP File Server
+running_restart_daemon=Restart $1
+running_start_daemon=Start $1
+running_stop_daemon=Stop $1
 
 index_global=Global Configurations and Options
 index_volumes=Volumes
@@ -46,6 +71,10 @@ index_col_title_home_name=Home volume name
 index_value_not_set=<i>not set</i>
 
 index_icon_text_server=Edit Server Options
+index_atalk=Manage AppleTalk Interfaces
+index_print=Manage Print Server
+index_icon_text_atalk=Edit AppleTalk Interfaces
+index_icon_text_print=Edit Print Server Configuration
 index_icon_text_users=Manage Connected Users
 index_icon_text_capabilities=Show Server Status
 
@@ -114,6 +143,8 @@ edit_vol_section_invisible_dots=Invisible dot files
 edit_vol_section_network_ids=Network ids for ACL
 edit_vol_section_preexec_close=Close volume on failed pre-exec command
 edit_vol_section_stat_vol=Stat volume path when mounting
+edit_vol_section_legacy_volume_size=Limit volume size to 2GB
+edit_vol_section_prodos=Apple II compatibility
 
 edit_global_section_title=Edit Global Settings
 edit_global_section_title_table=Server Options
@@ -140,6 +171,7 @@ edit_global_section_log_level=Log level
 edit_global_section_log_microseconds=Log microsecond timestamps
 edit_global_section_zeroconf=Enable service discovery (Zeroconf)
 edit_global_section_zeroconf_name=Server name (Zeroconf)
+edit_global_section_appletalk=Enable AppleTalk
 edit_global_section_spotlight=Enable Spotlight
 edit_global_section_afpstats=Allow afpstats tool
 edit_global_section_mimic_model=Mounted volume icon
@@ -237,20 +269,35 @@ edit_groups=Groups
 edit_undefined=Leave undefined
 edit_default=default
 
-index_root=Webmin Home
-index_title=Netatalk AFP Server
-index_version=Version $1
-index_not_running_services=Netatalk services are not running.
-index_running_services=Netatalk services are running.
-index_ever=The $1 program was not found on your system. Either Netatalk is not installed, or your <a href='$2'> module configuration</a> is incorrect.
+show_atalk_title=AppleTalk Interfaces
+show_atalk_notice=<em>Note:</em> When <code>atalkd</code> starts up, it attempts to autodetect available interfaces and may rewrite these settings.
+show_atalk_iface=Interface
+show_atalk_addr=Address
+show_atalk_net=Net range
+show_atalk_routing=Routing
+show_atalk_phase=Phase
+show_atalk_zone=Zone
 
-restart_failed=Restart failed
-start_1=$1 failed
-stop_1=$1 failed
+index_delete_atalk_ifs=Delete selected interfaces
+index_no_atalk_ifs=No AppleTalk interfaces configured
+index_show_atalk_title=Manage AppleTalk network interfaces
+index_create_atalk=Create new interface
 
-delete_failed=Can't delete file
-not_valid_path=Not Valid Path
-no_path=No Path
+edit_atalk_title=Edit AppleTalk Interface
+edit_atalk_new_title=Create new AppleTalk Interface
+edit_atalk_table_heading=AppleTalk options
+edit_atalk_iface=Network interface
+edit_atalk_iface_help=Open Network Interfaces manager in new tab
+edit_atalk_addr=AppleTalk address
+edit_atalk_addr_help=example: 77.7
+edit_atalk_net=AppleTalk net range
+edit_atalk_net_help=example: 9461-9471
+edit_atalk_routing=AppleTalk routing
+edit_atalk_routing_dontroute=disabled (dontroute)
+edit_atalk_routing_route=single interface (route)
+edit_atalk_routing_seed=multiple interfaces (seed)
+edit_atalk_phase=AppleTalk phase
+edit_atalk_zone=AppleTalk zone
 
 manual_title=Edit Directives
 manual_file=Edit File:

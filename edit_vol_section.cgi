@@ -377,6 +377,16 @@ if($subject ne 'homes') {
 		&build_select($afpconfRef, $sectionRef, \%in, 'stat vol', $text{'edit_undefined'}, 'yes', 'yes', 'no', 'no')
 	);
 
+	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'legacy volume size', \%in);
+	print &ui_table_row($text{'edit_vol_section_legacy_volume_size'},
+		&build_select($afpconfRef, $sectionRef, \%in, 'legacy volume size', $text{'edit_undefined'}, 'yes', 'yes', 'no', 'no')
+	);
+
+	@values = get_parameter_of_section($afpconfRef, $sectionRef, 'prodos', \%in);
+	print &ui_table_row($text{'edit_vol_section_prodos'},
+		&build_select($afpconfRef, $sectionRef, \%in, 'prodos', $text{'edit_undefined'}, 'yes', 'yes', 'no', 'no')
+	);
+
 	print &ui_table_end();
 	print &ui_tabs_end_tab('mode', 'advanced');
 }
