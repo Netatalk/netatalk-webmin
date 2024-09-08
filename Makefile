@@ -21,20 +21,18 @@ FILES = \
 	netatalk-lib.pl \
 	*.cgi
 
-all: netatalk-wbm.tgz
-
-install:
-	@${WEBMIN_DIR}/install-module.pl netatalk-wbm-${VERSION}.tgz
-
-clean:
-	-rm -f netatalk*.tgz
-	-rm -rf netatalk
-
-netatalk-wbm.tgz: $(FILES)
-	@echo "Creating Netatalk Webmin Module archive for distribution: \"netatalk-wbm-${VERSION}.tgz\" ..."
+all: $(FILES)
+	@echo "Creating Netatalk Webmin Module archive for distribution: \"netatalk-${VERSION}.wbm.gz\" ..."
 	@-rm -rf netatalk
 	@mkdir netatalk
 	@tar cf - $(FILES) | tar xf - -C netatalk
-	@tar cf - netatalk | gzip > netatalk-wbm-${VERSION}.tgz
+	@tar cf - netatalk | gzip > netatalk-${VERSION}.wbm.gz
 	@rm -rf netatalk
 	@echo Done.
+
+install:
+	@${WEBMIN_DIR}/install-module.pl netatalk-${VERSION}.wbm.gz
+
+clean:
+	-rm -f netatalk-*.wbm.gz
+	-rm -rf netatalk
