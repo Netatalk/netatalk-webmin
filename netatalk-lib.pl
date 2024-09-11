@@ -41,6 +41,7 @@ our %netatalkParameterDefaults = (
 	'cnid listen'				=> 'localhost:4700',
 	'cnid scheme'				=> 'dbd',
 	'convert appledouble'		=> 'yes',
+	'ddp address'			=> '0.0',
 	'delete veto files'			=> 'no',
 	'dircachesize'				=> '8192',
 	'disconnect time'			=> '24',

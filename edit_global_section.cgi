@@ -310,6 +310,12 @@ print &ui_table_row($text{'edit_global_section_afp_port'},
 	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
 );
 
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ddp address', \%in);
+print &ui_table_row($text{'edit_global_section_ddp_address'},
+	&ui_textbox('p_ddp address', $values[0])
+	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
+);
+
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'disconnect time', \%in);
 print &ui_table_row($text{'edit_global_section_disconnect_time'},
 	"<input name='p_disconnect time' type='number' value='".$values[0]."'>"
