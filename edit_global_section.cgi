@@ -316,6 +316,11 @@ print &ui_table_row($text{'edit_global_section_ddp_address'},
 	." ".($values[2] ? html_escape($values[2]).": ".html_escape($values[1]) : '')."\n"
 );
 
+@values = get_parameter_of_section($afpconfRef, $sectionRef, 'ddp zone', \%in);
+print &ui_table_row($text{'edit_global_section_ddp_zone'},
+	&ui_textbox('p_ddp zone', $values[0], 40)
+);
+
 @values = get_parameter_of_section($afpconfRef, $sectionRef, 'disconnect time', \%in);
 print &ui_table_row($text{'edit_global_section_disconnect_time'},
 	"<input name='p_disconnect time' type='number' value='".$values[0]."'>"
