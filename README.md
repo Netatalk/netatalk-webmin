@@ -1,3 +1,9 @@
+# MERGED WITH NETATALK
+
+This code has been merged with the Netatalk mother repository. Future release tarballs will be distributed together with Netatalk releases.
+
+https://github.com/Netatalk/netatalk/tree/main/contrib/webmin_module
+
 # netatalk-webmin
 
 Webmin module for managing Netatalk.
